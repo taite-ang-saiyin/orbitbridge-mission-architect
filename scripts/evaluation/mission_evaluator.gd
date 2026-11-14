@@ -2,13 +2,13 @@ class_name MissionEvaluator
 extends RefCounted
 ## Scene-independent KE2 evaluation boundary for the agreed v1 dictionaries.
 ## Data uses decimal MB, counts use whole numeric values, and energy uses Wh.
-## Goal validation, classification, and scoring are implemented in Prompt 3.
+## Both goals must be positive. Zero targets return INVALID_EVALUATION_INPUT.
+## Completion ratios range from 0 to 1; multiply by 100 for display percentages.
 
 const SCHEMA_VERSION: int = 1
 const INVALID_INPUT: String = "INVALID_EVALUATION_INPUT"
 const NONTERMINAL_STATE: String = "NONTERMINAL_RUN_STATE"
-## Temporary setup error. Replace this path with goal evaluation in Prompt 3.
-const EVALUATION_PENDING: String = "EVALUATION_NOT_IMPLEMENTED"
+const Feedback = preload("res://scripts/evaluation/mission_feedback.gd")
 
 const REPORT_FIELDS: Array[String] = [
 	"schema_version",
@@ -34,7 +34,8 @@ const REPORT_FIELDS: Array[String] = [
 ## Accepts a launch config snapshot, terminal HPC state, and ordered events.
 ## comparison_baseline is reserved for the agreed optional P1 comparison.
 ## Returns the v1 ok/report or ok/error wrapper and preserves all inputs.
-## During module setup, terminal runs return EVALUATION_NOT_IMPLEMENTED.
+## Scores use equally weighted capped ratios, rounded once with .5 rounded up.
+## Aborts preserve actuals and ratios, with failed status and a null score.
 @warning_ignore("unused_parameter")
 static func evaluate_mission(
 	config: Dictionary,
@@ -109,6 +110,68 @@ static func evaluate_mission(
 			"Preserve HPC's terminal run_status.", run_id
 		)
 
+	var mission: Dictionary = config["mission"]
+	for requirement: Dictionary in [
+		{"field": "required_observations", "maximum": 20},
+		{"field": "duration_orbits", "maximum": 12},
+	]:
+		var field: String = requirement["field"]
+		var value: Variant = mission.get(field)
+		if not _is_whole_number(value) or value < 1 or value > requirement["maximum"]:
+			return _error(
+				INVALID_INPUT, "config.mission." + field,
+				"The requirement must be a whole numeric value from 1 to %d."
+				% requirement["maximum"],
+				"Provide a positive requirement within the agreed v1 range.", run_id
+			)
+
+	var required_observations: Variant = mission["required_observations"]
+	var required_data_mb: Variant = mission.get("required_returned_data_mb")
+	if not _is_finite_number(required_data_mb) or required_data_mb <= 0:
+		return _error(
+			INVALID_INPUT, "config.mission.required_returned_data_mb",
+			"The returned-data target must be a finite numeric value greater than zero.",
+			"Set a positive returned-data target in decimal MB.", run_id
+		)
+
+	var observations: Variant = final_state.get("observations_completed")
+	if not _is_whole_number(observations) or observations < 0:
+		return _error(
+			INVALID_INPUT, "final_state.observations_completed",
+			"Completed observations must be a finite nonnegative whole numeric value.",
+			"Provide HPC's successful-capture counter.", run_id
+		)
+
+	for field: String in ["returned_data_mb", "stored_data_mb"]:
+		var value: Variant = final_state.get(field)
+		if not _is_finite_number(value) or value < 0:
+			return _error(
+				INVALID_INPUT, "final_state." + field,
+				"The data counter must be a finite nonnegative numeric value.",
+				"Provide the recorded HPC counter in decimal MB.", run_id
+			)
+
+	var step_index: Variant = final_state.get("step_index")
+	var total_steps: Variant = final_state.get("total_steps")
+	if not _is_whole_number(total_steps) or total_steps <= 0:
+		return _error(
+			INVALID_INPUT, "final_state.total_steps",
+			"The run length must be a finite positive whole numeric value.",
+			"Preserve HPC's scenario-derived run length.", run_id
+		)
+	if not _is_whole_number(step_index) or step_index < 0 or step_index > total_steps:
+		return _error(
+			INVALID_INPUT, "final_state.step_index",
+			"The step index must be a whole numeric value within the run length.",
+			"Provide HPC's recorded terminal step index.", run_id
+		)
+	if final_state["run_status"] == "completed" and step_index != total_steps:
+		return _error(
+			INVALID_INPUT, "final_state.step_index",
+			"A naturally completed run must reach total_steps.",
+			"Finish the run or preserve an explicit aborted status.", run_id
+		)
+
 	for index: int in range(events.size()):
 		if not events[index] is Dictionary:
 			return _error(
@@ -117,13 +180,49 @@ static func evaluate_mission(
 				"Provide the ordered HPC event array, or an empty array.", run_id
 			)
 
-	return _error(
-		EVALUATION_PENDING, null,
-		"The evaluation module is set up. Goal evaluation is pending Prompt 3.",
-		"Implement the agreed goal rules before evaluating terminal runs. "
-		+ "Use mock_report_result with a labeled report fixture for setup previews.",
-		run_id
+	var returned_data_mb: Variant = final_state["returned_data_mb"]
+	# Cap before dividing to avoid overflow for finite, widely separated MB values.
+	var observation_ratio: float = (
+		1.0 if observations >= required_observations
+		else float(observations) / float(required_observations)
 	)
+	var data_ratio: float = (
+		1.0 if returned_data_mb >= required_data_mb
+		else float(returned_data_mb) / float(required_data_mb)
+	)
+	var score: Variant = int(floorf(50.0 * (observation_ratio + data_ratio) + 0.5))
+	var status: String = "failed"
+	if observations >= required_observations and returned_data_mb >= required_data_mb:
+		status = "success"
+	elif observations > 0 or returned_data_mb > 0:
+		status = "partial"
+
+	if final_state["run_status"] == "aborted":
+		status = "failed"
+		score = null
+
+	var report: Dictionary = {
+		"schema_version": SCHEMA_VERSION,
+		"run_id": run_id,
+		"mission_id": mission_id,
+		"run_status": final_state["run_status"],
+		"status": status,
+		"observations_completed": observations,
+		"required_observations": required_observations,
+		"returned_data_mb": returned_data_mb,
+		"required_returned_data_mb": required_data_mb,
+		"observation_completion_ratio": observation_ratio,
+		"data_return_completion_ratio": data_ratio,
+		"score": score,
+		"explanation": "",
+		"root_causes": [],
+		"next_experiment": "",
+		"source_ids": [],
+		"comparison": null,
+	}
+	var feedback: Dictionary = Feedback.build_feedback(report, final_state, events)
+	report.merge(feedback, true)
+	return {"ok": true, "report": report}
 
 
 ## Explicit setup helper for caller-supplied MissionReport documentation fixtures.
@@ -140,6 +239,14 @@ static func mock_report_result(report: Dictionary) -> Dictionary:
 			)
 
 	return {"ok": true, "report": report.duplicate(true)}
+
+
+static func _is_finite_number(value: Variant) -> bool:
+	return (value is int or value is float) and is_finite(float(value))
+
+
+static func _is_whole_number(value: Variant) -> bool:
+	return _is_finite_number(value) and floorf(float(value)) == value
 
 
 static func _error(
