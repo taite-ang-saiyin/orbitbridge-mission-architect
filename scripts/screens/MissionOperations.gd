@@ -1,0 +1,320 @@
+extends "res://scripts/screens/Workbench.gd"
+const DATA = preload("res://data/mock/OperationsFixture.gd")
+const ORBIT_VIEW = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
+const TRACK = preload("res://ui/components/GroundTrack.gd")
+const THUMB = preload("res://ui/components/TargetThumbnail.gd")
+## Immutable handoff seam for HPC; current playback remains a fixture.
+var run_configuration: Dictionary = {}
+var event_index = 0
+var playing = false
+var speed = 1.0
+var playhead = 0.0
+var orbit_view: SubViewportContainer
+var track_view: Control
+var live_track: Control
+var view_frame: Control
+var data_view: ScrollContainer
+var data_cells: Array = []
+var tab_buttons: Dictionary = {}
+var speed_buttons: Dictionary = {}
+var status: Label
+var mission_details: Label
+var target_rows: Array = []
+var total_progress: ProgressBar
+var total_label: Label
+var telemetry: Label
+var battery_bar: ProgressBar
+var storage_bar: ProgressBar
+var details: Label
+var timeline: ItemList
+var filter_select: OptionButton
+var visible_events: Array = []
+var timeline_event = -1
+var next_events: Label
+var orbit_badge: Label
+var craft_badge: Label
+var seek_slider: HSlider
+var time_display: Label
+var play_button: Button
+var pause_button: Button
+var step_button: Button
+var skip_button: Button
+var enlarged: AcceptDialog
+var expanded_orbit: SubViewportContainer
+func _ready() -> void:
+	screen_id = "MissionOperations"
+	run_configuration = state.get("run_design", {}).duplicate(true)
+	setup("05 / MISSION PLAYBACK", "Mission Operations", "Monitor the spacecraft and explore an accelerated mock mission timeline.", 3, 5, "View Debrief")
+	workspace = row(content)
+	var left = column(workspace, 0.9)
+	var center = column(workspace, 2.2)
+	var right = column(workspace, 1.15)
+	build_status(left)
+	build_progress(left)
+	build_visualization(center)
+	build_telemetry(right)
+	build_events(right)
+	build_lower_panels()
+	resized.connect(responsive)
+	call_deferred("responsive")
+	seek(0)
+func build_status(parent: Node) -> void:
+	var box = section(parent, "MISSION STATUS")
+	status = UI.label(box, "", 15, "58e4b5")
+	mission_details = UI.label(box, "", 12, "c2d9e6")
+	UI.label(box, "REFERENCE PLAYBACK / 90 MINUTES", 10, "78a6bf")
+func build_progress(parent: Node) -> void:
+	var box = section(parent, "MISSION PROGRESS")
+	for target in state.targets:
+		var line = row(box)
+		line.add_theme_constant_override("separation", 8)
+		var thumb = THUMB.new()
+		thumb.custom_minimum_size = Vector2(48, 38)
+		thumb.terrain = "coast" if "Coastal" in target else ("ice" if target in ["Arctic Ice", "Antarctic Region"] else "forest")
+		line.add_child(thumb)
+		var info = column(line)
+		info.add_theme_constant_override("separation", 4)
+		var text = UI.label(info, target, 12)
+		var bar = ProgressBar.new()
+		bar.custom_minimum_size.y = 9
+		bar.show_percentage = false
+		info.add_child(bar)
+		target_rows.append([text, bar, target])
+	total_label = UI.label(box, "", 13)
+	total_progress = ProgressBar.new()
+	total_progress.show_percentage = false
+	total_progress.custom_minimum_size.y = 12
+	box.add_child(total_progress)
+	UI.label(box, "Fixed reference: 5 observations", 10, "789eb4")
+func build_visualization(parent: Node) -> void:
+	var panel = PanelContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(panel)
+	var box = VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+	var tabs = row(box)
+	for tab in ["Earth & Orbit", "Ground Track", "Data View"]:
+		var button = UI.button(tabs, tab, show_view.bind(tab))
+		button.toggle_mode = true
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 12)
+		tab_buttons[tab] = button
+	view_frame = Control.new()
+	view_frame.custom_minimum_size = Vector2(250, 285)
+	box.add_child(view_frame)
+	orbit_view = ORBIT_VIEW.instantiate()
+	orbit_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	view_frame.add_child(orbit_view)
+	orbit_view.configure(state)
+	track_view = TRACK.new()
+	track_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	view_frame.add_child(track_view)
+	data_view = ScrollContainer.new()
+	data_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	data_view.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	view_frame.add_child(data_view)
+	var table = GridContainer.new()
+	table.columns = 5
+	table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	table.add_theme_constant_override("h_separation", 10)
+	table.add_theme_constant_override("v_separation", 12)
+	data_view.add_child(table)
+	for caption in ["TIME", "EVENT", "BATTERY", "CAPTURED", "DELIVERED"]:
+		UI.label(table, caption, 10, "64d9ed").size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for e in DATA.EVENTS:
+		var cells = []
+		for value in [DATA.time_label(e[1]), e[0], str(e[3]) + "%", str(e[5]), str(e[6])]:
+			cells.append(UI.label(table, value, 11))
+		data_cells.append(cells)
+	var orbit_card = PanelContainer.new()
+	orbit_card.position = Vector2(8, 8)
+	orbit_card.custom_minimum_size = Vector2(146, 68)
+	view_frame.add_child(orbit_card)
+	orbit_badge = UI.label(orbit_card, "", 12, "b5eff7")
+	orbit_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var craft_card = PanelContainer.new()
+	craft_card.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	craft_card.offset_left = -140
+	craft_card.offset_right = -8
+	craft_card.offset_top = 8
+	view_frame.add_child(craft_card)
+	craft_badge = UI.label(craft_card, "", 11, "65e8ae")
+	craft_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var controls = HFlowContainer.new()
+	controls.add_theme_constant_override("h_separation", 5)
+	controls.add_theme_constant_override("v_separation", 5)
+	box.add_child(controls)
+	play_button = UI.button(controls, "Play", play)
+	pause_button = UI.button(controls, "Pause", pause)
+	step_button = UI.button(controls, "Step", step)
+	for multiplier in [1, 2, 4, 8]:
+		var button = UI.button(controls, str(multiplier) + "x", set_speed.bind(multiplier))
+		button.toggle_mode = true
+		speed_buttons[multiplier] = button
+	skip_button = UI.button(controls, "Skip to End", skip_to_end)
+	UI.button(controls, "Expand", expand_orbit)
+	for button in controls.get_children():
+		button.add_theme_font_size_override("font_size", 11)
+		button.custom_minimum_size.y = 34
+	var scrub = row(box)
+	seek_slider = HSlider.new()
+	seek_slider.max_value = DATA.TOTAL_SECONDS
+	seek_slider.step = 1
+	seek_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	seek_slider.custom_minimum_size.y = 24
+	seek_slider.value_changed.connect(func(value):
+		playing = false
+		seek(value))
+	scrub.add_child(seek_slider)
+	time_display = UI.label(scrub, "", 11)
+	time_display.custom_minimum_size.x = 148
+	UI.label(box, "ILLUSTRATIVE VIEW / ACCELERATED MOCK PLAYBACK", 10, "79a5bc")
+	show_view("Earth & Orbit")
+func build_telemetry(parent: Node) -> void:
+	var box = section(parent, "SPACECRAFT TELEMETRY / MOCK")
+	box.add_theme_constant_override("separation", 5)
+	for entry in [["Battery", "battery"], ["Storage buffer", "storage"]]:
+		var line = row(box)
+		UI.label(line, entry[0], 12).custom_minimum_size.x = 90
+		var bar = ProgressBar.new()
+		bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		bar.custom_minimum_size = Vector2(60, 22)
+		bar.add_theme_font_size_override("font_size", 11)
+		line.add_child(bar)
+		if entry[1] == "battery": battery_bar = bar
+		else: storage_bar = bar
+	telemetry = UI.label(box, "", 12)
+func build_events(parent: Node) -> void:
+	var box = section(parent, "RECENT EVENTS")
+	filter_select = OptionButton.new()
+	for caption in ["All Events", "Observations", "Downlink", "Warnings"]:
+		filter_select.add_item(caption)
+	filter_select.add_theme_font_size_override("font_size", 11)
+	filter_select.item_selected.connect(func(_index): rebuild_timeline())
+	box.get_child(0).add_child(filter_select)
+	timeline = ItemList.new()
+	timeline.custom_minimum_size = Vector2(0, 114)
+	timeline.add_theme_font_size_override("font_size", 11)
+	timeline.item_selected.connect(func(index): select_event(visible_events[index]))
+	box.add_child(timeline)
+	UI.label(box, "SELECTED EVENT", 10, "65c8db")
+	details = UI.label(box, "", 11, "b8cedd")
+	details.custom_minimum_size.y = 62
+func build_lower_panels() -> void:
+	var lower = row(content)
+	var map_box = section(lower, "LIVE GROUND TRACK / ILLUSTRATIVE")
+	map_box.get_parent().size_flags_stretch_ratio = 1.1
+	live_track = TRACK.new()
+	live_track.custom_minimum_size.y = 88
+	map_box.add_child(live_track)
+	UI.label(map_box, "GREEN  Current position   CYAN / PURPLE  Targets   GOLD  Ground station", 10, "7db4c7")
+	var box = section(lower, "NEXT EVENTS")
+	next_events = UI.label(box, "", 12, "b4d6e5")
+func show_view(tab: String) -> void:
+	if not is_instance_valid(orbit_view): return
+	orbit_view.visible = tab == "Earth & Orbit"
+	track_view.visible = tab == "Ground Track"
+	data_view.visible = tab == "Data View"
+	# Overlay cards only belong to the orbit view.
+	orbit_badge.get_parent().visible = tab == "Earth & Orbit"
+	craft_badge.get_parent().visible = tab == "Earth & Orbit"
+	for tab_name in tab_buttons:
+		tab_buttons[tab_name].set_pressed_no_signal(tab_name == tab)
+func rebuild_timeline() -> void:
+	timeline_event = event_index
+	visible_events.clear()
+	timeline.clear()
+	for i in DATA.EVENTS.size():
+		var e = DATA.EVENTS[i]
+		var visible_row = filter_select.selected == 0 or (filter_select.selected == 1 and e[0] == "OBSERVE") or (filter_select.selected == 2 and e[0] == "TX") or (filter_select.selected == 3 and e[0] == "SKIP_POWER")
+		if visible_row:
+			visible_events.append(i)
+			timeline.add_item(DATA.time_label(e[1]) + "  " + e[0])
+			if i == event_index: timeline.select(timeline.item_count - 1)
+func seek(seconds: float) -> void:
+	playhead = clampf(seconds, 0, DATA.TOTAL_SECONDS)
+	event_index = DATA.index_at(playhead)
+	if playhead >= DATA.TOTAL_SECONDS: playing = false
+	refresh()
+func select_event(index: int) -> void:
+	playing = false
+	seek(DATA.EVENTS[clampi(index, 0, DATA.EVENTS.size() - 1)][1])
+func play() -> void:
+	playing = true
+	if playhead >= DATA.TOTAL_SECONDS:
+		seek(0)
+	else:
+		refresh()
+func pause() -> void:
+	playing = false
+	refresh()
+func step() -> void:
+	select_event(mini(event_index + 1, DATA.EVENTS.size() - 1))
+func set_speed(multiplier: int) -> void:
+	speed = float(multiplier)
+	refresh()
+func skip_to_end() -> void:
+	playing = false
+	seek(DATA.TOTAL_SECONDS)
+func _process(delta: float) -> void:
+	if playing:
+		seek(playhead + delta * DATA.PLAYBACK_RATE * speed)
+func refresh() -> void:
+	if not is_instance_valid(telemetry): return
+	var e = DATA.EVENTS[event_index]
+	var progress = playhead / DATA.TOTAL_SECONDS
+	var orbit_number = mini(state.duration, 1 + int(progress * state.duration))
+	var mission_status = "PLAYING" if playing else ("COMPLETE" if progress >= 1 else "PAUSED")
+	status.text = (state.name if not state.name.strip_edges().is_empty() else "Untitled Mission") + "\n" + mission_status
+	mission_details.text = "%s\n%s\nOrbit %s / %s  ·  %s\nRemaining   %s" % [state.objective, state.orbit, orbit_number, state.duration, DATA.time_label(playhead), DATA.time_label(DATA.TOTAL_SECONDS - playhead)]
+	for i in target_rows.size():
+		var count = e[5] if target_rows.size() == 1 else DATA.TARGET_CAPTURE[event_index][i]
+		var delivered = e[6] if target_rows.size() == 1 else DATA.TARGET_DELIVERY[event_index][i]
+		target_rows[i][0].text = "%s\n%s captured / %s delivered" % [target_rows[i][2], count, delivered]
+		target_rows[i][1].value = float(count) / (5 if target_rows.size() == 1 else [3, 2][i]) * 100
+	total_label.text = "Captured %s / 5   ·   Delivered %s / 5" % [e[5], e[6]]
+	total_progress.value = e[5] * 20
+	telemetry.text = "Captured   %s    Delivered   %s\nReturned data   %s\nDownlink   %s   /   %s\nAttitude   0.12° / -0.08° / 0.03°" % [e[5], e[6], e[7], e[10], e[9]]
+	battery_bar.value = e[3]
+	storage_bar.value = e[4]
+	details.text = "%s / T+ %s\n%s" % [e[0], DATA.time_label(e[1]), e[2]]
+	orbit_badge.text = "Orbit %s / %s\nT+ %s" % [orbit_number, state.duration, DATA.time_label(playhead)]
+	craft_badge.text = "SPACECRAFT\n%s\n%s" % [state.get("body_id", "NASA Satellite Kit").trim_prefix("dev_").replace("_", " ").capitalize(), e[8]]
+	if state.get("satellite_id", "") in preload("res://data/mock/SatelliteAdapter.gd").SATELLITES:
+		craft_badge.text = "SPACECRAFT\n%s\n%s" % [preload("res://data/mock/SatelliteAdapter.gd").SATELLITES[state.satellite_id][0], e[8]]
+	seek_slider.set_value_no_signal(playhead)
+	time_display.text = DATA.time_label(playhead) + " / " + DATA.time_label(DATA.TOTAL_SECONDS)
+	orbit_view.set_frame(progress, e[0])
+	track_view.progress = progress
+	live_track.progress = progress
+	for i in data_cells.size():
+		for cell in data_cells[i]:
+			cell.add_theme_color_override("font_color", Color("62e7ee") if i == event_index else Color("8caabd"))
+	for multiplier in speed_buttons:
+		speed_buttons[multiplier].set_pressed_no_signal(float(multiplier) == speed)
+	play_button.text = "Replay" if progress >= 1 else "Play"
+	play_button.disabled = playing
+	pause_button.disabled = not playing
+	if timeline_event != event_index: rebuild_timeline()
+	var upcoming = []
+	for i in range(event_index + 1, mini(event_index + 4, DATA.EVENTS.size())):
+		upcoming.append("T+ %s   %s  /  %s" % [DATA.time_label(DATA.EVENTS[i][1]), DATA.EVENTS[i][0], DATA.EVENTS[i][8]])
+	next_events.text = "\n".join(upcoming) if not upcoming.is_empty() else "Reference playback complete.\nOpen Debrief to compare Run A and Run B."
+	if is_instance_valid(expanded_orbit): expanded_orbit.set_frame(progress, e[0])
+func expand_orbit() -> void:
+	if is_instance_valid(enlarged): enlarged.queue_free()
+	enlarged = AcceptDialog.new()
+	enlarged.title = "Earth & Orbit / Mock Playback"
+	add_child(enlarged)
+	expanded_orbit = ORBIT_VIEW.instantiate()
+	expanded_orbit.custom_minimum_size = Vector2(420, 300)
+	enlarged.add_child(expanded_orbit)
+	expanded_orbit.configure(state)
+	expanded_orbit.set_frame(playhead / DATA.TOTAL_SECONDS, DATA.EVENTS[event_index][0])
+	enlarged.popup_centered(Vector2i(int(get_viewport_rect().size.x * 0.86), int(get_viewport_rect().size.y * 0.83)))
+	enlarged.unresizable = false
+func responsive() -> void:
+	if not is_instance_valid(view_frame): return
+	fit_navigation()
+	view_frame.custom_minimum_size.y = clampf(size.y * 0.36, 230, 300)
