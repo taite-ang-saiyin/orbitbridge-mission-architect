@@ -143,6 +143,8 @@ func show_screen(index: int):
 			if not launched.ok: index = 3
 	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
 	if index == 5 and not state.has("run_trace"): index = 3
+	if index == 5:
+		preload("res://scripts/integration/mission_runtime.gd").publish_results(state)
 	clear_screen()
 	shell.show()
 	landing_host.hide()

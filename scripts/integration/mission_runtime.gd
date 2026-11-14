@@ -4,6 +4,7 @@ const Loader = preload("res://scripts/core/catalog_loader.gd")
 const Validator = preload("res://scripts/core/mission_validator.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const StepEngine = preload("res://core/MissionStepEngine.gd")
+const Results = preload("res://scripts/integration/mission_results.gd")
 const ORBITS = {"LEO – 400 km": "low_eq", "Polar – 600 km": "high_inc"}
 const TARGETS = {"Equator": "equator", "Tropical Forest": "tropical_forest", "Equatorial Ocean": "equatorial_ocean", "Coastal Region": "coastal_region", "Temperate Land": "temperate_land", "Arctic Ice": "arctic_ice", "Antarctic Region": "antarctic_region"}
 # Authored gameplay presets assigned to the existing three appearance buttons.
@@ -90,7 +91,8 @@ static func launch(draft: Dictionary) -> Dictionary:
 	var built: Dictionary = Adapter.build_scenario(loaded.catalogs, loaded.catalogs.orbit_catalog)
 	if not built.ok: return {"ok": false, "error": {"message": built.error_message}}
 	var sequence: int = int(draft.get("run_sequence", 0)) + 1
-	var started: Dictionary = StepEngine.init_run(reviewed.config, built.scenario, "run_%03d" % sequence, "mission_local")
+	var session: String = draft.get("run_session_id", Crypto.new().generate_random_bytes(12).hex_encode())
+	var started: Dictionary = StepEngine.init_run(reviewed.config, built.scenario, "run_%s_%03d" % [session, sequence], "mission_" + session)
 	if not started.ok: return started
 	var current: Dictionary = started.state
 	var frames: Array = [{"state": current.duplicate(true), "events": []}]
@@ -108,11 +110,40 @@ static func launch(draft: Dictionary) -> Dictionary:
 		events.append_array(reply.events)
 		frames.append({"state": current.duplicate(true), "events": reply.events.duplicate(true)})
 	var trace: Dictionary = {"config": reviewed.config.duplicate(true), "validation": reviewed.duplicate(true), "frames": frames, "events": events, "final_state": current.duplicate(true), "policy": draft.get("policy", "Observe First")}
+	var draft_snapshot: Dictionary = draft.duplicate(true)
+	for key in ["run_trace", "run_history", "run_design", "comparison_baseline"]:
+		draft_snapshot.erase(key)
+	trace.draft_snapshot = draft_snapshot
 	draft.run_sequence = sequence
+	draft.run_session_id = session
 	draft.run_design = reviewed.config.duplicate(true)
 	draft.run_trace = trace
+	publish_results(draft)
+	return {"ok": true, "trace": trace}
+
+static func publish_results(draft: Dictionary) -> Dictionary:
+	var trace: Dictionary = draft.get("run_trace", {})
+	var result: Dictionary = Results.evaluate_trace(trace)
+	if not result.get("ok", false):
+		return result
 	var history: Array = draft.get("run_history", [])
+	for index in range(history.size()):
+		if history[index].get("evaluation_key") == trace.evaluation_key:
+			history[index] = trace.duplicate(true)
+			return result
 	history.append(trace.duplicate(true))
 	if history.size() > 2: history.pop_front()
 	draft.run_history = history
-	return {"ok": true, "trace": trace}
+	return result
+
+static func retry(draft: Dictionary, previous: Dictionary) -> Dictionary:
+	if not previous.get("draft_snapshot") is Dictionary:
+		return {"ok": false, "error": {"message": "Retry configuration is unavailable."}}
+	var previous_result: Dictionary = Results.evaluate_trace(previous)
+	for key in previous.draft_snapshot:
+		if key not in ["run_sequence", "run_session_id"]:
+			draft[key] = previous.draft_snapshot[key].duplicate(true) if previous.draft_snapshot[key] is Dictionary or previous.draft_snapshot[key] is Array else previous.draft_snapshot[key]
+	if previous_result.get("ok", false) and previous_result.report.run_status == "completed":
+		draft.comparison_baseline = previous_result.report.duplicate(true)
+	draft.erase("run_trace")
+	return launch(draft)

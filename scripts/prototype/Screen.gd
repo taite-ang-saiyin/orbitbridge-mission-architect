@@ -92,49 +92,86 @@ func refresh_summary():
 func mission_name() -> String:
 	return state.name if not state.name.strip_edges().is_empty() else "Untitled Mission"
 var results: Label
+var report_view: Control
+var recent_runs: Tree
+var debrief_traces: Array = []
+var selected_trace: Dictionary = {}
 func debrief():
-	var row = columns()
-	var outcome = UI.panel(row, "MISSION TOTALS / HPC")
+	var outcome = UI.panel(content, "SELECTED RUN")
 	var select = OptionButton.new()
-	var history: Array = state.get("run_history", [])
-	for trace in history: select.add_item(trace.final_state.run_id)
+	select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	select.fit_to_longest_item = false
+	debrief_traces = state.get("run_history", []).duplicate(true)
+	var active: Dictionary = state.get("run_trace", {})
+	var active_index: int = -1
+	for index in range(debrief_traces.size()):
+		if debrief_traces[index].get("evaluation_key") == active.get("evaluation_key"):
+			active_index = index
+	if active_index < 0 and not active.is_empty():
+		debrief_traces.append(active)
+		active_index = debrief_traces.size() - 1
+	for trace in debrief_traces:
+		select.add_item(trace.final_state.run_id)
 	outcome.add_child(select)
-	results = UI.label(outcome, "", 20)
+	results = UI.label(outcome, "", 16)
 	select.item_selected.connect(func(index): show_actual_run(index))
-	show_actual_run(maxi(0, history.size() - 1))
-	select.selected = maxi(0, history.size() - 1)
-	var compare = UI.panel(row, "RECENT RUNS")
-	var grid = GridContainer.new()
-	grid.columns = 3
-	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 25)
-	grid.add_theme_constant_override("v_separation", 16)
-	compare.add_child(grid)
-	for cell in ["RUN", "CAPTURED", "RETURNED MB"]: UI.label(grid, cell, 14)
-	for trace in history:
-		for cell in [trace.final_state.run_id, str(trace.final_state.observations_completed), "%.3f" % trace.final_state.returned_data_mb]: UI.label(grid, cell, 14)
-	var explanation = UI.panel(content, "WHAT CAN WE LEARN?")
-	UI.label(explanation, "These totals come from the HPC simulation using your selected policy. Captured observations and returned MB are independent goals. Mission scoring and causal feedback await KE2 integration. Orbital graphics are illustrative.", 16, "9cb0c8")
+	var compare = UI.panel(content, "RECENT RUNS")
+	recent_runs = Tree.new()
+	recent_runs.name = "RecentRuns"
+	recent_runs.columns = 4
+	recent_runs.hide_root = true
+	recent_runs.column_titles_visible = true
+	recent_runs.custom_minimum_size.y = 112
+	recent_runs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	compare.add_child(recent_runs)
+	var titles: Array = ["Run", "Captured", "Returned MB", "Score"]
+	for column in range(4):
+		recent_runs.set_column_title(column, titles[column])
+		recent_runs.set_column_expand(column, column == 0)
+		recent_runs.set_column_custom_minimum_width(column, [140, 90, 130, 70][column])
+	var tree_root: TreeItem = recent_runs.create_item()
+	for trace in state.get("run_history", []):
+		var item: TreeItem = recent_runs.create_item(tree_root)
+		var report: Dictionary = trace.get("evaluation", {}).get("report", {})
+		for column in range(4):
+			item.set_text(column, [str(trace.final_state.run_id), str(report.get("observations_completed", "—")), str(report.get("returned_data_mb", "—")), str(report.get("score", "—"))][column])
+		item.set_tooltip_text(0, str(trace.final_state.run_id))
+	report_view = preload("res://ke3/results_control.tscn").instantiate()
+	report_view.custom_minimum_size.y = 560
+	report_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_child(report_view)
+	report_view.retry_requested.connect(_retry_selected_run)
+	show_actual_run(maxi(0, active_index))
+	select.selected = maxi(0, active_index)
 	var buttons = HBoxContainer.new()
 	content.add_child(buttons)
 	UI.button(buttons, "Modify Design", func(): navigate.emit(2))
 	UI.button(buttons, "Start New Mission", new_mission)
 	actions(4, 0, "Return Home")
 func show_actual_run(index: int):
-	var history: Array = state.get("run_history", [])
-	if history.is_empty():
+	if debrief_traces.is_empty():
 		results.text = "Launch a validated mission to view actual totals."
 		return
-	var trace: Dictionary = history[index]
+	var trace: Dictionary = debrief_traces[index]
+	selected_trace = trace
 	var final: Dictionary = trace.final_state
-	results.text = "%s / %s\n%s\n\nCaptured %s / %s\nReturned %.3f / %s MB\nBattery %.3f Wh\nStored %.3f MB\n\nEvaluation pending KE2" % [final.run_id, final.run_status, trace.config.mission.title, final.observations_completed, trace.config.mission.required_observations, final.returned_data_mb, trace.config.mission.required_returned_data_mb, final.energy_wh, final.stored_data_mb]
-	var captures_met: bool = final.observations_completed >= trace.config.mission.required_observations
-	var data_met: bool = final.returned_data_mb + 0.00000001 >= trace.config.mission.required_returned_data_mb
-	results.text += "\n\nCapture goal: " + ("met" if captures_met else "not met") + "\nReturned-data goal: " + ("met" if data_met else "not met")
-	for target_id in trace.config.mission.get("target_regions", [trace.config.mission.target_region]):
-		var count: int = int(final.get("observations_by_target", {}).get(target_id, 0))
-		results.text += "\n%s: %s captures, %.3f MB returned" % [str(target_id).replace("_", " ").capitalize(), count, final.get("returned_data_by_target_mb", {}).get(target_id, 0.0)]
-		if trace.config.mission.objective == "survey": results.text += " / " + ("survey delivery met" if int(final.get("observations_delivered_by_target", {}).get(target_id, 0)) > 0 else "survey delivery not met")
+	var payload: Dictionary = preload("res://scripts/integration/mission_results.gd").presentation(trace)
+	report_view.set_inputs(payload.context, payload.state, payload.report)
+	if payload.report.is_empty():
+		var error: Dictionary = payload.context.get("evaluation_error", {})
+		results.text = "%s\n%s\n%s" % [final.run_id, error.get("message", "Evaluation unavailable"), error.get("suggested_fix", "")]
+	else:
+		results.text = "%s • %s • Score %s\nBattery %.3f Wh • Stored %.3f MB" % [final.run_id, payload.report.status, payload.report.score, final.energy_wh, final.stored_data_mb]
+
+func _retry_selected_run(run_id: String) -> void:
+	if selected_trace.get("final_state", {}).get("run_id") != run_id:
+		return
+	var retried: Dictionary = preload("res://scripts/integration/mission_runtime.gd").retry(state, selected_trace)
+	if retried.get("ok", false):
+		navigate.emit(4)
+	else:
+		results.text = retried.get("error", {}).get("message", "Retry unavailable")
+		report_view.set_retry_pending(false)
 
 func show_run(_key: String):
 	show_actual_run(maxi(0, state.get("run_history", []).size() - 1))
