@@ -7,7 +7,7 @@ Status: K01-K04 COMPLETE as already recorded in tasks.md and the signed team agr
 - contracts.md now records the agreed units, fields, APIs, readiness gate, action timing, event/run identities, evaluator errors, score and abort behavior.
 - The existing v1-draft example directory is retained for links but now identifies itself as aligned to v1.0-agreed. Old orbit/target labels and the old per-step radio boundary were replaced.
 - Four state/event/report examples are reproduced exactly from the signed source. Wrappers, positive-goal errors, cause evidence, conversions, rounding, power and action-timing expectations were added.
-- Instruction/readiness documents now recognize the signed agreement. K05 remains the next implementation task.
+- Instruction/readiness documents now recognize the signed agreement. K05 and K06 are now implemented and tested; K07 is next. See [k05-k06-progress.md](k05-k06-progress.md).
 
 ## Verification and limits
 

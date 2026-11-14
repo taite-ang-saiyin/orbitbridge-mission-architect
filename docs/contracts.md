@@ -8,6 +8,8 @@ This document translates the [signed team agreement](team-agreement.md) into the
 
 The [v1 example pack](contracts/v1-draft/README.md) is aligned to this revision. Its directory retains the earlier `v1-draft` name for existing links; its current status and agreement revision, not its directory name, identify the approved interface. Example payloads remain hand-authored documentation fixtures, not results of implemented game logic.
 
+Implementation status: K15 integrates the stable workflow with latest main/HPC and current KE2 owner code, preserving the agreed schema and existing entry points. See [k15-integration.md](k15-integration.md) and [Sunday open work](sunday-blockers.md). K05-K14 including K13a are complete locally; docs/k13a-k14-progress.md records the Windows build, 40 scenario checks, 21 package checks and user-confirmed team demo acceptance; [k12-k13-progress.md](k12-k13-progress.md) records actual Builder/readiness and HPC -> KE2 -> Debrief integration, pinned team revisions and tests. Public schemas and owner APIs are unchanged. The [KE1 handoff](ke1-handoff.md) supplies public-call instructions, real result snapshots, source credit and reproducible evidence for SE/HPC/KE2; it does not claim teammate receipt or completed integration. K09 source-linked fields were covered by K08 and verified directly with K10 saved cases. See [k09-k10-progress.md](k09-k10-progress.md) and [the real-catalog fixture guide](../tests/fixtures/README.md). See [k07-k08-progress.md](k07-k08-progress.md). validate() computes all nine metrics and all eight required checks. An unchanged copy of HPC's native orbit file supplies target_windows via catalogs.orbit_catalog; no real coverage is inferred. Missing/invalid metadata blocks readiness explicitly.
+
 ## 1. Ownership and entry points
 
 | Owner | Owned files / responsibility |
@@ -62,7 +64,7 @@ Required top-level keys: `schema_version`, `mission`, `design`. `schema_version`
 | design.launcher_id | Selected launch service |
 | design.orbit_id | Agreed current fixture IDs: `low_eq` or `high_inc` |
 
-Every ID must resolve in the proper catalog category. The component and launcher labels in the examples are fixture labels; K06 creates actual catalogs. Those labels are not claims that a production catalog or its physical values already exists.
+Every ID must resolve in the proper catalog category. K06 now supplies actual labeled training catalogs; see data/README.md. The contract examples remain hand-authored fixture payloads, and their totals are not catalog calculations. In particular instrument_boundary_heavy remains a documentation-only label; the real selectable advanced instrument is instrument_advanced.
 
 Captured observations and returned MB are independent requirements. Stored data does not count as returned data. The MVP does not claim that every image was fully delivered merely because a total MB threshold was reached. Both KE1 and KE2 reject zero observation targets, zero returned-data targets, and zero duration.
 
@@ -127,7 +129,7 @@ Agreed HPC API on `core/MissionStepEngine.gd`:
 - `get_available_actions(state: Dictionary) -> Dictionary`: availability for `observe`, `transmit`, `power_save`.
 - `request_action(state: Dictionary, action: String) -> Dictionary`: returns `{ "state": MissionState, "events": [Event, ...] }`.
 
-These are the step-based interfaces; the legacy whole-run simulator remains behind its documented adapter. Avoid naming a script class `Engine`, which conflicts with Godot's native class. HPC aligns its candidate implementation; this document does not claim that code has been integrated or tested in this checkout.
+These are the step-based interfaces; the legacy whole-run simulator remains behind its documented adapter. Avoid naming a script class `Engine`, which conflicts with Godot's native class. HPC aligns its candidate implementation; the pinned HPC code is now integrated and tested locally through its real adapter/step API; see k12-k13-progress.md.
 
 | State field | Meaning |
 | --- | --- |
@@ -194,8 +196,12 @@ Keep immutable snapshots of scenario identity/version, mission requirements, dur
 
 The signed v1.0 agreement resolves the public units, field vocabulary, separate launcher/profile selection, capture/data goal semantics, power gate, action timing, run/event identity, score/abort behavior, source credit and ownership. K01-K04 are already recorded complete in tasks.md.
 
-Remaining implementation work includes KE1's actual catalogs/validator, HPC's real preset values/target matrix/step equations and legacy adapters, SE's prototype migration and branch configuration sync, and runtime integration tests. Those are implementation tasks, not a reason to relabel this contract as an unapproved draft. Do not claim another branch's scripts/tests were executed here.
+K05-K13 are implemented locally. HPC's unchanged native orbit file is attached as orbit_catalog; target suitability uses its authored windows. The pinned SE screens/project settings, HPC engine/adapter and KE2 evaluator now run together through scripts/integration/mission_workflow.gd. Creator maps explicit imaging/equator goals and stable part IDs; Builder/Readiness use the validator; launch snapshots feed Operations and real terminal evaluation. New integration tests cover actual screen signals, blocked launch paths, retry/abort and report deduplication. Optional KE2 A/B comparison remains open. The Windows export and user-reported team demo acceptance are verified in K13a/K14; see k13a-k14-progress.md.
 
-Compatibility rendering is agreed, but the inspected local main project still declares Forward Plus/d3d12 while the agreement reports Compatibility on master. SE owns that sync and the early Web export check. This documentation/example synchronization does not modify project.godot or merge branches. Final Windows/Web packaging can be chosen at the first playable slice.
+The integrated project now uses SE's main-scene/window/Compatibility settings from main commit 1a82ebd. The user chose Windows for the first demo; K13a exported and tested it successfully. Browser work remains separate. K12/K13 made no merge commit or push; the signed agreement is unchanged.
 
 Change record for this synchronization: aligned with `v1.0-agreed`; replaced old example orbit/target IDs, replaced the public radio metric with MB/hour, added the four signed state/event/report payloads verbatim, documented agreed APIs and error wrappers, and added unit/rounding/abort/action-timing example checks. No production game behavior is implemented by these documentation fixtures.
+
+## 11. Local integration seam (K12/K13)
+
+`mission_workflow.gd` is controller glue, not a replacement owner API. `to_config(draft)` maps UI fields into the agreed config; `review(draft)` refreshes the direct ValidationResult; `start_run(draft)` revalidates and calls HPC's scenario adapter/init. `request_action`, `automatic_step` and `abort` retain HPC state/events; `evaluation` calls KE2 only at terminal state and returns a copy. `retry` uses saved config/catalog/scenario snapshots; `reset` creates a new mission and clears history. Draft keys such as active_run/reports are local controller state, not additions to MissionConfig or MissionState. Launch never depends on the appearance-only dev_* art IDs. See k12-k13-progress.md for file ownership and reproduction.

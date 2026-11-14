@@ -1,0 +1,435 @@
+{
+  "schema_version": 1,
+  "contract_revision": "v1.0-agreed",
+  "notice": "Test expectations, not a MissionConfig. test_only_bus_mass_g changes only a private catalog copy. All boundary masses and component values are test/training assumptions; only the sample profile's strict <1330 g limit is source-backed.",
+  "cases": [
+    {
+      "id": "valid_1060g",
+      "config_file": "valid_1u_feasible.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 1060,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1060,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": false
+    },
+    {
+      "id": "valid_near_limit_1320g",
+      "config_file": "valid_1u_1320g.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 1320,
+          "total_cost_credits": 99
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1320,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": false
+    },
+    {
+      "id": "overweight_1380g",
+      "config_file": "overweight_1u_1380g.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": {
+          "total_mass_g": 1380,
+          "total_cost_credits": 96
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1380,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": false,
+            "status": "fail"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "PROFILE_MASS_EXCEEDED"
+      ],
+      "expected_assumption": false
+    },
+    {
+      "id": "alternative_1380g",
+      "config_file": "alternate_profile_1380g.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 1380,
+          "total_cost_credits": 116
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1380,
+            "threshold_g": 5000,
+            "comparator": "<=",
+            "profile_id": "illustrative_alternative",
+            "source_id": null,
+            "passed": true,
+            "status": "pass",
+            "assumption_id": "illustrative_small_sat_mass_limit_v1"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": true
+    },
+    {
+      "id": "budget_exceeded",
+      "config_file": "budget_fail.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": {
+          "total_mass_g": 1060,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1060,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": true,
+            "status": "pass"
+          },
+          "budget": {
+            "passed": false
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "BUDGET_EXCEEDED"
+      ],
+      "expected_assumption": false
+    },
+    {
+      "id": "incompatible_launcher_profile",
+      "config_file": "incompatible_launch_profile.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": {
+          "total_mass_g": 1060,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1060,
+            "threshold_g": 5000,
+            "comparator": "<=",
+            "profile_id": "illustrative_alternative",
+            "source_id": null,
+            "passed": true,
+            "status": "pass",
+            "assumption_id": "illustrative_small_sat_mass_limit_v1"
+          },
+          "launch_orbit": {
+            "passed": false
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "LAUNCH_ORBIT_INCOMPATIBLE"
+      ],
+      "expected_assumption": true
+    },
+    {
+      "id": "missing_radio",
+      "config_file": "missing_radio.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": null,
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": null,
+            "threshold_g": null,
+            "comparator": null,
+            "profile_id": null,
+            "source_id": null,
+            "passed": null,
+            "status": "not_evaluated"
+          },
+          "input_schema": {
+            "passed": false
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "MISSING_COMPONENT"
+      ],
+      "expected_assumption": false
+    },
+    {
+      "id": "unknown_instrument",
+      "config_file": "unknown_instrument.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": null,
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": null,
+            "threshold_g": null,
+            "comparator": null,
+            "profile_id": null,
+            "source_id": null,
+            "passed": null,
+            "status": "not_evaluated"
+          },
+          "catalog_references": {
+            "passed": false
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "UNKNOWN_COMPONENT"
+      ],
+      "expected_assumption": false
+    },
+    {
+      "id": "budget_equal",
+      "config_file": "budget_equal.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 1060,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1060,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": true,
+            "status": "pass"
+          },
+          "budget": {
+            "passed": true
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": false
+    },
+    {
+      "id": "valid_low_eq",
+      "config_file": "valid_low_eq.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 1060,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1060,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": true,
+            "status": "pass"
+          },
+          "target_orbit": {
+            "passed": true
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": false
+    },
+    {
+      "id": "strict_boundary_1329g",
+      "config_file": "valid_1u_feasible.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 1329,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1329,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": false,
+      "test_only_bus_mass_g": 569
+    },
+    {
+      "id": "strict_boundary_1330g",
+      "config_file": "valid_1u_feasible.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": {
+          "total_mass_g": 1330,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1330,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": false,
+            "status": "fail"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "PROFILE_MASS_EXCEEDED"
+      ],
+      "expected_assumption": false,
+      "test_only_bus_mass_g": 570
+    },
+    {
+      "id": "strict_boundary_1331g",
+      "config_file": "valid_1u_feasible.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": {
+          "total_mass_g": 1331,
+          "total_cost_credits": 82
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 1331,
+            "threshold_g": 1330,
+            "comparator": "<",
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "passed": false,
+            "status": "fail"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "PROFILE_MASS_EXCEEDED"
+      ],
+      "expected_assumption": false,
+      "test_only_bus_mass_g": 571
+    },
+    {
+      "id": "alternative_boundary_5000g",
+      "config_file": "alternate_profile_1380g.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": true,
+        "metrics": {
+          "total_mass_g": 5000,
+          "total_cost_credits": 116
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 5000,
+            "threshold_g": 5000,
+            "comparator": "<=",
+            "profile_id": "illustrative_alternative",
+            "source_id": null,
+            "passed": true,
+            "status": "pass",
+            "assumption_id": "illustrative_small_sat_mass_limit_v1"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [],
+      "expected_assumption": true,
+      "test_only_bus_mass_g": 3920
+    },
+    {
+      "id": "alternative_boundary_5001g",
+      "config_file": "alternate_profile_1380g.json",
+      "expected": {
+        "schema_version": 1,
+        "ready_to_launch": false,
+        "metrics": {
+          "total_mass_g": 5001,
+          "total_cost_credits": 116
+        },
+        "checks": {
+          "profile_mass": {
+            "total_mass_g": 5001,
+            "threshold_g": 5000,
+            "comparator": "<=",
+            "profile_id": "illustrative_alternative",
+            "source_id": null,
+            "passed": false,
+            "status": "fail",
+            "assumption_id": "illustrative_small_sat_mass_limit_v1"
+          }
+        },
+        "warnings": []
+      },
+      "expected_error_codes": [
+        "PROFILE_MASS_EXCEEDED",
+        "LAUNCHER_CAPACITY_EXCEEDED"
+      ],
+      "expected_assumption": true,
+      "test_only_bus_mass_g": 3921
+    }
+  ]
+}

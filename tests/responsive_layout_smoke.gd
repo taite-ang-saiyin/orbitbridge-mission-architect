@@ -51,7 +51,9 @@ func check() -> void:
 				if index == 1:
 					assert(page.target_grid.columns == 3)
 					var cards = page.objective_buttons.values()
-					assert(is_equal_approx(cards[0].global_position.y, cards[1].global_position.y))
-					assert(cards[0].global_position.x < cards[1].global_position.x)
+					assert(cards.size() >= 1)
+					for card_index in range(1, cards.size()):
+						assert(is_equal_approx(cards[0].global_position.y, cards[card_index].global_position.y))
+						assert(cards[card_index - 1].global_position.x < cards[card_index].global_position.x)
 			print("PASS: live resizing ", page.screen_id, " at ", resolution)
 	quit()
