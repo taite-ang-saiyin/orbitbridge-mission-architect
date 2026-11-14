@@ -4,6 +4,8 @@ Updated on 15 November 2026 in Asia/Rangoon. The numbered route below orders all
 
 ## Start here
 
+Owner-reply delivery update: the user reports already replying to KE1. That handoff is recorded as delivered by user report; do not ask them to send it again. The next dependency is KE1's consolidated frozen K20 revision with remaining HPC/SE decisions. The checked live contract remains v1 and the reviewed v2 registry/API is still outside production paths. Once a frozen revision arrives, reconcile it and begin actual Survey production integration, followed by Communication/Weather and expanded comparison. Scoring remains a proposal until that boundary is explicitly resolved.
+
 Current handoff update: [callable v1 Imaging comparison is delivered](callable-comparison-ke3-handoff.md), with 34 public API/native-publication checks. SE/KE3 still own saved-A/runtime/display wiring. The user explicitly chose **Keep scoring as a proposal** for Survey/Communication/Weather; their production scores remain unenabled and unsupported objectives cannot fall through to Imaging arithmetic. Reuse the already-verified original packet/eight keys; no resend or repeat scoring question is needed absent a changed instruction.
 
 Independent sequence update: [20.1, 20.3, 40.1, 40.2, 30.2 and 30.3 preparation is implemented and verified](independent-ke2-algorithms.md), with 125 focused checks including a source-ledger integrity audit. Existing evaluator/Imaging/Results/Debrief suites remain green. Those modules are unwired and comparison/mapping/sampling/feedback outputs retain proposal labels where required. Do not repeat completed prototype work; use incoming owner decisions to finish production integration and real acceptance checks.
@@ -614,6 +616,8 @@ Prepare the KE2 release handoff. Review the final focused checks and report the 
 
 
 ## Task completion and next-step response
+
+**15 November local completion checkpoint:** [KE2 integration candidate](ke2-integration-candidate.md) completes the independent implementation portions of 10.2/10.3, 20.1/20.3, 30.1–30.3, 40.1/40.2/KE2 record support and verification/release preparation. Final candidate 702/0, full repository runner 43 programs pass. Tomorrow's ready action is owner-contract reconciliation followed by SE/KE3/HPC/KE1 integration in the documented merge order. Keep approval-dependent policy adoption and actual producer/UI/browser acceptance prompts open. No further local permission request or resend of existing evidence is required.
 
 After completing a task or subtask, update its verified checkbox and evidence in the work checklist/progress record. Keep wider agreement/integration items open until their stated criteria are met. Report the files touched, exact commands, expected/actual results, verification level, remaining owner dependency, and next ready prompt.
 

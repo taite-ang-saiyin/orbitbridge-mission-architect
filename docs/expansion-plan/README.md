@@ -53,6 +53,8 @@ The following clarifications from the repository review are added explicitly to 
 
 ## Suggested first deliverable
 
+Latest local delivery, 15 November: [complete KE2 integration candidate](ke2-integration-candidate.md), with callable evaluation for all four objectives, frozen-record helpers, expanded comparison, 702 passing candidate assertions, 43 passing repository programs and a review archive. Use its owner merge order for 16 November. Candidate scoring/evidence rules remain proposals; actual config-v2, UI lifecycle and browser/export acceptance stay open. The earlier deliverable descriptions below are retained as history.
+
 KE1's [K20 draft-2 package receipt/review](ke1-k20-draft2-receipt-review.md) now records the supplied artifacts, verified archive, 629 reproduced checks and a same-config Communication surrogate control. Production integration and owner decisions remain open.
 
 Update on 15 November: [10.1 Imaging verification and 30.1 report proposal review](imaging-baseline-and-report-review.md) are recorded at `8b76b5d`. Actual Imaging card checks pass; shared expansion rules and owner artifacts remain pending.

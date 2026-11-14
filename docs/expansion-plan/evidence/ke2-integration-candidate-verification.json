@@ -1,0 +1,276 @@
+{
+  "kind": "local_review_candidate_not_ratified",
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "branch": "features/KE2",
+  "base_head": "65548235958de72e531774670a785b0285032cf0",
+  "godot_version": "4.7.2.stable.mono.official.ed1daf0bf",
+  "new_implementation_and_tests": [
+    "scripts/evaluation/mission_expansion_candidate.gd",
+    "scripts/evaluation/mission_expansion_records.gd",
+    "scripts/evaluation/mission_expansion_comparison.gd",
+    "tests/ke2_expansion_candidate_check.gd",
+    "tests/run_ke2_expansion_checks.ps1"
+  ],
+  "unchanged_reference_dependencies_do_not_overwrite_newer_team_work": [
+    "scripts/evaluation/mission_evaluator.gd",
+    "scripts/evaluation/mission_feedback.gd",
+    "scripts/evaluation/mission_goal_evidence.gd",
+    "scripts/evaluation/mission_goal_feedback.gd",
+    "scripts/evaluation/mission_comparison.gd"
+  ],
+  "existing_baseline_packet_sha256": "a42a1ca3aaa4cbafca548576c14f68578961cef9084fec4275557583a7ceeb7e",
+  "records": {
+    "communication_candidate_complete": {
+      "run_id": "candidate_communication_candidate_complete",
+      "execution_key": "4297cdae501054d95d92009feb68d1a2f6db54c1c7516bd9eea32f8426e6acde",
+      "verification_scope": "typed_proxy_fixture",
+      "status": "success",
+      "score": 100,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "communication_candidate_shortfall": {
+      "run_id": "candidate_communication_candidate_shortfall",
+      "execution_key": "fb845efcc27c6d9871f33747a66db443a28f2747b915342c8928c18896bb198d",
+      "verification_scope": "typed_proxy_fixture",
+      "status": "partial",
+      "score": 75,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "communication_same_contact_complete": {
+      "run_id": "candidate_same_contact_true",
+      "execution_key": "4a7cf50fa7048f8a4f47baa9b1f36a8a8dc34370baca4d600b30cc59be0f7d94",
+      "verification_scope": "typed_proxy_fixture",
+      "status": "success",
+      "score": 100,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "unavailable",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "communication_same_contact_shortfall": {
+      "run_id": "candidate_same_contact_false",
+      "execution_key": "0d65719777bcd44c4a44be0a76944d4f26938634079bc35180788be8c764fb92",
+      "verification_scope": "typed_proxy_fixture",
+      "status": "partial",
+      "score": 75,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "unavailable",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "imaging_a": {
+      "run_id": "candidate_imaging_a",
+      "execution_key": "edc491155e6d637ec694676aec6114e0777c8fa1742f1c3745d1ef102500460d",
+      "verification_scope": "native_modules",
+      "status": "partial",
+      "score": 81,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "imaging_b": {
+      "run_id": "candidate_imaging_b",
+      "execution_key": "4159f9e4773428b301b9f2b2f8993f606038218a33e8f492e57bf1ae588a25cc",
+      "verification_scope": "native_modules",
+      "status": "success",
+      "score": 100,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "survey_complete": {
+      "run_id": "candidate_survey_complete",
+      "execution_key": "62a6febedcd64acd3ed5f4de08566102fbe8741ec07171647faa2f31c6b7238b",
+      "verification_scope": "native_modules",
+      "status": "success",
+      "score": 100,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "survey_shortfall": {
+      "run_id": "candidate_survey_shortfall",
+      "execution_key": "d144e4ae3c353bd5a46ad26d133d1f0dc57627713d71bfec7501d517b6c3e09d",
+      "verification_scope": "native_modules",
+      "status": "partial",
+      "score": 83,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "weather_candidate_complete": {
+      "run_id": "candidate_weather_candidate_complete",
+      "execution_key": "9f02b4f0b1aaf4ee39b5fc4c035289e42c2a98b899cb2c53b79c4d6db2c2e67c",
+      "verification_scope": "typed_proxy_fixture",
+      "status": "success",
+      "score": 100,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    },
+    "weather_candidate_shortfall": {
+      "run_id": "candidate_weather_candidate_shortfall",
+      "execution_key": "ab3661d16687fd1d6ee94ffe4d9638770d78fca24ba70eb4e4b6904401e1539f",
+      "verification_scope": "typed_proxy_fixture",
+      "status": "partial",
+      "score": 75,
+      "evidence_policy": {
+        "revision": "ke2-evidence-policy-candidate-1",
+        "survey_missing_targets": "zero_in_present_map",
+        "weather_mapping": "step_floor"
+      }
+    }
+  },
+  "checks": {
+    "test_mission_evaluator": {
+      "passed": 294,
+      "failed": 0,
+      "pending": 5,
+      "log_sha256": "b4394c689553f4dda4a922280e8c6dbe81e93da8c454c766e42d51b00f8d4c5a"
+    },
+    "ke2_independent_work_check": {
+      "passed": 125,
+      "failed": 0,
+      "pending": 0,
+      "log_sha256": "0bdabda901153e6b3575d184e591bbde7fc4ddb67fee800698a2c7991f5627d6"
+    },
+    "ke2_comparison_api_check": {
+      "passed": 34,
+      "failed": 0,
+      "pending": 0,
+      "log_sha256": "ab67274b27047748dcda298f6484b7e8405ff1a1c2e14eb043df14cb608b0e8a"
+    },
+    "ke2_imaging_presets_check": {
+      "passed": 53,
+      "failed": 0,
+      "pending": 0,
+      "log_sha256": "9aefb2e883f28fceb0fedd888858727814ead0db0ead67658a6ca7704bcff34e"
+    },
+    "ke2_expansion_candidate_check": {
+      "passed": 702,
+      "failed": 0,
+      "pending": 0,
+      "log_sha256": "36528c841ff9f725a04aa17fe3513b609a720936adc400afa2cd19153b1d900e"
+    },
+    "ke2_results_integration": {
+      "passed": 17,
+      "failed": 0,
+      "pending": 0,
+      "log_sha256": "0986bcadbb4edeb1a0352f9eb883b651fd81edb5a87780c780ea13efdda7443f"
+    },
+    "debrief_summary_check": {
+      "passed": 57,
+      "failed": 0,
+      "pending": 0,
+      "log_sha256": "6196e2588c5997c377c1b7e8b4dcd30a4e2a95566bd1e3f5d86f89d04587a611"
+    }
+  },
+  "repository_runner": {
+    "path": "tests/run_all_checks.ps1",
+    "programs_passed": 43,
+    "exit_code": 0
+  },
+  "scope": {
+    "native_v1_replays": true,
+    "expanded_cfg2_records_are_typed_proxy_fixtures": true,
+    "active_production_routes_changed": false,
+    "shared_contract_ratified": false,
+    "browser_export_save_a_lifecycle_verified": false,
+    "remote_actions": false
+  },
+  "files": {
+    "scripts/evaluation/mission_expansion_candidate.gd": {
+      "sha256": "e34f49280bfc2c132dd55568963b072684cdbd7242555cf2e00e9c3ad04c84df",
+      "bytes": 20491
+    },
+    "scripts/evaluation/mission_expansion_records.gd": {
+      "sha256": "1801ed93a84843e566b96c32cb15bb1ae1e3332224b70375b328d6c6e321a227",
+      "bytes": 8459
+    },
+    "scripts/evaluation/mission_expansion_comparison.gd": {
+      "sha256": "80dbff3433a3151062bb3b6830434a40efc5b6c0ea22562aa730c140b7adcffb",
+      "bytes": 6353
+    },
+    "tests/ke2_expansion_candidate_check.gd": {
+      "sha256": "0c02f3a88f5271e2c6558b10f4f4161dcb643c5929cb4f6ba469a7d94dfa2f0c",
+      "bytes": 25662
+    },
+    "tests/run_ke2_expansion_checks.ps1": {
+      "sha256": "557f87d0fde41fcc6cdd1d6db983d8490d3ebac51af440bc9edabe56b07eb922",
+      "bytes": 1657
+    },
+    "scripts/evaluation/mission_evaluator.gd": {
+      "sha256": "0839d67a1e22b032cecafe51c1c4e18f08ce13d31585b97b08bbc7d1daeae877",
+      "bytes": 14825
+    },
+    "scripts/evaluation/mission_feedback.gd": {
+      "sha256": "4b205791851ec17440800d98ef631051f379d6fffd3f854ccaa8110ff6f3429c",
+      "bytes": 7695
+    },
+    "scripts/evaluation/mission_goal_evidence.gd": {
+      "sha256": "393be0ce688a0997a1226437d5d8f2eaea421df55096cec62ae914604ebec1ad",
+      "bytes": 5998
+    },
+    "scripts/evaluation/mission_goal_feedback.gd": {
+      "sha256": "d4196009f9aa65f1890576f0d590dc58fca789f9d7d06878787d1ab1438d6cd6",
+      "bytes": 4773
+    },
+    "scripts/evaluation/mission_comparison.gd": {
+      "sha256": "9a5f9440e365c0217bd7da6fdb44e4b9ca5422017654e5e2380b16f3afbe4e42",
+      "bytes": 20858
+    },
+    "docs/expansion-plan/ke2-integration-candidate.md": {
+      "sha256": "da316d17f9201d968bf0dda652c1994cc1d64c55d40032bb53d52c480d4fc138",
+      "bytes": 15777
+    },
+    "docs/expansion-plan/README.md": {
+      "sha256": "d611d5001538c4fe622250598a3c697dcd7dc27e92bb763740df55a6b1ca1368",
+      "bytes": 6206
+    },
+    "docs/expansion-plan/team-scope-v2.md": {
+      "sha256": "68cdf3aca57ece0eb3bc86e83a9bcf5879e2e01cf121045293a459dc1b9a7b95",
+      "bytes": 15227
+    },
+    "docs/expansion-plan/ke2-work-plan.md": {
+      "sha256": "3508cfdb1bec72f0a9a3fe36901dd05e971a76be0a024078fa51615479981a05",
+      "bytes": 31597
+    },
+    "docs/expansion-plan/progress.md": {
+      "sha256": "0dcfe7fc44153baa45bb0b73059549647c60dc43c5f53ec19fb58b6d046764de",
+      "bytes": 40874
+    },
+    "docs/expansion-plan/OrbitBridge_KE2_Codex_Prompts.md": {
+      "sha256": "50c95eff912696883afb2ea21b7d6b86a1a64d307bd30bc253f911eeedcc2b22",
+      "bytes": 47977
+    },
+    "docs/expansion-plan/ke2-k20-k31-owner-reply.md": {
+      "sha256": "2631fd03e0f9d533344818659fbb3a92d8f794cf704d09a88053471eb2696691",
+      "bytes": 14951
+    },
+    "docs/expansion-plan/evidence/ke2-integration-candidate-records.json": {
+      "sha256": "f997db683c5e8b5b01e2deaed84b84c8f0845c509025b21e358431d610b5149d",
+      "bytes": 2573380
+    }
+  }
+}

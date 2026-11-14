@@ -4,6 +4,8 @@ Source date is 14 November 2026. This is the Markdown tracking version of the si
 
 Use the [progress record](progress.md) for evidence and handoffs. Detailed KE2 completion status lives in the [KE2 work plan](ke2-work-plan.md).
 
+- [x] **KE2 independent candidate, 15 November:** implement and verify callable expanded evaluation, goal reports/feedback, immutable execution-record helpers and analytical comparison. [Delivery, exact checks and owner dependencies](ke2-integration-candidate.md). This completes KE2's isolated candidate; team production promises below remain open pending ratification and real producer/runtime/presentation integration.
+
 ## Product promise and delivery
 
 Players design a spacecraft, run a mission, understand the result, change one design choice, and measure what improved.

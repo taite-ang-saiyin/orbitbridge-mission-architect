@@ -6,6 +6,16 @@ KE2 owns evaluation, scores, event-supported feedback, comparison logic, and sou
 
 The first planned result is a Survey report with both aggregate goals met and one selected target lacking a complete delivery. Existing engine counters support preparing that example.
 
+## Independent implementation complete — 15 November candidate
+
+- [x] **10.2/10.3 candidate:** callable Survey report/scoring implementation, explicit strict/sparse-zero trial policies, per-target details and 83/100 native-mechanics cases.
+- [x] **20.1/20.3 candidate:** callable Communication/Weather reports and proposed scoring, with count/MB success-shortfall cases and same-config Communication control.
+- [x] **30.1–30.3 candidate:** complete report-v2 envelope, immutable input/evidence checks, abort/null behavior and evidence-supported or neutral feedback.
+- [x] **40.1/40.2 and KE2 portion of 40.3 candidate:** frozen record builder/validator, retained typed key bytes/content digest, all-objective callable comparison, signed goal/core/resource deltas and operation classification.
+- [x] **50/60 independent KE2 candidate verification and release handoff:** final candidate suite 702/0; existing evaluator 294/0/5 pending; independent 125, v1 comparison 34, Imaging presets 53, Results 17, Debrief 57 all pass; repository runner 43 programs pass. Source/evidence package and merge instructions prepared locally.
+
+See [complete API, evidence, exact commands and tomorrow's owner merge order](ke2-integration-candidate.md). These checked subtasks complete the independent implementation under the user's instruction to finish KE2 locally. Existing production/ratification/lifecycle/UI/browser parent items below remain open. Scoring stays a proposal as previously requested; default sparse Survey evidence remains unavailable. New-objective config-v2 records are labeled fixtures, and active v1 routes are unchanged. No repeat configuration approval or original-packet request is needed.
+
 ## 00 Contracts and handoffs
 
 - [x] **00.1 Pin the starting revision and regression baseline.**
@@ -17,7 +27,9 @@ The first planned result is a Survey report with both aggregate goals met and on
 Completed by the baseline note and verification references in the [progress record](progress.md#baseline-and-verification). This is baseline preparation completed before expansion implementation.
 
 - [ ] **00.2 Agree objective and goal fields with KE1 and SE.**
-  - [x] Prepare the [KE2 K20–K31 owner response](ke2-k20-k31-owner-reply.md) against `owner-replies-draft-1`, with explicit D1–D6 replies, proposed scoring/report details, current callable limits and owner dependencies. Prepared for the user to send; no delivery, consolidated approval or production acceptance recorded.
+  - [x] Prepare the [KE2 K20–K31 owner response](ke2-k20-k31-owner-reply.md) against `owner-replies-draft-1`, with explicit D1–D6 replies, proposed scoring/report details, current callable limits and owner dependencies. The user reports already replying on 15 November; consolidated approval/production acceptance is not inferred.
+  - [x] Record user-reported delivery of the K20–K31 owner reply. Do not ask for the same reply or verified source packet again.
+  - [ ] Receive KE1's consolidated frozen K20 revision and exact remaining HPC/SE producer/record decisions, then reconcile them with the live branch before production expansion work.
   - [x] Draft the [KE1/SE configuration handoff](ke1-se-config-handoff.md) with source-inspected current behavior, proposed IDs/fields, candidate valid and invalid examples, and open owner decisions.
   - [x] Record the user's agreement on the five mission IDs and objective-specific goal meanings on 15 November 2026.
   - [x] Review KE1's K20 draft and document the [four remaining interface differences](k20-ke2-interface-review.md) with recommendations and a concrete candidate Communication starter.

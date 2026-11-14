@@ -9,15 +9,18 @@ Use the [team scope](team-scope-v2.md) and [KE2 task checklists](ke2-work-plan.m
 | Work package | Status | Owner and next action |
 | --- | --- | --- |
 | Markdown plans and task tracking | Complete | Both supplied PDFs converted, task IDs retained, and tracking instructions added |
+| Independent KE2 implementation candidate | Complete locally | [Callable evaluator, frozen records, expanded comparator, tests and review archive](ke2-integration-candidate.md); final 702/0 candidate checks and 43/43 repository programs |
 | 00 Contracts and handoffs | In progress | KE1 draft-2 artifacts received, hashes verified and 629 checks reproduced in isolation. 00.3 evidence request and 00.4 examples are prepared. Remaining bounds/custom identity, owner alignment and production integration stay open |
-| 10 Imaging and Survey | In progress | 10.1 complete, 53 checks. 10.2 private measure and 10.3 scoring-proposal fixtures verified: evaluator now 294 passes. HPC absent-entry rule, production scoring/report decisions and actual Survey integration remain open |
-| 20 Communication and Weather | In progress | Internal Communication and Weather counters verified against fixtures/recorded proxies. HPC/scoring/report integration remains open |
-| 30 Reports and feedback | In progress | KE3 agrees goal schema; SE accepts structure in principle and proposes legacy-v1/expanded-v2 reports. Separate v2 candidates/source bundle ready; scoring, revision/serialization decisions and implementation/live acceptance remain open |
-| 40 A/B Design Lab | In progress | KE2 normalized-record eligibility/delta prototypes verified, including the measured Imaging pair. SE final storage/API/digest/wiring, sampling/legacy rules and KE3 live presentation remain open |
-| 50 Expansion acceptance | Open | Collect fixture, integrated, and public-browser evidence for the expanded revision |
-| 60 Release | Open | SE confirms templates, public URL, and deployed revision, team verifies final journeys |
+| 10 Imaging and Survey | Candidate complete; integration open | Imaging regression 53 passes; callable Survey candidate reproduces 83/100, with strict missing-key default. HPC sparse semantics and coordinated production activation remain open |
+| 20 Communication and Weather | Candidate complete; integration open | Callable count/MB evaluation, proposed scores and controlled native-proxy cases pass. Actual config-v2 producers, HPC semantics and live acceptance remain open |
+| 30 Reports and feedback | Candidate complete; integration open | Callable 19-field report2, errors, aborts, feedback and immutable bindings verified. KE3 schema review retained; final revision/policy adoption and SE/KE3 live acceptance remain open |
+| 40 A/B Design Lab | KE2 candidate complete; lifecycle open | All-objective record builder/validator and comparator verified. SE storage/runtime wiring, HPC sampling/identity ratification and KE3 presentation remain open |
+| 50 Expansion acceptance | Independent checks complete; real acceptance open | Seven KE2 programs pass; 43 repository programs pass. Collect actual expanded-producer, Save A/B lifecycle and public-browser evidence |
+| 60 Release | KE2 local package complete; team release open | Source/evidence archive and merge order ready. SE confirms templates, public URL and deployed revision; team verifies final journeys |
 
 ## Baseline and verification
+
+The table below preserves the **original** `4c65496` baseline. Latest verified base is `6554823` plus the candidate files: 43 repository programs pass, evaluator 294/0/5 pending and candidate 702/0. See [current commands and evidence](ke2-integration-candidate.md).
 
 | Item | Observed baseline |
 | --- | --- |
@@ -217,6 +220,29 @@ At `features/KE2`, `0e77c48`, the user relayed KE3's request for production Surv
 - [x] New public API suite: 34 passed / 0 failed on actual native launches/current report publication, changed-goal run, preserved inputs, explicit manual-context fixtures and historical transport. Existing evaluator 294 / 0 / 5 pending; independent 125, Imaging 53, Results 17, Debrief 57 all pass with zero failures. T07/T08 wording now identifies missing SE runtime/baseline wiring; original pending count remains five.
 
 See [callable API, exact commands and prepared KE3 reply](callable-comparison-ke3-handoff.md) and [verification hashes](evidence/callable-comparison-checks.json). API tests are direct native/module evidence, not UI Save A/B or new-objective runs. SE/KE3 integration, HPC semantics, KE1/SE/HPC v2 acceptance and final report/record contracts remain open. No other-owner implementation, signed contract, source packet, browser/export or remote action was changed/performed.
+
+## K20–K31 owner reply reported delivered
+
+On 15 November 2026 at `features/KE2`, `6554823`, the user reports they have already replied to KE1. Recorded delivery status in the owner-reply note/checklist and marked that handoff complete. Exact sent wording, teammate receipt and consolidated agreement were not independently verified. Do not ask the user to send the same reply or unchanged verified packet again.
+
+Read-only inspection found the live canonical contract still identifies `v1.0-agreed` / schema 1; `data/mission_presets.json` and `scripts/core/mission_preset_catalog.gd` are absent from live production paths. The previously reviewed draft-2 artifacts remain received/archived. A consolidated frozen expansion revision has not been found in the checked paths. Next is receipt/reconciliation of KE1's freeze and remaining HPC/SE decisions, then actual Survey integration, Communication/Weather and expanded comparison. Callable v1 Imaging comparison is already available for SE/KE3 wiring.
+
+Updated documentation only. Checks: branch/HEAD/status, explicit path existence, current contract/owner-note inspection, local links/fences and `git diff --check`. No gameplay/browser/export tests were rerun and no message or remote action was sent by Codex.
+
+## Independent KE2 implementation completed for 16 November sync
+
+On 15 November 2026 (Asia/Rangoon), at `features/KE2`, base `65548235958de72e531774670a785b0285032cf0`, completed the user's request to finish all independent KE2 work locally. Preserved four pre-existing documentation edits; no active evaluator/runtime, teammate code, signed contract, `.gitignore` or source packet was changed.
+
+- [x] **10.2/10.3:** implement callable Survey evaluation/report2 candidate with captures, returned MB, complete selected-target coverage, by-target detail and proposed equal-thirds score. Native shortfall/complete mechanics give 83/100 under explicit sparse-zero trial policy. Strict default missing keys remain unavailable.
+- [x] **20.1/20.3:** implement Communication and Weather report/scoring candidates. Historical native-mechanics proxy pairs reproduce 75/100; new same-config/quota Communication control yields 12 MB/one send/75 versus 24 MB/two sends at 7/10/100. Typed config-v2 fixtures are never presented as native config-v2 acceptance.
+- [x] **30.1–30.3:** retain all 17 existing report fields plus objective/goals, same-run ordered evidence binding, malformed/nonterminal structured errors, deterministic input preservation, raw actuals, abort failed/null and neutral/evidenced feedback with one experiment.
+- [x] **40.1/40.2 and KE2 portion of 40.3:** implement immutable record construction/verification, original execution-key byte retention and content digest, all-objective comparison eligibility, manual/policy classification, signed goal/MB/score/cost/mass/resource output. Unknown sampling/context remains unavailable; resource samples also match accepted event resource changes.
+- [x] **50/60 independent scope:** final new suite 702 passed/0 failed. Seven-program KE2 runner passed; final focused rerun after additions is 702/0. Existing suites: evaluator 294/0/5 pending; independent 125, v1 comparison 34, actual Imaging cards 53, Results 17, Debrief 57 pass. Existing repository runner: all 43 active programs pass, exit 0. Godot version verified `4.7.2.stable.mono.official.ed1daf0bf`; known certificate-store diagnostic persists without check failures.
+- [x] Prepared ten frozen candidate records, exact commands, verification hashes, local source/evidence archive and owner merge order in [the delivery note](ke2-integration-candidate.md). Updated README, scope/work checklists and prompt/owner-reply pointers in this session.
+
+Commands: `powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\run_ke2_expansion_checks.ps1 -GodotExe $orbitGodot`; existing `run_all_checks.ps1` with the same verified executable; final direct `--headless --path . --log-file D:/orbitbridge-mission-architect/exports/check-logs/ke2_expansion_candidate_check.log --script res://tests/ke2_expansion_candidate_check.gd`; `git diff --check`. The exact executable assignment and reproduction commands are in the delivery note. Expected values and actual results agree, including all expanded qualifying-count deltas +1, score deltas +17 Survey / +25 Communication/Weather, and native Imaging +4.6133333328 MB/+19 score/+60 g/+7 credits.
+
+Verification is fresh native v1 validator/adapter/engine plus labeled typed proxy fixtures and existing headless presentation/integration checks. No actual new-objective config-v2 producer acceptance, Save A lifecycle, browser, export or public deployment was claimed. The five original evaluator pending declarations remain. Remaining dependencies: **KE1** consolidated revision/config producer and custom identity; **HPC** sparse-map/contact/Weather/sampling semantics plus real new-objective traces; **SE** activation, bound publication, persistent A, runtime comparator and export; **KE3** dynamic goals/comparison and real report UI acceptance; **affected owners/KE2** adopt or revise proposed scoring/report/record policies together. Existing parent production items remain open. All work stayed local; no remote action, teammate message, commit or merge occurred.
 
 ## Evidence format for future completions
 
