@@ -1,0 +1,57 @@
+{
+  "handoff_revision": "ke2-hpc-abort-v0.1",
+  "run_id": "run_hpc_ke2_abort_3990d3c_01",
+  "mission_id": "mission_hpc_ke2_abort_01",
+  "input_file": "input-bundle.json",
+  "input_sha256": "4283f1dc663736b46462cbbb452f5fd1c5ab91cf0caa892c3e7c21f55c60697b",
+  "report_file": "evaluation-v0.1.json",
+  "report_sha256": "a849f9d752cb3c2b7a611f797d0d73e41d09112c24cc95695c13489abf4828bf",
+  "input_revision_status": "HPC supplied local/uncommitted bundle identified by SHA256.",
+  "hpc_source_commit": "3990d3c7aae3b69dcf367d9f0601fc40fd669262",
+  "cached_ancestry_from_9dfd942_verified": true,
+  "producer_files": {
+    "core/HPCContractAdapter.gd": "f8d4dffc2ce34088d9b5ec2536ae8e49ef59059210859da6bf5dc216f95ec2b7",
+    "core/LegacyTraceAdapter.gd": "b173f4c2f00d7c0cd1737828543b2eefad0b4a9393e08762c5cbe731e4fe3ba1",
+    "core/MissionSimulator.gd": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+    "core/MissionStepEngine.gd": "4f01b5321da6cdddef497d9375704adc4d972f1488fba76db5c2d87faa3ab873",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "scripts/core/catalog_loader.gd": "5ad3b28af9787059162a7c5e9da900377bf181860d57224da36a005706fde2eb",
+    "scripts/core/mission_validator.gd": "96c00bfff676b145b1dc07ac36b33497a13424966ff726bd6bc6928d6f7a2b2c",
+    "scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+    "data/launchers.json": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+    "data/ke1_reference_ids.json": "c805cdc843c1add3fc2af24975198f0a74f6a2dcfb2f764c5b011a0a3779c158",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+  },
+  "evaluator_git_base": "79e249b09b4226916e013ad5f745abccd0a3c1c0",
+  "evaluator_revision_status": "Current KE2 working-tree source snapshot; individual module hashes identify the executed bytes.",
+  "evaluator_source_sha256": {
+    "scripts/evaluation/mission_evaluator.gd": "c14ad4fc3a4f4e54daf64853b7c5327710b970952ae9d4552e575892486fe873",
+    "scripts/evaluation/mission_feedback.gd": "4b205791851ec17440800d98ef631051f379d6fffd3f854ccaa8110ff6f3429c"
+  },
+  "engine_version": "4.7.2.stable.mono.official.ed1daf0bf",
+  "verification": {
+    "failed": 0,
+    "passed": 71,
+    "replay_numeric_absolute_tolerance": 1e-09,
+    "scope": "Current KE2 evaluation and full pinned KE1/HPC recorded-action/abort replay"
+  },
+  "explanation_verification": "Both APIs give identical reports for the supplied dictionaries. Replayed native numbers use 1e-9 tolerance. Raw text formatting can differ after JSON loading; replay explanation separately verifies the operator reason.",
+  "replay_scope": "Recomputed actual KE1 readiness, replayed all nine recorded action requests, compared every response and pre-abort state, then replayed abort_run at the pinned HPC revision.",
+  "input_preservation_verified": true,
+  "readiness_replay_matches": true,
+  "abort": {
+    "step_index": 8,
+    "observations_completed": 1,
+    "returned_data_mb": 7.7333333328,
+    "stored_data_mb": 4.2666666672,
+    "terminal_reason": "Operator requested abort for KE2 and SE/KE3 lifecycle verification.",
+    "blocked_event_id": "evt_008",
+    "abort_event_id": "evt_009"
+  },
+  "ke2_verified_exit_code": 0,
+  "environment_note": "The Windows root-certificate-store diagnostic appeared alongside the passing checks and exit 0.",
+  "owner_reported_regressions": "HPC reports simulator, 36 HPC cases, and demo passed. These complete owner regression commands were not rerun for this handoff.",
+  "pending": "SE/KE3 integrated presentation, controller publication/reopening/Retry/New Mission/error routing, B02, official B10, exports, and Survey scoring."
+}

@@ -1,0 +1,76 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS literal run ID
+PASS source revision
+PASS terminal identity
+PASS launch snapshot
+PASS full ordered history
+PASS abort response state
+PASS abort response event
+PASS operator reason
+PASS event 0 identity/order
+PASS event 1 identity/order
+PASS event 2 identity/order
+PASS event 3 identity/order
+PASS event 4 identity/order
+PASS event 5 identity/order
+PASS event 6 identity/order
+PASS event 7 identity/order
+PASS event 8 identity/order
+PASS event 9 identity/order
+PASS prior no-contact block
+PASS abort event
+PASS zero block/abort delta_energy_wh
+PASS zero block/abort delta_stored_data_mb
+PASS zero block/abort delta_returned_data_mb
+PASS zero block/abort delta_observations
+PASS abort preserves step_index
+PASS abort preserves energy_wh
+PASS abort preserves stored_data_mb
+PASS abort preserves returned_data_mb
+PASS abort preserves observations_completed
+PASS recorded step and captures
+PASS recorded returned/stored MB
+PASS evaluator accepts abort
+PASS native adapter matches
+PASS complete report
+PASS failed aborted verdict
+PASS null unscored abort
+PASS report identity
+PASS actuals preserved
+PASS launch targets preserved
+PASS ratios preserved
+PASS recorded abort explained
+PASS onboard data explained
+PASS abort has neutral cause list
+PASS source/comparison defaults
+PASS evaluation deterministic
+PASS pinned KE1 catalogs load
+PASS pinned ready launch
+PASS pinned readiness matches
+PASS replay request step 0
+PASS replay response 0
+PASS replay request step 1
+PASS replay response 1
+PASS replay request step 2
+PASS replay response 2
+PASS replay request step 3
+PASS replay response 3
+PASS replay request step 4
+PASS replay response 4
+PASS replay request step 5
+PASS replay response 5
+PASS replay request step 6
+PASS replay response 6
+PASS replay request step 7
+PASS replay response 7
+PASS replay request step 8
+PASS replay response 8
+PASS replayed pre-abort state
+PASS pinned abort response matches
+PASS pinned replay numeric/status fields match
+PASS pinned replay explanation attributes the operator
+PASS all supplied inputs preserved
+Operator-abort verification: 71 passed, 0 failed.

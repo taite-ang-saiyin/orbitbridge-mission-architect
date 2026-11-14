@@ -1,0 +1,65 @@
+{
+  "packet_schema_version": 1,
+  "case_id": "low_eq_3orbits",
+  "producer_commit_sha": "d60d2242d72fda0e933cc99524c113e9ca0594d9",
+  "provider": "bundled KE1/HPC on SE revision; production core/scripts/data unchanged from this commit",
+  "run_id": "run_001",
+  "mission_id": "mission_local",
+  "identity_warning": "Session-local run_id and mission_id are shared with the other independent packet. Use case_id and input hashes. No IDs rewritten.",
+  "config_file": "config.json",
+  "terminal_state_file": "final-state.json",
+  "ordered_events_file": "events.json",
+  "ordered_event_count": 31,
+  "blocked_event_ids": [],
+  "raw_summary": {
+    "scenario_id": "low_eq",
+    "run_status": "completed",
+    "step_index": 30,
+    "total_steps": 30,
+    "observations_completed": 4,
+    "returned_data_mb": 22.1600000016,
+    "stored_data_mb": 25.8399999984,
+    "energy_wh": 19.9216666663001,
+    "observations_by_target": {
+      "equator": 4
+    },
+    "returned_data_by_target_mb": {
+      "equator": 22.1600000016
+    },
+    "observations_delivered_by_target": {
+      "equator": 1
+    }
+  },
+  "required_goals": {
+    "budget_credits": 100,
+    "duration_orbits": 3,
+    "objective": "imaging",
+    "required_observations": 4,
+    "required_returned_data_mb": 30.0,
+    "target_region": "equator",
+    "target_regions": [
+      "equator"
+    ],
+    "title": "Valid 1U feasible baseline"
+  },
+  "derivation": "Existing valid_low_eq fixture with duration6\u21923 only. Runtime adds the consistent target_regions=[equator] field.",
+  "sha256": {
+    "actions.json": "f769ec982a9b16b83ec1c6d296d0823a7747c1408a066edcec27f14477581b88",
+    "config.json": "6de1d49359a977583f40f6509a8e5dc8ce5b3045dbf4fb60040792e1cf98425e",
+    "event-index.tsv": "961bc80cb61d5eda1aa436c10e6e6da6289d85e8cff95003155c255d363ae73d",
+    "events.json": "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+    "final-state.json": "3451b289b412716453f07922599883b70fb93cbdc219d80c0a772c59a6edb8bc",
+    "prepared-input.json": "56b2d44750b4c64ea70de0ca531e5295310f9ff4985498c685029f993c90bffa",
+    "readiness.json": "289d63905603ac36d892c177aff5fe5878f808c2e8e5e1ff49f05d0562bf5361",
+    "README.md": "fc87cf1d79d48e77e77d0fb6ec246e1197527b90097e43cc63240f929d6bfd45",
+    "scenario.json": "07bde430ced79deed535c27ac486abd48e4acaad283d74b6c8bb5e4295dba324",
+    "selected-launch-profile.json": "8d47d2399501cece87616ced05eae012748f633dbeff2a3be01e4828288081dd"
+  },
+  "producer_code_sha256": {
+    "scripts/integration/mission_runtime.gd": "bbb72ce4e9cdd62af6425e2f11cba97c9af78e4277d5da4dc53bd99bd36e4d4b",
+    "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+    "core/MissionStepEngine.gd": "d2a86ab7a2003f1498e262f87d597f56556e88dc31dff60894a43245d952b2c8",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157"
+  }
+}

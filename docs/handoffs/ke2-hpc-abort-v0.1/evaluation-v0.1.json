@@ -1,0 +1,22 @@
+{
+	"ok": true,
+	"report": {
+		"comparison": null,
+		"data_return_completion_ratio": 0.25777777776,
+		"explanation": "Mission aborted before completion. 1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. Recorded abort reason was Operator requested abort for KE2 and SE/KE3 lifecycle verification.",
+		"mission_id": "mission_hpc_ke2_abort_01",
+		"next_experiment": "Review the recorded termination reason and choose one setting to change before retrying.",
+		"observation_completion_ratio": 0.25,
+		"observations_completed": 1.0,
+		"required_observations": 4.0,
+		"required_returned_data_mb": 30.0,
+		"returned_data_mb": 7.7333333328,
+		"root_causes": [],
+		"run_id": "run_hpc_ke2_abort_3990d3c_01",
+		"run_status": "aborted",
+		"schema_version": 1,
+		"score": null,
+		"source_ids": [],
+		"status": "failed"
+	}
+}

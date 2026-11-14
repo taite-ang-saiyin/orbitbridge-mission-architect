@@ -1,0 +1,48 @@
+{
+  "ke1_sha": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+  "hpc_sha": "9dfd942e6fccf230d03dfdf8bf097bf65d8f143f",
+  "reason_for_hpc_pin": "Previously supplied and inspected operational handoff; exact runtime code pin, not an unverified latest branch; ce478f9 remains the older sample revision",
+  "original_config_byte_preserved": true,
+  "hashes": {
+    "actions.json": "bbfd81841a487505bf4351a10cb90c3f4acf00bc080c6eedeabe4e39798ae6a9",
+    "adapter-result.json": "2e8a5362785ba2db772ab30c36d7c1e4e548dedbee2853be57c0af7f347ae2c8",
+    "catalogs.json": "5841cc95a7319cb696edd09a94a5e09e833c8c7b64d015c91d7eac0fd7e5cbd0",
+    "config-resolution.json": "2a982f5b84ed6dd6476ff74535fa85ba01ab4eca8afe2d648e8147f527ab7b4e",
+    "events.json": "207ed0f1dc16259f5cc9ca5664e19e5ad5293a065b49db58ba33cb6cdb55509c",
+    "final-state.json": "3b69be95ac758dee097417d99078b2c31309e5d3ea19278d1943185d6d1c7245",
+    "initial-state.json": "d866bd31a4a01ccf84ea2622f6de53db2e72f934e067a26108e6b02286a83c64",
+    "orbit-source.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "original-config.json": "8f37dc6af7b641a96b6947ba60e0e1d9040d92137dd4245ea34a55483ee2faac",
+    "readiness.json": "3b845c347258b15909eda273c96f2c965584acf1ed8f6ef42494021682e7ea50",
+    "README.md": "275cc8372c355a1c1e7c00046b49851e9577eb79cd741ebe307aa1acbe5774b5",
+    "run-summary.json": "b6f0778bc6199c27154f97634ddcdab7dd233c3ea9e6906c59bfdd0d7a42b5df",
+    "scenario.json": "8ee6f071bf402a59e21c9a50f9a0b4af3caf475d2709a01f2a0afe4dc6fe0389",
+    "selected-action-replies.json": "0cabd9fb463ba3d43f250600e315787ecdd8ad0b3bbf651430eae865b4f53b3e",
+    "selected-launch-profile.json": "49e8c97e1e49f2c663f3b2fe93cd02a803dc76c511df12aa95441cd0d2ac755e",
+    "validation-packet.json": "29a1d63685fb9fa3a51227af52ed947a18e7ad62e5a9c44d14dd2305c2edd30e"
+  },
+  "run_id": "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+  "mission_id": "ke3_validated_1u_feasible_20261114",
+  "units": {
+    "data": "decimal MB",
+    "energy": "Wh",
+    "step_duration": "hours"
+  },
+  "orbit_documents_byte_match": true,
+  "actual_readiness_preserved": true,
+  "B02": "NOT TESTED",
+  "runtime_files": {
+    "ke1/scripts/core/mission_validator.gd": "96c00bfff676b145b1dc07ac36b33497a13424966ff726bd6bc6928d6f7a2b2c",
+    "ke1/scripts/core/catalog_loader.gd": "5ad3b28af9787059162a7c5e9da900377bf181860d57224da36a005706fde2eb",
+    "ke1/scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+    "ke1/data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "ke1/data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+    "ke1/data/launchers.json": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+    "ke1/data/ke1_reference_ids.json": "c805cdc843c1add3fc2af24975198f0a74f6a2dcfb2f764c5b011a0a3779c158",
+    "ke1/data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "hpc/core/HPCContractAdapter.gd": "f8d4dffc2ce34088d9b5ec2536ae8e49ef59059210859da6bf5dc216f95ec2b7",
+    "hpc/core/MissionStepEngine.gd": "caae675e3b013165688d54c220e284926072a0345f4c4c9e2069aa400ac71252",
+    "hpc/core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "hpc/data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+  }
+}

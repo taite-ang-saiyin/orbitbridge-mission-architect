@@ -1,0 +1,16 @@
+{
+  "package_revision": "ke2-se-controller-v0.1",
+  "git_base_commit": "79e249b09b4226916e013ad5f745abccd0a3c1c0",
+  "code_revision": "KE2 working-tree snapshot with explicit Survey guard and standalone-test flag; changes are uncommitted.",
+  "existing_payload_provenance": "Original validated report/metadata retain their original 8c3ed81 evaluator provenance.",
+  "supported_scoring": "Agreed v1 imaging aggregate observation and returned-MB goals",
+  "survey_result": "INVALID_EVALUATION_INPUT at config.mission.objective; extension pending",
+  "ke2_current_results": {
+    "standalone_passed": 167,
+    "pinned_combined_passed": 207,
+    "failures": 0
+  },
+  "ke2_pinned_producer": "b9817c35628a4280a899d7fa73ce551d9d4a93ba",
+  "se_message_status": "Owner handoff text reviewed; latest uncommitted source and raw logs not supplied.",
+  "verification_project": "Extracted package root; import evaluator/feedback pair into SE integration separately."
+}

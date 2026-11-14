@@ -1,0 +1,148 @@
+{
+  "config_snapshot": {
+    "design": {
+      "battery_id": "battery_standard",
+      "bus_id": "bus_basic",
+      "instrument_id": "instrument_basic",
+      "launch_profile_id": "cubesat_1u_sample",
+      "launcher_id": "small",
+      "orbit_id": "high_inc",
+      "radio_id": "radio_basic",
+      "solar_id": "solar_standard",
+      "storage_id": "storage_standard"
+    },
+    "mission": {
+      "budget_credits": 100.0,
+      "duration_orbits": 6.0,
+      "objective": "imaging",
+      "required_observations": 4.0,
+      "required_returned_data_mb": 30.0,
+      "target_region": "equator",
+      "title": "Valid 1U feasible baseline"
+    },
+    "schema_version": 1.0
+  },
+  "launcher": {
+    "assumption_id": "illustrative_small_launcher_v1",
+    "cost_credits": 15.0,
+    "display_name": "Small training launcher",
+    "id": "small",
+    "max_payload_g_by_orbit": {
+      "high_inc": 1500.0,
+      "low_eq": 2000.0
+    },
+    "supported_orbit_ids": [
+      "low_eq",
+      "high_inc"
+    ],
+    "supported_profile_ids": [
+      "cubesat_1u_sample"
+    ]
+  },
+  "observations_required": 4,
+  "ok": true,
+  "orbit": {
+    "altitude_km": 600.0,
+    "ground_contact_windows": [
+      0.0,
+      7.0
+    ],
+    "id": "high_inc",
+    "inclination_deg": 97.8,
+    "label": "High-inclination training orbit",
+    "step_duration_hours": 0.1611111111,
+    "steps_per_orbit": 10.0,
+    "sunlight_windows": [
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0
+    ],
+    "target_windows": {
+      "equator": [
+        1.0,
+        6.0
+      ]
+    },
+    "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+  },
+  "parts": {
+    "battery": {
+      "assumption_id": "orbitbridge_training_components_v1",
+      "capacity_wh": 25.0,
+      "category": "battery",
+      "cost_credits": 14.0,
+      "display_name": "Standard battery",
+      "id": "battery_standard",
+      "initial_charge_fraction": 1.0,
+      "kind": "battery",
+      "mass_g": 250.0
+    },
+    "bus": {
+      "assumption_id": "orbitbridge_training_components_v1",
+      "baseline_power_w": 2.0,
+      "category": "bus",
+      "cost_credits": 12.0,
+      "display_name": "Basic bus",
+      "id": "bus_basic",
+      "idle_w": 2.0,
+      "kind": "bus",
+      "mass_g": 300.0
+    },
+    "instrument": {
+      "assumption_id": "orbitbridge_training_components_v1",
+      "category": "instrument",
+      "cost_credits": 16.0,
+      "data_per_observation_mb": 12.0,
+      "display_name": "Basic imaging camera",
+      "id": "instrument_basic",
+      "kind": "instrument",
+      "mass_g": 180.0,
+      "observe_power_w": 4.0,
+      "observe_w": 4.0,
+      "packet_mb": 12.0,
+      "supported_objectives": [
+        "imaging"
+      ]
+    },
+    "radio": {
+      "assumption_id": "orbitbridge_training_components_v1",
+      "category": "radio",
+      "cost_credits": 8.0,
+      "display_name": "Basic radio",
+      "downlink_mb_per_hour": 48.0,
+      "id": "radio_basic",
+      "kind": "radio",
+      "mass_g": 120.0,
+      "transmit_power_w": 3.0,
+      "transmit_w": 3.0
+    },
+    "solar": {
+      "assumption_id": "orbitbridge_training_components_v1",
+      "category": "solar",
+      "cost_credits": 10.0,
+      "display_name": "Standard solar panel",
+      "generation_power_w": 3.0,
+      "id": "solar_standard",
+      "kind": "solar",
+      "mass_g": 160.0,
+      "output_w": 3.0
+    },
+    "storage": {
+      "assumption_id": "orbitbridge_training_components_v1",
+      "capacity_mb": 64.0,
+      "category": "storage",
+      "cost_credits": 7.0,
+      "display_name": "Standard storage",
+      "id": "storage_standard",
+      "kind": "storage",
+      "mass_g": 50.0
+    }
+  },
+  "required_returned_data_mb": 30.0,
+  "scenario_id": "high_inc",
+  "target_id": "equator",
+  "total_steps": 60
+}
