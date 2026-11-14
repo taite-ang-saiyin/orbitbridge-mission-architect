@@ -1,0 +1,65 @@
+{
+  "checks": {
+    "budget": {
+      "message": "Design and launch costs fit the budget.",
+      "passed": true,
+      "status": "pass"
+    },
+    "catalog_references": {
+      "message": "All selected IDs were found in their proper categories.",
+      "passed": true,
+      "status": "pass"
+    },
+    "essential_power": {
+      "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+      "passed": true,
+      "status": "pass"
+    },
+    "input_schema": {
+      "message": "Mission fields are valid.",
+      "passed": true,
+      "status": "pass"
+    },
+    "launch_orbit": {
+      "message": "Profile, launcher and orbit are compatible.",
+      "passed": true,
+      "status": "pass"
+    },
+    "launcher_capacity": {
+      "message": "Spacecraft fits the launcher capacity for this orbit.",
+      "passed": true,
+      "status": "pass"
+    },
+    "profile_mass": {
+      "assumption_id": "illustrative_small_sat_mass_limit_v1",
+      "comparator": "<=",
+      "message": "Spacecraft mass meets the selected profile rule.",
+      "passed": true,
+      "profile_id": "illustrative_alternative",
+      "source_id": null,
+      "status": "pass",
+      "threshold_g": 5000,
+      "total_mass_g": 1380
+    },
+    "target_orbit": {
+      "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+      "passed": true,
+      "status": "pass"
+    }
+  },
+  "errors": [],
+  "metrics": {
+    "baseline_power_w": 2.0,
+    "battery_capacity_wh": 25.0,
+    "data_per_observation_mb": 24.0,
+    "downlink_mb_per_hour": 48.0,
+    "initial_energy_wh": 25.0,
+    "solar_generation_power_w": 3.0,
+    "storage_capacity_mb": 64.0,
+    "total_cost_credits": 116,
+    "total_mass_g": 1380
+  },
+  "ready_to_launch": true,
+  "schema_version": 1,
+  "warnings": []
+}

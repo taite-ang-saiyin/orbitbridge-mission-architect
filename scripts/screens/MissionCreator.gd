@@ -1,4 +1,5 @@
 extends "res://scripts/screens/Workbench.gd"
+const Workflow = preload("res://scripts/integration/mission_workflow.gd")
 const THUMB = preload("res://ui/components/TargetThumbnail.gd")
 var name_input: LineEdit
 var description_input: TextEdit
@@ -13,7 +14,8 @@ var target_buttons: Dictionary = {}
 var objective_buttons: Dictionary = {}
 var duration_buttons: Dictionary = {}
 var count_buttons: Dictionary = {}
-var target_limit = 2
+var data_input: SpinBox
+var target_limit = 1
 var region = "All"
 var target_grid: GridContainer
 var coverage_view: TextureRect
@@ -69,9 +71,9 @@ func build_details(parent: Node) -> void:
 		description_count.text = "%s / 200" % state.description.length())
 func build_objectives(parent: Node) -> void:
 	var box = section(parent, "02   MISSION OBJECTIVE")
-	UI.label(box, "Choose a mission type. Each has a different success rule.", 12, "a5bed0")
+	UI.label(box, "Capture observations and return enough data to meet both goals.", 12, "a5bed0")
 	var cards = row(box)
-	for entry in [["Capture Imagery", "Deliver complete observations across selected targets."], ["Survey Target Regions", "Deliver the total, including at least one observation from each target."]]:
+	for entry in [["imaging", "Capture observations of the equatorial teaching target."]]:
 		var button = choice_card(cards, entry[0], entry[1], func():
 			state.objective = entry[0]
 			refresh(), 92)
@@ -81,7 +83,7 @@ func build_targets(parent: Node) -> void:
 	var counts = row(box.get_child(0))
 	counts.add_theme_constant_override("separation", 5)
 	UI.label(counts, "Number of targets", 11, "9db9cb").custom_minimum_size.x = 98
-	for count in [1, 2]:
+	for count in [1]:
 		var button = UI.button(counts, str(count), func(): set_target_limit(count))
 		button.toggle_mode = true
 		count_buttons[count] = button
@@ -90,7 +92,7 @@ func build_targets(parent: Node) -> void:
 	regions.custom_minimum_size.x = 95
 	selector.add_child(regions)
 	UI.label(regions, "Target region", 11, "a5bed0")
-	for entry in [["Equatorial", "Equatorial"], ["Mid-Latitude", "Mid-latitude"], ["Polar", "Polar"]]:
+	for entry in [["Equatorial", "Equatorial"]]:
 		var region_button = UI.button(regions, entry[1], func():
 			region = "All" if region == entry[0] else entry[0]
 			refresh_targets())
@@ -99,7 +101,7 @@ func build_targets(parent: Node) -> void:
 		region_button.custom_minimum_size.y = 32
 		region_buttons[entry[0]] = region_button
 	var locations = column(selector)
-	UI.label(locations, "Target location / select up to 2", 11, "a5bed0")
+	UI.label(locations, "Target location / select one", 11, "a5bed0")
 	target_grid = GridContainer.new()
 	target_grid.columns = 3
 	target_grid.add_theme_constant_override("h_separation", 8)
@@ -156,14 +158,14 @@ func build_coverage(parent: Node) -> void:
 	coverage_rows = VBoxContainer.new()
 	coverage_rows.add_theme_constant_override("separation", 4)
 	coverage_overlay.add_child(coverage_rows)
-	UI.label(box, "Illustrative coverage / fixed 6-orbit reference windows.", 11, "7897ad")
+	UI.label(box, "Authored observation windows per orbit; illustration is not real coverage.", 11, "7897ad")
 func build_requirements(parent: Node) -> void:
 	var requirements = row(parent)
 	var box = section(requirements, "05   REQUIRED OBSERVATIONS")
-	UI.label(box, "Total observations to deliver.", 12, "a5bed0")
+	UI.label(box, "Successful observations to capture.", 12, "a5bed0")
 	observation_input = SpinBox.new()
 	observation_input.min_value = 1
-	observation_input.max_value = 8
+	observation_input.max_value = 20
 	observation_input.value = state.observations
 	observation_input.custom_minimum_size.y = 40
 	observation_input.alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -171,7 +173,7 @@ func build_requirements(parent: Node) -> void:
 	observation_input.value_changed.connect(func(value):
 		state.observations = int(value)
 		refresh())
-	UI.label(box, "Range: 1–8", 11, "a5bed0")
+	UI.label(box, "Range: 1–20", 11, "a5bed0")
 	box = section(requirements, "06   MISSION DURATION")
 	UI.label(box, "Select the mission length.", 12, "a5bed0")
 	var durations = row(box)
@@ -185,16 +187,24 @@ func build_requirements(parent: Node) -> void:
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.add_theme_font_size_override("font_size", 12)
 		duration_buttons[duration] = button
-	box = section(parent, "07   BUDGET")
+	box = section(parent, "07   DATA RETURN GOAL")
+	UI.label(box, "Data that must reach the ground (decimal MB).", 12, "a5bed0")
+	data_input = SpinBox.new()
+	data_input.min_value = 1
+	data_input.max_value = 10000
+	data_input.value = state.required_returned_data_mb
+	box.add_child(data_input)
+	data_input.value_changed.connect(func(value): state.required_returned_data_mb = value; refresh())
+	box = section(parent, "08   BUDGET")
 	var budget_header = row(box)
 	UI.label(budget_header, "Set the total mission budget (credits).", 12, "a5bed0").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	budget_label = UI.label(budget_header, "", 15, "d9f5ff")
 	budget_label.custom_minimum_size.x = 110
 	budget_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	budget_input = HSlider.new()
-	budget_input.min_value = 60
-	budget_input.max_value = 150
-	budget_input.step = 10
+	budget_input.min_value = 1
+	budget_input.max_value = 300
+	budget_input.step = 1
 	budget_input.value = state.budget
 	budget_input.custom_minimum_size.y = 28
 	box.add_child(budget_input)
@@ -202,7 +212,7 @@ func build_requirements(parent: Node) -> void:
 		state.budget = int(value)
 		refresh())
 	var ticks = row(box)
-	for value in range(60, 151, 10):
+	for value in [1, 50, 100, 150, 200, 250, 300]:
 		var tick = UI.label(ticks, str(value), 11, "8cabc0")
 		tick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 func build_summary() -> void:
@@ -215,12 +225,10 @@ func build_summary() -> void:
 	box.add_child(HSeparator.new())
 	UI.label(box, "SUCCESS CONDITION", 13, "4ceaa9")
 	success_label = UI.label(box, "", 14, "b4e6d5")
-	UI.label(box, "Mission definition only. Results and readiness remain mock data.", 11, "7d9daf")
+	UI.label(box, "Launch checks use your selected parts. Results follow the actions taken during the mission.", 11, "7d9daf")
 func set_target_limit(limit: int) -> void:
 	target_limit = limit
 	state.target_limit = limit
-	while state.targets.size() > limit:
-		state.targets.pop_back()
 	refresh()
 func toggle_target(target: String) -> void:
 	if target in state.targets:
@@ -267,8 +275,9 @@ func refresh() -> void:
 		bar.show_percentage = false
 		bar.custom_minimum_size.y = 5
 		coverage_rows.add_child(bar)
-	next_button.disabled = state.name.strip_edges().is_empty()
-	next_button.tooltip_text = "Enter a mission name to continue." if next_button.disabled else "Continue to spacecraft design"
+	var reviewed: Dictionary = Workflow.review(state)
+	next_button.disabled = reviewed.checks.input_schema.passed != true or reviewed.checks.catalog_references.passed != true
+	next_button.tooltip_text = "Correct the mission fields and choose one supported target to continue." if next_button.disabled else "Continue to spacecraft design"
 func responsive() -> void:
 	if not is_instance_valid(summary_column):
 		return

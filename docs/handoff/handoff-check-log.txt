@@ -1,0 +1,81 @@
+The Windows certificate-store message in these local checks did not prevent offline catalog loading, validation or saving results. No network call is part of validation.
+
+check_documented_example: actual project public calls, 2026-11-14; exit 0
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+{
+  "checks": {
+    "budget": {
+      "message": "Design and launch costs fit the budget.",
+      "passed": true,
+      "status": "pass"
+    },
+    "catalog_references": {
+      "message": "All selected IDs were found in their proper categories.",
+      "passed": true,
+      "status": "pass"
+    },
+    "essential_power": {
+      "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+      "passed": true,
+      "status": "pass"
+    },
+    "input_schema": {
+      "message": "Mission fields are valid.",
+      "passed": true,
+      "status": "pass"
+    },
+    "launch_orbit": {
+      "message": "Profile, launcher and orbit are compatible.",
+      "passed": true,
+      "status": "pass"
+    },
+    "launcher_capacity": {
+      "message": "Spacecraft fits the launcher capacity for this orbit.",
+      "passed": true,
+      "status": "pass"
+    },
+    "profile_mass": {
+      "comparator": "<",
+      "message": "Spacecraft mass meets the selected profile rule.",
+      "passed": true,
+      "profile_id": "cubesat_1u_sample",
+      "source_id": "cubesat_101_1u_sample",
+      "status": "pass",
+      "threshold_g": 1330,
+      "total_mass_g": 1060
+    },
+    "target_orbit": {
+      "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+      "passed": true,
+      "status": "pass"
+    }
+  },
+  "errors": [],
+  "metrics": {
+    "baseline_power_w": 2.0,
+    "battery_capacity_wh": 25.0,
+    "data_per_observation_mb": 12.0,
+    "downlink_mb_per_hour": 48.0,
+    "initial_energy_wh": 25.0,
+    "solar_generation_power_w": 3.0,
+    "storage_capacity_mb": 64.0,
+    "total_cost_credits": 82,
+    "total_mass_g": 1060
+  },
+  "ready_to_launch": true,
+  "schema_version": 1,
+  "warnings": []
+}
+
+check_result_snapshots: actual project public calls, 2026-11-14; exit 0
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Verified and saved valid_1u_feasible.json: ready=true, mass=1060 g, cost=82 credits
+Verified and saved overweight_1u_1380g.json: ready=false, mass=1380 g, cost=96 credits
+Verified and saved alternate_profile_1380g.json: ready=true, mass=1380 g, cost=116 credits
+K11 handoff: 3 real result snapshots verified and saved.

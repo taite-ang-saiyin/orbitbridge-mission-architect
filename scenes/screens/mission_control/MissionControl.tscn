@@ -1,5 +1,5 @@
 [gd_scene load_steps=2 format=3]
-[ext_resource type="Script" path="res://scripts/prototype/Screen.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/screens/MissionControl.gd" id="1"]
 [node name="MissionControl" type="VBoxContainer"]
 layout_mode = 3
 anchors_preset = 15
@@ -8,4 +8,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
-screen_id = "MissionControl"

@@ -1,6 +1,8 @@
 extends Control
 const SCREENS = ["MissionControl", "MissionCreator", "SpacecraftBuilder", "FlightReadiness", "MissionOperations", "DebriefCompare"]
-var state = preload("res://data/mock/DesignCatalog.gd").DEFAULTS.duplicate(true)
+const Workflow = preload("res://scripts/integration/mission_workflow.gd")
+var state = Workflow.new_draft()
+var flow_error: AcceptDialog
 var preferences = preload("res://scripts/settings/PrototypeSettings.gd").DEFAULTS.duplicate()
 var shell: Control
 var landing_host: Control
@@ -47,7 +49,7 @@ func _ready():
 	header.add_child(mark)
 	header.add_child(title)
 	var status = Label.new()
-	status.text = "◉  MISSION CONTROL     •     LOCAL PROTOTYPE"
+	status.text = "◉  MISSION CONTROL     •     TRAINING SIMULATOR"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
 	var home_button = Button.new()
@@ -79,7 +81,10 @@ func _ready():
 		link.text = entry[0]
 		link.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		link.custom_minimum_size.y = 46
-		link.pressed.connect(show_screen.bind(entry[1]))
+		if entry[0] == "＋  New Mission":
+			link.pressed.connect(begin_new_mission)
+		else:
+			link.pressed.connect(show_screen.bind(entry[1]))
 		sidebar.add_child(link)
 	var rail_spacer = Control.new()
 	rail_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -93,7 +98,7 @@ func _ready():
 	dashboard.add_child(host)
 	var footer = Label.new()
 	shell_footer = footer
-	footer.text = "PROTOTYPE / MOCK DATA   •   OrbitBridge Mission Lab"
+	footer.text = "ILLUSTRATIVE TRAINING MODEL   •   OrbitBridge Mission Lab"
 	footer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	footer.add_theme_font_size_override("font_size", 12)
 	layout.add_child(footer)
@@ -103,7 +108,12 @@ func _ready():
 	add_child(landing_host)
 	resized.connect(fit_shell)
 	fit_shell()
+	flow_error = AcceptDialog.new()
+	flow_error.title = "Mission check"
+	add_child(flow_error)
 	show_home()
+	if "--verify-demo" in OS.get_cmdline_user_args():
+		verify_demo.call_deferred()
 
 func fit_shell():
 	var padding = 18 if size.x >= 1250 else 12
@@ -135,6 +145,20 @@ func show_screen(index: int):
 		return
 	if index < 0 or index >= SCREENS.size():
 		return
+	# Guard every entry route, including sidebar and progress navigation.
+	if index in [1, 2, 3] and Workflow.is_operating(state):
+		show_flow_error("Finish or stop the current mission before editing its design.")
+		return
+	if index == 4 and state.get("active_run", {}).is_empty():
+		var started: Dictionary = Workflow.start_run(state)
+		if not started.ok:
+			show_flow_error(started.error.message)
+			return
+	if index == 5:
+		var evaluated: Dictionary = Workflow.evaluation(state)
+		if evaluated.is_empty():
+			show_flow_error("Finish the mission before viewing a result.")
+			return
 	clear_screen()
 	shell.show()
 	landing_host.hide()
@@ -155,3 +179,26 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F11:
 		preload("res://scripts/ui/DesktopWindow.gd").toggle(get_window())
 		get_viewport().set_input_as_handled()
+
+func show_flow_error(message: String) -> void:
+	flow_error.dialog_text = message
+	flow_error.popup_centered(Vector2i(440, 160))
+
+func begin_new_mission() -> void:
+	if Workflow.is_operating(state):
+		show_flow_error("Finish or stop the current mission before starting a new one.")
+		return
+	Workflow.reset(state)
+	show_screen(1)
+
+func verify_demo() -> void:
+	get_tree().create_timer(90).timeout.connect(func(): printerr("FAIL: Demo verification timed out"); get_tree().quit(1))
+	var verifier = preload("res://scripts/verification/demo_verification.gd").new()
+	var result: Dictionary = await verifier.run(self)
+	if not OS.has_feature("editor"):
+		var packaged: Dictionary = verifier.check_packaging()
+		print("Windows package checks: %d passed; %d failed." % [packaged.passed, packaged.failed])
+		result.passed += packaged.passed
+		result.failed += packaged.failed
+	print("Windows demo verification: %d checks passed; %d failed." % [result.passed, result.failed])
+	get_tree().quit(0 if result.failed == 0 else 1)

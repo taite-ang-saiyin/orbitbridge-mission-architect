@@ -1,0 +1,235 @@
+{
+  "date": "2026-11-14",
+  "timezone": "Asia/Rangoon",
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "target": "Windows x86_64 first demo",
+  "user_selected_target": true,
+  "team_review": {
+    "status": "User confirmed team Windows-demo acceptance",
+    "individual_manual_case_signatures": "Not supplied; not claimed"
+  },
+  "source_checks": {
+    "passed": 1706,
+    "failed": 0,
+    "programs_exit_zero": 9,
+    "legacy_simulator_has_no_count": true,
+    "ke2_original_pending_declarations": 5
+  },
+  "exported_checks": {
+    "scene_assertions": 40,
+    "package_assertions": 21,
+    "total_passed": 61,
+    "failed": 0,
+    "headless_exit": 0,
+    "graphics_exit": 0
+  },
+  "executable": {
+    "filename": "OrbitBridge.exe",
+    "bytes": 122049632,
+    "sha256": "4a92cde101e8562f4e4f98e5c13e03a5f6afdfd193804023423072bd28718b88",
+    "embedded_data": true
+  },
+  "scenario_results": [
+    {
+      "error_codes": [],
+      "id": "starter",
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    },
+    {
+      "error_codes": [
+        "PROFILE_MASS_EXCEEDED"
+      ],
+      "id": "heavy_camera_1380g",
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 96,
+        "total_mass_g": 1380
+      },
+      "ready_to_launch": false
+    },
+    {
+      "error_codes": [
+        "PROFILE_MASS_EXCEEDED",
+        "LAUNCHER_CAPACITY_EXCEEDED"
+      ],
+      "id": "heavy_camera_small_launcher_1580g",
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 50.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 50.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 106,
+        "total_mass_g": 1580
+      },
+      "ready_to_launch": false
+    },
+    {
+      "error_codes": [
+        "BUDGET_EXCEEDED"
+      ],
+      "id": "passing_mass_failing_budget",
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": false
+    },
+    {
+      "error_codes": [
+        "INVALID_VALUE"
+      ],
+      "id": "unsupported_target",
+      "metrics": null,
+      "ready_to_launch": false
+    },
+    {
+      "id": "high_inc_completed",
+      "report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "Both mission requirements were met. 4/4 observations captured and 48.0/30 MB received on Earth. 0.0 MB remain onboard.",
+        "mission_id": "mission_0003",
+        "next_experiment": "Keep the scenario and targets fixed and change one operation on the next attempt.",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 4,
+        "required_observations": 4,
+        "required_returned_data_mb": 30,
+        "returned_data_mb": 48.0,
+        "root_causes": [],
+        "run_id": "run_0001",
+        "run_status": "completed",
+        "schema_version": 1,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      }
+    },
+    {
+      "id": "low_eq_completed",
+      "report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "Both mission requirements were met. 4/4 observations captured and 44.3200000032/30 MB received on Earth. 3.67999999679999 MB remain onboard.",
+        "mission_id": "mission_0004",
+        "next_experiment": "Keep the scenario and targets fixed and change one operation on the next attempt.",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 4,
+        "required_observations": 4,
+        "required_returned_data_mb": 30,
+        "returned_data_mb": 44.3200000032,
+        "root_causes": [],
+        "run_id": "run_0003",
+        "run_status": "completed",
+        "schema_version": 1,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      }
+    }
+  ],
+  "template_download": {
+    "source": "https://godot-releases.nbg1.your-objectstorage.com/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz",
+    "version": "4.7.2.stable",
+    "archive_size": 1281349702,
+    "downloaded_range_bytes": 75487302,
+    "entries": {
+      "version.txt": {
+        "size": 13,
+        "crc32": "44969cbd",
+        "sha256": "38885c88f75abbc797a1db7559719800279a00cfb9fa8b2e2868a7f6f84bad2e"
+      },
+      "windows_release_x86_64.exe": {
+        "size": 109268480,
+        "crc32": "1ee85628",
+        "sha256": "d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562"
+      },
+      "windows_debug_x86_64.exe": {
+        "size": 103176704,
+        "crc32": "aa0a0164",
+        "sha256": "51498b72b3a237f882ebd7d1787f06a4bc1eaf0572daab93837adcfd3cfdc107"
+      }
+    },
+    "integrity": "Official HTTPS archive, version checked, complete entries passed ZIP CRC; SHA256 of extracted files recorded. Full TPZ SHA512 not computed because unrelated platform entries were not downloaded."
+  },
+  "runtime_input_sha256": {
+    "scripts/MissionController.gd": "24f9ca1b4e4eebf2a6e762a08ac48fe88e97d8843e41687346ad82b6177a1742",
+    "scripts/core/catalog_loader.gd": "5ad3b28af9787059162a7c5e9da900377bf181860d57224da36a005706fde2eb",
+    "scripts/core/mission_validator.gd": "96c00bfff676b145b1dc07ac36b33497a13424966ff726bd6bc6928d6f7a2b2c",
+    "scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+    "scripts/evaluation/mission_evaluator.gd": "bb2c37afef4c4359c84bbe9df96f8a3a5526c691a284e361312e581d5c066478",
+    "scripts/evaluation/mission_feedback.gd": "4e5dbbba4c544a10601a334c8cf2040b49986935130ed94acccba9d3237895be",
+    "scripts/integration/design_catalog.gd": "8aaa8273952c8ebca26b14e57a1528a644e34636cb735b68163776d828a8150c",
+    "scripts/integration/mission_workflow.gd": "43f763ccbe32f1d65e1461e651b6497eb256c3282d0b04e9da08982bd4d37cf6",
+    "scripts/prototype/Screen.gd": "c433a23a4885746b84237028205ff9df6961a6f576397960ba5f94a88814a6e8",
+    "scripts/screens/DebriefCompare.gd": "95e44a24bb2802d4375be84a375f7af0d3abd67113232f889238dd5e3d624fc9",
+    "scripts/screens/FlightReadiness.gd": "29a2d6218e5162180eedf59bf4c7060b1291bb42b0fe50828b9addb77c87521f",
+    "scripts/screens/Home.gd": "262e43879a37a75edc4008c86619ec42bb4ffb16102e4b5e480ccb44c7dfcf46",
+    "scripts/screens/MissionControl.gd": "24e49729de0121b62fb684998bc9435c3e33c42abc13cafc4d6b34d5b2b15184",
+    "scripts/screens/MissionCreator.gd": "8a13e2833c3f640f04769a7cc8e8f0407284d6155c81da387ff99ff36e280d1d",
+    "scripts/screens/MissionOperations.gd": "c8ccf46b7178f6b87ba76338c6bc284d4b79068010b50c2097efbde3a8d190db",
+    "scripts/screens/SpacecraftBuilder.gd": "fe8606f9e70e1da51ecf1fb33d07a565d8a054ec46e7dabb6676b5cebe0a6f44",
+    "scripts/screens/Workbench.gd": "3530eb7adfc25e81b0715038f95671baff823dc6bbdb64ff4cdffa4019e9612f",
+    "scripts/settings/PrototypeSettings.gd": "538251020c36c9bb0ff52440692300d3efb1318080861ccf370a6cf1b9784fd3",
+    "scripts/ui/DesktopWindow.gd": "c0a3821b203bda23a27f7dee3be8d20ce3b169dae75f3fdf9f90e6dd1ad98d45",
+    "scripts/ui/ResponsiveMetrics.gd": "73a0d1f5e16aa7dbb4a7ab549660f8403012d612270944d2c0b7dbdce2c8a7bc",
+    "scripts/ui/SettingsPanel.gd": "b013ae6f1d3353ea97928902366b93819cf78c40bdbb0663024813571b2b902a",
+    "scripts/verification/demo_verification.gd": "4154f8a8f31c1dca9c80e1964a31181b8c7c2b14398ce0704a712592c3337cbd",
+    "scripts/visualization/CraftPreview.gd": "776831621c4ed8618d4d9b58faf44a344733d90b72b5e925e41f150f29bf0bbc",
+    "scripts/visualization/OperationsOrbitViewport.gd": "77d39315c94e2c623aad96260067a999b8cb6a156d9f64edc4fa3c8cfc4d1094",
+    "scripts/visualization/OperationsStage.gd": "3b4072c70fbd5ecd41efb92c860b52132daab35d07947067104b5962ebf10bde",
+    "scripts/visualization/OrbitStage.gd": "bc5a28552dd08f7af6bf536440d3568db98a17e5eedc51eea9835e461cb27755",
+    "scripts/visualization/PreviewDemo.gd": "29156cb45915b5389e7ed6721f66573859f7982e4f0af08e1f2f5e5dce356971",
+    "scripts/visualization/SatelliteAssembly.gd": "fb152525108123eb3663fbf63faada3b4e819c4ff24e248abba06955e006d554",
+    "core/HPCContractAdapter.gd": "f8d4dffc2ce34088d9b5ec2536ae8e49ef59059210859da6bf5dc216f95ec2b7",
+    "core/MissionSimulator.gd": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+    "core/MissionStepEngine.gd": "caae675e3b013165688d54c220e284926072a0345f4c4c9e2069aa400ac71252",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "data/components.json": "0ac0b09adbb8753f05185b9b1199f895fc7e37dea1ff012b7d21e0c450d9ecdd",
+    "data/ke1_reference_ids.json": "8c1304890764bee88cd116be56fea00923800ed84c105396f1c3fca5896c69d1",
+    "data/launchers.json": "69cf6edb4ea79454d27a2b16a59f5e5348227adab2bd5c0cb13fad72ff70e116",
+    "data/launch_profiles.json": "91d7e9d9a9f4c6831de84a5f6a513e395d0f6432bc93b00d2d3b10cc305b81d6",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "data/fixtures/hpc_catalog.json": "d36cd97c9f5e73d8d81a7e6ce50fa1532c7587bb827ca5c9c0bdf70af20aff68",
+    "data/fixtures/hpc_golden_radio_ab.json": "b46ec5db52398d9dfc160f09439ebafbeb103ecc3fb38f19a3fa6aadecd73bb3",
+    "data/mock/DesignCatalog.gd": "4dbc3e65e3bc377101cb8a1cb2be39faaa3e45b25445766ef8730a0d17149a09",
+    "data/mock/OperationsFixture.gd": "d5e0b1b5541bb02d17a05fccfd3e48cce4d9b49bbf7503a603d5ebbe39df90d4",
+    "data/mock/PrototypeData.gd": "e1c84be1a2e44f111760c2b910e7d9f581e136e9eb6ec332bf8ab0bb1f5b0ce3",
+    "data/mock/ReadinessFixture.gd": "9389def7ecca6705c2a1c72fb4377fb4f1662b54cd1814796a5d151e1f3c6cbd",
+    "data/mock/SatelliteAdapter.gd": "b9a92248bf5c6f588b99b48d93522e1f160741c0a27a37a3f3775a2a92bd4025",
+    "project.godot": "8a0b3d2e0b121bcbd13c420ff0721133fafc62c4f8f2b4a5a79d72a454ce13c4",
+    "export_presets.cfg": "0891d06060b323eb4fb3f69727467031555a5d9eab6539cc934842402865af9d"
+  },
+  "not_tested": [
+    "Browser export",
+    "Another computer",
+    "Native desktop mouse automation",
+    "Optional controlled A/B comparison"
+  ]
+}

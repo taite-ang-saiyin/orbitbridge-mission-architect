@@ -40,6 +40,8 @@ tests/fixtures/                      KE1 handoff examples
 
 ## Handoffs
 
+K11 package: [KE1 handoff to SE, HPC and KE2](ke1-handoff.md), prepared locally on 14 November 2026. Includes public calls, units, valid/overweight results, source credit and actual test evidence. No push, message or teammate receipt is claimed. K12/K13 player-flow integration remains next.
+
 | When | From -> to | Concrete deliverable |
 | --- | --- | --- |
 | Saturday 10:30 | KE1 + SE + HPC + KE2 | Agreed contract, units, IDs, validation interface |

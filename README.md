@@ -6,21 +6,21 @@ The project uses Godot 4.7.2 and GDScript. It includes an interactive desktop UI
 
 ## Current development status
 
-The repository contains both the visual prototype and the engineering modules. The main application still uses mock fixtures for parts of its readiness, operations, and debrief workflow. The KE1 validator and HPC simulator can be exercised independently through their APIs and tests. A complete UI-to-simulator-to-evaluator walkthrough remains an integration task.
+The active application connects Creator, Builder and Readiness to real KE1 checks, HPC operations and KE2 evaluation. K15 combines stable KE1 work with current main's simulator fixes and current KE2 runtime support. All 12 active test programs pass: 1790 counted assertions plus the legacy, Home/settings, layout and 3D checks. The separately rebuilt Windows app passes 61 checks headlessly and with graphics. See [K15 integration](docs/k15-integration.md) and [Sunday open work](docs/sunday-blockers.md).
 
 | Area | Available in this checkout |
 | --- | --- |
 | Application shell | Home, Settings, Mission Control, screen navigation, and responsive desktop layout |
 | Mission Creator | Mission name, description, objectives, target selection, observation goal, duration, budget, and illustrative coverage preview |
-| Spacecraft Builder | Component selection, interactive 3D preview, and modular Body/Solar Panels/Radio choices with 27 visual combinations |
-| Flight Readiness UI | Expandable checks, spacecraft/orbit preview, resource gauges, and prototype readiness displays |
-| Operations UI | 3D orbital view, telemetry panels, event filtering, playback controls, and ground-track display driven by mock fixtures |
-| Debrief UI | Prototype Run A/Run B displays and navigation back to spacecraft design |
+| Spacecraft Builder | Six real catalog slots, calculated mass/cost/resources, profile/launcher/orbit choices and illustrative 3D preview |
+| Flight Readiness UI | All eight real checks, current totals, blocking explanations and the source-backed sample mass credit |
+| Operations UI | Real HPC actions/state/events, 3D orbit presentation, automatic stepping, live counters and operator abort |
+| Debrief UI | Real KE2 score/status/feedback, one report per run, run history, retry and New Mission; optional A/B comparison remains pending |
 | KE1 engineering module | Component and launcher catalogs, mission configuration validation, and readiness results |
 | HPC engineering module | Validated run initialization, step actions, resource accounting, ordered events, operator abort, and next-step predictions |
-| KE2 evaluation handoff | Agreed report contracts and HPC evidence bundles; the KE2 evaluator is maintained on its own team branch and is not present in this checkout |
+| KE2 evaluation handoff | Current evaluator/feedback, native HPC-state adapter, terminal-reason support and owner regression tests |
 
-Prototype UI fields and fixture values can differ from the agreed v1 engineering contract. Use the [shared contracts](docs/contracts.md) when connecting modules.
+The active UI explicitly maps selected goals and part IDs to the [agreed v1 contract](docs/contracts.md). Prototype mocks remain historical/presentation helpers and do not authorize launch or compute active reports.
 
 ## Run the project
 
@@ -33,17 +33,17 @@ The main scene is `scenes/Main.tscn`. It starts at the Home screen. For the stan
 
 The application starts in fullscreen mode. Press **F11** to switch between fullscreen and a resizable window. The design canvas is 1440 x 900, with responsive layouts for smaller windows. Use **Tab** to move keyboard focus between controls.
 
-The configured rendering method is Compatibility (`gl_compatibility`). Final Windows/Web packaging and export verification are coordinated by SE.
+The rendering method is Compatibility (`gl_compatibility`). Windows x86_64 is the confirmed first demo. Its real exported flow is verified; browser export remains separate and untested.
 
 ## Explore the application
 
 1. **Home and Settings:** Start a mission, adjust the theme or available language settings, or quit. The mission workflow is in English; Home and Settings also offer Simplified Chinese.
-2. **Mission Control:** Create a mission or explore the available presets.
+2. **Mission Control:** Create a mission or resume the current run.
 3. **Mission Creator:** Define the mission and inspect the target/orbit coverage preview. Confirm that the summary updates when selections change.
-4. **Spacecraft Builder:** Choose components and inspect the spacecraft using rotation, zoom, exploded view, and subsystem highlighting. Body, Solar Panels, and Radio selections carry through to the Readiness and Operations models.
-5. **Flight Readiness:** Explore the checks and resource displays. The prototype screen's launch behavior should not be treated as proof that the engineering validator approved a mission.
-6. **Mission Operations:** Use Play, Pause, Step, playback speeds, and Skip to End. Select events to inspect the corresponding telemetry and visual state. Current UI playback uses mock mission data.
-7. **Debrief:** Explore the prototype comparison, modify the design, or start a new mission.
+4. **Spacecraft Builder:** Choose real bus, camera, solar, battery, radio and storage parts. Inspect the illustrative rotating/zoomable preview and calculated totals. Art does not define engineering capability.
+5. **Flight Readiness:** Resolve failed checks; Launch revalidates current inputs and is enabled only when every required check passes.
+6. **Mission Operations:** Use Observe, Send data, Save power, automatic stepping or Run to end. Available actions, counters, energy and events come from the real HPC engine.
+7. **Debrief:** Read the actual report, retry the same mission, modify the design or start a new mission. Controlled comparison is not yet implemented.
 
 The top navigation and Back/Continue controls let users explore the workflow. Check that controls remain accessible when resizing the window.
 
@@ -147,17 +147,16 @@ On Windows, the combined runner accepts an explicit Godot path. Replace the exam
 powershell -NoProfile -ExecutionPolicy Bypass -File tests/run_hpc_checks.ps1 -Godot 'C:\Tools\Godot\Godot.exe'
 ```
 
-### UI and 3D checks
+### Full active checks and Windows build
 
-```sh
-godot --headless --path . --script tests/prototype_smoke.gd
-godot --headless --path . --script tests/modular_reference_smoke.gd
-godot --headless --path . --script tests/satellite_selection_smoke.gd
-godot --headless --path . --script tests/design_workflow_smoke.gd
-godot --headless --path . --script tests/3d/preview_smoke.gd
+```powershell
+.\tests\run_all_checks.ps1 -GodotExe 'C:\Tools\Godot\Godot.exe'
+.\scripts\build_windows.ps1 -GodotExe 'C:\Tools\Godot\Godot.exe' -Verify
 ```
 
-Additional screen-specific checks are in `tests/`. Headless checks do not establish visual quality or exported-build behavior; inspect the application and the selected export target separately.
+Use your installed Godot 4.7.2 executable path. The first command runs all 12 active programs, including real-flow acceptance, Home/settings, responsive layout and isolated 3D preview. Seven obsolete scripts that assert fixed mock data are explicitly preserved under tests/archive/mock_prototype/; they are not the current contract. Generated logs/builds go under ignored exports/.
+
+The Windows build embeds runtime data and excludes source docs/tests. It supports an explicit `-- --verify-demo` check; normal startup opens Home. Inspect the chosen export target separately after changes. Personal AGENTS.md, GEMINI.md and tasks.md stay outside shared main; use the shared docs for team handoff.
 
 ## Team ownership and collaboration
 
@@ -173,6 +172,8 @@ Follow the [team agreement](docs/team-agreement.md) and [implementation contract
 
 ## Further documentation
 
+- [K15 integration and test evidence](docs/k15-integration.md)
+- [Sunday required checks and optional work](docs/sunday-blockers.md)
 - [HPC integration and evidence bundles](docs/hpc-integration.md)
 - [Team agreement](docs/team-agreement.md)
 - [Shared implementation contracts](docs/contracts.md)

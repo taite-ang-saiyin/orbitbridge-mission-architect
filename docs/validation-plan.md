@@ -1,8 +1,12 @@
 # KE1 validation and test plan
 
-Status: production validator test plan. K01-K04 now include documentation-only interface mocks and local structural/example checks, plus a headless load of a temporary project copy. No production validator tests or gameplay simulation fixtures have been implemented or executed.
+Status: K15 stable integration verified. All 12 active programs pass: KE1 294 + 671 + 470, current HPC 48, current KE2 205, mission flow 32, screen flow 30, K14 acceptance 40 = 1790 counted assertions with zero failures; legacy simulator/Home/layout/3D programs also exit 0. The merged Windows app passes 61 checks in headless and graphical modes. KE2's five original pending declarations remain; optional A/B comparison, another-computer testing and final Sunday review are recorded separately in sunday-blockers.md. Use tests/run_all_checks.ps1 and docs/k15-integration.md for the current entry point/evidence.
 
 Authority: [contracts.md](contracts.md), aligned to team-agreement.md v1.0-agreed. Public rates use downlink_mb_per_hour, energy uses Wh, and data uses decimal MB (1000 KB = 1 MB). The current fixtures in contracts/v1-draft/ are documentation examples with consistency checks, not production-test results.
+
+## Current stage
+
+All eight checks and nine metrics are implemented. Valid designs pass only with usable HPC orbit metadata and no failed/unevaluated required check. Missing metadata is an explicit blocking issue. Actual native HPC target_windows are read from orbit_catalog; hypothetical mutations in tests do not alter the source file. Actual catalogs keep hourly radio rates and labeled training values.
 
 ## Validation order
 
