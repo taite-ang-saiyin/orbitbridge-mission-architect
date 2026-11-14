@@ -10,7 +10,7 @@ Owner KE2. Prepared 14 November 2026 for KE1, HPC, SE, and KE3 against `v1.0-agr
 | HPC | Terminal state, run/mission identity, ordered events, received/stored MB, successful capture count | Native engine completion, blocked transmission, and operator abort verified at b9817c3 |
 | SE | Immutable launch config, terminal evaluation call, error handling, one report per run, retry/reset state | Controller call sites and complete lifecycle verification pending |
 | KE2 | Structured evaluation wrapper with score, status, evidence, and next experiment | Evaluator, feedback, tests, ledger, and recorded report available |
-| KE3 | Rendered report, event references, retry interaction, and source credits | Field meanings and recorded payload supplied below, actual screen verification pending |
+| KE3 | Rendered report, event references, retry interaction, and source credits | Recorded-preview source/hashes/logs/screenshots reviewed; integrated controller lifecycle pending |
 
 ## Invocation
 
@@ -102,6 +102,32 @@ The sample carries `launch_approved: false`. Its verification covers the recorde
 5. Retry starts a fresh run with fresh counters/events and preserves an eligible baseline. New Mission clears the baseline.
 6. KE3 renders the report and resolves event/source references from the same attempt.
 
-Actual controller/Results bindings, mass boundary evidence, source-credit lookup, and export behavior await their owner handoffs. Native producer abort metadata is verified as the `terminal_reason` string at b9817c3. The older `abort_reason` string/dictionary boundary remains supported. The existing recorded sample uses empty source IDs. [NASA integration evidence](nasa-sources.md), [HPC runtime verification](hpc-integration.md).
+Actual controller wiring and export behavior await SE's integration revision. KE1's recorded mass-boundary evidence and KE3's Results/credit-preview evidence have been reviewed. Native producer abort metadata is verified as the `terminal_reason` string at b9817c3. The older `abort_reason` string/dictionary boundary remains supported. The existing recorded sample uses empty source IDs. [NASA integration evidence](nasa-sources.md), [HPC runtime verification](hpc-integration.md).
 
 Optional controlled retry comparison remains P1. The agreement requires completed eligible attempts with matching scenario, goals, and duration, plus preserved design/action metadata for changed-choice explanations. Current output is `comparison: null`. [Lifecycle and comparison contract](../contracts.md#9-controller-migration-lifecycle-and-comparison).
+
+## Reviewed KE3 Results preview
+
+KE3 supplied `data/ke3-results-verification` for run `ke3_validated_1u_55d4f33_9dfd942_20261114_01`. KE2 checked all 64 source/evidence hashes and all 16 named input hashes, compared copied inputs/report/metadata with the originals, reviewed recorded command outcomes, and inspected four screenshots. The source manifest SHA256 is `e1f86bc937c5b0dc87f0a33a07e60e1395156c593cc0a00940ab59fe421b1256`. [Source manifest](../../data/ke3-results-verification/SOURCE_SHA256.json), [owner verification notes](../../data/ke3-results-verification/verification/KE2_REPLY_CHECKS.md).
+
+| Consumer detail | Reviewed implementation or evidence |
+| --- | --- |
+| Results scene | `ke3/results_control.tscn` |
+| Script and method | `ke3/debrief_screen.gd`, `set_inputs(context, state, report)` |
+| Preview entry | `preview/ke2_validated_preview.tscn` |
+| Report argument | Unwrapped `evaluation.report` dictionary |
+| Identity | Context, state, report, and linked event history refer to the same run |
+| History | Preview provider places original ordered history into presentation `state.events` |
+| Credit context | `context.applicable_source_credits` carries scoped readiness and feedback-vocabulary records |
+| Display | partial/completed, score 25, 1/4 observations, 7.7333333328/30 MB, 25%/25.78%, and onboard summary |
+| Evidence fallback | Missing `evt_008` shows Evidence Unavailable while retaining the supplied report |
+| Edge cases | Empty causes, synthetic abort/null score, and exact contract-error wrappers covered in owner preview tests |
+| Focused checks | Owner recorded 63 headless and 67 windowed, zero failures |
+| Additional edge checks | Owner recorded 24 headless and 29 windowed, zero failures |
+| Revision | Local uncommitted preview source, identified by the supplied manifest. KE3 commit SHA remains unavailable |
+
+KE2's review used the supplied source, hashes, logs, and screenshots. It preserves the execution attribution to KE3. Report payload correction is unnecessary for this reviewed presentation path.
+
+SE needs to coordinate a presentation-state projection from HPC's native cumulative `event_log` to KE3's `state.events`, with original order and run identity retained. Evaluation consumes the native state. Results consumes the unwrapped report together with context and presentation state. This mapping is verified in the recorded provider and awaits the integrated controller binding. [Reviewed provider](../../data/ke3-results-verification/preview-source/preview/ke2_recorded_provider.gd), [reviewed Results source](../../data/ke3-results-verification/preview-source/ke3/debrief_screen.gd).
+
+Controller-driven reopening, Retry, New Mission, duplicate publication, and error routing remain pending. B02, official B10, export checks, and source-link opening remain pending. The supplied preview identifies its local source bytes independently of the reported clean team checkout at `main@1a82ebd93a019b751947965aa760e8e759d8f45b`.

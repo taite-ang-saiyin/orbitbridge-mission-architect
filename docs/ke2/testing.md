@@ -32,6 +32,8 @@ Each invocation should exit 0. The runner prints each executed result, expected/
 | Prompt 7 standalone adapter | 165 passed, 0 failed, 5 pending, exit 0 | `tmp/ke2-prompt7-local-tests.log` |
 | Prompt 7 combined KE1/HPC/KE2 | 205 passed, 0 failed, 5 pending, exit 0 | `tmp/ke2-prompt7-integrated-tests.log` |
 | Prompt 7 unchanged producer suite | 31 passed, exit 0 | `tmp/ke2-prompt7-producer-tests.log` |
+| KE3 supplied focused Results preview | 63 headless / 67 windowed, zero failures | `data/ke3-results-verification/evidence/validated-*.log` |
+| KE3 supplied additional display/error cases | 24 headless / 29 windowed, zero failures | `data/ke3-results-verification/evidence/ke2-reply-edges-*.log` |
 
 T01's intentional failed expectation was restored before the final passing Prompt 4 run. Local `tmp` logs and the trace/export helper are ignored scratch artifacts. The shared HPC report and its provenance are retained under `docs/handoffs/`. These results describe prior executions reviewed during documentation preparation. [Task evidence](../ke2-todo.md), [HPC verification](../handoffs/ke2-hpc-report-v0.1.md).
 
@@ -53,8 +55,8 @@ Unless specified otherwise, the mission targets are 3 observations and 30 MB rec
 | T08 | Baseline unavailable or ineligible | `comparison: null` | Dedicated eligibility cases pending |
 | T09 | Relevant recognized blocked event | Cause, matching evidence ID, corrective experiment | Passed fixture suite, plus recorded NO_LINK_WINDOW trace |
 | T10 | Unknown, missing, irrelevant, or invalid cause evidence | Neutral summary and empty causes | Passed fixture suite |
-| T11 | Sample 1U at 1329 g, other readiness checks valid | Mass check passes | Actual KE1/Builder execution pending |
-| T12 | Sample 1U at 1330/1331 g, plus profile switching | Sample mass check fails at both masses, other profile uses its rules | Actual KE1/Builder execution pending |
+| T11 | Sample 1U at 1329 g, other readiness checks valid | Mass check passes | KE1 recorded fixture passed at 55d4f33, independent KE2 rerun/Builder pending |
+| T12 | Sample 1U at 1330/1331 g, plus profile switching | Sample mass check fails at both masses, other profile uses its rules | KE1 recorded fixtures passed at 55d4f33, independent KE2 rerun/Builder pending |
 | T13 | Zero target | Structured input error | Evaluator passed, KE1 integration pending |
 | T14 | Abort, including after meeting both targets | `failed`, null score, actuals retained | Passed fixture suite |
 
@@ -62,7 +64,9 @@ Additional assertions cover negative/nonfinite values, fractional counts, wrong 
 
 ## Remaining integration checks
 
-The runner still prints five pending groups for T07, T08, T11, T12, and the combined lifecycle. The pinned combined run verifies actual readiness-approved initialization, completion, block evidence, and abort handling. In that run the pending lifecycle label lists Results, duplicate publication, and retry/reset. The current KE2 checkout lacks producer modules, so its standalone run also retains the HPC runtime portion of the pending label. Actual Results bindings, duplicate terminal notifications, New Mission reset, retry history, visible credits, and the selected export remain pending.
+The runner still prints five pending groups for T07, T08, T11, T12, and the combined lifecycle. The pinned combined run verifies actual readiness-approved initialization, completion, block evidence, and abort handling. In that run the pending lifecycle label lists Results, duplicate publication, and retry/reset. The current KE2 checkout lacks producer modules, so its standalone run also retains the HPC runtime portion of the pending label. KE3's recorded-preview bindings, visible scoped credits, and display/error edge cases now have reviewed owner evidence. SE-integrated Results bindings, duplicate terminal notifications, New Mission reset, retry history, and the selected export remain pending.
+
+The KE3 packet review verified 64 supplied source/evidence hashes and all 16 named input hashes, inspected its source seam and recorded logs, and visually checked four supplied screenshots. The 63/67 and 24/29 counts are owner executions. A new KE2 UI test was not run during this review. Its preview is local and uncommitted, identified by `SOURCE_SHA256.json`. B02 and official B10 remain pending. [Consumer evidence and history mapping](integration-handoff.md#reviewed-ke3-results-preview).
 
 Optional comparison needs its implementation before T07/T08 can establish eligibility and deltas. Mass checks need KE1's validator and SE's Builder. UI and export checks need SE/KE3. Record the owner revision, inputs, observed results, and build evidence when those checks run. [Integration handoff](integration-handoff.md), [KE2 checklist](../ke2-todo.md).
 

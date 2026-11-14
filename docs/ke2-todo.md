@@ -3,7 +3,7 @@
 Owner: KE2  
 Planning basis: v1.0-agreed, updated 14 November 2026
 
-Current stage: Prompt 7 native HPC adapter verified against pinned KE1/HPC modules; controller/Results lifecycle and NASA boundary/credit integration pending
+Current stage: KE3 recorded Results/credits preview evidence reviewed; SE-integrated lifecycle, independent mass-boundary rerun, and release verification pending
 
 Update this checklist after each KE2 task. Use the team's recorded decisions to update pending tasks and expected results. The API names and policies below follow the agreed v1 contract. Independent preparation and labeled fixtures can proceed while runtime handoffs are being implemented. Mark a task complete when its stated evidence is available. Record blocked tasks with the dependency owner and missing input.
 
@@ -34,10 +34,10 @@ Completion evidence: agreed KE2 fields/policies, corrected report examples, name
 
 ## 2. Obtain producer and controller handoffs
 
-- [ ] Receive KE1's configuration and readiness handoff.
-  - [ ] Obtain valid and overweight fixtures with real component, launcher, orbit, and profile IDs.
+- [x] Receive KE1's configuration and readiness handoff.
+  - [x] Locate valid, overweight, boundary, and alternative-profile fixtures in KE1 commit `55d4f33`, together with its runner and recorded results.
   - [x] Confirm `required_observations` and `required_returned_data_mb` names and allowed ranges.
-  - [ ] Obtain the sample-1U source ID, strict comparator, threshold, and actual validator entry point.
+  - [x] Obtain the sample-1U source ID, strict comparator, threshold, and actual validator entry point `MissionValidator.validate(config, catalogs)` from `55d4f33`.
   - [x] Synchronize `docs/contracts.md`, `docs/validation-plan.md`, `docs/sources.md`, the NASA reference, and the canonical agreement when KE1 publishes them.
 - [ ] Receive HPC's terminal-state and event handoff.
   - [x] Inspect the two orbit IDs, scenario metadata, and step duration in pinned HPC catalogs and the v0.2 trace; execute the high_inc scenario with the real modules.
@@ -47,7 +47,8 @@ Completion evidence: agreed KE2 fields/policies, corrected report examples, name
   - [x] Confirm cumulative event ordering, referenced blocked-action IDs, and terminal/abort fields from real execution and the committed trace.
   - [x] Obtain a recorded trace with a successful observation, valid downlink, and blocked action. The existing `ke2-hpc-report-v0.1` handoff identifies HPC commit `ce478f94a918047c0449fe30bfffe18f368315fd` and records its evaluator verification.
 - [ ] Confirm SE/KE3's controller and Results handoff.
-  - [ ] Identify the actual initialize/action/evaluate/render call sites.
+  - [ ] Identify SE's actual initialize/action/evaluate call sites on the confirmed integration revision.
+  - [x] Identify KE3's supplied Results binding, `ke3/results_control.tscn` -> `ke3/debrief_screen.gd`, using `set_inputs(context, state, report)` in its manifest-pinned recorded preview.
   - [ ] Confirm launch snapshots, one report per run, retry baseline retention, and New Mission reset.
   - [ ] Confirm prototype-field migration and final selected mission requirements reach evaluation.
 
@@ -102,8 +103,8 @@ The table follows v1.0-agreed. Unless specified otherwise, targets are 3 capture
 | T08 | No eligible baseline | `comparison: null` | KE2 | Pending dedicated comparison check |
 | T09 | Returned-data shortfall and relevant blocked-transmit event | Feedback references the matching code/event and action | KE2 | Passed with the four recognized codes/actions and signed evt_007 fixture |
 | T10 | Missing, unknown, or irrelevant cause evidence | Neutral explanation, empty causes, concrete next experiment | KE2 | Passed, including malformed, conflicting, and foreign-run evidence |
-| T11 | Sample 1U profile at 1329 g, other checks valid | Mass check passes through KE1's actual validator | KE1 + KE2 + SE | Pending actual validator/UI |
-| T12 | Sample 1U at 1330 g and 1331 g, plus another profile | Sample mass check fails at both boundaries, other profile uses its rules | KE1 + KE2 + SE | Pending actual validator/UI |
+| T11 | Sample 1U profile at 1329 g, other checks valid | Mass check passes through KE1's actual validator | KE1 + KE2 + SE | KE1 recorded fixture passed at 55d4f33; independent KE2 rerun/Builder pending |
+| T12 | Sample 1U at 1330 g and 1331 g, plus another profile | Sample mass check fails at both boundaries, other profile uses its rules | KE1 + KE2 + SE | KE1 recorded fixtures passed at 55d4f33; independent KE2 rerun/Builder pending |
 | T13 | Either target zero | Agreed input error under v1.0 positive-only policy | KE2, align with KE1 | Passed evaluator checks; KE1 integration pending |
 | T14 | Aborted, including after both targets were reached | `run_status: aborted`, `status: failed`, null score, actuals preserved | KE2 | Passed |
 
@@ -157,13 +158,17 @@ Feedback handoff details: `build_feedback(report, final_state, events)` returns 
   - [x] Verify CubeSat 101's checklist locator and original mass criterion against the source.
   - [x] Record title, NASA organization, official URL, printed/PDF page, source ID, original units, conversion, strict comparator, and applicable profile.
   - [x] Record intended implementation locations, missing paths, required Builder display, and separate source/code/gameplay/report/credit/export statuses.
-  - [ ] Replace pending validator entry point, Builder path, and credits path with verified owner handoffs as they become available.
-  - [ ] Align `cubesat_101_1u_sample` with KE1's validator output and KE3's credit lookup.
+  - [x] Record KE1's verified-by-inspection validator entry point and pinned source/catalog revision in the ledger.
+  - [x] Record KE3's reviewed credit-rendering path and supplied source-manifest identity.
+  - [ ] Obtain SE's actual Builder display path and integrated credit-routing evidence.
+  - [x] Align `cubesat_101_1u_sample` with KE1's supplied validator outputs and boundary expectations.
+  - [x] Verify KE3's recorded-preview scoped credit display against the supplied ledger-derived attribution metadata. Integrated/export credit checks remain pending.
   - [x] Record NASA's mission-segment reference used by feedback code; retain MDL as planning-only and exclude unverified CML/GMAT implementation claims.
   - [x] Prepare consistent attribution text and official URLs for SE/KE3 and the submission owner; external publication is pending.
   - [x] Review Prompt 6 for missing metadata, invalid JSON, conversion/boundary errors, ID mismatches, broken references, credit drift, and unsupported integration claims. Correct the original prompt's locator to Appendix C, item 6, printed p.79 / PDF p.87.
 - [ ] Verify the sample-1U mass rule with KE1 and SE.
-  - [ ] Run T11/T12 through the actual validator with other readiness checks passing.
+  - [x] Review KE1's pinned validator, 15-case manifest, runner, and recorded log. Its 470-check fixture suite records the strict boundary and alternative-profile cases passing.
+  - [ ] Independently rerun T11/T12 through the pinned actual validator with other readiness checks passing.
   - [ ] Confirm profile switching, visible credit, and Launch behavior.
   - [ ] Record build/commit, expected/observed values, and screenshot or log evidence.
 
@@ -177,6 +182,8 @@ Prompt 6 completion review, 14 November 2026. Reopened the official NASA PDF and
 
 Remaining integration completion evidence: source metadata traces to an executed validator rule, a verified Builder display, and visible attribution in the selected export. T11/T12 remain pending; documentary arithmetic checks do not satisfy them.
 
+KE1 reply reviewed, 14 November 2026. The supplied `message_to_ke2.md` identifies branch `ke1`, commit `55d4f336e72a68ff31cf37e44f65a98c1cdcc193`. KE2 confirmed the referenced artifacts exist at that cached revision and inspected actual validator comparison code, the 15-case manifest, runner, saved result paths, and recorded log. The owner log reports 470 checks passed, zero failed, including 1329 g passing and 1330/1331 g failing, plus alternative-profile boundaries. Recorded this as owner test evidence in `data/nasa_sources.json` and replaced the KE1 request with an acknowledgement in `docs/ke2/team-requests.md`. An independent KE2 Godot rerun, interactive Builder/profile switching, visible credits, and export checks remain pending.
+
 ## 7. Integrate real simulation output and Results
 
 - [x] Implement and verify KE2's adapter against actual HPC terminal output in the pinned integration project.
@@ -186,15 +193,23 @@ Remaining integration completion evidence: source metadata traces to an executed
   - [x] Execute a real readiness-approved completed run, recorded `NO_LINK_WINDOW` block, committed v0.2 trace, and actual `abort_run` result.
   - [x] Verify repeated terminal evaluation is deterministic and preserves inputs and the launch snapshot.
 - [ ] Verify KE3's Results screen with SE/KE3.
+  - [x] Review the supplied validated run `ke3_validated_1u_55d4f33_9dfd942_20261114_01` and prepare remaining owner requests for controller/Results wiring, KE1 mass boundaries, source-credit display, and a release-version abort bundle. Requests are prepared for the user to send.
+  - [x] Draft separate copy-ready replies/requests for SE, KE3, KE1, and HPC in `docs/ke2/team-requests.md`, including the matching package, API/field requirements, owner tasks, and verification evidence. Link them from the KE2 documentation index.
+  - [x] Review KE3's source snapshot, all 64 source/evidence hashes, all 16 named input hashes, 14 recorded zero-exit command results, copied payloads, and four supplied screenshots. Record owner preview checks as 63/67 focused and 24/29 additional headless/windowed, with zero failures.
   - [ ] Wire the terminal adapter call into SE's controller and confirm repeated terminal notifications preserve one published report and baseline.
-  - [ ] Check actual/target values, completion ratios, status, score, and source labels against the report.
-  - [ ] Check error handling, null abort scores, empty causes, neutral explanation, and absent comparison.
+  - [x] Review actual/target values, completion ratios, status, score, source labels, and same-run event references in KE3's recorded Results preview against the matching report.
+  - [x] Review owner preview evidence for exact contract-error fixtures, synthetic null abort scores, empty causes, missing-event fallback, and absent comparison.
+  - [ ] Verify the presentation-state mapping `event_log` -> `state.events`, scoped credit context, and error routing through SE's integrated controller.
   - [ ] Verify a retry starts a new run and New Mission clears the old baseline.
-  - [ ] Verify reopening Results or navigating back preserves the intended run history.
+  - [ ] Verify reopening Results or navigating back preserves the intended run history with SE's integrated controller.
 
 Completion evidence: real config, run ID, terminal trace, report, and displayed values agree. Route changes in another owner's files to that owner with the requested call/binding and verification steps.
 
 Prompt 7 runtime evidence. Pinned HPC `b9817c3` uses KE1 readiness dependencies attributed by its handoff to `55d4f33`. Executed high_inc completion at step 60/60 with 62 events, 1/4 observations, approximately 7.7333333328/30 MB received, approximately 4.2666666672 MB onboard, `partial`, score 25, and `NO_LINK_WINDOW` cause referencing `evt_008`. An actual abort after capture preserves counters and returns a null score with its producer reason. Commands and logs are recorded in [HPC integration](ke2/hpc-integration.md). Native HPC/KE1 modules remain outside the current KE2 checkout and were executed unchanged in the isolated project. Runtime controller/Results/retry/export checks remain pending.
+
+Coordination review, 14 November 2026. The latest supplied bundle records KE1 `55d4f33` and HPC `9dfd942`, passing readiness at 1060 g, a completed run, and the recorded blocked transmission. The matching KE2 handoff contains the partial/25 report and applicable readiness/feedback credits in metadata. Prioritize SE's terminal publication/lifecycle wiring and KE3's Results/credits binding. Request KE1's actual 1329/1330/1331 g and alternate-profile evidence, and an abort bundle from the selected integration revision when available. This task reviewed current files and prepared requests. The handoff's prior 32 run checks and 165 evaluator checks retain their recorded execution history. [Matching report handoff](handoffs/ke3_validated_1u_55d4f33_9dfd942_20261114_01/README.md).
+
+KE3 reply reviewed, 14 November 2026. `data/ke3-results-verification/SOURCE_SHA256.json` has SHA256 `e1f86bc937c5b0dc87f0a33a07e60e1395156c593cc0a00940ab59fe421b1256`, and all 64 named file hashes match. All 16 named original-input hashes and the returned archive/report/metadata identities match. Reviewed owner logs reporting 63 headless/67 windowed focused checks, 24 headless/29 windowed additional checks, zero failures, and 14 zero-exit command records. Four supplied screenshots show the report, scoped credits, missing evidence, and synthetic aborted/null-score display. KE3's local reopening and synthetic Retry regressions are recorded in the packet. Its source changes remain uncommitted and are identified by the manifest. KE2 reviewed these artifacts without a new UI test execution. Updated the source ledger, consumer handoff, KE3 acknowledgement, and SE request. The remaining SE request includes a confirmed integration revision and the full-history projection from HPC `event_log` to presentation `state.events`. Controller-driven lifecycle/error routing, B02, official B10, source-link opening, and exports remain pending. [Consumer review](ke2/integration-handoff.md#reviewed-ke3-results-preview).
 
 ## 8. Optional P1 retry comparison
 
@@ -245,4 +260,4 @@ Update this table as owners provide decisions or samples. A pending producer map
 | Shared contract and reference synchronization | KE1 | Complete in this checkout |
 | Scenario IDs, units, step/energy/abort rules, and real trace | HPC + KE1 | Real readiness-approved completion/block/abort and v0.2 trace verified at b9817c3; combined KE2 runner 205 passed, producer suite 31 passed; controller/UI lifecycle pending |
 | Controller migration and report/retry calls | SE + HPC + KE3 + KE2 | Responsibilities and API agreed; actual call sites and runtime integration pending |
-| Results/credits display and export verification | KE3 + SE + KE2 | Pending runtime integration |
+| Results/credits display and export verification | KE3 + SE + KE2 | KE3 manifest-pinned recorded preview reviewed, 63/67 focused and 24/29 edge checks recorded passing; integrated controller revision/lifecycle and exports pending |

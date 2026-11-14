@@ -1,0 +1,369 @@
+[
+  {
+    "name": "import",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--editor",
+      "--quit"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\import.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+    ]
+  },
+  {
+    "name": "validated-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--script",
+      "res://tests/ke2_validated_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-headless"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-headless.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "VALIDATED KE2 DEBRIEF: 63 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "old-recorded-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--script",
+      "res://tests/ke2_recorded_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\old-recorded-headless"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\old-recorded-headless.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "KE2 RECORDED SAMPLE DEBRIEF: 49 checks; 0 failures",
+      "FIXTURE PASS with KE2 recorded sample"
+    ]
+  },
+  {
+    "name": "a05-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--script",
+      "res://tests/a05_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a05-headless"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a05-headless.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "SYNTHETIC A05: 139 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "a06-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--script",
+      "res://tests/a06_retry_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a06-headless"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a06-headless.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "SYNTHETIC A06 P0: 100 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "validated-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "1280x960",
+      "--script",
+      "res://tests/ke2_validated_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-windowed",
+      "--capture"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-windowed.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "VALIDATED KE2 DEBRIEF: 67 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "old-recorded-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "1280x960",
+      "--script",
+      "res://tests/ke2_recorded_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\old-recorded-windowed",
+      "--capture"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\old-recorded-windowed.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "KE2 RECORDED SAMPLE DEBRIEF: 52 checks; 0 failures",
+      "FIXTURE PASS with KE2 recorded sample"
+    ]
+  },
+  {
+    "name": "a05-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "1280x960",
+      "--script",
+      "res://tests/a05_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a05-windowed",
+      "--capture"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a05-windowed.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "SYNTHETIC A05: 156 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "a06-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "1280x960",
+      "--script",
+      "res://tests/a06_retry_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a06-windowed",
+      "--capture"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a06-windowed.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "SYNTHETIC A06 P0: 104 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "a07-900x680",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "900x680",
+      "--script",
+      "res://tests/a07_local_qa_check.gd",
+      "--",
+      "--size",
+      "900x680",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a07-900x680"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\a07-900x680.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "A07 RESULT: 80 checks; 0 failures; viewport (900, 680)",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "validated-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--script",
+      "res://tests/ke2_validated_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-headless"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-headless.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "VALIDATED KE2 DEBRIEF: 63 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "validated-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "1280x960",
+      "--script",
+      "res://tests/ke2_validated_debrief_check.gd",
+      "--",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-windowed",
+      "--capture"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\validated-windowed.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "VALIDATED KE2 DEBRIEF: 67 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "ke2-reply-edges-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--headless",
+      "--script",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\ke2_reply_edges.gd",
+      "--",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\reply-edges-headless",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\reply-contract-examples"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\ke2-reply-edges-headless.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "KE2 REPLY EDGES: 24 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  },
+  {
+    "name": "ke2-reply-edges-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+      "--audio-driver",
+      "Dummy",
+      "--resolution",
+      "1280x960",
+      "--script",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\ke2_reply_edges.gd",
+      "--",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\reply-edges-windowed",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\reply-contract-examples",
+      "--capture"
+    ],
+    "cwd": "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview",
+    "exit": 0,
+    "status": "PASS",
+    "script_errors": false,
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_ke2_debrief_check\\evidence\\ke2-reply-edges-windowed.log",
+    "summary": [
+      "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+      "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+      "KE2 REPLY EDGES: 29 checks; 0 failures",
+      "FIXTURE PASS"
+    ]
+  }
+]

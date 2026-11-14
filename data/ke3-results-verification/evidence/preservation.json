@@ -1,0 +1,14 @@
+{
+  "changed_existing_files": [
+    "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview\\ke3\\debrief_screen.gd",
+    "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview\\preview\\ke2_recorded_preview.gd",
+    "C:\\Workspace\\OrbitBridge\\Event\\ke3_outline_preview\\preview\\ke2_recorded_provider.gd"
+  ],
+  "unexpected_changes": [],
+  "preview_startup_unchanged": true,
+  "team_tracked_files_unchanged": true,
+  "team_head": "1a82ebd93a019b751947965aa760e8e759d8f45b",
+  "team_status": "",
+  "team_branch": "main",
+  "old_fixture_files_unchanged": true
+}

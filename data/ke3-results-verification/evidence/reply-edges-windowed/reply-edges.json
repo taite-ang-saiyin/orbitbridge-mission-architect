@@ -1,0 +1,287 @@
+{
+  "checks": 29,
+  "failures": [],
+  "records": [
+    {
+      "actual": "Retry and transmit during an available ground-contact window.",
+      "check": "Returned exact experiment",
+      "expected": "Retry and transmit during an available ground-contact window.",
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": "No root causes supplied.",
+      "check": "Empty causes are neutral",
+      "expected": "No root causes supplied.",
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": "1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. At step 8.0, a transmission was blocked because no ground-contact window was available.",
+      "check": "Empty causes retain summary",
+      "expected": "1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. At step 8.0, a transmission was blocked because no ground-contact window was available.",
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": null,
+      "check": "Empty causes keep comparison null",
+      "expected": null,
+      "status": "FIXTURE PASS"
+    },
+    {
+      "case": "SYNTHETIC empty-causes display fixture",
+      "labels": {
+        "causes": "No root causes supplied.",
+        "context": "Mission: Valid 1U feasible baseline\nProfile: Profile ID: cubesat_1u_sample\nGoal: 4 observations; 30 MB returned",
+        "credits": "KE2 versioned metadata / validated component-run preview; SE live and export credit checks pending.\n\nProfile source: Unavailable\n\nProfile credit: Unavailable\n\nApplicable credit scope: readiness (metadata; not report source_ids)\nMetadata source ID: cubesat_101_1u_sample\nTitle: CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers\nCredit: NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge's sample 1U educational profile: modeled spacecraft mass < 1.33 kg (< 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.\nURL: https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf\nActual use: KE1 recorded a passing profile_mass check at 1060 g against the strict < 1330 g criterion, then overall ready_to_launch=true.\n\nApplicable credit scope: feedback_vocabulary (metadata; not report source_ids)\nMetadata source ID: nasa_design_develop_science_missions_2025\nTitle: Design and Develop Science Missions\nCredit: Mission-segment terminology adapted from NASA, Design and Develop Science Missions, Julie Levri, March 26, 2025, slide 8. OrbitBridge's feedback mappings and corrective actions are educational adaptations.\nURL: https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf\nActual use: The evaluator emits ground as the segment for the evt_008 NO_LINK_WINDOW cause using MissionFeedback.RULES.",
+        "experiment": "Retry and transmit during an available ground-contact window.",
+        "metrics": "Observations: 1/4 | Completion: 25%\nReturned: 7.7333333328/30 MB | Completion: 25.78%\nScore: 25",
+        "outcome": "Outcome: partial | Run status: completed",
+        "summary": "1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. At step 8.0, a transmission was blocked because no ground-contact window was available.\nFailed constraint: Unavailable"
+      }
+    },
+    {
+      "actual": [
+        "failed",
+        "aborted",
+        "Unavailable"
+      ],
+      "check": "Abort preserves failed/aborted/null-score display",
+      "expected": [
+        "failed",
+        "aborted",
+        "Unavailable"
+      ],
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": null,
+      "check": "Abort raw null never becomes zero",
+      "expected": null,
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": [
+        1.0,
+        7.7333333328
+      ],
+      "check": "Abort raw actuals preserved",
+      "expected": [
+        1.0,
+        7.7333333328
+      ],
+      "status": "FIXTURE PASS"
+    },
+    {
+      "case": "SYNTHETIC aborted display fixture, not an evaluated abort",
+      "labels": {
+        "causes": "No root causes supplied.",
+        "context": "Mission: Valid 1U feasible baseline\nProfile: Profile ID: cubesat_1u_sample\nGoal: 4 observations; 30 MB returned",
+        "credits": "KE2 versioned metadata / validated component-run preview; SE live and export credit checks pending.\n\nProfile source: Unavailable\n\nProfile credit: Unavailable\n\nApplicable credit scope: readiness (metadata; not report source_ids)\nMetadata source ID: cubesat_101_1u_sample\nTitle: CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers\nCredit: NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge's sample 1U educational profile: modeled spacecraft mass < 1.33 kg (< 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.\nURL: https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf\nActual use: KE1 recorded a passing profile_mass check at 1060 g against the strict < 1330 g criterion, then overall ready_to_launch=true.\n\nApplicable credit scope: feedback_vocabulary (metadata; not report source_ids)\nMetadata source ID: nasa_design_develop_science_missions_2025\nTitle: Design and Develop Science Missions\nCredit: Mission-segment terminology adapted from NASA, Design and Develop Science Missions, Julie Levri, March 26, 2025, slide 8. OrbitBridge's feedback mappings and corrective actions are educational adaptations.\nURL: https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf\nActual use: The evaluator emits ground as the segment for the evt_008 NO_LINK_WINDOW cause using MissionFeedback.RULES.",
+        "experiment": "Retry and transmit during an available ground-contact window.",
+        "metrics": "Observations: 1/4 | Completion: 25%\nReturned: 7.7333333328/30 MB | Completion: 25.78%\nScore: Unavailable",
+        "outcome": "Outcome: failed | Run status: aborted",
+        "summary": "SYNTHETIC DISPLAY CHECK: Mission aborted before completion.\nFailed constraint: Unavailable"
+      }
+    },
+    {
+      "actual": "Unavailable",
+      "check": "Error is not a failed mission",
+      "expected": "Unavailable",
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": true,
+      "check": "Error cannot Retry report",
+      "expected": true,
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": {
+        "error": {
+          "code": "NONTERMINAL_RUN_STATE",
+          "field_path": "final_state.phase",
+          "message": "The run is still operating and cannot be evaluated as a terminal mission.",
+          "run_id": "run_001",
+          "suggested_fix": "Finish or explicitly abort the run before requesting evaluation."
+        },
+        "ok": false
+      },
+      "check": "Null or supplied error identity unchanged",
+      "expected": {
+        "error": {
+          "code": "NONTERMINAL_RUN_STATE",
+          "field_path": "final_state.phase",
+          "message": "The run is still operating and cannot be evaluated as a terminal mission.",
+          "run_id": "run_001",
+          "suggested_fix": "Finish or explicitly abort the run before requesting evaluation."
+        },
+        "ok": false
+      },
+      "status": "FIXTURE PASS"
+    },
+    {
+      "boundary": "Input unavailable: { \"code\": \"NONTERMINAL_RUN_STATE\", \"field_path\": \"final_state.phase\", \"message\": \"The run is still operating and cannot be evaluated as a terminal mission.\", \"suggested_fix\": \"Finish or explicitly abort the run before requesting evaluation.\", \"run_id\": \"run_001\" }",
+      "case": "Exact contract error through preview provider",
+      "labels": {
+        "causes": "No root causes supplied.",
+        "context": "Mission: Unavailable\nProfile: Unavailable\nGoal: Unavailable observations; Unavailable MB returned",
+        "credits": "SYNTHETIC metadata / preview attribution; production ledger unverified.\n\nProfile source: Unavailable\n\nProfile credit: Unavailable",
+        "experiment": "Unavailable",
+        "metrics": "Observations: Unavailable/Unavailable | Completion: Unavailable\nReturned: Unavailable/Unavailable MB | Completion: Unavailable\nScore: Unavailable",
+        "outcome": "Outcome: Unavailable | Run status: Unavailable",
+        "summary": "Unavailable\nFailed constraint: Unavailable"
+      },
+      "source_file": "evaluation-nonterminal-error.example.json",
+      "wrapper": {
+        "error": {
+          "code": "NONTERMINAL_RUN_STATE",
+          "field_path": "final_state.phase",
+          "message": "The run is still operating and cannot be evaluated as a terminal mission.",
+          "run_id": "run_001",
+          "suggested_fix": "Finish or explicitly abort the run before requesting evaluation."
+        },
+        "ok": false
+      }
+    },
+    {
+      "actual": "evaluation_error",
+      "check": "Known-run error has structured Evaluation error display",
+      "expected": "evaluation_error",
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": "Unavailable",
+      "check": "Error is not a failed mission",
+      "expected": "Unavailable",
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": true,
+      "check": "Error cannot Retry report",
+      "expected": true,
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": null,
+          "message": "Required evaluation input is missing or malformed.",
+          "run_id": null,
+          "suggested_fix": "Provide a valid config, terminal state and event array."
+        },
+        "ok": false
+      },
+      "check": "Null or supplied error identity unchanged",
+      "expected": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": null,
+          "message": "Required evaluation input is missing or malformed.",
+          "run_id": null,
+          "suggested_fix": "Provide a valid config, terminal state and event array."
+        },
+        "ok": false
+      },
+      "status": "FIXTURE PASS"
+    },
+    {
+      "boundary": "Input unavailable: { \"code\": \"INVALID_EVALUATION_INPUT\", \"field_path\": <null>, \"message\": \"Required evaluation input is missing or malformed.\", \"suggested_fix\": \"Provide a valid config, terminal state and event array.\", \"run_id\": <null> }",
+      "case": "Exact contract error through preview provider",
+      "labels": {
+        "causes": "No root causes supplied.",
+        "context": "Mission: Unavailable\nProfile: Unavailable\nGoal: Unavailable observations; Unavailable MB returned",
+        "credits": "SYNTHETIC metadata / preview attribution; production ledger unverified.\n\nProfile source: Unavailable\n\nProfile credit: Unavailable",
+        "experiment": "Unavailable",
+        "metrics": "Observations: Unavailable/Unavailable | Completion: Unavailable\nReturned: Unavailable/Unavailable MB | Completion: Unavailable\nScore: Unavailable",
+        "outcome": "Outcome: Unavailable | Run status: Unavailable",
+        "summary": "Unavailable\nFailed constraint: Unavailable"
+      },
+      "source_file": "evaluation-top-level-error.example.json",
+      "wrapper": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": null,
+          "message": "Required evaluation input is missing or malformed.",
+          "run_id": null,
+          "suggested_fix": "Provide a valid config, terminal state and event array."
+        },
+        "ok": false
+      }
+    },
+    {
+      "actual": {
+        "action": 0,
+        "retry": 0,
+        "route": 0
+      },
+      "check": "Rendering edge cases emits no action/route/retry",
+      "expected": {
+        "action": 0,
+        "retry": 0,
+        "route": 0
+      },
+      "status": "FIXTURE PASS"
+    },
+    {
+      "actual": {
+        "comparison": null,
+        "data_return_completion_ratio": 0.25777777776,
+        "explanation": "1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. At step 8.0, a transmission was blocked because no ground-contact window was available.",
+        "mission_id": "ke3_validated_1u_feasible_20261114",
+        "next_experiment": "Retry and transmit during an available ground-contact window.",
+        "observation_completion_ratio": 0.25,
+        "observations_completed": 1.0,
+        "required_observations": 4.0,
+        "required_returned_data_mb": 30.0,
+        "returned_data_mb": 7.7333333328,
+        "root_causes": [
+          {
+            "code": "NO_LINK_WINDOW",
+            "evidence_event_ids": [
+              "evt_008"
+            ],
+            "explanation": "At step 8.0, a transmission was blocked because no ground-contact window was available. Retry and transmit during an available ground-contact window.",
+            "segment": "ground"
+          }
+        ],
+        "run_id": "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+        "run_status": "completed",
+        "schema_version": 1.0,
+        "score": 25.0,
+        "source_ids": [],
+        "status": "partial"
+      },
+      "check": "Original validated report object untouched",
+      "expected": {
+        "comparison": null,
+        "data_return_completion_ratio": 0.25777777776,
+        "explanation": "1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. At step 8.0, a transmission was blocked because no ground-contact window was available.",
+        "mission_id": "ke3_validated_1u_feasible_20261114",
+        "next_experiment": "Retry and transmit during an available ground-contact window.",
+        "observation_completion_ratio": 0.25,
+        "observations_completed": 1.0,
+        "required_observations": 4.0,
+        "required_returned_data_mb": 30.0,
+        "returned_data_mb": 7.7333333328,
+        "root_causes": [
+          {
+            "code": "NO_LINK_WINDOW",
+            "evidence_event_ids": [
+              "evt_008"
+            ],
+            "explanation": "At step 8.0, a transmission was blocked because no ground-contact window was available. Retry and transmit during an available ground-contact window.",
+            "segment": "ground"
+          }
+        ],
+        "run_id": "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+        "run_status": "completed",
+        "schema_version": 1.0,
+        "score": 25.0,
+        "source_ids": [],
+        "status": "partial"
+      },
+      "status": "FIXTURE PASS"
+    }
+  ],
+  "scope": "Additional preview display/contract cases only; SE integration/New Mission NOT TESTED"
+}

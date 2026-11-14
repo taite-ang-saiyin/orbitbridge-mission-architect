@@ -1,0 +1,355 @@
+{
+    "metadata_schema_version":  1,
+    "handoff_revision":  "ke2-validated-1u-v0.1",
+    "run_id":  "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+    "mission_id":  "ke3_validated_1u_feasible_20261114",
+    "report_path":  "docs/handoffs/ke3_validated_1u_55d4f33_9dfd942_20261114_01/evaluation-v0.1.json",
+    "report_sha256":  "8cfeaea913d096b42d05e7b07bf619ceb434ff760bf28880a427e42f47ec1a50",
+    "evaluator":  {
+                      "repository":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect",
+                      "branch":  "memberKE2",
+                      "commit_sha":  "8c3ed816f5122a6645c0517aecd83880876a0cd7",
+                      "file_path":  "scripts/evaluation/mission_evaluator.gd",
+                      "feedback_path":  "scripts/evaluation/mission_feedback.gd",
+                      "invocation":  "MissionEvaluator.evaluate_mission(original_config, final_state, full_ordered_events)",
+                      "native_adapter_cross_check":  "MissionEvaluator.evaluate_hpc_state(final_state) returned the identical result."
+                  },
+    "input_bundle":  {
+                         "path":  "data/ke2_bundle",
+                         "commit_sha":  "8c3ed816f5122a6645c0517aecd83880876a0cd7",
+                         "ke1_commit_sha":  "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+                         "hpc_commit_sha":  "9dfd942e6fccf230d03dfdf8bf097bf65d8f143f",
+                         "all_17_file_hashes_match":  true,
+                         "sha256":  {
+                                        "actions.json":  "bbfd81841a487505bf4351a10cb90c3f4acf00bc080c6eedeabe4e39798ae6a9",
+                                        "adapter-result.json":  "2e8a5362785ba2db772ab30c36d7c1e4e548dedbee2853be57c0af7f347ae2c8",
+                                        "catalogs.json":  "5841cc95a7319cb696edd09a94a5e09e833c8c7b64d015c91d7eac0fd7e5cbd0",
+                                        "config-resolution.json":  "2a982f5b84ed6dd6476ff74535fa85ba01ab4eca8afe2d648e8147f527ab7b4e",
+                                        "events.json":  "207ed0f1dc16259f5cc9ca5664e19e5ad5293a065b49db58ba33cb6cdb55509c",
+                                        "final-state.json":  "3b69be95ac758dee097417d99078b2c31309e5d3ea19278d1943185d6d1c7245",
+                                        "initial-state.json":  "d866bd31a4a01ccf84ea2622f6de53db2e72f934e067a26108e6b02286a83c64",
+                                        "orbit-source.json":  "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+                                        "original-config.json":  "8f37dc6af7b641a96b6947ba60e0e1d9040d92137dd4245ea34a55483ee2faac",
+                                        "readiness.json":  "3b845c347258b15909eda273c96f2c965584acf1ed8f6ef42494021682e7ea50",
+                                        "README.md":  "275cc8372c355a1c1e7c00046b49851e9577eb79cd741ebe307aa1acbe5774b5",
+                                        "run-summary.json":  "b6f0778bc6199c27154f97634ddcdab7dd233c3ea9e6906c59bfdd0d7a42b5df",
+                                        "scenario.json":  "8ee6f071bf402a59e21c9a50f9a0b4af3caf475d2709a01f2a0afe4dc6fe0389",
+                                        "selected-action-replies.json":  "0cabd9fb463ba3d43f250600e315787ecdd8ad0b3bbf651430eae865b4f53b3e",
+                                        "selected-launch-profile.json":  "49e8c97e1e49f2c663f3b2fe93cd02a803dc76c511df12aa95441cd0d2ac755e",
+                                        "validation-packet.json":  "29a1d63685fb9fa3a51227af52ed947a18e7ad62e5a9c44d14dd2305c2edd30e"
+                                    },
+                         "runtime_file_sha256_from_producer":  {
+                                                                   "ke1/scripts/core/mission_validator.gd":  "96c00bfff676b145b1dc07ac36b33497a13424966ff726bd6bc6928d6f7a2b2c",
+                                                                   "ke1/scripts/core/catalog_loader.gd":  "5ad3b28af9787059162a7c5e9da900377bf181860d57224da36a005706fde2eb",
+                                                                   "ke1/scripts/core/validation_support.gd":  "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+                                                                   "ke1/data/components.json":  "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+                                                                   "ke1/data/launch_profiles.json":  "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+                                                                   "ke1/data/launchers.json":  "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+                                                                   "ke1/data/ke1_reference_ids.json":  "c805cdc843c1add3fc2af24975198f0a74f6a2dcfb2f764c5b011a0a3779c158",
+                                                                   "ke1/data/orbits.json":  "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+                                                                   "hpc/core/HPCContractAdapter.gd":  "f8d4dffc2ce34088d9b5ec2536ae8e49ef59059210859da6bf5dc216f95ec2b7",
+                                                                   "hpc/core/MissionStepEngine.gd":  "caae675e3b013165688d54c220e284926072a0345f4c4c9e2069aa400ac71252",
+                                                                   "hpc/core/OrbitPlanner.gd":  "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+                                                                   "hpc/data/orbits.json":  "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+                                                               },
+                         "ready_to_launch":  true,
+                         "mass_check":  {
+                                            "comparator":  "\u003c",
+                                            "message":  "Spacecraft mass meets the selected profile rule.",
+                                            "passed":  true,
+                                            "profile_id":  "cubesat_1u_sample",
+                                            "source_id":  "cubesat_101_1u_sample",
+                                            "status":  "pass",
+                                            "threshold_g":  1330,
+                                            "total_mass_g":  1060
+                                        }
+                     },
+    "evidence_links":  [
+                           {
+                               "event_id":  "evt_001",
+                               "path":  "data/ke2_bundle/events.json",
+                               "json_pointer":  "/1",
+                               "repository_url":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect/blob/8c3ed816f5122a6645c0517aecd83880876a0cd7/data/ke2_bundle/events.json",
+                               "event":  {
+                                             "action":  "observe",
+                                             "code":  "ACTION_ACCEPTED",
+                                             "data_added_mb":  12.0,
+                                             "data_transmitted_mb":  0.0,
+                                             "delta_energy_wh":  -0.483333333299999,
+                                             "delta_observations":  1,
+                                             "delta_returned_data_mb":  0.0,
+                                             "delta_stored_data_mb":  12.0,
+                                             "energy_change_wh":  -0.483333333299999,
+                                             "energy_clamped":  false,
+                                             "energy_consumed_wh":  0.9666666666,
+                                             "energy_generated_wh":  0.4833333333,
+                                             "event_id":  "evt_001",
+                                             "message":  "Observation captured; 12.000 MB stored.",
+                                             "mission_id":  "ke3_validated_1u_feasible_20261114",
+                                             "observations_completed":  1,
+                                             "returned_data_mb":  0.0,
+                                             "run_id":  "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+                                             "step_index":  1,
+                                             "stored_data_mb":  12.0,
+                                             "target_id":  "equator",
+                                             "type":  "action_accepted"
+                                         }
+                           },
+                           {
+                               "event_id":  "evt_007",
+                               "path":  "data/ke2_bundle/events.json",
+                               "json_pointer":  "/7",
+                               "repository_url":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect/blob/8c3ed816f5122a6645c0517aecd83880876a0cd7/data/ke2_bundle/events.json",
+                               "event":  {
+                                             "action":  "transmit",
+                                             "code":  "ACTION_ACCEPTED",
+                                             "data_added_mb":  0.0,
+                                             "data_transmitted_mb":  7.7333333328,
+                                             "delta_energy_wh":  -0.8055555555,
+                                             "delta_observations":  0,
+                                             "delta_returned_data_mb":  7.7333333328,
+                                             "delta_stored_data_mb":  -7.7333333328,
+                                             "energy_change_wh":  -0.8055555555,
+                                             "energy_clamped":  false,
+                                             "energy_consumed_wh":  0.8055555555,
+                                             "energy_generated_wh":  0.0,
+                                             "event_id":  "evt_007",
+                                             "message":  "Ground station received 7.733 MB.",
+                                             "mission_id":  "ke3_validated_1u_feasible_20261114",
+                                             "observations_completed":  1,
+                                             "returned_data_mb":  7.7333333328,
+                                             "run_id":  "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+                                             "step_index":  7,
+                                             "stored_data_mb":  4.2666666672,
+                                             "type":  "action_accepted"
+                                         }
+                           },
+                           {
+                               "event_id":  "evt_008",
+                               "path":  "data/ke2_bundle/events.json",
+                               "json_pointer":  "/8",
+                               "repository_url":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect/blob/8c3ed816f5122a6645c0517aecd83880876a0cd7/data/ke2_bundle/events.json",
+                               "event":  {
+                                             "action":  "transmit",
+                                             "code":  "NO_LINK_WINDOW",
+                                             "delta_energy_wh":  0.0,
+                                             "delta_observations":  0,
+                                             "delta_returned_data_mb":  0.0,
+                                             "delta_stored_data_mb":  0.0,
+                                             "event_id":  "evt_008",
+                                             "message":  "No ground station contact window is available during this step.",
+                                             "mission_id":  "ke3_validated_1u_feasible_20261114",
+                                             "run_id":  "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+                                             "step_index":  8,
+                                             "type":  "action_blocked"
+                                         }
+                           },
+                           {
+                               "event_id":  "evt_061",
+                               "path":  "data/ke2_bundle/events.json",
+                               "json_pointer":  "/61",
+                               "repository_url":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect/blob/8c3ed816f5122a6645c0517aecd83880876a0cd7/data/ke2_bundle/events.json",
+                               "event":  {
+                                             "action":  "",
+                                             "code":  "MISSION_FINISHED",
+                                             "delta_energy_wh":  0.0,
+                                             "delta_observations":  0,
+                                             "delta_returned_data_mb":  0.0,
+                                             "delta_stored_data_mb":  0.0,
+                                             "event_id":  "evt_061",
+                                             "message":  "The final mission step is complete.",
+                                             "mission_id":  "ke3_validated_1u_feasible_20261114",
+                                             "run_id":  "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+                                             "step_index":  60,
+                                             "type":  "mission_finished"
+                                         }
+                           }
+                       ],
+    "causal_scope":  "evt_008 establishes a blocked transmission at step 8. The trace contains one successful capture and one successful transmission. No observation-block event supports a hardware or visibility cause for the capture shortfall.",
+    "source_credit_metadata":  {
+                                   "report_source_ids":  [
+
+                                                         ],
+                                   "resolved_report_sources":  [
+
+                                                               ],
+                                   "unresolved_report_source_ids":  [
+
+                                                                    ],
+                                   "readiness_source_ids":  [
+                                                                "cubesat_101_1u_sample"
+                                                            ],
+                                   "applicable_source_credits":  [
+                                                                     {
+                                                                         "source_id":  "cubesat_101_1u_sample",
+                                                                         "credit_scope":  "readiness",
+                                                                         "title":  "CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers",
+                                                                         "nasa_organization":  "NASA CubeSat Launch Initiative (CSLI)",
+                                                                         "url":  "https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf",
+                                                                         "alternate_url":  "https://www.nasa.gov/wp-content/uploads/2017/03/nasa_csli_CubeSat_101_508.pdf",
+                                                                         "locator":  {
+                                                                                         "appendix":  "C - Templates",
+                                                                                         "item":  6,
+                                                                                         "section":  "CubeSat Acceptance Checklists",
+                                                                                         "subsection":  "1U CubeSat Acceptance Checklist",
+                                                                                         "printed_page":  79,
+                                                                                         "pdf_page":  87,
+                                                                                         "pdf_page_index":  86,
+                                                                                         "pdf_total_pages":  96,
+                                                                                         "checklist_revision_date":  "2014-02-20",
+                                                                                         "locator_note":  "Item 6 is within Appendix C; Appendix 6 is not the document\u0027s appendix identifier."
+                                                                                     },
+                                                                         "attribution_text":  "NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge\u0027s sample 1U educational profile: modeled spacecraft mass \u003c 1.33 kg (\u003c 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.",
+                                                                         "ledger_path":  "data/nasa_sources.json",
+                                                                         "ledger_json_pointer":  "/sources/0",
+                                                                         "applicable_profile_id":  "cubesat_1u_sample",
+                                                                         "actual_use":  "KE1 recorded a passing profile_mass check at 1060 g against the strict \u003c 1330 g criterion, then overall ready_to_launch=true.",
+                                                                         "evidence":  [
+                                                                                          {
+                                                                                              "path":  "data/ke2_bundle/readiness.json",
+                                                                                              "json_pointer":  "/checks/profile_mass"
+                                                                                          },
+                                                                                          {
+                                                                                              "path":  "data/ke2_bundle/readiness.json",
+                                                                                              "json_pointer":  "/ready_to_launch"
+                                                                                          },
+                                                                                          {
+                                                                                              "path":  "data/ke2_bundle/selected-launch-profile.json",
+                                                                                              "json_pointer":  "/mass_rule"
+                                                                                          },
+                                                                                          {
+                                                                                              "path":  "data/ke2_bundle/validation-packet.json",
+                                                                                              "json_pointer":  "/result"
+                                                                                          }
+                                                                                      ],
+                                                                         "verification":  {
+                                                                                              "source_verification":  {
+                                                                                                                          "source_status":  "verified",
+                                                                                                                          "verified_on":  "2026-11-14",
+                                                                                                                          "method":  "Opened both official NASA PDFs, checked the table of contents and checklist text, and visually inspected the complete local PDF page 87.",
+                                                                                                                          "access_note":  "The primary science.nasa.gov URL opened successfully during this review; docs/sources.md records an earlier timeout.",
+                                                                                                                          "rule_conversion_status":  "verified",
+                                                                                                                          "gameplay_status":  "not_verified",
+                                                                                                                          "report_linkage_status":  "not_integrated",
+                                                                                                                          "visible_credit_status":  "not_verified",
+                                                                                                                          "export_status":  "not_verified",
+                                                                                                                          "pending_evidence":  "KE1 validator results at 1329/1330/1331 g with other checks valid, another profile\u0027s own rule, SE Builder/profile-switch/Launch checks, and KE3 visible credits in the selected export."
+                                                                                                                      },
+                                                                                              "this_run":  "Readiness and source-linked mass check verified from the hash-matched supplied KE1 result.",
+                                                                                              "boundary_tests":  "1329/1330/1331 g boundaries were not executed during this evaluation.",
+                                                                                              "visible_credit_and_export":  "Pending SE/KE3 verification."
+                                                                                          }
+                                                                     },
+                                                                     {
+                                                                         "source_id":  "nasa_design_develop_science_missions_2025",
+                                                                         "credit_scope":  "feedback_vocabulary",
+                                                                         "id_scope":  "Ledger-local bibliographic ID; coordinate before adding it to shared report source_ids or reference-ids.json.",
+                                                                         "title":  "Design and Develop Science Missions",
+                                                                         "nasa_organization":  "NASA, Access to Space for All Systems Engineering Webinar Series",
+                                                                         "author":  "Julie Levri",
+                                                                         "publication_date":  "2025-03-26",
+                                                                         "url":  "https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf",
+                                                                         "locator":  {
+                                                                                         "section":  "Mission segments",
+                                                                                         "slide":  8,
+                                                                                         "pdf_page":  8,
+                                                                                         "pdf_page_index":  7
+                                                                                     },
+                                                                         "attribution_text":  "Mission-segment terminology adapted from NASA, Design and Develop Science Missions, Julie Levri, March 26, 2025, slide 8. OrbitBridge\u0027s feedback mappings and corrective actions are educational adaptations.",
+                                                                         "ledger_path":  "data/nasa_sources.json",
+                                                                         "ledger_json_pointer":  "/sources/1",
+                                                                         "actual_use":  "The evaluator emits ground as the segment for the evt_008 NO_LINK_WINDOW cause using MissionFeedback.RULES.",
+                                                                         "evidence":  [
+                                                                                          {
+                                                                                              "path":  "scripts/evaluation/mission_feedback.gd",
+                                                                                              "symbol":  "RULES.NO_LINK_WINDOW"
+                                                                                          },
+                                                                                          {
+                                                                                              "path":  "docs/handoffs/ke3_validated_1u_55d4f33_9dfd942_20261114_01/evaluation-v0.1.json",
+                                                                                              "json_pointer":  "/report/root_causes/0/segment"
+                                                                                          },
+                                                                                          {
+                                                                                              "path":  "data/ke2_bundle/events.json",
+                                                                                              "json_pointer":  "/8"
+                                                                                          }
+                                                                                      ],
+                                                                         "verification":  {
+                                                                                              "source_verification":  {
+                                                                                                                          "source_status":  "verified",
+                                                                                                                          "verified_on":  "2026-11-14",
+                                                                                                                          "method":  "Opened the official NASA PDF and checked slide 8 against the current feedback code and recorded report\u0027s ground-segment cause.",
+                                                                                                                          "code_adaptation_status":  "verified_by_inspection",
+                                                                                                                          "recorded_test_evidence":  "Prior Prompt 5 log records 143 passing evaluator/feedback checks; the existing HPC report metadata records 146 passing recorded-trace checks. These tests were not rerun for this ledger-only task.",
+                                                                                                                          "gameplay_status":  "full_lifecycle_not_verified",
+                                                                                                                          "report_linkage_status":  "not_integrated",
+                                                                                                                          "visible_credit_status":  "not_verified",
+                                                                                                                          "export_status":  "not_verified"
+                                                                                                                      },
+                                                                                              "this_run":  "Ground-segment feedback verified in the newly generated matching report.",
+                                                                                              "visible_credit_and_export":  "Pending SE/KE3 verification."
+                                                                                          }
+                                                                     }
+                                                                 ],
+                                   "source_ledger_path":  "data/nasa_sources.json",
+                                   "source_ledger_commit_sha":  "8c3ed816f5122a6645c0517aecd83880876a0cd7",
+                                   "source_ledger_sha256":  "ea6cc03a5a6f378c30665ed8bfa9d38b883bf683409b155c2e9b6d5bec7a4273",
+                                   "linkage_note":  "The current evaluator emits source_ids=[] and accepts config, state and events. This versioned metadata supplies the verified readiness credit and the ledger-documented feedback-vocabulary credit.",
+                                   "source_review_note":  "Bibliographic details and primary-source verification records are carried forward from the checked-in ledger. This task checked their applicable use against the bundle and generated report."
+                               },
+    "verification":  {
+                         "godot_version":  "4.7.2.stable.mono.official.ed1daf0bf",
+                         "bundle_checks_passed":  32,
+                         "bundle_checks_failed":  0,
+                         "bundle_checks":  {
+                                               "all_eight_readiness_checks_pass":  true,
+                                               "all_event_identities_match":  true,
+                                               "capture_actual_target":  true,
+                                               "capture_deltas_reconcile":  true,
+                                               "capture_ratio":  true,
+                                               "cause_code_segment":  true,
+                                               "cause_resolves_evt_008":  true,
+                                               "comparison_null":  true,
+                                               "completed_at_final_step":  true,
+                                               "deterministic":  true,
+                                               "emitted_source_ids_empty":  true,
+                                               "evt_007_successful_downlink":  true,
+                                               "evt_008_blocked_transmit":  true,
+                                               "evt_008_zero_resource_deltas":  true,
+                                               "evt_061_completion":  true,
+                                               "full_event_count":  true,
+                                               "inputs_preserved":  true,
+                                               "mission_identity":  true,
+                                               "native_adapter_same_result":  true,
+                                               "native_event_log_matches":  true,
+                                               "native_snapshot_matches":  true,
+                                               "one_recorded_cause":  true,
+                                               "ordered_unique_event_ids":  true,
+                                               "partial_score_25":  true,
+                                               "ready_to_launch":  true,
+                                               "requested_run_id":  true,
+                                               "returned_actual_target":  true,
+                                               "returned_deltas_reconcile":  true,
+                                               "returned_ratio":  true,
+                                               "source_linked_mass_check":  true,
+                                               "stored_data_separate":  true,
+                                               "strict_mass_criterion":  true
+                                           },
+                         "evaluator_suite_passed":  165,
+                         "evaluator_suite_failed":  0,
+                         "evaluator_suite_pending":  5,
+                         "exit_code":  0,
+                         "scope":  "KE2 evaluation of the supplied actual KE1-to-HPC component run, plus the existing evaluator suite.",
+                         "pending":  [
+                                         "Live KE1 validator/HPC replay in this checkout",
+                                         "1329/1330/1331 g and profile-switch integration",
+                                         "SE B02 and Results/retry lifecycle",
+                                         "Visible credits and exported build"
+                                     ],
+                         "environment_note":  "Godot emitted Failed to read the root certificate store. Both commands exited 0 and all executed checks passed."
+                     },
+    "previous_report":  {
+                            "run_id":  "run_ke2_handoff_v01",
+                            "path":  "docs/handoffs/ke2-hpc-report-v0.1.json",
+                            "relationship":  "Independent report bound to its original recorded trace."
+                        }
+}
