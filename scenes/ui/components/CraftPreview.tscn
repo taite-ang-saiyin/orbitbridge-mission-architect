@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="Script" path="res://scripts/visualization/CraftPreview.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/3d/actors/ArchitectSpacecraft.tscn" id="2"]
+[sub_resource type="Environment" id="Environment"]
+background_mode = 1
+background_color = Color(0.018, 0.03, 0.052, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.6, 0.78, 0.95, 1)
+ambient_light_energy = 0.85
+[node name="CraftPreview" type="SubViewportContainer"]
+custom_minimum_size = Vector2(280, 260)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+script = ExtResource("1")
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = false
+handle_input_locally = false
+own_world_3d = true
+msaa_3d = 2
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+[node name="Stage" type="Node3D" parent="SubViewport"]
+[node name="Environment" type="WorldEnvironment" parent="SubViewport/Stage"]
+environment = SubResource("Environment")
+[node name="KeyLight" type="DirectionalLight3D" parent="SubViewport/Stage"]
+rotation_degrees = Vector3(-35, -35, 0)
+light_color = Color(1, 0.93, 0.8, 1)
+light_energy = 1.5
+[node name="FillLight" type="DirectionalLight3D" parent="SubViewport/Stage"]
+rotation_degrees = Vector3(25, 120, 0)
+light_color = Color(0.52, 0.72, 1, 1)
+light_energy = 0.8
+[node name="RimLight" type="DirectionalLight3D" parent="SubViewport/Stage"]
+rotation_degrees = Vector3(-15, 160, 20)
+light_color = Color(0.65, 0.82, 1, 1)
+light_energy = 2.0
+[node name="Camera3D" type="Camera3D" parent="SubViewport/Stage"]
+position = Vector3(0, 0.2, 7.3)
+current = true
+keep_aspect = 0
+fov = 50.0
+[node name="Turntable" type="Node3D" parent="SubViewport/Stage"]
+[node name="Spacecraft" parent="SubViewport/Stage/Turntable" instance=ExtResource("2")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewport/Stage"]

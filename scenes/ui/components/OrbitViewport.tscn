@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/3d/stages/OrbitStage.tscn" id="1"]
+[node name="OrbitViewport" type="SubViewportContainer"]
+custom_minimum_size = Vector2(320, 240)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+mouse_filter = 2
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+own_world_3d = true
+size = Vector2i(640, 360)
+render_target_update_mode = 4
+[node name="OrbitStage" parent="SubViewport" instance=ExtResource("1")]

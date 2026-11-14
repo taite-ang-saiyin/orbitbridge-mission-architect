@@ -1,0 +1,65 @@
+extends SceneTree
+func _initialize() -> void:
+	call_deferred("check")
+func settle() -> void:
+	for frame in 6:
+		await process_frame
+func check() -> void:
+	var app = load("res://scenes/Main.tscn").instantiate()
+	root.add_child(app)
+	await settle()
+	for resolution in [Vector2i(1280, 720), Vector2i(1024, 768)]:
+		root.content_scale_size = resolution
+		root.size = resolution
+		app.show_screen(1)
+		await settle()
+		var creator = app.current
+		assert(creator.scroll.get_child(0).size.x <= creator.scroll.size.x + 1)
+		creator.name_input.text = ""
+		creator.name_input.text_changed.emit("")
+		assert(creator.next_button.disabled)
+		creator.name_input.text = "Coastal Science"
+		creator.name_input.text_changed.emit("Coastal Science")
+		assert(not creator.next_button.disabled)
+		creator.description_input.text = "A".repeat(215)
+		creator.description_input.text_changed.emit()
+		assert(app.state.description.length() == 200)
+		creator.objective_buttons["Survey Target Regions"].pressed.emit()
+		assert("each selected target" in creator.success_label.text)
+		creator.set_target_limit(1)
+		creator.toggle_target("Arctic Ice")
+		assert(app.state.targets == ["Arctic Ice"])
+		creator.toggle_target("Arctic Ice")
+		assert(app.state.targets.size() == 1)
+		creator.set_target_limit(2)
+		creator.toggle_target("Coastal Region")
+		creator.toggle_target("Tropical Forest")
+		assert(app.state.targets.size() == 2)
+		assert(app.state.targets == ["Arctic Ice", "Tropical Forest"])
+		creator.observation_input.value = 8
+		creator.budget_input.value = 150
+		creator.duration_buttons[9].pressed.emit()
+		assert(app.state.observations == 8 and app.state.budget == 150 and app.state.duration == 9)
+		creator.next_button.pressed.emit()
+		await settle()
+		var builder = app.current
+		assert(builder.screen_id == "SpacecraftBuilder")
+		assert("Coastal Science" in builder.summary.text)
+		assert(builder.scroll.get_child(0).size.x <= builder.scroll.size.x + 1)
+		for key in builder.ADAPTER.GROUPS:
+			var selected = builder.ADAPTER.catalog(key)[1]
+			builder.select_component(key, selected.id)
+			assert(app.state[key] == selected.id)
+			assert(selected.name in builder.selected_label.text)
+		builder.auto_button.pressed.emit()
+		assert(builder.preview.auto_rotate)
+		builder.next_button.pressed.emit()
+		await settle()
+		assert(app.current.screen_id == "FlightReadiness")
+		assert("Coastal Science" in app.current.summary.text)
+		app.show_screen(1)
+		await settle()
+		assert(app.current.name_input.text == "Coastal Science")
+		assert(app.state.body_id == "dev_body_2")
+		print("PASS: creator rules, state round trip, satellite components, rotation and navigation at ", resolution)
+	quit()
