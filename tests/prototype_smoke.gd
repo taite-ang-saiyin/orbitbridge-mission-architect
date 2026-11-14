@@ -36,7 +36,7 @@ func check():
 						node.text = "Test Mission"
 						node.text_changed.emit(node.text)
 						break
-				assert("Test Mission" in app.current.summary.text)
+				assert(app.current.name_input.text == "Test Mission")
 			if i == 2:
 				app.current.select_component("body_id", "dev_body_2")
 				assert(app.state.body_id == "dev_body_2")
@@ -64,7 +64,10 @@ func check():
 	app.show_screen(2)
 	press(app.current, "<  Back: Mission Creator")
 	assert(app.current.screen_id == "MissionCreator")
-	press(app.current, "Next: Spacecraft Builder  >")
+	app.current.next_button.pressed.emit()
+	assert(app.current.review_dialog.visible)
+	app.current.review_dialog.acknowledgement.button_pressed = true
+	app.current.review_dialog.continue_button.pressed.emit()
 	assert(app.current.screen_id == "SpacecraftBuilder")
 	print("PASS: Back and Continue signals")
 	quit()

@@ -6,22 +6,22 @@ const STYLE = preload("res://ui/theme/WorkbenchTheme.gd")
 var scroll: ScrollContainer
 var main_row: BoxContainer
 var hero_row: BoxContainer
-var lower_row: BoxContainer
 var earth: SubViewportContainer
 var quick_start: Button
 var presets: Dictionary = {}
 var recent_text: Label
+var start_button: Button
 var hero_title: Label
 
 func _ready() -> void:
 	Catalog.ensure(state)
 	screen_id = "MissionControl"
-	add_theme_constant_override("separation", 12)
+	add_theme_constant_override("separation", 8)
 	var heading = HBoxContainer.new()
 	heading.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	heading.custom_minimum_size.y = 30
 	add_child(heading)
-	var heading_text = UI.label(heading, "◎  MISSION CONTROL", 15, "39efff")
+	var heading_text = UI.label(heading, "⌂  HOME", 15, "39efff")
 	heading_text.autowrap_mode = TextServer.AUTOWRAP_OFF
 	heading_text.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	heading_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -34,7 +34,7 @@ func _ready() -> void:
 	add_child(scroll)
 	content = VBoxContainer.new()
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.add_theme_constant_override("separation", 14)
+	content.add_theme_constant_override("separation", 10)
 	scroll.add_child(content)
 	main_row = flex(content)
 	main_row.size_flags_stretch_ratio = 3.0
@@ -42,17 +42,22 @@ func _ready() -> void:
 	hero_row = flex(hero)
 	var intro = column(hero_row, 0.95)
 	hero_title = UI.label(intro, "OrbitBridge", 34, "f0fbff")
-	UI.label(intro, "Mission Architect", 23, "45dff4")
-	UI.label(intro, "Design, launch and operate a satellite mission in Earth orbit. Explore how engineering decisions affect mission success.", 14, "bfd3e1")
+	UI.label(intro, "Mission Architect", 21, "45dff4")
+	UI.label(intro, "Design, launch and operate a satellite mission in Earth orbit. Explore how engineering decisions affect mission success.", 13, "bfd3e1")
 	intro.add_child(HSeparator.new())
 	UI.label(intro, "Design   •   Plan   •   Execute", 15, "4ce9f6")
 	build_flow(intro)
 	var map_box = panel(intro, "▣  EARTH VIEW — SAMPLE TARGETS")
-	var map = preload("res://ui/components/GroundTrack.gd").new()
+	var map = preload("res://ui/components/SampleTargetMap.gd").new()
 	map.custom_minimum_size = Vector2(180, 90)
-	map.configure(state)
 	map_box.add_child(map)
-	var globe = column(hero_row, 1.25)
+	build_learning(intro)
+	var globe_card = PanelContainer.new()
+	globe_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	globe_card.size_flags_stretch_ratio = 1.25
+	globe_card.add_theme_stylebox_override("panel", STYLE.box(Color("041c2eea"), Color("37758e"), 9))
+	hero_row.add_child(globe_card)
+	var globe = column(globe_card)
 	var orbit = Runtime.orbit_for(state)
 	UI.label(globe, "%s  /  %s km  /  %.1f min" % ["EARTH ORBIT (LEO)" if orbit.get("id") == "low_eq" else "EARTH ORBIT (POLAR)", orbit.get("altitude_km", "—"), float(orbit.get("step_duration_hours", 0)) * float(orbit.get("steps_per_orbit", 0)) * 60.0], 12, "a8dce9")
 	earth = ORBIT.instantiate()
@@ -60,27 +65,32 @@ func _ready() -> void:
 	globe.add_child(earth)
 	earth.configure(state)
 	earth.set_preview_playing(true)
-	UI.label(globe, "Drag to rotate · scroll to zoom\nIllustrative Earth view / authored mission windows", 11, "749eb5")
+	var legend = HFlowContainer.new()
+	legend.add_theme_constant_override("h_separation", 12)
+	legend.add_theme_constant_override("v_separation", 4)
+	globe.add_child(legend)
+	UI.label(legend, "● Target", 11, "1fff8c")
+	UI.label(legend, "● Ground station · receives data", 11, "ffb040")
+	UI.label(legend, "— Selected orbit", 11, "39eeff")
+	for label in legend.get_children():
+		label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	UI.label(globe, "Drag to rotate the Earth", 11, "749eb5")
 	var right = column(main_row, 1.0)
 	build_quick_start(right)
 	build_presets(right)
-	lower_row = flex(content)
-	build_system_status(lower_row)
-	build_recent(lower_row)
-	build_learning(lower_row)
 	var actions = HBoxContainer.new()
-	content.add_child(actions)
-	var note = UI.label(actions, "LOCAL MISSION LAB  /  Illustrative engineering scenarios", 11, "77a9bf")
-	note.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var start = UI.button(actions, "▷  Start Mission  →", new_mission)
-	accent(start)
+	add_child(actions)
+	actions.alignment = BoxContainer.ALIGNMENT_END
+	start_button = UI.button(actions, "▷  Start Mission  →", new_mission)
+	start_button.custom_minimum_size.x = 240
+	accent(start_button)
 	resized.connect(fit_dashboard)
 	call_deferred("fit_dashboard")
 
 func flex(parent: Node) -> BoxContainer:
 	var box = BoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	box.add_theme_constant_override("separation", 14)
+	box.add_theme_constant_override("separation", 10)
 	parent.add_child(box)
 	return box
 
@@ -88,14 +98,14 @@ func column(parent: Node, ratio: float = 1.0) -> VBoxContainer:
 	var box = VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.size_flags_stretch_ratio = ratio
-	box.add_theme_constant_override("separation", 12)
+	box.add_theme_constant_override("separation", 8)
 	parent.add_child(box)
 	return box
 
 func panel(parent: Node, title: String) -> VBoxContainer:
 	var card = PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.add_theme_stylebox_override("panel", STYLE.box(Color("041c2eea"), Color("37758e"), 12))
+	card.add_theme_stylebox_override("panel", STYLE.box(Color("041c2eea"), Color("37758e"), 9))
 	parent.add_child(card)
 	var body = column(card)
 	UI.label(body, title, 13, "e2f7ff")
@@ -104,22 +114,16 @@ func panel(parent: Node, title: String) -> VBoxContainer:
 
 func accent(button: Button) -> void:
 	button.custom_minimum_size.y = 54
-	var style = STYLE.box(Color("043e55"), Color("32eaff"), 12)
+	var style = STYLE.box(Color("043e55"), Color("32eaff"), 9)
 	style.shadow_size = 7
 	style.shadow_color = Color(0.05, 0.85, 1.0, 0.22)
 	button.add_theme_stylebox_override("normal", style)
 
 func build_flow(parent: Node) -> void:
 	var box = panel(parent, "◎  MISSION FLOW")
-	var flow = HBoxContainer.new()
-	flow.add_theme_constant_override("separation", 3)
+	var flow = preload("res://ui/components/MissionFlow.gd").new()
+	flow.navigate.connect(func(index): navigate.emit(index))
 	box.add_child(flow)
-	var names = ["Create", "Build", "Check", "Operate", "Debrief"]
-	for i in names.size():
-		var button = UI.button(flow, "%s\n%s" % [i + 1, names[i]], func(): navigate.emit(i + 1))
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.add_theme_font_size_override("font_size", 10)
-		button.custom_minimum_size.y = 44
 
 func build_quick_start(parent: Node) -> void:
 	var box = panel(parent, "♧  QUICK START")
@@ -201,6 +205,5 @@ func fit_dashboard() -> void:
 	if not is_instance_valid(earth): return
 	main_row.vertical = size.x < 1000
 	hero_row.vertical = size.x < 720
-	lower_row.vertical = size.x < 900
-	earth.custom_minimum_size.y = clampf(size.y * 0.50, 280, 450)
-	hero_title.add_theme_font_size_override("font_size", 34 if size.x >= 1000 else 29)
+	earth.custom_minimum_size.y = clampf(size.y * 0.55, 300, 490)
+	hero_title.add_theme_font_size_override("font_size", 31 if size.x >= 1000 else 27)

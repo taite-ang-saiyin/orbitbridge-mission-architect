@@ -67,16 +67,31 @@ func run() -> void:
 	app.current.name_input.text_changed.emit(fixture.mission.title)
 	app.current.observation_input.value = fixture.mission.required_observations
 	app.current.returned_data_input.value = fixture.mission.required_returned_data_mb
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	check(app.current.screen_id == "SpacecraftBuilder","Actual Creator Continue→Builder")
 	for category in ["bus","instrument","solar","battery","radio","storage"]:
 		app.current.select_engineering_component(category,fixture.design[category+"_id"])
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	check(app.current.validation.ready_to_launch and app.current.validation.checks.size() == 8,"Real readiness passes8 checks")
 	var validation: Dictionary = app.current.validation.duplicate(true)
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	check(app.current.screen_id == "MissionOperations","Real Launch→Operations")
 	check(app.state.run_trace.validation == validation,"Launch-time validation snapshot matches readiness")
@@ -99,7 +114,12 @@ func run() -> void:
 		check(event.event_id == "evt_%03d" % i and event.run_id == trace.final_state.run_id and event.step_index >= last_step,"Run-bound event order"+str(i))
 		last_step = event.step_index
 	var before_store: Dictionary = app.state.evaluation_store.duplicate(true)
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	var report: Dictionary = app.state.evaluation_store.reports[trace.final_state.run_id].duplicate(true)
 	check(app.current.screen_id == "DebriefCompare" and app.current.get_presentation_model().report == report,"Results binds real KE2 reply unchanged")
@@ -185,7 +205,12 @@ func run() -> void:
 	app.retry_mission()
 	check(app.state == pending,"Duplicate pending Retry does not dispatch again")
 	app.current.select_engineering_component("instrument","instrument_advanced")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	check(app.current.next_button.disabled,"Invalid retry draft is blocked before Operations")
 	check(press(app.current,"Cancel Retry"),"Cancel Retry available after blocked review")
@@ -196,10 +221,20 @@ func run() -> void:
 	check(app.current.screen_id == "SpacecraftBuilder","Enter activates Retry once")
 	await capture("retry-edit")
 	app.current.select_engineering_component("radio","radio_fast")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	check(not app.current.next_button.disabled,"Edited radio passes real readiness")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	var b: Dictionary = app.state.run_trace.duplicate(true)
 	check(b.config.mission == trace.config.mission,"Retry holds mission requirements fixed")
@@ -228,7 +263,12 @@ func run() -> void:
 		if page.scroll.is_ancestor_of(control): check(page.scroll.get_global_rect().encloses(control.get_global_rect().grow(4)),"Operations focused outline visible "+control.text)
 	await capture("operations-900")
 	app.current.skip_to_end()
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
+	if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+		app.current.review_dialog.acknowledgement.button_pressed = true
+		app.current.review_dialog.continue_button.pressed.emit()
 	await settle()
 	var b_report: Dictionary = app.state.evaluation_store.reports[b.final_state.run_id]
 	check(app.current.get_presentation_model().report == b_report and b_report.run_id == b.final_state.run_id,"Second Results owns second real KE2 report")

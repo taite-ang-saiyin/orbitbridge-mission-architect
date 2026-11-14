@@ -23,3 +23,15 @@ static func panel(parent: Node, title: String) -> VBoxContainer:
 	shell.add_child(box)
 	label(box, title, 14, "6fd9eb")
 	return box
+
+static func user_message(value: String) -> String:
+	# Keep owner names in source diagnostics, outside player-facing messages.
+	if "cached KE2 version" in value:
+		return "Scoring is currently unavailable for survey missions. Recorded flight totals are still available."
+	if "survey-capable evaluator" in value:
+		return "Review the flight totals, or choose Capture Imagery for a scored mission."
+	if value == "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.":
+		return "Observation opportunities are available; individual actions depend on the current step."
+	var owners = RegEx.new()
+	owners.compile("(?i)\\b(?:KE[123]|HPC)\\b(?:'s)?")
+	return owners.sub(value, "the mission system", true)

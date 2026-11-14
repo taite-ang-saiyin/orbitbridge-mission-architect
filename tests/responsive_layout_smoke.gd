@@ -36,7 +36,7 @@ func check() -> void:
 				assert(page.content.size.x <= page.scroll.size.x + 1, "Horizontal content overflow")
 				assert(bounds.encloses(page.next_button.get_global_rect()))
 				assert(page.next_button.size.y >= 44)
-				if index == 1: assert((page.summary_column.get_parent() == page.workspace) == (page.size.x >= 1180))
+				if index == 1: assert(page.summary_column == null and page.form_columns.get_child_count() == 2)
 				if index == 1:
 					for button in page.duration_buttons.values():
 						assert(button.size.y >= 44)

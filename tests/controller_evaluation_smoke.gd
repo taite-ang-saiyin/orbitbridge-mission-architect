@@ -29,6 +29,8 @@ func check() -> void:
 	await settle()
 	app.show_screen(3)
 	await settle()
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	var id: String = app.state.run_trace.final_state.run_id
@@ -78,6 +80,8 @@ func check() -> void:
 	app.state.objective = "Survey Target Regions"
 	app.show_screen(3)
 	await settle()
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	app.current.skip_to_end()

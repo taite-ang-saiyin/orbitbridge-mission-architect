@@ -27,6 +27,7 @@ func check() -> void:
 		app.current.returned_data_input.value = 30
 		app.current.observation_input.value = 5
 		assert(app.state.required_returned_data_mb == 30)
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.show_screen(2)
 		await settle()
 		var builder = app.current
@@ -51,9 +52,11 @@ func check() -> void:
 		choose(builder, "storage", "storage_large")
 		assert(Runtime.review(app.state).metrics.storage_capacity_mb == 256)
 		choose(builder, "storage", "storage_standard")
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		builder.next_button.pressed.emit()
 		await settle()
 		assert(not app.current.next_button.disabled)
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
 		await settle()
 		assert(app.current.screen_id == "MissionOperations")

@@ -31,6 +31,8 @@ func _run() -> void:
 	app.show_screen(3)
 	await settle()
 	_check(app.current.validation.checks.profile_mass.threshold_g == 5000 and app.current.validation.checks.profile_mass.source_id == null, "Alternative profile keeps its own threshold and no NASA source claim")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	var operations = app.current
@@ -86,6 +88,8 @@ func _run() -> void:
 	app.show_screen(3)
 	await settle()
 	_check(not app.current.next_button.disabled and app.current.warning_label.text.contains("score will be unavailable"), "Survey is usable with an explicit scoring limitation")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	app.current.skip_to_end()

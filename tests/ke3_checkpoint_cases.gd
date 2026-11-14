@@ -94,17 +94,37 @@ func run() -> void:
 		app.state=draft_for(definition[1],definition[2],definition[3])
 		app.show_screen(1)
 		for i in 8: await process_frame
+		# Acknowledge fixture mission intent; engineering checks still run.
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
+		if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+			app.current.review_dialog.acknowledgement.button_pressed = true
+			app.current.review_dialog.continue_button.pressed.emit()
 		for i in 8: await process_frame
 		check(app.current.screen_id=="SpacecraftBuilder",definition[0]+" fresh Creator→Builder")
+		# Acknowledge fixture mission intent; engineering checks still run.
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
+		if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+			app.current.review_dialog.acknowledgement.button_pressed = true
+			app.current.review_dialog.continue_button.pressed.emit()
 		for i in 8: await process_frame
 		check(app.current.screen_id=="FlightReadiness" and not app.current.next_button.disabled,definition[0]+" fresh actual Readiness gate")
+		# Acknowledge fixture mission intent; engineering checks still run.
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
+		if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+			app.current.review_dialog.acknowledgement.button_pressed = true
+			app.current.review_dialog.continue_button.pressed.emit()
 		for i in 8: await process_frame
 		check(app.current.screen_id=="MissionOperations",definition[0]+" fresh Operations route")
 		app.current.skip_to_end()
+		# Acknowledge fixture mission intent; engineering checks still run.
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
+		if app.current.screen_id == "MissionCreator" and is_instance_valid(app.current.review_dialog) and app.current.review_dialog.visible:
+			app.current.review_dialog.acknowledgement.button_pressed = true
+			app.current.review_dialog.continue_button.pressed.emit()
 		for i in 8: await process_frame
 		var model: Dictionary=app.current.get_presentation_model()
 		check(model.state=="report" and model.report.score==definition[4] and model.report.run_id==app.state.active_run_state.run_id,definition[0]+" fresh UI own matching KE2 report")

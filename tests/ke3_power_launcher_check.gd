@@ -151,6 +151,8 @@ func run() -> void:
 	app.state=heavy
 	app.show_screen(2)
 	for i in 8: await process_frame
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	for i in 8: await process_frame
 	var validation: Dictionary=app.current.validation

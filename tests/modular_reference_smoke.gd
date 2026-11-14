@@ -6,6 +6,7 @@ func check():
 	var app = load("res://scenes/Main.tscn").instantiate()
 	root.add_child(app)
 	await settle()
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.show_screen(2)
 	await settle()
 	var builder = app.current
@@ -23,9 +24,11 @@ func check():
 	app.state.launch_profile_id = "illustrative_alternative"
 	app.state.launcher_id = "medium"
 	app.state.budget = 150
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	builder.next_button.pressed.emit()
 	await settle()
 	assert(app.current.preview.model.selected_ids == app.state.validated_design.selected_ids)
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	assert(app.current.orbit_view.stage.craft.get_node("ModelSlot").selected_ids == app.state.validated_design.selected_ids)

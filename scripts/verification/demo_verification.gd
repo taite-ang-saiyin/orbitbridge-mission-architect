@@ -63,12 +63,16 @@ func run(app: Control) -> Dictionary:
 	_check(not app.current.next_button.disabled, "Supported target restores readiness")
 	# A previously passing screen never authorizes a later invalid config.
 	app.state.budget = 1
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	_check(not app.state.has("run_trace"), "Launch click rechecks stale permissions")
 	app.state.budget = 100
 	app.show_screen(3)
 	await _settle(app)
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	_check(app.current.screen_id == "MissionOperations", "Validated launch opens Operations")
@@ -122,9 +126,13 @@ func run(app: Control) -> Dictionary:
 	app.show_screen(3)
 	await _settle(app)
 	_check(not app.current.next_button.disabled, "Other native orbit remains suitable")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	app.current.skip_to_end()
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	var report: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
