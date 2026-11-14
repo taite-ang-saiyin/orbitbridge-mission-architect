@@ -3,6 +3,7 @@ extends SceneTree
 const StepEngine = preload("res://core/MissionStepEngine.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const LegacySimulator = preload("res://core/MissionSimulator.gd")
+const LegacyTraceAdapter = preload("res://core/LegacyTraceAdapter.gd")
 const Ke1CatalogLoader = preload("res://scripts/core/catalog_loader.gd")
 const Ke1MissionValidator = preload("res://scripts/core/mission_validator.gd")
 var _passed: int = 0
@@ -181,6 +182,12 @@ func _test_legacy_golden_compatibility(catalog: Dictionary) -> void:
 	var a: Dictionary = LegacySimulator.simulate(a_input, catalog)
 	var b: Dictionary = LegacySimulator.simulate(b_input, catalog)
 	_case("legacy whole-run golden API compatibility", a.get("ok", false) and b.get("ok", false) and a.metrics.captured == 5 and a.metrics.delivered == 2 and a.metrics.returned_kb == 16620 and a.metrics.buffer_kb == 23380 and b.metrics.captured == 5 and b.metrics.delivered == 5 and b.metrics.returned_kb == 40000 and b.metrics.buffer_kb == 0)
+	var adapted: Dictionary = LegacyTraceAdapter.to_v1_units(b)
+	var last_telemetry: Dictionary = adapted.telemetry.back() if adapted.get("telemetry", []).size() > 0 else {}
+	var unit_conversion_ok: bool = adapted.get("ok", false) and adapted.compatibility_kind == "legacy_trace_summary" and is_equal_approx(float(adapted.metrics.energy_wh), float(b.metrics.final_battery_ws) / 3600.0) and is_equal_approx(float(adapted.metrics.returned_data_mb), 40.0) and is_equal_approx(float(adapted.metrics.stored_data_mb), 0.0) and is_equal_approx(float(adapted.summary.minimum_energy_wh), float(b.state.minimum_battery_ws) / 3600.0) and is_equal_approx(float(last_telemetry.energy_wh), float(b.telemetry.back().battery_ws) / 3600.0) and adapted.legacy_events.size() == b.events.size() and adapted.legacy_event_schema == "seq_slot_t_s_code_params"
+	_case("legacy trace adapter exposes Wh and decimal MB", unit_conversion_ok)
+	var invalid_adapted: Dictionary = LegacyTraceAdapter.to_v1_units({"ok": true})
+	_case("legacy trace adapter rejects malformed traces", not invalid_adapted.get("ok", false) and invalid_adapted.error.code == "INVALID_LEGACY_TRACE")
 
 func _test_v1_run_identity_and_event_contract(catalog: Dictionary) -> void:
 	var initialized: Dictionary = StepEngine.init_run(_config(), catalog, "run_v1_01", "mission_v1_01")
