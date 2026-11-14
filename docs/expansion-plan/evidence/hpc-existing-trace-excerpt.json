@@ -1,0 +1,260 @@
+{
+  "evidence_kind": "excerpt_of_existing_local_integration_record",
+  "inspected_checkout": {
+    "branch": "features/KE2",
+    "revision": "4c65496",
+    "date": "2026-11-15",
+    "timezone": "Asia/Rangoon"
+  },
+  "source_record": "exports/check-evidence/ke3_power_launcher_check/power-a.json",
+  "source_record_sha256": "1424d1a62f0ce30adcdcef266f0688971234e3426dff3384f9cd8bb5ca847b57",
+  "source_program": "tests/ke3_power_launcher_check.gd",
+  "source_record_revision": null,
+  "provenance_note": "Source record was already present before this planning task. Its generator revision is not embedded. Selected event/state values are copied exactly. No new engine run was executed for this excerpt.",
+  "source_scope": "Validated KE1→HPC full run→KE2 provider integration. No injected energy/catalog values. Deliberate illegal actions are API requests, not manual UI clicks.",
+  "run_id": "ke3_stock_power8_a",
+  "mission_id": "ke3_stock_power_acceptance",
+  "config_snapshot": {
+    "design": {
+      "battery_id": "battery_standard",
+      "bus_id": "bus_basic",
+      "instrument_id": "instrument_advanced",
+      "launch_profile_id": "illustrative_alternative",
+      "launcher_id": "medium",
+      "orbit_id": "high_inc",
+      "radio_id": "radio_fast",
+      "solar_id": "solar_standard",
+      "storage_id": "storage_large"
+    },
+    "mission": {
+      "budget_credits": 150,
+      "duration_orbits": 9,
+      "objective": "imaging",
+      "required_observations": 8,
+      "required_returned_data_mb": 192,
+      "target_region": "equator",
+      "target_regions": [
+        "equator"
+      ],
+      "title": "KE3 stock-catalog power-limited acceptance"
+    },
+    "schema_version": 1
+  },
+  "scenario": {
+    "scenario_id": "high_inc",
+    "scenario_version": "orbit-presets-v1",
+    "steps_per_orbit": 10.0,
+    "step_duration_hours": 0.1611111111,
+    "ground_contact_windows": [
+      0.0,
+      7.0
+    ]
+  },
+  "source_event_count": 95,
+  "source_frame_count": 95,
+  "initial_state": {
+    "step_index": 0,
+    "energy_wh": 25.0,
+    "stored_data_mb": 0.0,
+    "returned_data_mb": 0.0,
+    "observations_completed": 0,
+    "observations_by_target": {},
+    "observations_delivered_by_target": {},
+    "returned_data_by_target_mb": {},
+    "data_packets": [],
+    "battery_capacity_wh": 25.0,
+    "storage_capacity_mb": 256.0
+  },
+  "selected_events": [
+    {
+      "event_id": "evt_001",
+      "run_id": "ke3_stock_power8_a",
+      "mission_id": "ke3_stock_power_acceptance",
+      "step_index": 1,
+      "action": "observe",
+      "type": "action_accepted",
+      "code": "ACTION_ACCEPTED",
+      "target_id": "equator",
+      "data_added_mb": 24.0,
+      "data_transmitted_mb": 0.0,
+      "delta_observations": 1,
+      "delta_energy_wh": -1.1277777777,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 24.0
+    },
+    {
+      "event_id": "evt_007",
+      "run_id": "ke3_stock_power8_a",
+      "mission_id": "ke3_stock_power_acceptance",
+      "step_index": 7,
+      "action": "transmit",
+      "type": "action_accepted",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 19.333333332,
+      "delta_observations": 0,
+      "delta_energy_wh": -1.2888888888,
+      "delta_returned_data_mb": 19.333333332,
+      "delta_stored_data_mb": -19.333333332
+    },
+    {
+      "event_id": "evt_008",
+      "run_id": "ke3_stock_power8_a",
+      "mission_id": "ke3_stock_power_acceptance",
+      "step_index": 8,
+      "action": "transmit",
+      "type": "action_blocked",
+      "code": "NO_LINK_WINDOW",
+      "delta_observations": 0,
+      "delta_energy_wh": 0.0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0
+    },
+    {
+      "event_id": "evt_011",
+      "run_id": "ke3_stock_power8_a",
+      "mission_id": "ke3_stock_power_acceptance",
+      "step_index": 10,
+      "action": "transmit",
+      "type": "action_accepted",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 4.666666668,
+      "delta_observations": 0,
+      "delta_energy_wh": -1.2888888888,
+      "delta_returned_data_mb": 4.666666668,
+      "delta_stored_data_mb": -4.666666668
+    },
+    {
+      "event_id": "evt_094",
+      "run_id": "ke3_stock_power8_a",
+      "mission_id": "ke3_stock_power_acceptance",
+      "step_index": 90,
+      "action": "",
+      "type": "mission_finished",
+      "code": "MISSION_FINISHED",
+      "delta_observations": 0,
+      "delta_energy_wh": 0.0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0
+    }
+  ],
+  "state_after_event": {
+    "evt_001": {
+      "step_index": 2,
+      "energy_wh": 23.5500000001,
+      "stored_data_mb": 24.0,
+      "returned_data_mb": 0.0,
+      "observations_completed": 1,
+      "observations_by_target": {
+        "equator": 1
+      },
+      "observations_delivered_by_target": {},
+      "returned_data_by_target_mb": {},
+      "data_packets": [
+        {
+          "remaining_mb": 24.0,
+          "target_id": "equator"
+        }
+      ]
+    },
+    "evt_007": {
+      "step_index": 8,
+      "energy_wh": 23.0666666668,
+      "stored_data_mb": 4.666666668,
+      "returned_data_mb": 19.333333332,
+      "observations_completed": 1,
+      "observations_by_target": {
+        "equator": 1
+      },
+      "observations_delivered_by_target": {},
+      "returned_data_by_target_mb": {
+        "equator": 19.333333332
+      },
+      "data_packets": [
+        {
+          "remaining_mb": 4.666666668,
+          "target_id": "equator"
+        }
+      ]
+    },
+    "evt_008": {
+      "step_index": 8,
+      "energy_wh": 23.0666666668,
+      "stored_data_mb": 4.666666668,
+      "returned_data_mb": 19.333333332,
+      "observations_completed": 1,
+      "observations_by_target": {
+        "equator": 1
+      },
+      "observations_delivered_by_target": {},
+      "returned_data_by_target_mb": {
+        "equator": 19.333333332
+      },
+      "data_packets": [
+        {
+          "remaining_mb": 4.666666668,
+          "target_id": "equator"
+        }
+      ]
+    },
+    "evt_011": {
+      "step_index": 11,
+      "energy_wh": 21.1333333336,
+      "stored_data_mb": 0.0,
+      "returned_data_mb": 24.0,
+      "observations_completed": 1,
+      "observations_by_target": {
+        "equator": 1
+      },
+      "observations_delivered_by_target": {
+        "equator": 1
+      },
+      "returned_data_by_target_mb": {
+        "equator": 24.0
+      },
+      "data_packets": []
+    }
+  },
+  "terminal_state": {
+    "run_id": "ke3_stock_power8_a",
+    "mission_id": "ke3_stock_power_acceptance",
+    "scenario_id": "high_inc",
+    "phase": "finished",
+    "run_status": "completed",
+    "terminal_reason": null,
+    "total_steps": 90,
+    "step_index": 90,
+    "energy_wh": 5.55111512312578e-16,
+    "stored_data_mb": 0.0,
+    "returned_data_mb": 168.0,
+    "observations_completed": 7,
+    "observations_by_target": {
+      "equator": 7
+    },
+    "observations_delivered_by_target": {
+      "equator": 7
+    },
+    "returned_data_by_target_mb": {
+      "equator": 168.0
+    },
+    "data_packets": []
+  },
+  "source_report_summary": {
+    "run_id": "ke3_stock_power8_a",
+    "run_status": "completed",
+    "status": "partial",
+    "score": 88,
+    "observations_completed": 7,
+    "required_observations": 8,
+    "returned_data_mb": 168.0,
+    "required_returned_data_mb": 192
+  },
+  "derived_frame_extrema": {
+    "sampling": "initial frame and every recorded post-request state, using clamped energy and stored data",
+    "sample_count": 95,
+    "lowest_energy_wh": 0.0,
+    "highest_stored_data_mb": 24.0,
+    "contract_status": "derived planning measure, HPC sampling agreement pending"
+  }
+}

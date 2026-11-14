@@ -3,6 +3,8 @@
 /android/
 .DS_Store
 
+PDF files
+
 # Generated builds and local tooling
 /exports/
 /builds/

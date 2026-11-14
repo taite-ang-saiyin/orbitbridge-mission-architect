@@ -1,0 +1,357 @@
+{
+  "document_kind": "proposed_objective_report_examples",
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "inspected_checkout": {
+    "branch": "features/KE2",
+    "revision": "4c65496"
+  },
+  "source_packet": "docs/expansion-plan/evidence/ke2-handoff-current.json",
+  "source_packet_sha256": "a42a1ca3aaa4cbafca548576c14f68578961cef9084fec4275557583a7ceeb7e",
+  "production_contract_status": "Proposed objective, goal_progress and scoring extensions await owner agreement. Use production_reply for the actual source-config evaluator response.",
+  "examples": {
+    "imaging": {
+      "example_status": "proposal_for_consumer_review",
+      "source_case_id": "imaging_a",
+      "source_run_id": "ke2_probe_20261115_imaging_a",
+      "source_execution_key": "3f9d1187c4c61348792e2de818726d5773d4b1ddf3960ce1da1fbb5f377423b4",
+      "source_config_objective": "imaging",
+      "source_preset_id": null,
+      "measurement_provenance": "Existing headless module record, inspected during planning. This task executed no new engine run.",
+      "report_provenance": "Actual Imaging report plus proposed additive goal fields.",
+      "production_reply": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 0.6155555556,
+          "explanation": "1/1 observations captured and 7.3866666672/12.0 MB received on Earth. 4.6133333328 MB remain onboard. Available events do not establish the cause of the shortfall.",
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Retry with one change to transmission timing and review the event timeline.",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 1,
+          "required_observations": 1,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 7.3866666672,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_imaging_a",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 81,
+          "source_ids": [],
+          "status": "partial"
+        }
+      },
+      "report_example": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 0.6155555556,
+          "explanation": "1/1 observations captured and 7.3866666672/12.0 MB received on Earth. 4.6133333328 MB remain onboard. Available events do not establish the cause of the shortfall.",
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Retry with one change to transmission timing and review the event timeline.",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 1,
+          "required_observations": 1,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 7.3866666672,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_imaging_a",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 81,
+          "source_ids": [],
+          "status": "partial",
+          "objective": "imaging",
+          "goal_progress": [
+            {
+              "id": "captures",
+              "actual": 1,
+              "required": 1,
+              "unit": "count",
+              "met": true,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_002"
+              ]
+            },
+            {
+              "id": "returned_data",
+              "actual": 7.3866666672,
+              "required": 12.0,
+              "unit": "MB",
+              "met": false,
+              "completion_ratio": 0.6155555556,
+              "evidence_event_ids": [
+                "evt_008"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "survey": {
+      "example_status": "proposal_for_consumer_review",
+      "source_case_id": "survey_shortfall",
+      "source_run_id": "ke2_probe_20261115_survey_shortfall",
+      "source_execution_key": "581e9ccc98ba74c37155253aad2d7f89be94783dccaca614807e23440895247c",
+      "source_config_objective": "survey",
+      "source_preset_id": null,
+      "measurement_provenance": "Existing headless module record, inspected during planning. This task executed no new engine run.",
+      "report_provenance": "Proposed objective assessment and goal fields using recorded engine measurements. Current production reply is separate.",
+      "production_reply": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": "config.mission.objective",
+          "message": "Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+          "run_id": "ke2_probe_20261115_survey_shortfall",
+          "suggested_fix": "Use the supported imaging evaluation or coordinate the Survey scoring extension."
+        },
+        "ok": false
+      },
+      "report_example": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 1.0,
+          "explanation": "The recorded qualifying count is below its proposed requirement. The returned-MB requirement is met.",
+          "goal_progress": [
+            {
+              "actual": 2,
+              "id": "captures",
+              "met": true,
+              "required": 2,
+              "unit": "count",
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_000",
+                "evt_007"
+              ]
+            },
+            {
+              "actual": 1,
+              "id": "selected_targets_delivered",
+              "met": false,
+              "required": 2,
+              "unit": "targets",
+              "completion_ratio": 0.5,
+              "evidence_event_ids": [
+                "evt_000",
+                "evt_007",
+                "evt_010",
+                "evt_017"
+              ],
+              "by_target": [
+                {
+                  "target_id": "arctic_ice",
+                  "actual": 1,
+                  "required": 1,
+                  "unit": "complete_observations",
+                  "met": true,
+                  "completion_ratio": 1.0,
+                  "returned_data_mb": 12.0
+                },
+                {
+                  "target_id": "antarctic_region",
+                  "actual": 0,
+                  "required": 1,
+                  "unit": "complete_observations",
+                  "met": false,
+                  "completion_ratio": 0.0,
+                  "returned_data_mb": 3.466666665600002
+                }
+              ]
+            },
+            {
+              "actual": 15.466666665600002,
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB",
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_010",
+                "evt_017"
+              ]
+            }
+          ],
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Keep the design and captures fixed and transmit at additional available steps 20 and 27 to finish the remaining packet.",
+          "objective": "survey",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 2,
+          "required_observations": 2,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 15.466666665600002,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_survey_shortfall",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 83,
+          "source_ids": [],
+          "status": "partial"
+        }
+      }
+    },
+    "communication": {
+      "example_status": "proposal_for_consumer_review",
+      "source_case_id": "communication_candidate_shortfall",
+      "source_run_id": "ke2_probe_20261115_communication_candidate_shortfall",
+      "source_execution_key": "b9058ed7c00d41bfcb81c2c7e1d9464f6fa852fead02f41834a7a23c0d753664",
+      "source_config_objective": "imaging",
+      "source_preset_id": null,
+      "measurement_provenance": "Existing headless module record, inspected during planning. This task executed no new engine run.",
+      "report_provenance": "Proposed objective assessment and goal fields using recorded engine measurements. Current production reply is separate.",
+      "production_reply": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 1.0,
+          "explanation": "Both mission requirements were met. 2/2 observations captured and 18.466666668/12.0 MB received on Earth. 5.533333332 MB remain onboard.",
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Keep the scenario and targets fixed and change one operation on the next attempt.",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 2,
+          "required_observations": 2,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 18.466666668,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_communication_candidate_shortfall",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 100,
+          "source_ids": [],
+          "status": "success"
+        }
+      },
+      "report_example": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 1.0,
+          "explanation": "The recorded qualifying count is below its proposed requirement. The returned-MB requirement is met.",
+          "goal_progress": [
+            {
+              "actual": 1,
+              "id": "positive_transmit_steps",
+              "met": false,
+              "required": 2,
+              "unit": "steps",
+              "completion_ratio": 0.5,
+              "evidence_event_ids": [
+                "evt_008"
+              ]
+            },
+            {
+              "actual": 18.466666668,
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB",
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_008"
+              ]
+            }
+          ],
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Keep the design and capture plan fixed and transmit at available step 18 as well as step 8.",
+          "objective": "communication",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 2,
+          "required_observations": 2,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 18.466666668,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_communication_candidate_shortfall",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 75,
+          "source_ids": [],
+          "status": "partial"
+        }
+      }
+    },
+    "weather_monitoring": {
+      "example_status": "proposal_for_consumer_review",
+      "source_case_id": "weather_candidate_shortfall",
+      "source_run_id": "ke2_probe_20261115_weather_candidate_shortfall",
+      "source_execution_key": "c9a4a775ab92f4f99a5e2f862bf9e93a538cf9a2e068aae0b26f218f33222f90",
+      "source_config_objective": "imaging",
+      "source_preset_id": null,
+      "measurement_provenance": "Existing headless module record, inspected during planning. This task executed no new engine run.",
+      "report_provenance": "Proposed objective assessment and goal fields using recorded engine measurements. Current production reply is separate.",
+      "production_reply": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 1.0,
+          "explanation": "Both mission requirements were met. 2/2 observations captured and 22.1600000016/12.0 MB received on Earth. 1.8399999984 MB remain onboard.",
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Keep the scenario and targets fixed and change one operation on the next attempt.",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 2,
+          "required_observations": 2,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 22.1600000016,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_weather_candidate_shortfall",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 100,
+          "source_ids": [],
+          "status": "success"
+        }
+      },
+      "report_example": {
+        "ok": true,
+        "report": {
+          "comparison": null,
+          "data_return_completion_ratio": 1.0,
+          "explanation": "The recorded qualifying count is below its proposed requirement. The returned-MB requirement is met.",
+          "goal_progress": [
+            {
+              "actual": 1,
+              "id": "selected_target_revolution_visits",
+              "met": false,
+              "required": 2,
+              "unit": "revolutions",
+              "completion_ratio": 0.5,
+              "evidence_event_ids": [
+                "evt_002",
+                "evt_005"
+              ]
+            },
+            {
+              "actual": 22.1600000016,
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB",
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_008",
+                "evt_018",
+                "evt_028"
+              ]
+            }
+          ],
+          "mission_id": "ke2_handoff_20261115",
+          "next_experiment": "Keep the design and downlink plan fixed and move the second capture from step 5 to step 12.",
+          "objective": "weather_monitoring",
+          "observation_completion_ratio": 1.0,
+          "observations_completed": 2,
+          "required_observations": 2,
+          "required_returned_data_mb": 12.0,
+          "returned_data_mb": 22.1600000016,
+          "root_causes": [],
+          "run_id": "ke2_probe_20261115_weather_candidate_shortfall",
+          "run_status": "completed",
+          "schema_version": 1,
+          "score": 75,
+          "source_ids": [],
+          "status": "partial"
+        }
+      }
+    }
+  }
+}

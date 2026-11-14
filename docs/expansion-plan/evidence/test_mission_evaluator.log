@@ -1,0 +1,221 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS SETUP01 completed mock wrapper
+PASS SETUP02 aborted mock wrapper and null score
+PASS SETUP03 nested mock values are independent
+PASS SETUP04 incomplete mock returns a field error
+PASS SETUP05 missing inputs use the agreed top-level error
+PASS SETUP06 operating state uses the agreed nonterminal error
+PASS SETUP07 terminal evaluation returns all agreed report fields
+PASS SETUP08 evaluation preserves every input
+PASS SETUP09 abort evaluation returns a valid failed report with null score
+PASS T01 exact thresholds
+PASS T02 partial data
+PASS T03 onboard data excluded
+PASS T04 no progress
+PASS T05 excess observations
+PASS T06 changed observation target
+PASS SCORE excess captures cannot replace returned data
+PASS SCORE excess captures cannot replace returned data caps each ratio
+PASS SCORE excess returned data cannot replace captures
+PASS SCORE excess returned data cannot replace captures caps each ratio
+PASS SCORE extra returned MB preserved
+PASS SCORE below half-point boundary
+PASS SCORE exact half-point boundary
+PASS SCORE above half-point boundary
+PASS SCORE positive progress may round to zero
+PASS SCORE whole-valued floats accepted
+PASS SCORE fractional MB target accepted
+PASS agreed_completed_report
+PASS half_up_tie_not_bankers_rounding
+PASS rounded_100_does_not_mean_success
+PASS no_science
+PASS captures_only
+PASS data_only
+PASS above_targets_preserves_actuals
+PASS abort_overrides_targets_met
+PASS abort_preserves_partial_actuals
+PASS SCORE finite extreme MB values cap safely
+PASS SCORE deterministic reports
+PASS SCORE fresh nested report containers
+PASS SCORE ratios retain fractional completion for percentage display
+PASS T14 early abort after targets were met
+PASS T14 abort before progress
+PASS T14 abort explanation identifies termination
+PASS INVALID config.mission.required_observations rejects int 0
+PASS INVALID config.mission.required_observations rejects int -1
+PASS INVALID config.mission.required_observations rejects float 1.5
+PASS INVALID config.mission.required_observations rejects int 21
+PASS INVALID config.mission.required_observations rejects float nan
+PASS INVALID config.mission.required_observations rejects float inf
+PASS INVALID config.mission.required_observations rejects String "3"
+PASS INVALID config.mission.required_observations rejects bool true
+PASS INVALID config.mission.required_observations rejects Nil null
+PASS INVALID config.mission.required_returned_data_mb rejects int 0
+PASS INVALID config.mission.required_returned_data_mb rejects int -1
+PASS INVALID config.mission.required_returned_data_mb rejects float nan
+PASS INVALID config.mission.required_returned_data_mb rejects float inf
+PASS INVALID config.mission.required_returned_data_mb rejects String "30"
+PASS INVALID config.mission.required_returned_data_mb rejects bool true
+PASS INVALID config.mission.required_returned_data_mb rejects Nil null
+PASS INVALID config.mission.duration_orbits rejects int 0
+PASS INVALID config.mission.duration_orbits rejects int -1
+PASS INVALID config.mission.duration_orbits rejects float 1.5
+PASS INVALID config.mission.duration_orbits rejects int 13
+PASS INVALID final_state.observations_completed rejects int -1
+PASS INVALID final_state.observations_completed rejects float 1.5
+PASS INVALID final_state.observations_completed rejects float nan
+PASS INVALID final_state.observations_completed rejects float inf
+PASS INVALID final_state.observations_completed rejects String "3"
+PASS INVALID final_state.observations_completed rejects bool true
+PASS INVALID final_state.observations_completed rejects Nil null
+PASS INVALID final_state.returned_data_mb rejects int -1
+PASS INVALID final_state.returned_data_mb rejects float nan
+PASS INVALID final_state.returned_data_mb rejects float inf
+PASS INVALID final_state.returned_data_mb rejects String "30"
+PASS INVALID final_state.returned_data_mb rejects bool true
+PASS INVALID final_state.returned_data_mb rejects Nil null
+PASS INVALID final_state.stored_data_mb rejects int -1
+PASS INVALID final_state.stored_data_mb rejects float nan
+PASS INVALID final_state.stored_data_mb rejects float inf
+PASS INVALID final_state.stored_data_mb rejects String "30"
+PASS INVALID final_state.stored_data_mb rejects bool true
+PASS INVALID final_state.stored_data_mb rejects Nil null
+PASS INVALID final_state.step_index rejects int -1
+PASS INVALID final_state.step_index rejects float 1.5
+PASS INVALID final_state.step_index rejects int 13
+PASS INVALID final_state.step_index rejects Nil null
+PASS INVALID final_state.total_steps rejects int 0
+PASS INVALID final_state.total_steps rejects int -1
+PASS INVALID final_state.total_steps rejects float inf
+PASS INVALID final_state.total_steps rejects Nil null
+PASS INVALID missing target
+PASS INVALID missing returned counter
+PASS INVALID incomplete step with completed status
+PASS INVALID unknown terminal status
+PASS T13 both zero targets rejected
+PASS INVALID abort still validates counters
+PASS INVALID missing capture counter
+PASS INVALID boolean schema version
+PASS INVALID event item type
+PASS T09 recognized NO_LINK_WINDOW/transmit
+PASS T09 recognized LOW_BATTERY/observe
+PASS T09 recognized LOW_BATTERY/transmit
+PASS T09 recognized STORAGE_FULL/observe
+PASS T09 recognized TARGET_NOT_VISIBLE/observe
+PASS FEEDBACK signed evt_007 reference resolves
+PASS T10 neutral fallback for missing events
+PASS T10 neutral fallback for unknown code
+PASS T10 neutral fallback for legacy whole-run code
+PASS T10 neutral fallback for other HPC code
+PASS T10 neutral fallback for missing event ID
+PASS T10 neutral fallback for missing event step
+PASS T10 neutral fallback for empty event
+PASS T10 neutral fallback for wrong code/action pair
+PASS T10 neutral fallback for data goal met
+PASS T10 neutral fallback for observation goal met
+PASS T10 neutral fallback for storage block alone cannot explain return shortfall
+PASS T10 neutral fallback for visibility alone cannot explain return shortfall
+PASS T10 neutral fallback for type="warning"
+PASS T10 neutral fallback for type="action_accepted"
+PASS T10 neutral fallback for event_id="  "
+PASS T10 neutral fallback for step_index=-1
+PASS T10 neutral fallback for step_index=1.5
+PASS T10 neutral fallback for step_index=nan
+PASS T10 neutral fallback for step_index=true
+PASS T10 neutral fallback for step_index=12
+PASS T10 neutral fallback for delta_returned_data_mb=1
+PASS T10 neutral fallback for delta_energy_wh=nan
+PASS T10 neutral fallback for delta_observations=true
+PASS T10 neutral fallback for run_id="other-run"
+PASS T10 neutral fallback for mission_id="other-mission"
+PASS FEEDBACK orders unmet observation goal, step, then original event order
+PASS FEEDBACK repeated inputs give identical reports
+PASS FEEDBACK preserves config, state, and event ordering
+PASS FEEDBACK output references are independent
+PASS FEEDBACK identical duplicate event is cited once
+PASS FEEDBACK conflicting event IDs give neutral causes
+PASS FEEDBACK uses confirmed code semantics and matching identities
+PASS FEEDBACK aborted reason handling null
+PASS FEEDBACK aborted reason handling "Player requested stop."
+PASS FEEDBACK aborted reason handling {
+"message": "Operator ended the run."
+}
+PASS FEEDBACK aborted reason handling 42
+PASS FEEDBACK aborted reason handling {
+"code": "UNKNOWN"
+}
+PASS FEEDBACK success acknowledges goals without blaming historical blocks
+PASS FEEDBACK onboard data remains distinct from Earth reception
+PASS HPC adapter returns a complete evaluation
+PASS HPC adapter uses launch observation target
+PASS HPC adapter uses launch return target
+PASS HPC adapter preserves returned MB
+PASS HPC adapter delegates capped scoring
+PASS HPC adapter delegates event evidence
+PASS HPC adapter preserves state and nested snapshots
+PASS HPC adapter is deterministic
+PASS HPC adapter agrees with the public three-input evaluator
+PASS HPC adapter rejects missing config_snapshot
+PASS HPC adapter rejects invalid config_snapshot
+PASS HPC adapter rejects missing event_log
+PASS HPC adapter rejects invalid event_log
+PASS HPC adapter delegates event validation
+PASS HPC adapter rejects a live operating state
+PASS HPC terminal_reason is attributed
+PASS HPC terminal_reason takes precedence
+PASS HPC abort score is null
+PASS HPC abort retains actual progress
+PASS HPC abort mapping preserves inputs
+PASS HPC empty terminal_reason preserves legacy fallback
+PASS HPC empty state uses nullable identity
+PASS Survey aggregate thresholds require the delivery extension
+PASS Survey guard also applies to the public evaluator
+PASS HPC real KE1 catalogs load
+PASS HPC actual KE1 readiness permits initialization
+PASS HPC actual readiness is approved
+PASS HPC recorded transmission is blocked
+PASS HPC recorded block code
+PASS HPC blocked action preserves step_index
+PASS HPC blocked action preserves energy_wh
+PASS HPC blocked action preserves stored_data_mb
+PASS HPC blocked action preserves returned_data_mb
+PASS HPC blocked action preserves observations_completed
+PASS HPC real mission finishes naturally
+PASS HPC real mission reaches step 60
+PASS HPC real mission retains all 62 events
+PASS HPC completed simulation evaluates
+PASS HPC report contains every agreed field
+PASS HPC completed verdict
+PASS HPC completed score
+PASS HPC successful captures pass through
+PASS HPC actual Earth reception passes through exactly
+PASS HPC Earth reception matches the recorded reference
+PASS HPC stored data stays in the explanation
+PASS HPC launch capture target survives caller edits
+PASS HPC launch return target survives caller edits
+PASS HPC earlier block survives terminal notification
+PASS HPC earlier event ID is retained
+PASS HPC earlier reason is retained
+PASS HPC terminal state remains immutable
+PASS HPC repeated terminal evaluation is deterministic
+PASS HPC committed trace has launch approval
+PASS HPC committed trace evaluates
+PASS HPC committed trace score
+PASS HPC committed trace retains evt_008
+PASS HPC real abort succeeds
+PASS HPC real abort status
+PASS HPC real abort verdict
+PASS HPC real abort score
+PASS HPC real abort preserves captures
+PASS HPC real abort preserves received MB
+PASS HPC real abort attributes producer reason
+PASS HPC real abort retains state and logs
+PENDING T07 controlled retry deltas await comparison implementation
+PENDING T08 baseline eligibility awaits comparison implementation
+PENDING T11 actual 1329 g validation and Builder check await KE1/SE integration
+PENDING T12 actual 1330/1331 g and profile-switch checks await KE1/SE integration
+PENDING INTEGRATION Results, duplicate publication, and retry/reset
+Evaluator checks: 207 passed, 0 failed, 5 pending.
