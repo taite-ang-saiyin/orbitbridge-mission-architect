@@ -1,0 +1,166 @@
+{
+    "handoff_revision":  "ke2-hpc-report-v0.1",
+    "report_file":  "docs/handoffs/ke2-hpc-report-v0.1.json",
+    "report_sha256":  "d89c3a1cd392d028752876e429d3def7ab185d21ca32af8ab789d107d4436839",
+    "run_id":  "run_ke2_handoff_v01",
+    "mission_id":  "mission_ke2_handoff_v01",
+    "evaluator":  {
+                      "repository":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect",
+                      "branch":  "memberKE2",
+                      "commit_sha":  "f313e6fbf5c0eed7f67885edb45ce5ba45b85bba",
+                      "file_path":  "scripts/evaluation/mission_evaluator.gd",
+                      "feedback_file_path":  "scripts/evaluation/mission_feedback.gd",
+                      "invocation":  "MissionEvaluator.evaluate_mission(trace.config, trace.final_state, trace.events)"
+                  },
+    "hpc":  {
+                "branch":  "feature/hpc-simulator",
+                "commit_sha":  "ce478f94a918047c0449fe30bfffe18f368315fd",
+                "file_path":  "docs/hpc-ke2-trace-v0.1.json",
+                "trace_revision":  "hpc-ke1-adapter-abort-v0.1",
+                "recorded_generation_metadata":  {
+                                                     "config_fixture":  "origin/ke1:tests/fixtures/ke1_config.json (same payload as docs/contracts/v1-draft/mission-config.example.json)",
+                                                     "hpc_base_commit_sha":  "ab7865cf45e65de84637b4319899759928ee7082",
+                                                     "hpc_branch":  "feature/hpc-simulator",
+                                                     "hpc_changes_committed":  false,
+                                                     "hpc_working_tree_revision":  "hpc-ke1-adapter-abort-v0.1",
+                                                     "ke1_branch":  "ke1",
+                                                     "ke1_commit_sha":  "15385a442c0dfeebd4752a8a648e306624327098",
+                                                     "ke1_status":  "K05-K06 schema and reference validation implemented; K07-K09 launch-readiness checks pending",
+                                                     "repository":  "taite-ang-saiyin/orbitbridge-mission-architect"
+                                                 },
+                "trace_status":  "HPC sample; KE1 launch readiness is not yet implemented",
+                "validation":  {
+                                   "hpc_scenario_adapter":  "passed",
+                                   "launch_approved":  false,
+                                   "mission_config_schema_and_references":  "KE1 fixture from the K05-K06 branch; KE1 reports ready_to_launch=false until K07-K09 are implemented"
+                               }
+            },
+    "source_credit_metadata":  {
+                                   "report_source_ids":  [
+
+                                                         ],
+                                   "resolved_sources":  [
+
+                                                        ],
+                                   "unresolved_source_ids":  [
+
+                                                             ],
+                                   "explanation":  "The evaluator emitted no source IDs. No source-credit lookup is required for this report. The recorded trace has no successful readiness result establishing use of a NASA-derived mass rule; do not infer a credit from the selected profile ID. NASA source-ledger and Builder/credits integration remain pending."
+                               },
+    "evidence_events":  [
+                            {
+                                "action":  "observe",
+                                "code":  "ACTION_ACCEPTED",
+                                "data_added_mb":  12.0,
+                                "data_transmitted_mb":  0.0,
+                                "delta_energy_wh":  -0.483333333299999,
+                                "delta_observations":  1,
+                                "delta_returned_data_mb":  0.0,
+                                "delta_stored_data_mb":  12.0,
+                                "energy_change_wh":  -0.483333333299999,
+                                "energy_clamped":  false,
+                                "energy_consumed_wh":  0.9666666666,
+                                "energy_generated_wh":  0.4833333333,
+                                "energy_wh_after":  24.1944444445,
+                                "event_id":  "evt_001",
+                                "message":  "Observation captured; 12.000 MB stored.",
+                                "mission_id":  "mission_ke2_handoff_v01",
+                                "observations_completed":  1,
+                                "observations_completed_after":  1,
+                                "phase_after":  "operating",
+                                "returned_data_mb":  0.0,
+                                "returned_data_mb_after":  0.0,
+                                "run_id":  "run_ke2_handoff_v01",
+                                "run_status_after":  null,
+                                "step_index":  1,
+                                "stored_data_mb":  12.0,
+                                "stored_data_mb_after":  12.0,
+                                "target_id":  "equator",
+                                "type":  "action_accepted"
+                            },
+                            {
+                                "action":  "transmit",
+                                "code":  "ACTION_ACCEPTED",
+                                "data_added_mb":  0.0,
+                                "data_transmitted_mb":  7.7333333328,
+                                "delta_energy_wh":  -0.8055555555,
+                                "delta_observations":  0,
+                                "delta_returned_data_mb":  7.7333333328,
+                                "delta_stored_data_mb":  -7.7333333328,
+                                "energy_change_wh":  -0.8055555555,
+                                "energy_clamped":  false,
+                                "energy_consumed_wh":  0.8055555555,
+                                "energy_generated_wh":  0.0,
+                                "energy_wh_after":  24.1944444445,
+                                "event_id":  "evt_007",
+                                "message":  "Ground station received 7.733 MB.",
+                                "mission_id":  "mission_ke2_handoff_v01",
+                                "observations_completed":  1,
+                                "observations_completed_after":  1,
+                                "phase_after":  "operating",
+                                "returned_data_mb":  7.7333333328,
+                                "returned_data_mb_after":  7.7333333328,
+                                "run_id":  "run_ke2_handoff_v01",
+                                "run_status_after":  null,
+                                "step_index":  7,
+                                "stored_data_mb":  4.2666666672,
+                                "stored_data_mb_after":  4.2666666672,
+                                "type":  "action_accepted"
+                            },
+                            {
+                                "action":  "transmit",
+                                "code":  "NO_LINK_WINDOW",
+                                "delta_energy_wh":  0.0,
+                                "delta_observations":  0,
+                                "delta_returned_data_mb":  0.0,
+                                "delta_stored_data_mb":  0.0,
+                                "energy_wh_after":  24.1944444445,
+                                "event_id":  "evt_008",
+                                "message":  "No ground station contact window is available during this step.",
+                                "mission_id":  "mission_ke2_handoff_v01",
+                                "observations_completed_after":  1,
+                                "phase_after":  "operating",
+                                "returned_data_mb_after":  7.7333333328,
+                                "run_id":  "run_ke2_handoff_v01",
+                                "run_status_after":  null,
+                                "step_index":  8,
+                                "stored_data_mb_after":  4.2666666672,
+                                "type":  "action_blocked"
+                            },
+                            {
+                                "action":  "",
+                                "code":  "MISSION_FINISHED",
+                                "delta_energy_wh":  0.0,
+                                "delta_observations":  0,
+                                "delta_returned_data_mb":  0.0,
+                                "delta_stored_data_mb":  0.0,
+                                "energy_wh_after":  21.9388888890999,
+                                "event_id":  "evt_061",
+                                "message":  "The final mission step is complete.",
+                                "mission_id":  "mission_ke2_handoff_v01",
+                                "observations_completed_after":  1,
+                                "phase_after":  "finished",
+                                "returned_data_mb_after":  7.7333333328,
+                                "run_id":  "run_ke2_handoff_v01",
+                                "run_status_after":  "completed",
+                                "step_index":  60,
+                                "stored_data_mb_after":  4.2666666672,
+                                "type":  "mission_finished"
+                            }
+                        ],
+    "evidence_limits":  [
+                            "evt_007 is a successful transmission in this trace; it is not the LOW_BATTERY documentation example.",
+                            "evt_008 establishes one blocked transmission at step 8. It does not establish the full cause of the observation or returned-data shortfall.",
+                            "The report root cause describes that recorded block only. No observation-block event supports a cause for the capture shortfall."
+                        ],
+    "verification":  {
+                         "engine_version":  "4.7.2.stable.mono.official.ed1daf0bf",
+                         "recorded_trace_checks_passed":  146,
+                         "recorded_trace_checks_failed":  0,
+                         "evaluator_fixture_checks_passed":  143,
+                         "evaluator_fixture_checks_failed":  0,
+                         "evaluator_suite_pending":  5,
+                         "verification_scope":  "Existing KE2 evaluator executed against the committed HPC recorded trace. HPC engine replay, readiness validation, Results UI, retry lifecycle, and exports were not executed.",
+                         "environment_note":  "Godot reported failure to read the system certificate store; both commands exited 0 and all executed assertions passed."
+                     }
+}

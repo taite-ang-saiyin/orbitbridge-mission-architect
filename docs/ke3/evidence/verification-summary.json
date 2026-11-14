@@ -1,0 +1,392 @@
+{
+  "scope": "KE3 isolated preview/component evidence; B02 and official B10 NOT TESTED",
+  "passed_commands": 35,
+  "failed_commands": 0,
+  "semantic_repeatability": true,
+  "engine_version": "4.7.2.stable.official.ed1daf0bf",
+  "base_main_sha": "1a82ebd93a019b751947965aa760e8e759d8f45b",
+  "command": "python tools/ke3/verify.py --godot <installed Godot 4.7.2 executable> --output-dir <new external directory> --mode all",
+  "executed_suites": [
+    {
+      "suite": "version",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": []
+    },
+    {
+      "suite": "import",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+      ]
+    },
+    {
+      "suite": "a01-operations-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a01-results-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a02-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC FIXTURE SUITE: 254 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a03-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC A03 SUITE: 256 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a04-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC A04 SUITE: 206 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a04-restart-first-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC A04 RESTART: 9 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a04-restart-second-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC A04 RESTART: 9 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a05-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC A05: 139 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a06-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "SYNTHETIC A06 P0: 100 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "old-recorded-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "KE2 RECORDED SAMPLE DEBRIEF: 49 checks; 0 failures",
+        "FIXTURE PASS with KE2 recorded sample"
+      ]
+    },
+    {
+      "suite": "validated-recorded-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "VALIDATED KE2 DEBRIEF: 63 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "reply-edges-headless",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "KE2 REPLY EDGES: 24 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a01-operations-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a01-results-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a02-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC FIXTURE SUITE: 255 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a03-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC A03 SUITE: 259 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a04-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC A04 SUITE: 210 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a04-restart-first-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC A04 RESTART: 10 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a04-restart-second-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC A04 RESTART: 10 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a05-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC A05: 156 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a06-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "SYNTHETIC A06 P0: 104 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "old-recorded-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "KE2 RECORDED SAMPLE DEBRIEF: 52 checks; 0 failures",
+        "FIXTURE PASS with KE2 recorded sample"
+      ]
+    },
+    {
+      "suite": "validated-recorded-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "VALIDATED KE2 DEBRIEF: 67 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "reply-edges-windowed",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "KE2 REPLY EDGES: 29 checks; 0 failures",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a07-1280x720",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "A07 RESULT: 91 checks; 0 failures; viewport (1280, 720)",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a07-1024x768",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "A07 RESULT: 91 checks; 0 failures; viewport (1024, 768)",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a07-900x680",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "A07 RESULT: 91 checks; 0 failures; viewport (900, 680)",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "a07-repeat-1024x768",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org",
+        "OpenGL API 3.3.0 NVIDIA 576.80 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4060 Laptop GPU",
+        "A07 RESULT: 91 checks; 0 failures; viewport (1024, 768)",
+        "FIXTURE PASS"
+      ]
+    },
+    {
+      "suite": "scene-ke3_operations_control.tscn",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+      ]
+    },
+    {
+      "suite": "scene-ke3_operations_screen.tscn",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+      ]
+    },
+    {
+      "suite": "scene-ke3_results_control.tscn",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+      ]
+    },
+    {
+      "suite": "scene-preview_a06_preview.tscn",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+      ]
+    },
+    {
+      "suite": "scene-preview_ke2_validated_preview.tscn",
+      "exit": 0,
+      "passed": true,
+      "script_errors": false,
+      "summary": [
+        "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org"
+      ]
+    }
+  ]
+}
