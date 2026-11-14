@@ -23,6 +23,13 @@ static func load_catalogs(base_path: String = "res://data") -> Dictionary:
 				bundle[key] = document.get(key)
 		else:
 			bundle[name] = document.get(name)
+	var orbit_path: String = base_path.path_join("orbits.json")
+	if FileAccess.file_exists(orbit_path):
+		var loaded_orbits: Dictionary = _read_document(orbit_path, false)
+		if loaded_orbits["ok"]:
+			bundle["orbit_catalog"] = loaded_orbits["document"]
+		else:
+			errors.append_array(loaded_orbits["errors"])
 	if not errors.is_empty():
 		return {"ok": false, "catalogs": {}, "errors": errors}
 	var inspected: Dictionary = inspect_catalogs(bundle)
@@ -104,7 +111,7 @@ static func inspect_catalogs(catalogs: Variant) -> Dictionary:
 	return {"ok": errors.is_empty(), "indexes": indexes if errors.is_empty() else {}, "errors": errors}
 
 
-static func _read_document(path: String) -> Dictionary:
+static func _read_document(path: String, require_contract_revision: bool = true) -> Dictionary:
 	var errors: Array = []
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 	if file == null:
@@ -122,7 +129,7 @@ static func _read_document(path: String) -> Dictionary:
 	var document: Dictionary = parser.data
 	if not Support.is_whole(document.get("schema_version")) or document.get("schema_version") != 1:
 		_catalog_error(errors, path + ".schema_version", "Catalog file schema_version must be 1.")
-	if document.get("contract_revision") != "v1.0-agreed":
+	if require_contract_revision and document.get("contract_revision") != "v1.0-agreed":
 		_catalog_error(errors, path + ".contract_revision", "The catalog file must identify v1.0-agreed.")
 	return {"ok": errors.is_empty(), "document": document, "errors": errors}
 

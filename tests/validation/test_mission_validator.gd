@@ -65,31 +65,30 @@ func _test_real_data() -> void:
 
 func _test_valid_lookup() -> void:
 	var result: Dictionary = Validator.validate(config, catalogs)
-	_check(result["errors"].is_empty(), "Agreed mission config resolves all selected IDs")
-	_check(result["checks"]["input_schema"]["passed"] == true, "Valid input shape passes")
-	_check(result["checks"]["catalog_references"]["passed"] == true, "All references and categories pass")
-	_check(result["ready_to_launch"] == false and result["metrics"] == null, "K05 foundation does not grant premature launch approval")
-	for field in ["total_mass_g", "threshold_g", "comparator", "profile_id", "source_id"]:
-		_check(result["checks"]["profile_mass"].has(field) and result["checks"]["profile_mass"][field] == null, "Future mass-check field is present without a fabricated value: " + field)
+	_check(result["errors"].is_empty(), "Agreed mission config passes with published HPC orbit metadata")
+	_check(_lookup_passes(result), "Input shape and selected references pass")
+	_check(result["ready_to_launch"] and result["metrics"] != null, "Complete valid design receives a readiness verdict")
+	_check(result["metrics"]["total_mass_g"] == 1060 and result["metrics"]["total_cost_credits"] == 82, "Actual catalog totals are returned")
 	for key in Validator.CHECK_IDS:
-		if key not in ["input_schema", "catalog_references"]:
-			_check(result["checks"][key]["status"] == "not_evaluated", "Future readiness check is explicitly pending: " + key)
+		_check(result["checks"][key]["status"] == "pass", "All required checks pass: " + key)
+	var mass_check: Dictionary = result["checks"]["profile_mass"]
+	_check(mass_check["threshold_g"] == 1330 and mass_check["comparator"] == "<" and mass_check["source_id"] == "cubesat_101_1u_sample", "Source rule metadata is preserved in actual readiness")
 	for entry in catalogs["components"]:
 		var changed: Dictionary = config.duplicate(true)
 		changed["design"][entry["category"] + "_id"] = entry["id"]
-		_check(Validator.validate(changed, catalogs)["errors"].is_empty(), "Every actual component is selectable: " + entry["id"])
+		_check(_lookup_passes(Validator.validate(changed, catalogs)), "Every component ID resolves even when later feasibility fails: " + entry["id"])
 	for profile in catalogs["launch_profiles"]:
 		var changed: Dictionary = config.duplicate(true)
 		changed["design"]["launch_profile_id"] = profile["id"]
-		_check(Validator.validate(changed, catalogs)["errors"].is_empty(), "Profile lookup: " + profile["id"])
+		_check(_lookup_passes(Validator.validate(changed, catalogs)), "Profile lookup: " + profile["id"])
 	for launcher in catalogs["launchers"]:
 		var changed: Dictionary = config.duplicate(true)
 		changed["design"]["launcher_id"] = launcher["id"]
-		_check(Validator.validate(changed, catalogs)["errors"].is_empty(), "Launcher lookup: " + launcher["id"])
+		_check(_lookup_passes(Validator.validate(changed, catalogs)), "Launcher lookup: " + launcher["id"])
 	for orbit_id in catalogs["orbit_ids"]:
 		var changed: Dictionary = config.duplicate(true)
 		changed["design"]["orbit_id"] = orbit_id
-		_check(Validator.validate(changed, catalogs)["errors"].is_empty(), "Orbit vocabulary lookup: " + orbit_id)
+		_check(_lookup_passes(Validator.validate(changed, catalogs)), "Orbit vocabulary lookup: " + orbit_id)
 
 
 func _test_shape_failures() -> void:
@@ -148,7 +147,7 @@ func _test_numeric_boundaries() -> void:
 		for accepted_value in [1, pair[1], 1.0]:
 			var changed: Dictionary = config.duplicate(true)
 			changed["mission"][pair[0]] = accepted_value
-			_check(Validator.validate(changed, catalogs)["errors"].is_empty(), "Inclusive count range and whole JSON floats")
+			_check(_lookup_passes(Validator.validate(changed, catalogs)), "Inclusive count range and whole JSON floats")
 		var changed: Dictionary = config.duplicate(true)
 		changed["mission"][pair[0]] = pair[2]
 		_expect_issue(Validator.validate(changed, catalogs), "INVALID_VALUE", "mission." + pair[0], "Above allowed count range")
@@ -289,3 +288,7 @@ func _check(condition: bool, label: String) -> void:
 	else:
 		failed += 1
 		printerr("FAIL: " + label)
+
+
+func _lookup_passes(result: Dictionary) -> bool:
+	return result["checks"]["input_schema"]["passed"] == true and result["checks"]["catalog_references"]["passed"] == true

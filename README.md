@@ -4,7 +4,7 @@ An educational satellite mission simulator planned for Godot 4. Design spacecraf
 
 ## Project status
 
-Team agreement v1.0-agreed is approved by all five roles. K01-K06 are complete: mission field/selection checks, catalog loading and actual labeled training catalogs are implemented. Godot 4.7.2 passed 296 checks. K07-K09 still need to add totals/full launch readiness; the game cannot launch from this foundation alone.
+Team agreement v1.0-agreed is approved by all five roles. K01-K11 are complete locally: KE1 now checks mission fields, loads actual training catalogs, calculates design totals and returns full launch readiness with source-linked mass results. HPC's orbit data was imported unchanged. Godot 4.7.2 passed 1435 checks across three suites, including 15 saved passing/failing examples. The local [KE1 handoff](docs/ke1-handoff.md) includes usage, real results, source credit and evidence; teammate receipt is not confirmed. Screens, operations and the full playable loop still need team integration.
 
 ## Planned gameplay
 
@@ -40,7 +40,7 @@ Open this repository root in Codex or Antigravity. Both assistants use the share
 
 ## KE1 implementation status
 
-Status: IMPLEMENTATION. [docs/team-agreement.md](docs/team-agreement.md) (`v1.0-agreed`) is agreed by all five roles and contract v1 is frozen; `K01`–`K06` are complete and `K07` is next.
+Status: IMPLEMENTATION. [docs/team-agreement.md](docs/team-agreement.md) (`v1.0-agreed`) is agreed by all five roles and contract v1 is frozen; `K01`–`K11` are complete locally, including the prepared team handoff; `K12` Builder integration with SE is next.
 
 - [Shared assistant instructions](AGENTS.md) and [Antigravity entry point](GEMINI.md).
 - [KE1 tasks and acceptance criteria](tasks.md).
@@ -55,6 +55,10 @@ Status: IMPLEMENTATION. [docs/team-agreement.md](docs/team-agreement.md) (`v1.0-
 - [Agreed v1 interface examples and expectation cases](docs/contracts/v1-draft/README.md).
 - [K05/K06 implementation, usage and test results](docs/k05-k06-progress.md).
 - [Actual KE1 catalog files and assumptions](data/README.md).
+- [K07/K08 totals, readiness, HPC data and test results](docs/k07-k08-progress.md).
+- [K09/K10 verification and saved examples](docs/k09-k10-progress.md).
+- [K11 handoff for SE, HPC and KE2](docs/ke1-handoff.md).
+- [Runnable valid/overweight cases and expected results](tests/fixtures/README.md).
 
 The final demo may be Windows, browser, or both and can be selected after the first playable slice. Compatibility rendering is agreed; the signed agreement reports it on master while local main still has Forward Plus. SE owns the branch/settings sync and early Web export check. This contract/example synchronization preserves project.godot.
 

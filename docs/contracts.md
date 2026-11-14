@@ -8,7 +8,7 @@ This document translates the [signed team agreement](team-agreement.md) into the
 
 The [v1 example pack](contracts/v1-draft/README.md) is aligned to this revision. Its directory retains the earlier `v1-draft` name for existing links; its current status and agreement revision, not its directory name, identify the approved interface. Example payloads remain hand-authored documentation fixtures, not results of implemented game logic.
 
-Implementation status: K05 field/ID checks and K06 catalogs are implemented; see [k05-k06-progress.md](k05-k06-progress.md). The agreed interface below describes the completed target behavior. Until K07-K09 are built, validate() keeps ready_to_launch false, metrics null and the remaining six checks not_evaluated, with explicit messages. This is a staged implementation, not a changed agreement.
+Implementation status: K05-K11 are complete locally. The [KE1 handoff](ke1-handoff.md) supplies public-call instructions, real result snapshots, source credit and reproducible evidence for SE/HPC/KE2; it does not claim teammate receipt or completed integration. K09 source-linked fields were covered by K08 and verified directly with K10 saved cases. See [k09-k10-progress.md](k09-k10-progress.md) and [the real-catalog fixture guide](../tests/fixtures/README.md). See [k07-k08-progress.md](k07-k08-progress.md). validate() computes all nine metrics and all eight required checks. An unchanged copy of HPC's native orbit file supplies target_windows via catalogs.orbit_catalog; no real coverage is inferred. Missing/invalid metadata blocks readiness explicitly.
 
 ## 1. Ownership and entry points
 
@@ -196,7 +196,7 @@ Keep immutable snapshots of scenario identity/version, mission requirements, dur
 
 The signed v1.0 agreement resolves the public units, field vocabulary, separate launcher/profile selection, capture/data goal semantics, power gate, action timing, run/event identity, score/abort behavior, source credit and ownership. K01-K04 are already recorded complete in tasks.md.
 
-K05 field/lookup checks and K06 catalogs are implemented. Remaining work includes KE1's calculated totals/full feasibility/source-linked readiness (K07-K09), HPC's real preset values/target matrix/step equations and legacy adapters, SE's prototype migration and branch configuration sync, and runtime integration tests. Those are implementation tasks, not a reason to relabel this contract as an unapproved draft. Do not claim another branch's scripts/tests were executed here.
+K05-K09 field/catalog/metrics/readiness work is implemented. HPC's native orbit file is imported unchanged from feature/hpc-simulator commit ab7865c and attached by the loader as orbit_catalog; target suitability uses its authored observation windows. Remaining work includes saved handoff fixtures/team integration, HPC runtime engine/adapters, SE's prototype migration and branch configuration sync, and full-run/UI tests. Those are implementation tasks, not a reason to relabel this contract as an unapproved draft. Do not claim another branch's scripts/tests were executed here.
 
 Compatibility rendering is agreed, but the inspected local main project still declares Forward Plus/d3d12 while the agreement reports Compatibility on master. SE owns that sync and the early Web export check. This documentation/example synchronization does not modify project.godot or merge branches. Final Windows/Web packaging can be chosen at the first playable slice.
 

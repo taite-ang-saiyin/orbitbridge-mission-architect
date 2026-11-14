@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "contract_revision": "v1.0-agreed",
+  "prepared_on": "2026-11-14",
+  "timezone": "Asia/Rangoon",
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "delivery_status": "Local handoff package; no push, message or teammate receipt confirmed",
+  "prior_project_checks": {
+    "passed": 1435,
+    "failed": 0,
+    "all_exit_codes": 0,
+    "inputs_unchanged_since_k09_k10_runs": true
+  },
+  "handoff_checks": {
+    "documented_example_exit_code": 0,
+    "result_snapshots_verified": 3,
+    "exit_code": 0
+  },
+  "snapshots": [
+    {
+      "config": "tests/fixtures/valid_1u_feasible.json",
+      "result": "docs/handoff/valid_1u_result.json"
+    },
+    {
+      "config": "tests/fixtures/overweight_1u_1380g.json",
+      "result": "docs/handoff/overweight_1u_result.json"
+    },
+    {
+      "config": "tests/fixtures/alternate_profile_1380g.json",
+      "result": "docs/handoff/alternate_profile_result.json"
+    }
+  ],
+  "sha256": {
+    "data/README.md": "750549ceaa78df1eebb1b2c9fbd65be7683c941646076d169386babfc8d9c266",
+    "data/components.json": "0ac0b09adbb8753f05185b9b1199f895fc7e37dea1ff012b7d21e0c450d9ecdd",
+    "data/ke1_reference_ids.json": "8c1304890764bee88cd116be56fea00923800ed84c105396f1c3fca5896c69d1",
+    "data/launch_profiles.json": "91d7e9d9a9f4c6831de84a5f6a513e395d0f6432bc93b00d2d3b10cc305b81d6",
+    "data/launchers.json": "69cf6edb4ea79454d27a2b16a59f5e5348227adab2bd5c0cb13fad72ff70e116",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "docs/contracts.md": "b4b50d54b20414219c67c0b0c6e2688b63b5e74a7faf45134d150d47c8df2f41",
+    "docs/handoff/alternate_profile_result.json": "8a988df3ca6c7e6c857b4d98be2309e15a66febc323ad341aee42a20732b21d0",
+    "docs/handoff/handoff-check-log.txt": "7b43ae00672a1a68b8c29056db14d741f453dcd7c7aeec0d6ac99c6290064d57",
+    "docs/handoff/overweight_1u_result.json": "3b84e7e81f398dafc67370007cdcc8e5bde7c897db8270d66bc6a976ee5dc0cd",
+    "docs/handoff/valid_1u_result.json": "8e47644672f3d8cd507696b1a9cc8475bc33e77f3791807ba35e8f110c94ff99",
+    "docs/handoff/validation-test-log.txt": "e9bf4076eae249b13b0ca0f79696c0be471445d419fbc00d9359ff4a3459e851",
+    "docs/ke1-handoff.md": "49b137972a9e9941bf51b6dd61a9b1020a40b61e421217a28b8c58a2dac92ecb",
+    "docs/references/NASA_CubeSat_101.pdf": "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592",
+    "docs/sources.md": "732b67163981680cd048fca671a555a18089df6dd75c0b27ba51acfe00011155",
+    "docs/team-agreement.md": "234087dbfe631de97b98e081f19daf73525446e47326193395d5ecdc573d4291",
+    "project.godot": "ae7639f3ba51cec3194c5173047ec4b55fee4a3dfe28a12550a80dd5cbf0f5c9",
+    "scripts/core/catalog_loader.gd": "5ad3b28af9787059162a7c5e9da900377bf181860d57224da36a005706fde2eb",
+    "scripts/core/mission_validator.gd": "96c00bfff676b145b1dc07ac36b33497a13424966ff726bd6bc6928d6f7a2b2c",
+    "scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+    "tests/fixtures/README.md": "a9033d7df847f6c6e0f6109881e2bfbef5bf8ecdfc31569a281b071a787ff203",
+    "tests/fixtures/alternate_profile_1380g.json": "2b5bb03413af63fd9d7ee17c92263f903fc83c3240e56d6807d7e880e8658b6d",
+    "tests/fixtures/budget_equal.json": "80e448515476eced7e95d63e54c20e14fa690bd9575f82f27442aac60fb66cf8",
+    "tests/fixtures/budget_fail.json": "39684797f79c128555c75cacbe79195d073ea8b2ffd4e48455a0388a4b9e1d66",
+    "tests/fixtures/catalog_wrong_shape/components.json": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+    "tests/fixtures/incompatible_launch_profile.json": "3a3e2483cfda308f501bbdca24342fd6808779cef65d3a818d7d5d29d386aadb",
+    "tests/fixtures/ke1_config.json": "f6ddd692d6f57d24b2c37e3b497e9af48b36703acab1e0efe66a845c00941cf2",
+    "tests/fixtures/ke1_readiness_cases.json": "d436f821e0e5db02d9556edc92afa53addec75204f5f2a895f1d1c6511528164",
+    "tests/fixtures/missing_radio.json": "fd9f6b75cd1f3e91af1961f7ddb088a1b38b9e04de313f3bf8dd26cbc16d34ca",
+    "tests/fixtures/overweight_1u_1380g.json": "70faac0c56c9be8f50e2c123f265a06f4162285ab69652a41479d0ee755ae7ec",
+    "tests/fixtures/unknown_instrument.json": "4a2d655cfeb31b081782a86d5cb06f5b915ff409ab1fba74c3e053cacf5fef6c",
+    "tests/fixtures/valid_1u_1320g.json": "9ad4b9c2aae21eaa851064ae645b4e88d9d6c80b85daa3c287a19dc0fbb454d4",
+    "tests/fixtures/valid_1u_feasible.json": "8f37dc6af7b641a96b6947ba60e0e1d9040d92137dd4245ea34a55483ee2faac",
+    "tests/fixtures/valid_low_eq.json": "e929060fdbc64495c409edb9d480283c7457afb2924841e9605a0bd0458396f7",
+    "tests/validation/test_mission_fixtures.gd": "ebc22107335fd57da5cbe482bdf1a20c3d33c7e896a05c0c9d51c407debb222d",
+    "tests/validation/test_mission_readiness.gd": "1632ca10d477e431c1167f8dcdb394136c32a1d2a33287f41262182caecb1009",
+    "tests/validation/test_mission_validator.gd": "b4cbcc51a7f057c5ae1d2e0314749d0524c1f33aa18a7699b112c41f3539e268"
+  }
+}

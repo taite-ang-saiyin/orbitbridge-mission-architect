@@ -1,6 +1,6 @@
 # KE1 tasks
 
-Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `K01`–`K06` are complete; `K07` is next. Dates and milestones below come from the team proposal; times are Asia/Rangoon. A checked item means completed with evidence, not merely planned.
+Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `K01`–`K11` are complete locally; the SE/HPC/KE2 package is in docs/ke1-handoff.md with verified examples, source details and 1435 passing checks. Teammate receipt is not confirmed; no push or message was made. `K12` Builder integration with SE is next. Dates and milestones below come from the team proposal; times are Asia/Rangoon. A checked item means completed with evidence, not merely planned.
 
 ## Before kickoff
 
@@ -29,11 +29,11 @@ Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `
 
 - [x] K05 - Implemented mission/config field checks and catalog lookup, with structured errors and deterministic input-preserving results. Godot 4.7.2: 296 checks passed, 0 failed. See docs/k05-k06-progress.md.
 - [x] K06 - Created 12 labeled training parts (two per category), two launchers, two profiles and agreed orbit/target vocabulary. The sample <1330 g rule keeps its source ID; all other invented values carry assumption labels. Catalog loading/validation passed the Godot suite.
-- [ ] K07 - Calculate full spacecraft mass, total cost including launch, baseline load, solar output, battery capacity, storage, and instrument/radio metrics. Avoid double counting.
-- [ ] K08 - Implement profile-specific mass, budget, launcher/orbit, target suitability, and essential-power checks.
-- [ ] K09 - Return source-linked 1U result: total_mass_g, threshold_g, strict comparator, passed, profile_id, source_id. Keep readiness false if any blocking check fails.
-- [ ] K10 - Create valid and overweight fixtures and execute tests for 1329/1330/1331 g, different profile, budget, invalid input, and compatibility.
-- [ ] K11 - Hand SE and HPC the public validator interface, units, valid fixture, overweight fixture, and test evidence. Give KE2 the verified source locator, value, units, and credit text.
+- [x] K07 - Calculated all nine agreed design metrics, counted each selected part once, included launch cost and excluded launcher mass. Arithmetic is guarded; base design is 1060 g and 82 credits. See docs/k07-k08-progress.md.
+- [x] K08 - Implemented all required readiness checks, independent actionable failures and fail-closed metadata handling. Uses unchanged HPC data/orbits.json from feature/hpc-simulator commit ab7865c. Godot suites: 294 + 671 checks passed, 0 failed.
+- [x] K09 - Source-linked result fields verified against saved pass/fail/unevaluated cases: mass, threshold, comparator, profile/source IDs and alternative assumptions. No launch approval after any required failure. See docs/k09-k10-progress.md.
+- [x] K10 - Saved valid/overweight examples and 15 manifest cases tested, including 1329/1330/1331 g, alternative profile, budget, invalid input and compatibility. New fixture suite: 470 passed; all three suites: 1435 passed, 0 failed. See tests/fixtures/README.md and docs/k09-k10-progress.md.
+- [x] K11 - Prepared the local SE/HPC/KE2 handoff: public interface, units, valid/overweight/alternative configs and real result snapshots, verified source/credit, actual test logs and file hashes. Guide example and all three snapshots executed successfully; existing 1435 checks apply to unchanged inputs. See docs/ke1-handoff.md. Teammate receipt and sharing remain unconfirmed; nothing pushed or sent.
 
 ## Integration: Saturday afternoon and evening
 
@@ -63,7 +63,7 @@ Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `
 
 | Task | Status/evidence | Next action |
 | --- | --- | --- |
-| Preparation docs | Agreement v1.0-agreed approved; technical contract/examples and K05/K06 implementation notes available | K07 implementation |
+| Preparation docs | Agreed contract, implementation/test notes and K11 handoff available locally | K12 Builder integration with SE |
 | Codex instructions | Root files read in this session; user confirms assistant checks successful | Complete |
 | Antigravity | User confirms assistant checks successful | Complete |
 | Exact editor version | User confirmed 4.7.2; docs updated | Match export templates and teammate versions |
@@ -71,5 +71,7 @@ Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `
 | Tool setup | Editor extracted; official checksum matches; direct version check passed; 4.7.2 confirmed | Graphical check and matching export templates |
 | Primary mass source | Verified locally and visually: printed p.79 / PDF p.87 | KE2 confirms challenge-tab listing and exported credit |
 | K01-K04 | Complete per v1.0-agreed; supporting contract and examples verified | SE handles renderer branch sync |
-| K05-K06 | COMPLETE: fields/lookup, actual catalogs and loader; 296 Godot checks passed | K07 totals, then K08/K09 full readiness |
-| Game code / tests / scenes | K05 field/lookup foundation and K06 catalogs implemented and tested; launch approval stays false while later checks are pending | K07-K09; then teammate/screen integration |
+| K05-K06 | COMPLETE: fields/lookup and actual catalogs; updated regression suite passes 294 checks | Retained and integrated into completed readiness |
+| K07-K10 | COMPLETE: totals/readiness/source fields and saved examples; 671 readiness + 470 fixture checks passed | Covered by K11 handoff |
+| K11 | COMPLETE locally: docs/ke1-handoff.md, three real results, test logs, source credit and file hashes; guide example verified | Share through team workflow; receipt unconfirmed; K12 with SE |
+| Game code / tests / scenes | Complete KE1 readiness validation implemented; HPC orbit data imported unchanged; three suites pass 1435 checks total | K12 screen integration; runtime operations/screens not merged |

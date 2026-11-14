@@ -1,6 +1,6 @@
 # K05 and K06 implementation
 
-Status: COMPLETE for mission/config field checks, selected-ID lookup and minimum catalog creation. Full launch readiness is still K07-K09. Signed agreement v1.0-agreed and project settings are preserved.
+Status: COMPLETE for K05/K06. Current update: K07/K08 now add totals/full readiness and also cover K09 source-linked fields; see [k07-k08-progress.md](k07-k08-progress.md). The original K05/K06 milestone below had 296 passing checks; the updated current regression suite has 294 and the readiness suite has 671. Signed agreement and project settings are preserved.
 
 ## K05 - mission fields and lookup
 
@@ -30,13 +30,13 @@ var loaded: Dictionary = CatalogLoader.load_catalogs()
 if loaded["ok"]:
     var result: Dictionary = Validator.validate(config, loaded["catalogs"])
     # input_schema and catalog_references are the completed K05 checks.
-    # Full launch approval is not implemented yet.
+    # Check result["ready_to_launch"] and display its metrics/checks/errors.
 else:
     # Show loaded["errors"] rather than using an empty or fallback catalog.
     pass
 ```
 
-At this stage, valid fields/IDs produce passing input_schema and catalog_references checks. metrics remains null, ready_to_launch remains false, and the other six checks remain not_evaluated with an explicit explanation. The profile_mass record has its agreed keys with null values until the corresponding readiness step is implemented. This preserves the public response layout without inventing a launch verdict or completed metrics.
+At the original K05/K06 milestone only the first two checks ran. K07/K08 have now replaced those temporary null/false placeholders with actual metrics and readiness, using HPC metadata. Invalid inputs still cannot become fabricated zero totals or launch approval.
 
 ## Verification
 
@@ -52,4 +52,4 @@ Use the installed editor path on other machines. These are real Godot checks of 
 
 ## Blockers and next work
 
-No blockers for K05/K06. K07 adds calculated totals, K08 adds feasibility checks and K09 completes the source-linked readiness result. Actual orbit suitability/scenario metadata must come from HPC before its later readiness/simulation integration. SE connects the helper results to the screens in the later integration tasks. No commits or pushes are performed by this work.
+No blockers for K05/K06 or the completed K07/K08 extension. HPC's orbit file is now available and imported unchanged; K09 response fields are covered by the mass check. K10/K11 saved fixture handoff and team/screen integration are next. No commits or pushes are performed by this work.

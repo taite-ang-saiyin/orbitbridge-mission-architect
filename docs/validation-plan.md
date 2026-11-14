@@ -1,12 +1,12 @@
 # KE1 validation and test plan
 
-Status: K05/K06 field/lookup and catalog checks implemented. Godot 4.7.2 ran tests/validation/test_mission_validator.gd: 296 checks passed, 0 failed. The suite covers fields, IDs, catalog loading/integrity, determinism and input preservation. Full totals/feasibility, simulation and screen integration below remain future tasks; see k05-k06-progress.md.
+Status: K05-K10 complete. Godot 4.7.2: field/catalog suite passed 294 checks; readiness suite passed 671; saved-fixture suite passed 470; total 1435 passed with 0 failures. This includes unchanged HPC orbit data, strict mass/alternate-profile boundaries, cost/power/compatibility, safe arithmetic, source details and preserved inputs. The 15 saved cases are documented in ../tests/fixtures/README.md and k09-k10-progress.md. Full-run/UI integration remains separate work.
 
 Authority: [contracts.md](contracts.md), aligned to team-agreement.md v1.0-agreed. Public rates use downlink_mb_per_hour, energy uses Wh, and data uses decimal MB (1000 KB = 1 MB). The current fixtures in contracts/v1-draft/ are documentation examples with consistency checks, not production-test results.
 
 ## Current stage
 
-Only input_schema and catalog_references are implemented. Full readiness remains false, metrics stays null and six later checks are not_evaluated. Actual catalogs use hourly radio rates and labeled training values. Orbit names are registered, but no HPC target-access data is invented.
+All eight checks and nine metrics are implemented. Valid designs pass only with usable HPC orbit metadata and no failed/unevaluated required check. Missing metadata is an explicit blocking issue. Actual native HPC target_windows are read from orbit_catalog; hypothetical mutations in tests do not alter the source file. Actual catalogs keep hourly radio rates and labeled training values.
 
 ## Validation order
 

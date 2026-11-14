@@ -28,11 +28,11 @@ Prepared 14 November 2026. Distinguish user-supplied planning requirements, veri
 - Proposal's value: spacecraft mass strictly below 1.33 kg, converted to strictly below 1330 g.
 - Comparator: <, not <=. Boundary tests: 1329 g passes this check; 1330 g and 1331 g fail.
 - Primary-source verification: VERIFIED on 14 November 2026. Opened the alternate NASA-hosted PDF, downloaded it, extracted the full relevant page, and visually checked the checklist. Locator: Appendix C, Templates, item 6, 1U CubeSat Acceptance Checklist; printed page 79, PDF page 87 of 96 (zero-based page 86). Checklist revision date: 02/20/2014. The mass field states "Mass (< 1.33 kg)". The science.nasa.gov URL timed out; use the verified NASA-hosted copy for access. Event resource-list eligibility remains unverified.
-- K06 implementation: data/launch_profiles.json stores the strict <1330 g sample rule and source ID; catalog_loader.gd checks that this record is not weakened or miscredited. The actual total-mass readiness comparison and source-linked verdict are K08/K09 and are not implemented yet. UI display remains pending.
+- Implemented through K08/K09: data/launch_profiles.json stores the strict <1330 g sample rule/source ID; catalog_loader.gd checks its integrity; mission_validator.gd calculates total mass and returns threshold/comparator/profile/source/pass-fail. Tests execute 1329/1330/1331 g and alternate-profile cases. Player-facing UI/source-credit display is still an integration task.
 - Intended display: Builder/readiness total mass, threshold, verdict, sample-profile label, and source credit; NOT IMPLEMENTED.
 - Proposed credit: "Sample 1U mass check adapted from NASA CubeSat 101, Appendix C, item 6, p.79. This educational profile requires total modeled spacecraft mass below 1.33 kg. Other values are illustrative."
 
-KE1 gives KE2 the verified locator, units, comparator, source ID, and actual implementation location. KE2 confirms the credit in the exported build and verifies the challenge resource-list requirement separately.
+K11 records the verified locator, units, comparator, source ID, actual implementation locations and credit text for KE2 in [ke1-handoff.md](ke1-handoff.md#ke2-source-and-credit-handoff). This package is saved locally; teammate receipt is not confirmed. KE2 confirms the credit in the exported build and verifies the challenge resource-list requirement separately.
 
 ## NASA mission systems reference
 

@@ -4,7 +4,7 @@
 
 This cloned repository is the active KE1 workspace. Open its root in Codex and Antigravity so they read AGENTS.md, GEMINI.md, tasks.md, and docs/. The earlier OrbitBridge-KE1 folder is a preparation snapshot; make new project changes here.
 
-The existing project.godot and icon came from the team repository. K01-K06 are complete; field/lookup checks and actual training catalogs are implemented and tested. Gameplay scripts, scenes, and production validator tests have not been implemented. Import this existing project in Godot instead of creating another project or Git repository.
+The existing project.godot and icon came from the team repository. K01-K09 are complete; calculated totals/full readiness/source-linked mass results are implemented and tested. Gameplay scripts, scenes, and production validator tests have not been implemented. Import this existing project in Godot instead of creating another project or Git repository.
 
 ## Editor and team agreement
 
@@ -63,9 +63,11 @@ From the project root, using the current sibling editor layout:
 
 ```powershell
 & '..\Godot\4.7.2-stable\Godot_v4.7.2-stable_win64.exe' --headless --path . --script res://tests/validation/test_mission_validator.gd
+& '..\Godot\4.7.2-stable\Godot_v4.7.2-stable_win64.exe' --headless --path . --script res://tests/validation/test_mission_readiness.gd
+& '..\Godot\4.7.2-stable\Godot_v4.7.2-stable_win64.exe' --headless --path . --script res://tests/validation/test_mission_fixtures.gd
 ```
 
-K05/K06 result: 296 checks passed, 0 failed, exit code 0 with Godot 4.7.2. The suite loads real KE1 catalog files and exercises valid/bad mission fields, lookup, malformed catalogs, source/assumption metadata, deterministic output and unchanged inputs. It does not test full launch approval, simulation, screens or exports. The detailed coverage and API usage are in [k05-k06-progress.md](k05-k06-progress.md).
+Current Godot 4.7.2 results: field/catalog regression suite 294 passed; totals/readiness suite 671 passed; saved-fixture suite 470 passed; 1435 total, 0 failed, all three exit code 0. This tests full KE1 readiness with native HPC orbit data. It does not test HPC runtime simulation, screens or exports. See [k07-k08-progress.md](k07-k08-progress.md) for coverage/provenance and [k09-k10-progress.md](k09-k10-progress.md) for saved-case verification.
 
 ## Version control
 
