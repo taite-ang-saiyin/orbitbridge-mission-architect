@@ -74,13 +74,21 @@ func _ready():
 	rail.custom_minimum_size.x = 172
 	dashboard.add_child(rail)
 	sidebar = VBoxContainer.new()
-	sidebar.add_theme_constant_override("separation", 12)
+	sidebar.add_theme_constant_override("separation", 5)
 	rail.add_child(sidebar)
 	for entry in [["Home", -1], ["New Mission", 1], ["Mission Control", 0], ["Spacecraft Builder", 2], ["Flight Readiness", 3], ["Operations", 4], ["Debrief", 5]]:
 		var link = Button.new()
 		link.text = entry[0]
 		link.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		link.custom_minimum_size.y = 46
+		link.custom_minimum_size.y = 42
+		link.add_theme_font_size_override("font_size", 15)
+		for mode in ["normal", "hover", "disabled"]:
+			var style = StyleBoxFlat.new()
+			style.bg_color = Color("133341") if mode == "disabled" else (Color("112a38") if mode == "hover" else Color(0,0,0,0))
+			style.set_corner_radius_all(7)
+			style.content_margin_left = 12
+			link.add_theme_stylebox_override(mode, style)
+		link.add_theme_color_override("font_disabled_color", Color("a0eeec"))
 		if entry[0] == "New Mission": link.pressed.connect(start_new_mission)
 		else: link.pressed.connect(show_screen.bind(entry[1]))
 		sidebar.add_child(link)

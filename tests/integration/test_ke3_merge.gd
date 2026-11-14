@@ -29,7 +29,7 @@ func run() -> void:
 	var original: Dictionary = app.state.run_trace.duplicate(true)
 	var id: String = original.final_state.run_id
 	var store: Dictionary = app.state.evaluation_store.duplicate(true)
-	check(app.current.results.text.contains("Equator:") and app.current.results.text.contains("captures"), "Main's per-target totals remain visible in KE3 Results")
+	check(app.current.flight_facts.text.contains("Equator:") and app.current.flight_facts.text.contains("captures"), "Main's per-target totals remain visible in KE3 Results")
 	check(app.current.same_mission_button.text == "Retry same mission" and app.current.retry_button.text == "Modify design", "Both user-selected intents are clearly labelled")
 	app.current.same_mission_button.pressed.emit()
 	await settle()

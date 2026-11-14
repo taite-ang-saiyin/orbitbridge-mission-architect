@@ -37,7 +37,7 @@ func check() -> void:
 		var stopped_at = page.playhead
 		page._process(1.0)
 		if not require(page.playhead == stopped_at, "Pause did not stop playback"): return
-		page.speed_buttons[4].pressed.emit()
+		page._player_setting(103)
 		if not require(page.speed == 4, "Speed selector did not update"): return
 		var transmit_index = -1
 		for i in page.DATA.EVENTS.size():
@@ -47,8 +47,8 @@ func check() -> void:
 		if not require("TX" in page.details.text, "Event selection not synchronized"): return
 		if not require(page.live_track.progress == page.track_view.progress, "Ground tracks disagree"): return
 		for tab in ["Ground Track", "Data View", "Earth & Orbit"]:
-			page.tab_buttons[tab].pressed.emit()
-			if not require(page.tab_buttons[tab].button_pressed, "Tab state incorrect"): return
+			page.show_view(tab)
+			if not require(page.selected_view == tab, "Tab state incorrect"): return
 		page.filter_select.select(3)
 		page.filter_select.item_selected.emit(3)
 		if not require(page.timeline.item_count == 0, "Nominal run invented a warning"): return
@@ -66,7 +66,7 @@ func check() -> void:
 		page.next_button.pressed.emit()
 		await settle()
 		app.current.show_run("Run A")
-		if not require("Score:" in app.current.results.text, "Operations and Debrief Run A disagree"): return
+		if not require("/ 100" in app.current.score_label.text, "Operations and Debrief Run A disagree"): return
 		app.show_screen(4)
 		await settle()
 		app.current.skip_to_end()

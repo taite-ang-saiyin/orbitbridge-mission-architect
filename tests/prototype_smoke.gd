@@ -43,20 +43,20 @@ func check():
 				assert("1030 g" in app.current.total_values.text)
 			if i == 4:
 				app.current.seek(0)
-				press(app.current, "Step")
+				app.current.step_button.pressed.emit()
 				assert(app.current.event_index == 1)
 				press(app.current, "Play")
 				app.current._process(8.0)
 				assert(app.current.event_index > 1)
 				press(app.current, "Pause")
 				assert(not app.current.playing)
-				press(app.current, "Skip to End")
+				press(app.current, "Finish")
 				assert(app.current.event_index == app.current.DATA.EVENTS.size() - 1)
 				assert("MB" in app.current.telemetry.text)
 			if i == 5:
 				app.current.show_run("Run B")
-				assert("Score:" in app.current.results.text)
-				app.current.previous_flights.set_expanded(true)
+				assert("/ 100" in app.current.score_label.text)
+				app.current.select_report_tab(1)
 				for frame in 4: await process_frame
 				for cell in app.current.find_child("RunHistory", true, false).get_children():
 					assert(cell.size.x >= 45, "History columns collapsed")

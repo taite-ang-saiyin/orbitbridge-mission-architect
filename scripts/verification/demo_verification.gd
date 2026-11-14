@@ -89,7 +89,7 @@ func run(app: Control) -> Dictionary:
 	_check(app.state.active_run_state.step_index == 60 and app.state.active_run_state.returned_data_mb == 48, "Real run completes 60 steps and returns 48 MB")
 	operations.next_button.pressed.emit()
 	await _settle(app)
-	_check(app.current.get_presentation_model().report.status == "success" and app.current.outcome_title.text == "All goals reached" and app.current.results.text.contains("Score: 100"), "Real evaluation reaches understandable Results")
+	_check(app.current.get_presentation_model().report.status == "success" and app.current.outcome_title.text == "All goals reached" and app.current.score_label.text == "100 / 100", "Real evaluation reaches understandable Results")
 	_record_run(app, "high_inc_completed")
 	app.show_screen(5)
 	await _settle(app)
@@ -113,7 +113,7 @@ func run(app: Control) -> Dictionary:
 	app.abort_current_run("Stopped by verification")
 	await _settle(app)
 	var aborted: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
-	_check(aborted.status == "failed" and aborted.score == null and app.current.results.text.contains("Not scored"), "Abort retains failed/null-score behavior")
+	_check(aborted.status == "failed" and aborted.score == null and app.current.score_label.text == "Not scored", "Abort retains failed/null-score behavior")
 	app.start_new_mission()
 	await _settle(app)
 	_check(not app.state.has("run_trace") and not app.state.has("evaluation_store"), "New Mission clears history")

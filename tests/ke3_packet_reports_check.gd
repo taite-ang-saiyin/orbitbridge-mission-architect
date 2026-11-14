@@ -54,7 +54,7 @@ func run() -> void:
 		await settle()
 		check(page.get_presentation_model().report==reply.report,name+" existing actual Results screen displays this report")
 		await capture(name+"-report")
-		page.credits_button.pressed.emit()
+		page.select_report_tab(2)
 		await settle()
 		await capture(name+"-credits")
 		data.append({"name":name,"trace":trace,"reply":reply,"metadata":metadata,"hashes":hashes,"store":bound.store,"model":page.get_presentation_model()})

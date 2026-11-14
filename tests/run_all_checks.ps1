@@ -41,6 +41,7 @@ $orbitScripts = @(
     'ke2_validated_debrief_check.gd',
     'integration/test_ke3_merge.gd'
     'player_ui_check.gd'
+    'debrief_summary_check.gd'
 )
 $orbitLogs = Join-Path $orbitProject 'exports\check-logs'
 New-Item -ItemType Directory -Path $orbitLogs -Force | Out-Null

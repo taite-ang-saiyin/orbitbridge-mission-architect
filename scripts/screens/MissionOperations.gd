@@ -18,8 +18,6 @@ var view_frame: Control
 var data_view: ScrollContainer
 var data_cells: Array = []
 var data_table: GridContainer
-var tab_buttons: Dictionary = {}
-var speed_buttons: Dictionary = {}
 var status: Label
 var mission_details: Label
 var target_rows: Array = []
@@ -43,13 +41,10 @@ var pause_button: Button
 var step_button: Button
 var skip_button: Button
 var enlarged: AcceptDialog
-var expanded_orbit: SubViewportContainer
 var event_header: BoxContainer
 var action_buttons: Dictionary = {}
 var prediction_text: Label
-const DISCLOSURE = preload("res://ui/components/Disclosure.gd")
 const LANGUAGE = preload("res://scripts/presentation/PlayerLanguage.gd")
-var goal_grid: GridContainer
 var photo_value: Label
 var return_value: Label
 var return_progress: ProgressBar
@@ -57,8 +52,38 @@ var action_help: Label
 var action_feedback: Label
 var battery_value: Label
 var storage_value: Label
-var flight_details: VBoxContainer
-var extra_controls: VBoxContainer
+var player_panel: PanelContainer
+var settings_button: MenuButton
+var log_button: Button
+var log_dialog: AcceptDialog
+var player_home: Node
+var player_home_index: int
+var selected_view: String = "Earth & Orbit"
+var speed_values: Array = [0.5, 1.0, 2.0, 4.0, 8.0]
+var speed_menu: PopupMenu
+var view_menu: PopupMenu
+
+func flat_button(parent: Node, caption: String, callback: Callable, icon_path: String = "") -> Button:
+	var button = UI.button(parent, caption, callback)
+	style_control(button)
+	if not icon_path.is_empty(): button.icon = load(icon_path)
+	return button
+
+func style_control(button: BaseButton, filled: bool = false) -> void:
+	button.custom_minimum_size = Vector2(40, 40)
+	button.add_theme_font_size_override("font_size", 15)
+	for mode in ["normal", "hover", "pressed", "focus", "disabled"]:
+		var style = StyleBoxFlat.new()
+		style.bg_color = Color("153241") if filled else Color(0,0,0,0)
+		if mode in ["hover", "pressed"]: style.bg_color = Color("234653")
+		if mode == "disabled": style.bg_color = Color("101c28") if filled else Color(0,0,0,0)
+		style.set_corner_radius_all(7)
+		style.content_margin_left = 12
+		style.content_margin_right = 12
+		if mode == "focus":
+			style.border_color = Color("69d7da")
+			style.set_border_width_all(2)
+		button.add_theme_stylebox_override(mode, style)
 
 func _ready() -> void:
 	screen_id = "MissionOperations"
@@ -69,83 +94,68 @@ func _ready() -> void:
 			return
 	DATA.configure(state.run_trace)
 	run_configuration = state.run_trace.config.duplicate(true)
-	setup("05 / OPERATE", "Mission Operations", "Take photos of your target, then send the data back to Earth.", 3, 5, "View results")
+	setup("05 / OPERATE", "Mission Operations", "", 3, 5, "View results")
 	progress_nav.hide()
-	heading.get_child(0).get_child(1).add_theme_font_size_override("font_size", 17)
-	build_status(content)
-	build_progress(content)
+	heading.get_child(0).get_child(1).hide()
+	content.add_theme_constant_override("separation", 10)
+	build_hud()
 	workspace = BoxContainer.new()
-	workspace.add_theme_constant_override("separation", 18)
 	content.add_child(workspace)
-	var center = column(workspace, 1.65)
-	var right = column(workspace, 1.0)
-	build_visualization(center)
-	build_commands(right)
-	build_telemetry(right)
-	flight_details = DISCLOSURE.new("Flight details")
-	content.add_child(flight_details)
-	build_events(flight_details.body)
-	build_lower_panels()
-	scroll.focus_mode = Control.FOCUS_ALL
+	build_player(workspace)
+	build_log()
 	scroll.follow_focus = true
-	_connect_control_focus(self)
+	scroll.resized.connect(responsive)
 	resized.connect(responsive)
-	call_deferred("responsive")
+	_connect_control_focus(self)
 	var resume: Dictionary = state.get("active_run_state", {})
 	if resume.get("run_id") != state.run_trace.final_state.run_id: resume = {}
 	seek(float(resume.get("step_index", 0)) / maxf(1, state.run_trace.final_state.total_steps) * DATA.TOTAL_SECONDS)
+	responsive.call_deferred()
 
-func build_status(parent: Node) -> void:
-	status = UI.label(parent, "", 20, "b9f4e7")
-	mission_details = UI.label(parent, "", 16, "b2c8d8")
-	# The mission name is here once; no separate status/progress/telemetry cards.
-	mission_details.hide()
-
-func build_progress(parent: Node) -> void:
-	goal_grid = GridContainer.new()
-	goal_grid.columns = 2
-	goal_grid.add_theme_constant_override("h_separation", 16)
-	goal_grid.add_theme_constant_override("v_separation", 12)
-	goal_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	parent.add_child(goal_grid)
-	for kind in ["photos", "data"]:
-		var box = UI.panel(goal_grid, "Photos taken" if kind == "photos" else "Data sent to Earth")
-		box.add_theme_constant_override("separation", 4)
-		box.get_child(0).add_theme_font_size_override("font_size", 16)
-		var value = UI.label(box, "", 28)
+func build_hud() -> void:
+	var strip = HBoxContainer.new()
+	strip.add_theme_constant_override("separation", 20)
+	content.add_child(strip)
+	for caption in ["PHOTOS", "SENT TO EARTH", "BATTERY", "ONBOARD DATA"]:
+		var column = VBoxContainer.new()
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.add_theme_constant_override("separation", 1)
+		strip.add_child(column)
+		UI.label(column, caption, 12, "84a5b8")
+		var value = UI.label(column, "", 23)
+		match caption:
+			"PHOTOS": photo_value = value
+			"SENT TO EARTH": return_value = value
+			"BATTERY": battery_value = value
+			"ONBOARD DATA": storage_value = value
+	# Keep legacy telemetry models without duplicating them in the player.
+	for field in ["total", "battery", "storage", "return"]:
 		var bar = ProgressBar.new()
-		bar.custom_minimum_size.y = 6
-		bar.show_percentage = false
-		box.add_child(bar)
-		if kind == "photos":
-			photo_value = value
-			total_progress = bar
-		else:
-			return_value = value
-			return_progress = bar
-	# Retained display model for existing integrations; individual goals above
-	# are the readable default, rather than a repeated combined sentence.
+		bar.hide()
+		add_child(bar)
+		match field:
+			"total": total_progress = bar
+			"battery": battery_bar = bar
+			"storage": storage_bar = bar
+			"return": return_progress = bar
 	total_label = Label.new()
-	parent.add_child(total_label)
+	add_child(total_label)
 	total_label.hide()
 
-func build_visualization(parent: Node) -> void:
-	var panel = PanelContainer.new()
-	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	parent.add_child(panel)
+func build_player(parent: Node) -> void:
+	player_panel = PanelContainer.new()
+	player_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var surface = StyleBoxFlat.new()
+	surface.bg_color = Color("050d16")
+	surface.set_corner_radius_all(12)
+	surface.set_content_margin_all(10)
+	player_panel.add_theme_stylebox_override("panel", surface)
+	parent.add_child(player_panel)
 	var box = VBoxContainer.new()
-	box.add_theme_constant_override("separation", 10)
-	panel.add_child(box)
-	var tabs = row(box)
-	for tab in ["Earth & Orbit", "Ground Track", "Data View"]:
-		var button = UI.button(tabs, {"Earth & Orbit":"Earth", "Ground Track":"Ground track", "Data View":"Flight data"}[tab], show_view.bind(tab))
-		button.toggle_mode = true
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.add_theme_font_size_override("font_size", 16)
-		button.custom_minimum_size.y = 44
-		tab_buttons[tab] = button
+	box.add_theme_constant_override("separation", 4)
+	player_panel.add_child(box)
 	view_frame = Control.new()
-	view_frame.custom_minimum_size = Vector2(250, 280)
+	view_frame.custom_minimum_size = Vector2(240, 280)
 	box.add_child(view_frame)
 	orbit_view = ORBIT_VIEW.instantiate()
 	orbit_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -163,134 +173,156 @@ func build_visualization(parent: Node) -> void:
 	data_table = GridContainer.new()
 	data_table.columns = 4
 	data_table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	data_table.add_theme_constant_override("h_separation", 12)
+	data_table.add_theme_constant_override("h_separation", 16)
 	data_table.add_theme_constant_override("v_separation", 12)
 	data_view.add_child(data_table)
 	_rebuild_data_view()
-	var orbit_card = PanelContainer.new()
-	orbit_card.position = Vector2(8, 8)
-	orbit_card.custom_minimum_size = Vector2(160, 68)
-	view_frame.add_child(orbit_card)
-	orbit_badge = UI.label(orbit_card, "", 16, "b5eff7")
-	orbit_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var craft_card = PanelContainer.new()
-	craft_card.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	craft_card.offset_left = -160
-	craft_card.offset_right = -8
-	craft_card.offset_top = 8
-	view_frame.add_child(craft_card)
-	craft_badge = UI.label(craft_card, "", 16, "b9f4e7")
-	craft_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	UI.label(box, "Illustrative orbit — not a real flight path.", 14, "aac4d6")
-	show_view("Earth & Orbit")
-
-func build_commands(parent: Node) -> void:
-	var box = UI.panel(parent, "Your next move")
-	box.add_theme_constant_override("separation", 8)
-	box.get_child(0).add_theme_font_size_override("font_size", 20)
-	action_help = UI.label(box, "", 16, "c2d9e6")
-	action_help.resized.connect(_refresh_focused_control)
-	for entry in [["observe", "Observe / take a photo"], ["transmit", "Send data to Earth"], ["power_save", "Save power / wait"]]:
-		var button = UI.button(box, entry[1], take_action.bind(entry[0]))
-		button.add_theme_font_size_override("font_size", 17)
-		button.custom_minimum_size.y = 44
-		action_buttons[entry[0]] = button
-	action_feedback = UI.label(box, "", 16, "f4d38b")
-	action_feedback.hide()
-	var playback = HBoxContainer.new()
-	playback.add_theme_constant_override("separation", 8)
-	box.add_child(playback)
-	play_button = UI.button(playback, "Play", play)
-	pause_button = UI.button(playback, "Pause", pause)
-	step_button = UI.button(playback, "Step", step)
-	for button in [play_button, pause_button, step_button]:
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.custom_minimum_size.y = 44
-		button.add_theme_font_size_override("font_size", 16)
-	play_button.tooltip_text = "Follow your chosen flight plan automatically. Pause to choose your own action."
-	step_button.tooltip_text = "Advance one step using your chosen flight plan."
-	extra_controls = DISCLOSURE.new("More flight controls")
-	box.add_child(extra_controls)
-	var speeds = HBoxContainer.new()
-	extra_controls.body.add_child(speeds)
-	UI.label(speeds, "Speed", 16)
-	for multiplier in [1, 2, 4, 8]:
-		var button = UI.button(speeds, str(multiplier) + "x", set_speed.bind(multiplier))
-		button.toggle_mode = true
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		speed_buttons[multiplier] = button
-	skip_button = UI.button(extra_controls.body, "Skip to End", skip_to_end)
-	skip_button.tooltip_text = "Finish the remaining steps with your selected flight plan."
-	UI.button(extra_controls.body, "Expand Earth view", expand_orbit)
-	UI.button(extra_controls.body, "Stop mission early", func(): abort_requested.emit("Operator requested abort"))
-	var scrub = column(extra_controls.body)
+	var overlay = VBoxContainer.new()
+	overlay.position = Vector2(14, 12)
+	overlay.custom_minimum_size = Vector2(280, 70)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	view_frame.add_child(overlay)
+	status = UI.label(overlay, "", 16)
+	status.autowrap_mode = TextServer.AUTOWRAP_OFF
+	orbit_badge = UI.label(overlay, "", 13, "a0bacc")
+	craft_badge = UI.label(overlay, "", 13, "84b9ae")
+	mission_details = UI.label(overlay, "", 14)
+	mission_details.hide()
 	seek_slider = HSlider.new()
 	seek_slider.max_value = DATA.TOTAL_SECONDS
 	seek_slider.step = 1
-	seek_slider.custom_minimum_size.y = 30
+	seek_slider.custom_minimum_size.y = 18
+	var rail = StyleBoxFlat.new()
+	rail.bg_color = Color("30414e")
+	rail.set_corner_radius_all(2)
+	rail.content_margin_top = 2
+	rail.content_margin_bottom = 2
+	seek_slider.add_theme_stylebox_override("slider", rail)
+	var played = rail.duplicate()
+	played.bg_color = Color("6ad4d7")
+	seek_slider.add_theme_stylebox_override("grabber_area", played)
+	seek_slider.add_theme_stylebox_override("grabber_area_highlight", played)
 	seek_slider.value_changed.connect(func(value):
 		playing = false
 		seek(value))
-	scrub.add_child(seek_slider)
-	time_display = UI.label(scrub, "", 16)
-	prediction_text = UI.label(extra_controls.body, "", 16, "efc371")
+	seek_slider.tooltip_text = "Seek through the flight"
+	box.add_child(seek_slider)
+	var controls = HBoxContainer.new()
+	controls.add_theme_constant_override("separation", 4)
+	box.add_child(controls)
+	play_button = flat_button(controls, "Play", toggle_playback, "res://assets/ui/icons/play.svg")
+	pause_button = play_button
+	step_button = flat_button(controls, "", step, "res://assets/ui/icons/player-step.svg")
+	step_button.tooltip_text = "Next step"
+	time_display = UI.label(controls, "", 14, "b8cbd8")
+	time_display.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	time_display.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	skip_button = flat_button(controls, "Finish", skip_to_end)
+	skip_button.tooltip_text = "Complete the remaining flight plan"
+	settings_button = MenuButton.new()
+	settings_button.icon = preload("res://assets/ui/icons/settings.svg")
+	settings_button.tooltip_text = "Playback settings"
+	style_control(settings_button)
+	controls.add_child(settings_button)
+	var menu = settings_button.get_popup()
+	speed_menu = PopupMenu.new()
+	speed_menu.name = "SpeedOptions"
+	menu.add_child(speed_menu)
+	view_menu = PopupMenu.new()
+	view_menu.name = "ViewOptions"
+	menu.add_child(view_menu)
+	for popup in [menu, speed_menu, view_menu]:
+		popup.add_theme_font_size_override("font_size", 16)
+		popup.add_theme_constant_override("v_separation", 10)
+		var background = StyleBoxFlat.new()
+		background.bg_color = Color("101f2d")
+		background.set_corner_radius_all(10)
+		background.set_content_margin_all(14)
+		popup.add_theme_stylebox_override("panel", background)
+		popup.add_theme_color_override("font_color", Color("e3edf5"))
+		popup.id_pressed.connect(_player_setting)
+	for i in speed_values.size():
+		speed_menu.add_radio_check_item(("Normal" if speed_values[i] == 1.0 else str(speed_values[i]) + "x"), 100 + i)
+	for i in 3: view_menu.add_radio_check_item(["Earth", "Ground track", "Flight data"][i], 200 + i)
+	menu.add_submenu_item("Playback speed · Normal", "SpeedOptions")
+	menu.add_submenu_item("View · Earth", "ViewOptions")
+	menu.add_separator()
+	menu.add_item("Stop mission early", 300)
+	flat_button(controls, "", expand_orbit, "res://assets/ui/icons/player-expand.svg").tooltip_text = "Expand flight player"
+	var actions = HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 8)
+	box.add_child(actions)
+	for entry in [["observe", "Observe"], ["transmit", "Transmit"], ["power_save", "Wait"]]:
+		var button = flat_button(actions, entry[1], take_action.bind(entry[0]))
+		style_control(button, true)
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		action_buttons[entry[0]] = button
+	log_button = flat_button(actions, "Flight log", show_log)
+	action_help = UI.label(box, "", 14, "a5bdcc")
+	action_help.custom_minimum_size.y = 38
+	action_help.resized.connect(_refresh_focused_control)
+	action_feedback = UI.label(box, "", 14, "f4d38b")
+	action_feedback.hide()
+	prediction_text = Label.new()
 	prediction_text.hide()
+	box.add_child(prediction_text)
+	UI.label(content, "Illustrative orbit · Drag to look around", 12, "86a3b7")
+	show_view("Earth & Orbit")
 
-func build_telemetry(parent: Node) -> void:
-	var box = VBoxContainer.new()
-	box.add_theme_constant_override("separation", 5)
-	parent.add_child(box)
-	battery_value = UI.label(box, "", 16)
-	battery_value.tooltip_text = "Watt-hours (Wh) measure the energy left in the battery."
-	battery_bar = ProgressBar.new()
-	battery_bar.show_percentage = false
-	battery_bar.custom_minimum_size.y = 8
-	box.add_child(battery_bar)
-	storage_value = UI.label(box, "", 16)
-	storage_value.tooltip_text = "Data held on the spacecraft still needs to be sent to Earth. MB means megabytes."
-	storage_bar = ProgressBar.new()
-	storage_bar.show_percentage = false
-	storage_bar.custom_minimum_size.y = 8
-	box.add_child(storage_bar)
-
-func build_events(parent: Node) -> void:
-	var box = UI.panel(parent, "Mission log")
+func build_log() -> void:
+	log_dialog = AcceptDialog.new()
+	log_dialog.title = "Flight log"
+	log_dialog.ok_button_text = "Back to flight"
+	add_child(log_dialog)
+	log_dialog.visibility_changed.connect(func():
+		if not log_dialog.visible and is_inside_tree(): log_button.grab_focus())
+	var scroller = ScrollContainer.new()
+	scroller.custom_minimum_size = Vector2(460, 320)
+	scroller.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	log_dialog.add_child(scroller)
+	var body = VBoxContainer.new()
+	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation", 12)
+	scroller.add_child(body)
 	event_header = BoxContainer.new()
-	event_header.add_theme_constant_override("separation", 8)
-	box.add_child(event_header)
-	UI.label(event_header, "Flight events", 16).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(event_header)
+	UI.label(event_header, "Recorded events", 16).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	filter_select = OptionButton.new()
-	for caption in ["All events", "Photos", "Data sent", "Warnings"]:
-		filter_select.add_item(caption)
-	filter_select.add_theme_font_size_override("font_size", 16)
-	filter_select.custom_minimum_size.y = 44
-	filter_select.item_selected.connect(func(_index): rebuild_timeline())
+	for label in ["All events", "Photos", "Data sent", "Warnings"]: filter_select.add_item(label)
+	filter_select.item_selected.connect(func(_i): rebuild_timeline())
 	event_header.add_child(filter_select)
 	timeline = ItemList.new()
-	timeline.custom_minimum_size = Vector2(0, 160)
-	timeline.add_theme_font_size_override("font_size", 16)
-	timeline.item_selected.connect(func(index): select_event(visible_events[index]))
-	box.add_child(timeline)
-	details = UI.label(box, "", 16, "c2d9e6")
-	telemetry = UI.label(box, "", 16, "c2d9e6")
-	var targets = UI.panel(parent, "Your targets")
+	timeline.custom_minimum_size.y = 160
+	timeline.add_theme_font_size_override("font_size", 15)
+	timeline.item_selected.connect(func(i): select_event(visible_events[i]))
+	body.add_child(timeline)
+	details = UI.label(body, "", 15)
+	telemetry = UI.label(body, "", 15, "a5bdcc")
 	for target in state.targets:
-		var text = UI.label(targets, target, 16)
+		var label = UI.label(body, target, 15)
 		var bar = ProgressBar.new()
-		bar.custom_minimum_size.y = 8
+		bar.custom_minimum_size.y = 5
 		bar.show_percentage = false
-		targets.add_child(bar)
-		target_rows.append([text, bar, target])
-
-func build_lower_panels() -> void:
-	var map_box = UI.panel(flight_details.body, "Ground track")
+		body.add_child(bar)
+		target_rows.append([label, bar, target])
 	live_track = TRACK.new()
 	live_track.configure(state)
-	map_box.add_child(live_track)
-	live_track.custom_minimum_size.y = 80
-	UI.label(map_box, "Green: spacecraft   Blue/purple: targets   Gold: ground station", 16, "aac4d6")
-	var box = UI.panel(flight_details.body, "Next steps in your flight plan")
-	next_events = UI.label(box, "", 16, "c2d9e6")
+	live_track.custom_minimum_size.y = 70
+	body.add_child(live_track)
+	next_events = UI.label(body, "", 15, "a5bdcc")
+
+func show_log() -> void:
+	pause()
+	log_dialog.popup_centered(Vector2i(mini(620, get_viewport_rect().size.x - 60), mini(540, get_viewport_rect().size.y - 80)))
+
+func toggle_playback() -> void:
+	if playing: pause()
+	else: play()
+
+func _player_setting(id: int) -> void:
+	if id >= 100 and id < 105: set_speed(speed_values[id - 100])
+	elif id >= 200 and id < 203: show_view(["Earth & Orbit", "Ground Track", "Data View"][id - 200])
+	elif id == 300: abort_requested.emit("Operator requested abort")
 
 func show_view(tab: String) -> void:
 	if not is_instance_valid(orbit_view): return
@@ -300,8 +332,10 @@ func show_view(tab: String) -> void:
 	# Overlay cards only belong to the orbit view.
 	orbit_badge.get_parent().visible = tab == "Earth & Orbit"
 	craft_badge.get_parent().visible = tab == "Earth & Orbit"
-	for tab_name in tab_buttons:
-		tab_buttons[tab_name].set_pressed_no_signal(tab_name == tab)
+	selected_view = tab
+	for i in 3:
+		view_menu.set_item_checked(view_menu.get_item_index(200 + i), ["Earth & Orbit", "Ground Track", "Data View"][i] == tab)
+	settings_button.get_popup().set_item_text(1, "View · " + {"Earth & Orbit":"Earth", "Ground Track":"Ground track", "Data View":"Flight data"}[tab])
 func rebuild_timeline() -> void:
 	timeline_event = event_index
 	visible_events.clear()
@@ -332,7 +366,7 @@ func pause() -> void:
 	refresh()
 func step() -> void:
 	select_event(mini(event_index + 1, DATA.EVENTS.size() - 1))
-func set_speed(multiplier: int) -> void:
+func set_speed(multiplier: float) -> void:
 	speed = float(multiplier)
 	refresh()
 func skip_to_end() -> void:
@@ -362,8 +396,8 @@ func refresh() -> void:
 	photo_value.text = "%s / %s" % [e[5], run_configuration.mission.required_observations]
 	return_value.text = "%s / %s MB" % [LANGUAGE.amount(e[6]), LANGUAGE.amount(run_configuration.mission.required_returned_data_mb)]
 	return_progress.value = 100.0 * e[6] / run_configuration.mission.required_returned_data_mb
-	battery_value.text = "Battery: %s Wh remaining" % LANGUAGE.amount(snapshot.get("energy_wh"))
-	storage_value.text = "Onboard data: %s / %s MB" % [LANGUAGE.amount(snapshot.get("stored_data_mb")), LANGUAGE.amount(snapshot.get("storage_capacity_mb"))]
+	battery_value.text = "%s Wh" % LANGUAGE.amount(snapshot.get("energy_wh"))
+	storage_value.text = "%s / %s MB" % [LANGUAGE.amount(snapshot.get("stored_data_mb")), LANGUAGE.amount(snapshot.get("storage_capacity_mb"))]
 	var presentation = preload("res://scripts/presentation/DebriefPresentation.gd")
 	telemetry.text = "Step %s / %s\nCaptured %s · Returned %s MB\nBattery %s / %s Wh\nStored %s / %s MB\n%s · %s" % [presentation.text(snapshot.get("step_index")), presentation.text(snapshot.get("total_steps")), presentation.text(snapshot.get("observations_completed")), presentation.number(snapshot,"returned_data_mb"), presentation.number(snapshot,"energy_wh"), presentation.text(snapshot.get("battery_capacity_wh")), presentation.number(snapshot,"stored_data_mb"), presentation.text(snapshot.get("storage_capacity_mb")), e[8], e[10]]
 	telemetry.tooltip_text = "Run " + presentation.text(snapshot.get("run_id")) + "\nMission " + presentation.text(snapshot.get("mission_id"))
@@ -372,8 +406,8 @@ func refresh() -> void:
 	details.text = "%s (%s) / T+ %s\n%s" % [_frame_event_name(event_index), e[0], DATA.time_label(e[1]), LANGUAGE.sentence(e[2])]
 	for event in DATA.frames[event_index].get("events", []):
 		details.text += "\n%s | Step %s | %s" % [presentation.text(event.get("event_id")), presentation.text(event.get("step_index")), presentation.text(event.get("code"))]
-	orbit_badge.text = "Orbit %s / %s\nT+ %s" % [orbit_number, state.duration, DATA.time_label(playhead)]
-	craft_badge.text = "Your spacecraft\n" + ("In sunlight" if snapshot.is_sunlit else "In Earth's shadow")
+	orbit_badge.text = "Orbit %s of %s" % [orbit_number, state.duration]
+	craft_badge.text = "Sunlight" if snapshot.is_sunlit else "Earth's shadow"
 	seek_slider.set_value_no_signal(playhead)
 	time_display.text = DATA.time_label(playhead) + " / " + DATA.time_label(DATA.TOTAL_SECONDS)
 	orbit_view.set_frame(progress, e[0])
@@ -382,11 +416,13 @@ func refresh() -> void:
 	for i in data_cells.size():
 		for cell in data_cells[i]:
 			cell.add_theme_color_override("font_color", Color("62e7ee") if i == event_index else Color("8caabd"))
-	for multiplier in speed_buttons:
-		speed_buttons[multiplier].set_pressed_no_signal(float(multiplier) == speed)
-	play_button.text = "Replay" if snapshot.phase == "finished" else "Play"
-	play_button.disabled = playing
-	pause_button.disabled = not playing
+	for i in speed_values.size():
+		speed_menu.set_item_checked(speed_menu.get_item_index(100 + i), speed_values[i] == speed)
+	settings_button.get_popup().set_item_text(0, "Playback speed · " + ("Normal" if speed == 1.0 else str(speed) + "x"))
+	play_button.text = "Pause" if playing else ("Replay" if snapshot.phase == "finished" else "Play")
+	play_button.icon = preload("res://assets/ui/icons/player-pause.svg") if playing else preload("res://assets/ui/icons/play.svg")
+	play_button.tooltip_text = "Pause" if playing else "Play your selected flight plan"
+	play_button.disabled = false
 	state.active_run_state = snapshot.duplicate(true)
 	next_button.disabled = snapshot.phase != "finished"
 	if snapshot.phase == "finished": terminal_state.emit(snapshot.duplicate(true))
@@ -416,27 +452,39 @@ func refresh() -> void:
 	for i in range(event_index + 1, mini(event_index + 4, DATA.EVENTS.size())):
 		upcoming.append("T+ %s   %s  /  %s" % [DATA.time_label(DATA.EVENTS[i][1]), _frame_event_name(i), DATA.EVENTS[i][8]])
 	next_events.text = "\n".join(upcoming) if not upcoming.is_empty() else "Flight complete. Open results to see how you did."
-	if is_instance_valid(expanded_orbit): expanded_orbit.set_frame(progress, e[0])
+
 func expand_orbit() -> void:
+	if is_instance_valid(enlarged) and enlarged.visible:
+		enlarged.hide()
+		return
 	if is_instance_valid(enlarged): enlarged.queue_free()
+	player_home = player_panel.get_parent()
+	player_home_index = player_panel.get_index()
 	enlarged = AcceptDialog.new()
-	enlarged.title = "Earth & orbit"
+	enlarged.title = "Flight player"
+	enlarged.ok_button_text = "Back to flight"
 	add_child(enlarged)
-	expanded_orbit = ORBIT_VIEW.instantiate()
-	expanded_orbit.custom_minimum_size = Vector2(420, 300)
-	enlarged.add_child(expanded_orbit)
-	expanded_orbit.configure(state)
-	expanded_orbit.set_frame(playhead / DATA.TOTAL_SECONDS, DATA.EVENTS[event_index][0])
-	enlarged.popup_centered(Vector2i(int(get_viewport_rect().size.x * 0.86), int(get_viewport_rect().size.y * 0.83)))
-	enlarged.unresizable = false
+	player_panel.reparent(enlarged)
+	enlarged.visibility_changed.connect(func():
+		if not enlarged.visible and is_inside_tree() and is_instance_valid(player_home):
+			player_panel.reparent(player_home)
+			player_home.move_child(player_panel, player_home_index)
+			responsive.call_deferred()
+			play_button.grab_focus())
+	var dimensions = Vector2i(get_viewport_rect().size * 0.92)
+	view_frame.custom_minimum_size.y = maxf(180, dimensions.y - 220)
+	enlarged.popup_centered(dimensions)
+
 func responsive() -> void:
 	if not is_instance_valid(view_frame): return
 	fit_navigation()
 	progress_nav.hide()
-	workspace.vertical = size.x < 950
-	goal_grid.columns = 1 if size.x < 540 else 2
-	if is_instance_valid(event_header): event_header.vertical = size.x < 1000
-	view_frame.custom_minimum_size.y = 260 if workspace.vertical else clampf(size.y * 0.43, 260, 350)
+	if is_instance_valid(enlarged) and enlarged.visible: return
+	var overhead: float = content.get_combined_minimum_size().y - view_frame.custom_minimum_size.y
+	var wanted: float = clampf(scroll.size.y - overhead - 4, 170, 500)
+	if absf(view_frame.custom_minimum_size.y - wanted) > 1:
+		view_frame.custom_minimum_size.y = wanted
+	if is_instance_valid(event_header): event_header.vertical = false
 
 func return_to_readiness() -> void:
 	navigate.emit(3)
@@ -475,7 +523,7 @@ func take_action(action: String) -> void:
 	var reply: Dictionary = preload("res://scripts/integration/mission_runtime.gd").take_action(state, action)
 	if not reply.ok:
 		action_feedback.text = LANGUAGE.sentence(reply.error.message)
-		action_feedback.show()
+		action_help.text = action_feedback.text
 		return
 	DATA = preload("res://scripts/integration/mission_playback.gd").new()
 	DATA.configure(state.run_trace)
@@ -484,7 +532,7 @@ func take_action(action: String) -> void:
 	seek(float(reply.state.step_index) / maxf(1, reply.state.total_steps) * DATA.TOTAL_SECONDS)
 	if not reply.state.event_log.is_empty():
 		action_feedback.text = LANGUAGE.sentence(reply.state.event_log[-1].get("message", ""))
-		action_feedback.show()
+		action_help.text = action_feedback.text
 
 func finish_run() -> void:
 	skip_to_end()

@@ -104,7 +104,7 @@ func run() -> void:
 	var report: Dictionary = app.state.evaluation_store.reports[trace.final_state.run_id].duplicate(true)
 	check(app.current.screen_id == "DebriefCompare" and app.current.get_presentation_model().report == report,"Results binds real KE2 reply unchanged")
 	check(report.run_id == trace.final_state.run_id and report.observations_completed == trace.final_state.observations_completed and report.returned_data_mb == trace.final_state.returned_data_mb,"KE2 counters match exact run")
-	check("Score: "+str(report.score) in app.current.results.text,"Visible score supplied by KE2")
+	check(str(report.score)+" / 100" in app.current.score_label.text,"Visible score supplied by KE2")
 	check(report.source_ids == [] and report.comparison == null,"Optional source_ids/comparison preserved")
 	check("Scope: readiness" in app.current.get_presentation_model().credits and "Feedback-vocabulary credit metadata: Unavailable" in app.current.get_presentation_model().credits and "NASA CubeSat 101" in app.current.credits.text,"Actual attribution preserved internally and readable reference displayed")
 	save("run-a",{"trace":trace,"report":report,"validation":validation})
@@ -147,9 +147,11 @@ func run() -> void:
 		await settle()
 		var page = app.current
 		var preserved: Dictionary = page.get_presentation_model()
-		page.previous_flights.set_expanded(true)
+		page.select_report_tab(1)
 		await settle()
 		for label in history_labels(page): check(label.size.y <= 30,"History cell readable "+str(resolution)+" "+label.text)
+		page.select_report_tab(1)
+		await settle()
 		check(page.content.size.x <= page.report_scroll.size.x+1,"No Results horizontal overflow "+str(resolution))
 		page.report_scroll.grab_focus()
 		if resolution.x == 900: await capture("focused-report-900")
@@ -165,9 +167,9 @@ func run() -> void:
 		check(root.gui_get_focus_owner() != page.report_scroll,"Tab exits report region "+str(resolution))
 		await key(KEY_TAB,true)
 		check(root.gui_get_focus_owner() == page.report_scroll,"ShiftTab returns report focus "+str(resolution))
-		page.credits_button.grab_focus()
-		await key(KEY_SPACE)
-		check(page.report_scroll.scroll_vertical > 0,"Space activates Show credits "+str(resolution))
+		page.report_tabs.grab_focus()
+		await key(KEY_RIGHT)
+		check(page.report_tabs.current_tab == 2 and page.credits.is_visible_in_tree(),"Keyboard opens Sources tab "+str(resolution))
 		check(page.get_presentation_model() == preserved,"Scrolling/focus preserves report values "+str(resolution))
 		await capture("long-results-"+str(resolution.x))
 	app.state.evaluation_store = before_store.duplicate(true)
@@ -211,14 +213,14 @@ func run() -> void:
 	root.size = Vector2i(900,680)
 	await settle()
 	var page = app.current
-	page.flight_details.set_expanded(true)
+	page.show_log()
 	await settle()
-	check(page.event_header.vertical and page.event_header.get_child(0).size.y<=30,"900px event heading readable without character columns")
-	for control in [page.play_button,page.pause_button,page.step_button,page.skip_button]:
+	check(page.event_header.get_child(0).size.y<=30,"900px event heading readable without character columns")
+	page.log_dialog.hide()
+	await settle()
+	for control in [page.play_button,page.step_button,page.skip_button]:
 		if control.disabled: continue
-		if control == page.skip_button:
-			page.extra_controls.set_expanded(true)
-			await settle()
+
 		var retained: Dictionary = app.state.active_run_state.duplicate(true)
 		control.grab_focus()
 		await settle()

@@ -125,7 +125,7 @@ func run() -> void:
 	root.add_child(page)
 	for i in 8: await process_frame
 	check(page.get_presentation_model().report==report,"Power report displayed unchanged with own execution")
-	page.flight_details.set_expanded(true)
+	page.select_report_tab(1)
 	check(page.get_presentation_model().report.root_causes.any(func(cause):return cause.code == "LOW_BATTERY") and "Evidence:" in page.evidence.text and "battery" in page.evidence.text.to_lower(),"Actual power cause retained and readable evidence available in flight details")
 	if DisplayServer.get_name()!="headless":
 		root.mode=Window.MODE_WINDOWED

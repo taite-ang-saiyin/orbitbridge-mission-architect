@@ -40,7 +40,7 @@ func check() -> void:
 	assert(app.state.evaluation_store == original)
 	app.show_screen(5)
 	await settle()
-	assert("Score:" in app.current.results.text and "NASA CubeSat 101" in app.current.results.text)
+	assert("/ 100" in app.current.score_label.text and "NASA CubeSat 101" in app.current.credits.text)
 	app.show_screen(5)
 	await settle()
 	assert(app.state.evaluation_store == original)
@@ -59,8 +59,7 @@ func check() -> void:
 	assert(app.state.active_run_state.event_log.is_empty())
 	assert(app.state.evaluation_store.baseline == original.baseline)
 	app.current.step()
-	app.current.extra_controls.set_expanded(true)
-	assert(press(app.current, "Stop mission early"))
+	app.current._player_setting(300)
 	await settle()
 	var aborted_report: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
 	assert(aborted_report.run_status == "aborted" and aborted_report.score == null)
@@ -73,7 +72,7 @@ func check() -> void:
 	app.show_screen(5)
 	await settle()
 	assert(app.state.objective == "Capture Imagery", "Retry restores its original objective")
-	assert("Score:" in app.current.results.text)
+	assert("/ 100" in app.current.score_label.text)
 	assert(app.state.evaluation_store.history.size() == 3 and app.state.evaluation_store.baseline == original.baseline)
 	# A changed objective starts a distinct design/run, not a mutable retry.
 	app.state.objective = "Survey Target Regions"
@@ -87,7 +86,7 @@ func check() -> void:
 	assert("Survey scoring is not available yet" in app.current.results.text and app.current.get_presentation_model().state == "evaluation_error")
 	assert(not app.state.evaluation_store.reports.has(app.state.active_run_state.run_id))
 	assert(app.state.evaluation_store.history.size() == 3 and app.state.evaluation_store.baseline == original.baseline)
-	assert(press(app.current, "Start New Mission"))
+	app.start_new_mission()
 	await settle()
 	assert(not app.state.has("evaluation_store") and not app.state.has("run_trace"))
 	print("PASS controller Launch/terminal/Results/Retry/Abort/New Mission; one report per ID; history, source validation and baseline retained")
