@@ -30,7 +30,7 @@ func check() -> void:
 		inside(panel, bounds)
 		panel.language.select(1)
 		panel.language.item_selected.emit(1)
-		assert(home.start.text == "开始任务")
+		assert(home.start.text == "မစ်ရှင် စတင်မည်")
 		panel.appearance.select(1)
 		panel.appearance.item_selected.emit(1)
 		assert(app.preferences.theme == "ocean")
@@ -46,7 +46,7 @@ func check() -> void:
 		app.state.name = "Preserved Mission"
 		app.show_home()
 		await settle()
-		assert(app.current.start.text == "开始任务")
+		assert(app.current.start.text == "မစ်ရှင် စတင်မည်")
 		assert(app.state.name == "Preserved Mission")
 		# Restore English/Midnight through the actual settings controls.
 		home = app.current

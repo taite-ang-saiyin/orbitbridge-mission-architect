@@ -41,5 +41,6 @@ func _draw() -> void:
 		var number: String = str(i + 1)
 		var width: float = font.get_string_size(number, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 		draw_string(font, center + Vector2(-width * 0.5, 5), number, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("edfbff"))
-		var text_width: float = font.get_string_size(LABELS[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-		draw_string(font, Vector2(center.x - text_width * 0.5, 59), LABELS[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("46efff") if active else Color("c1d7e5"))
+		var caption: String = ["ဖန်တီး", "ဆောက်", "စစ်ဆေး", "ထိန်းချုပ်", "သုံးသပ်"][i] if get_meta("se_language", "en") == "my" else LABELS[i]
+		var text_width: float = font.get_string_size(caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		draw_string(font, Vector2(center.x - text_width * 0.5, 59), caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("46efff") if active else Color("c1d7e5"))

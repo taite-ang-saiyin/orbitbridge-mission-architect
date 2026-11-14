@@ -13,6 +13,7 @@ var retry_restore: Dictionary = {}
 var design_lab_restore: Dictionary = {}
 var comparison_provider: Callable
 var sidebar_rail: PanelContainer
+var scoped_language: Node
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -104,6 +105,9 @@ func _ready():
 	flow_error = AcceptDialog.new()
 	flow_error.title = "Mission check"
 	add_child(flow_error)
+	scoped_language = preload("res://scripts/settings/ScopedLanguage.gd").new()
+	scoped_language.controller = self
+	add_child(scoped_language)
 	show_home()
 	if "--verify-demo" in OS.get_cmdline_user_args(): verify_demo.call_deferred()
 

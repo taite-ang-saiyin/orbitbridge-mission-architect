@@ -19,6 +19,7 @@ $orbitScripts = @(
     'compact_antenna_smoke.gd',
     'acrimsat_hull_smoke.gd',
     'home_smoke.gd',
+    'myanmar_localization_smoke.gd',
     'responsive_layout_smoke.gd',
     '3d/preview_smoke.gd',
     'integration_smoke.gd',
