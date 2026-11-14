@@ -141,3 +141,9 @@ static func same_contract_identity(a: Dictionary, b: Dictionary) -> bool:
 	for field in ["schema_version", "contract_revision", "preset_id", "preset_revision"]:
 		if a.get(field) != b.get(field): return false
 	return true
+
+static func export_saved_a(session: Dictionary) -> Dictionary:
+	var saved: Dictionary = saved_a(session)
+	if not saved.ok: return saved
+	if saved.execution == null: return failure("A_NOT_SAVED", "Save Design A before exporting it.")
+	return Results.export_execution_record(session, saved.execution.execution_key)

@@ -386,3 +386,6 @@ func offer_design_b(execution_key: String) -> Dictionary:
 	add_child(dialog)
 	dialog.popup_centered(Vector2i(480, 190))
 	return saved
+
+func export_saved_design_a() -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").export_saved_a(state)

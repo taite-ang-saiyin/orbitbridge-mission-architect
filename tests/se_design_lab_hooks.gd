@@ -34,6 +34,16 @@ func check() -> void:
 	await settle()
 	expect(app.get_saved_design_a().execution.execution_key == a_key, "Not now preserves saved A")
 	var original: Dictionary = app.get_execution(a_key).execution
+	var exported: Dictionary = app.export_saved_design_a()
+	expect(exported.ok, "Export saved A with original hash bytes")
+	var portable = preload("res://scripts/integration/execution_record.gd")
+	expect(portable.verify(JSON.parse_string(JSON.stringify(exported.record, "", true, true))).ok, "Saved A survives portable JSON roundtrip")
+	expect(exported.record.execution_key == a_key, "Export keeps original runtime execution key")
+	var args = OS.get_cmdline_user_args()
+	if not args.is_empty() and args[0].ends_with(".json"):
+		var file = FileAccess.open(args[0], FileAccess.WRITE)
+		file.store_string(JSON.stringify(exported.record, "\t", true, true))
+		file.close()
 	expect(original.trace.frames.size() > 1 and original.trace.has("catalogs_snapshot"), "Full frames/catalogs retained")
 	expect(original.trace.has("draft_snapshot") and original.trace.has("versions") and original.trace.has("action_plan"), "Draft/versions/plan retained")
 	var copy: Dictionary = app.get_saved_design_a().execution

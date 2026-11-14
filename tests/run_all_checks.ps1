@@ -24,6 +24,7 @@ $orbitScripts = @(
     'integration_smoke.gd',
     'controller_evaluation_smoke.gd',
     'se_design_lab_hooks.gd',
+    'se_execution_record.gd',
     'creator_builder_catalog_smoke.gd',
     'expanded_missions_smoke.gd',
     'mission_control_smoke.gd',

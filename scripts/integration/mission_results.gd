@@ -224,3 +224,9 @@ static func get_execution(session: Dictionary, execution_key: String) -> Diction
 
 static func execution_keys(session: Dictionary) -> Array:
 	return session.get("evaluation_store", {}).get("executions", {}).keys().duplicate()
+
+# Portable export is separate from the unchanged in-memory packet/key format.
+static func export_execution_record(session: Dictionary, execution_key: String) -> Dictionary:
+	var stored: Dictionary = get_execution(session, execution_key)
+	if not stored.ok: return stored
+	return preload("res://scripts/integration/execution_record.gd").encode(stored.execution)
