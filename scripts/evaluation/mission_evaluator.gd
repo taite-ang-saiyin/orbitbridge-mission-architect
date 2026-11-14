@@ -225,6 +225,29 @@ static func evaluate_mission(
 	return {"ok": true, "report": report}
 
 
+## Adapts the native HPC state using its immutable launch snapshot and full log.
+## Counters, units, and event records pass directly to the agreed evaluator.
+static func evaluate_hpc_state(final_state: Dictionary, comparison_baseline = null) -> Dictionary:
+	var run_id: Variant = final_state.get("run_id")
+	if not run_id is String or run_id.strip_edges().is_empty():
+		run_id = null
+	if not final_state.get("config_snapshot") is Dictionary:
+		return _error(
+			INVALID_INPUT, "final_state.config_snapshot",
+			"The HPC state must contain its launch-time config snapshot.",
+			"Pass the native MissionStepEngine state with config_snapshot intact.", run_id
+		)
+	if not final_state.get("event_log") is Array:
+		return _error(
+			INVALID_INPUT, "final_state.event_log",
+			"The HPC state must contain its cumulative event log.",
+			"Pass the state's event_log, including earlier blocked actions.", run_id
+		)
+	return evaluate_mission(
+		final_state["config_snapshot"], final_state, final_state["event_log"], comparison_baseline
+	)
+
+
 ## Explicit setup helper for caller-supplied MissionReport documentation fixtures.
 ## It checks required keys and returns an independent deep copy in the v1 wrapper.
 ## Callers own fixture loading and labeling. This helper does not evaluate a run

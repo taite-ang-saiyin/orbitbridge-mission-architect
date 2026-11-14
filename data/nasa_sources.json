@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "owner": "KE2",
+  "reviewed_on": "2026-11-14",
+  "contract_revision": "v1.0-agreed",
+  "purpose": "Source documentation and attribution; this ledger does not execute readiness checks or publish report source IDs.",
+  "credit_policy": "Credit documented use accurately. Source verification, code adaptation, report linkage, visible credits, and exported gameplay verification are separate. A selected profile ID alone does not prove that a sourced rule ran.",
+  "sources": [
+    {
+      "source_id": "cubesat_101_1u_sample",
+      "title": "CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers",
+      "nasa_organization": "NASA CubeSat Launch Initiative (CSLI)",
+      "document_revision": "October 2017",
+      "url": "https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf",
+      "alternate_url": "https://www.nasa.gov/wp-content/uploads/2017/03/nasa_csli_CubeSat_101_508.pdf",
+      "local_reference": "res://docs/references/NASA_CubeSat_101.pdf",
+      "local_reference_sha256": "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592",
+      "locator": {
+        "appendix": "C - Templates",
+        "item": 6,
+        "section": "CubeSat Acceptance Checklists",
+        "subsection": "1U CubeSat Acceptance Checklist",
+        "printed_page": 79,
+        "pdf_page": 87,
+        "pdf_page_index": 86,
+        "pdf_total_pages": 96,
+        "checklist_revision_date": "2014-02-20",
+        "locator_note": "Item 6 is within Appendix C; Appendix 6 is not the document's appendix identifier."
+      },
+      "criterion": {
+        "quantity": "total modeled spacecraft mass",
+        "source_text": "Mass (< 1.33 kg)",
+        "original": {"comparator": "<", "value": 1.33, "unit": "kg"},
+        "conversion_factor": 1000,
+        "conversion": "1 kg = 1000 g; preserve the strict comparator.",
+        "converted": {"comparator": "<", "value": 1330, "unit": "g"},
+        "input_representation": "integer grams",
+        "boundary_expectations": [
+          {"mass_g": 1329, "mass_check_passed": true},
+          {"mass_g": 1330, "mass_check_passed": false},
+          {"mass_g": 1331, "mass_check_passed": false}
+        ],
+        "boundary_verification_scope": "Documented rule and conversion only; actual validator and Builder cases T11/T12 remain pending. Passing this mass check does not establish overall launch readiness."
+      },
+      "applicable_profile": {
+        "profile_id": "cubesat_1u_sample",
+        "label": "OrbitBridge sample 1U educational profile",
+        "scope": "Apply only to this selected educational profile. Other profiles use their own rules. This historical example is not a universal satellite mass limit or flight certification."
+      },
+      "use_status": "documented_rule_awaiting_gameplay_verification",
+      "implementation": {
+        "validator": {
+          "owner": "KE1",
+          "intended_path": "res://scripts/core/mission_validator.gd",
+          "path_present_in_checkout": false,
+          "verified_entry_point": null,
+          "status": "pending_owner_handoff"
+        },
+        "profile_catalog": {
+          "owner": "KE1",
+          "intended_path": "res://data/launch_profiles.json",
+          "path_present_in_checkout": false,
+          "status": "pending_owner_handoff"
+        },
+        "builder_display": {
+          "owner": "SE",
+          "verified_path": null,
+          "status": "pending_owner_handoff",
+          "required_display": "Actual total mass in g, strict < 1330 g threshold, mass-check result, sample-profile label, and source credit."
+        },
+        "credits_display": {"owner": "KE3", "verified_path": null, "status": "pending_owner_handoff"},
+        "contract_examples": [
+          "res://docs/contracts/v1-draft/validation-ready.example.json",
+          "res://docs/contracts/v1-draft/validation-overmass.example.json"
+        ],
+        "example_note": "Examples establish the agreed source/profile IDs and expected fields; they are not executed validator evidence."
+      },
+      "attribution_text": "NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge's sample 1U educational profile: modeled spacecraft mass < 1.33 kg (< 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.",
+      "verification": {
+        "source_status": "verified",
+        "verified_on": "2026-11-14",
+        "method": "Opened both official NASA PDFs, checked the table of contents and checklist text, and visually inspected the complete local PDF page 87.",
+        "access_note": "The primary science.nasa.gov URL opened successfully during this review; docs/sources.md records an earlier timeout.",
+        "rule_conversion_status": "verified",
+        "gameplay_status": "not_verified",
+        "report_linkage_status": "not_integrated",
+        "visible_credit_status": "not_verified",
+        "export_status": "not_verified",
+        "pending_evidence": "KE1 validator results at 1329/1330/1331 g with other checks valid, another profile's own rule, SE Builder/profile-switch/Launch checks, and KE3 visible credits in the selected export."
+      }
+    },
+    {
+      "source_id": "nasa_design_develop_science_missions_2025",
+      "source_id_scope": "Ledger-local bibliographic ID; coordinate before adding it to shared report source_ids or reference-ids.json.",
+      "title": "Design and Develop Science Missions",
+      "nasa_organization": "NASA, Access to Space for All Systems Engineering Webinar Series",
+      "author": "Julie Levri",
+      "publication_date": "2025-03-26",
+      "url": "https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf",
+      "locator": {"section": "Mission segments", "slide": 8, "pdf_page": 8, "pdf_page_index": 7},
+      "criterion": null,
+      "applicable_profile": "Educational mission-segment vocabulary across profiles; no numeric requirement or unit conversion is derived from this reference.",
+      "use_status": "segment_vocabulary_adapted_in_feedback_code",
+      "implementation": {
+        "path": "res://scripts/evaluation/mission_feedback.gd",
+        "symbols": ["RULES", "build_feedback", "explain_event"],
+        "actual_use": "NO_LINK_WINDOW feedback uses ground; LOW_BATTERY, STORAGE_FULL, and TARGET_NOT_VISIBLE feedback use space. The source also describes launch and user segments; current feedback rules do not emit those two labels.",
+        "limits": "Code-to-segment assignments and corrective templates are OrbitBridge educational adaptations. NASA does not specify these simulator reason codes, verdicts, or score formula.",
+        "evidence_paths": ["res://docs/sources.md", "res://tests/test_mission_evaluator.gd", "res://docs/handoffs/ke2-hpc-report-v0.1.json"]
+      },
+      "attribution_text": "Mission-segment terminology adapted from NASA, Design and Develop Science Missions, Julie Levri, March 26, 2025, slide 8. OrbitBridge's feedback mappings and corrective actions are educational adaptations.",
+      "verification": {
+        "source_status": "verified",
+        "verified_on": "2026-11-14",
+        "method": "Opened the official NASA PDF and checked slide 8 against the current feedback code and recorded report's ground-segment cause.",
+        "code_adaptation_status": "verified_by_inspection",
+        "recorded_test_evidence": "Prior Prompt 5 log records 143 passing evaluator/feedback checks; the existing HPC report metadata records 146 passing recorded-trace checks. These tests were not rerun for this ledger-only task.",
+        "gameplay_status": "full_lifecycle_not_verified",
+        "report_linkage_status": "not_integrated",
+        "visible_credit_status": "not_verified",
+        "export_status": "not_verified"
+      }
+    },
+    {
+      "source_id": "nasa_goddard_mission_design_lab",
+      "source_id_scope": "Ledger-local background-reference ID; not an agreed runtime source ID.",
+      "title": "Mission Design Lab",
+      "nasa_organization": "NASA Goddard Space Flight Center, Engineering and Technology Directorate, Integrated Design Center",
+      "url": "https://etd.gsfc.nasa.gov/capabilities/integrated-design-center/mission-design-lab/",
+      "locator": {"sections": ["Tailored Trade Study", "MDL Disciplines"], "page": null},
+      "criterion": null,
+      "applicable_profile": "Planning reference for future design trade studies; no sourced numeric game values or unit conversions.",
+      "use_status": "planning_reference_only",
+      "implementation": {
+        "verified_path": null,
+        "documented_use_path": "res://docs/sources.md",
+        "actual_use": "Consulted during project planning. The existing notes propose subsystem comparisons. No implemented MDL trade-study feature or use of NASA engineering tools was established by this review.",
+        "status": "not_integrated"
+      },
+      "attribution_text": "Planning reference: NASA Goddard Space Flight Center, Engineering and Technology Directorate, Mission Design Lab, sections Tailored Trade Study and MDL Disciplines. No implemented NASA trade-study tool is claimed.",
+      "verification": {
+        "source_status": "verified",
+        "verified_on": "2026-11-14",
+        "method": "Opened the official NASA Goddard page and checked its trade-study and subsystem-analysis descriptions against the existing planning notes.",
+        "gameplay_status": "not_integrated",
+        "report_linkage_status": "not_integrated",
+        "visible_credit_status": "not_verified",
+        "export_status": "not_verified"
+      }
+    }
+  ],
+  "current_report_evidence": {
+    "path": "res://docs/handoffs/ke2-hpc-report-v0.1.json",
+    "metadata_path": "res://docs/handoffs/ke2-hpc-report-v0.1.metadata.json",
+    "run_id": "run_ke2_handoff_v01",
+    "source_ids": [],
+    "launch_approved": false,
+    "interpretation": "The recorded HPC sample establishes feedback output, not successful readiness validation or source-credit linkage. Do not attach the CubeSat mass source solely because the config selects the sample profile."
+  },
+  "submission_handoff": {
+    "status": "credit_text_prepared_not_published",
+    "rule_credit_source_id": "cubesat_101_1u_sample",
+    "feedback_credit_source_id": "nasa_design_develop_science_missions_2025",
+    "instructions": "Use the matching attribution_text and official url. Describe the CubeSat rule as referenced/planned until actual gameplay verification is recorded. Describe the segment vocabulary as a code adaptation; visible UI/export credits remain pending. Include MDL only as a planning reference unless its feature is later verified."
+  },
+  "assumptions_and_exclusions": [
+    "Component masses, costs, power/data rates, orbital windows, and the scoring formula are not NASA-derived merely because a profile cites CubeSat 101.",
+    "No separate CML or GMAT implementation was established in this checkout; do not credit unverified use of those methods or tools.",
+    "NASA source access does not establish NASA endorsement or inclusion in the 2026 challenge's official resource list; event-resource eligibility remains unverified."
+  ]
+}

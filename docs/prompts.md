@@ -236,7 +236,7 @@ Source URL:
 https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf
 
 Relevant section:
-Appendix 6 — 1U CubeSat Acceptance Checklist, printed page 79.
+Appendix C, item 6 — 1U CubeSat Acceptance Checklist, printed page 79 (PDF page 87).
 
 Sample mass criterion:
 Mass < 1.33 kg, equivalent to mass < 1330 g.

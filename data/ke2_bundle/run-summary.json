@@ -1,0 +1,34 @@
+{
+  "checks": {
+    "accepted_contact_transmit": true,
+    "accepted_observe": true,
+    "blocked_no_contact": true,
+    "inputs_unchanged": true,
+    "ordered_history": true,
+    "terminal": true
+  },
+  "config_path": "tests/fixtures/valid_1u_feasible.json",
+  "counters": {
+    "energy_wh": 21.9388888890999,
+    "observations_completed": 1,
+    "returned_data_mb": 7.7333333328,
+    "step_index": 60,
+    "stored_data_mb": 4.2666666672,
+    "total_steps": 60
+  },
+  "event_count": 62,
+  "hpc_sha": "9dfd942e6fccf230d03dfdf8bf097bf65d8f143f",
+  "ke1_sha": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+  "mission_id": "ke3_validated_1u_feasible_20261114",
+  "ok": true,
+  "request_count": 61,
+  "run_id": "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+  "scenario_id": "high_inc",
+  "scenario_version": "orbit-presets-v1",
+  "scope": "Actual KE1 validation and actual HPC execution with authored teaching windows; not SE B02 or real satellite performance",
+  "units": {
+    "data": "decimal MB",
+    "energy": "Wh",
+    "step_duration": "hours"
+  }
+}

@@ -3,11 +3,13 @@
 Owner: KE2  
 Planning basis: v1.0-agreed, updated 14 November 2026
 
-Current stage: Prompts 2-5 complete; NASA source-ledger work next
+Current stage: Prompt 7 native HPC adapter verified against pinned KE1/HPC modules; controller/Results lifecycle and NASA boundary/credit integration pending
 
 Update this checklist after each KE2 task. Use the team's recorded decisions to update pending tasks and expected results. The API names and policies below follow the agreed v1 contract. Independent preparation and labeled fixtures can proceed while runtime handoffs are being implemented. Mark a task complete when its stated evidence is available. Record blocked tasks with the dependency owner and missing input.
 
 References are the [signed agreement](team-agreement.md), [technical contract](contracts.md), [validation plan](validation-plan.md), and [implementation prompts](prompts.md). Earlier prompts use older field names, uppercase outcome labels, and an earlier zero-target proposal. Apply v1.0's lowercase statuses and positive-only targets.
+
+KE2's implementation guide, team handoff, test instructions, and source-credit document are indexed in [KE2 documentation](ke2/README.md).
 
 ## 1. Preparation and contract decisions
 
@@ -17,7 +19,7 @@ References are the [signed agreement](team-agreement.md), [technical contract](c
 - [ ] Resolve KE2's remaining contract review items with the affected owners.
   - [x] Correct Example 3's explanation and supply the referenced `evt_007` in matching input evidence.
   - [x] Apply Prompt 5's requested launch/space/ground/user vocabulary: link-window feedback uses ground; power/storage/visibility feedback uses space.
-  - [ ] Confirm HPC's runtime abort-reason mapping. Optional `final_state.abort_reason` text or a dictionary `message` is supported; missing or unusable metadata produces neutral abort feedback.
+  - [x] Confirm HPC's runtime abort-reason mapping at b9817c3. Feedback reads the producer's nonempty `terminal_reason` string, then supports the earlier `abort_reason` string/dictionary fallback. Actual operator abort verified.
   - [x] Correct Example 4 to match recorded evidence or use neutral abort feedback.
   - [x] Define `EvaluationError.run_id` nullability and how suggested corrections reach the UI.
   - [x] Align Section 11's renderer statement with Section 2 and SE's actual branch/configuration.
@@ -38,12 +40,12 @@ Completion evidence: agreed KE2 fields/policies, corrected report examples, name
   - [ ] Obtain the sample-1U source ID, strict comparator, threshold, and actual validator entry point.
   - [x] Synchronize `docs/contracts.md`, `docs/validation-plan.md`, `docs/sources.md`, the NASA reference, and the canonical agreement when KE1 publishes them.
 - [ ] Receive HPC's terminal-state and event handoff.
-  - [ ] Confirm the two orbit IDs, scenario identity/version, and step duration.
+  - [x] Inspect the two orbit IDs, scenario metadata, and step duration in pinned HPC catalogs and the v0.2 trace; execute the high_inc scenario with the real modules.
   - [x] Confirm decimal data units and the owner of Ws-to-Wh and KB-to-MB conversion.
   - [ ] Confirm `brief.policy` handling and the `MissionConfig` adapter boundary.
-  - [ ] Confirm downlink rate units, energy-update order, finished-step indexing, and low-energy `power_save` behavior.
-  - [ ] Confirm event ordering, unique event references, blocked-action codes, and terminal/abort fields.
-  - [ ] Obtain a trace with a successful observation, valid downlink, and blocked action.
+  - [x] Inspect hourly downlink units, solar/load energy accounting and clamp order, finished-step indexing, and low-energy `power_save` behavior against unchanged source and HPC tests at b9817c3.
+  - [x] Confirm cumulative event ordering, referenced blocked-action IDs, and terminal/abort fields from real execution and the committed trace.
+  - [x] Obtain a recorded trace with a successful observation, valid downlink, and blocked action. The existing `ke2-hpc-report-v0.1` handoff identifies HPC commit `ce478f94a918047c0449fe30bfffe18f368315fd` and records its evaluator verification.
 - [ ] Confirm SE/KE3's controller and Results handoff.
   - [ ] Identify the actual initialize/action/evaluate/render call sites.
   - [ ] Confirm launch snapshots, one report per run, retry baseline retention, and New Mission reset.
@@ -63,10 +65,10 @@ Completion evidence: versioned sample inputs and named call sites. Track unavail
   - [x] Preserve aborted-run counters, return a null score, and supply the agreed abort wording.
   - [x] Populate `explanation`, `root_causes`, `next_experiment`, `source_ids`, and nullable `comparison` with neutral feedback and empty/null defaults for later features.
   - [x] Verify inputs and the comparison baseline retain their original values after evaluation.
-- [ ] Prepare labeled synthetic fixtures for success, partial, failed, aborted, and invalid input.
+- [x] Prepare labeled synthetic fixtures for success, partial, failed, aborted, and invalid input.
   - [x] Construct synthetic terminal states and expected scoring/error cases in `tests/test_mission_evaluator.gd`, reusing the agreed example pack.
   - [x] Pair supported causes with the exact input events referenced by the report.
-  - [ ] Supply KE3 with expected report fields and their display meanings.
+  - [x] Prepare KE3's report-field and display-meaning handoff in `docs/ke2/integration-handoff.md`, with links to complete recorded and synthetic payloads.
 
 Completion evidence: the same evaluator entry point produces expected reports from isolated fixtures.
 
@@ -82,7 +84,8 @@ Completion evidence: the same evaluator entry point produces expected reports fr
   - [x] Review literal expectations against the agreed contract and verify report fields independently of the evaluator's mock helper.
   - [x] Check each goal's ratio cap, half-up rounding boundaries, positive progress rounding to zero, whole-valued JSON numbers, and fractional MB requirements.
 - [x] Add evidence-selection and neutral-fallback cases for the feedback module.
-- [ ] Add adapter and comparison cases as those features become available.
+- [x] Add native HPC adapter cases, source/runtime field checks, completed simulation, recorded block, and actual operator abort cases.
+- [ ] Add comparison cases when that optional feature is implemented.
 - [ ] Run and record the acceptance cases below using the final agreed rules.
 
 The table follows v1.0-agreed. Unless specified otherwise, targets are 3 captured observations and 30 MB received on Earth. Scores are whole points. Passed results below come from the headless evaluator runner using synthetic inputs.
@@ -125,8 +128,11 @@ Completed-task evidence, 14 November 2026:
 - [x] Record each executed result in `tmp/ke2-prompt4-tests.log` and the deliberate failure in `tmp/ke2-prompt4-intentional-failure.log`. Both logs are local generated artifacts.
 - [x] Prompt 5 feedback implemented in `scripts/evaluation/mission_feedback.gd` and connected to the evaluator. Godot 4.7.2 parsed both modules through the evaluator/test runner; the complete suite passed 143 checks with zero failures, five pending groups, and exit 0. Per-case output is in `tmp/ke2-prompt5-tests.log`.
 - [x] Confirm the four reason codes and their action semantics from cached `origin/feature/hpc-simulator` commit `ab7865c`, specifically `core/MissionStepEngine.gd`'s `_evaluate` and `_make_event`. That source emits `action_blocked`, event/run/mission IDs, and zero deltas for rejections. Additional unsupported codes such as `NO_DATA` use neutral fallback.
-- [ ] Complete the five current pending groups printed by the runner: T07-T08 comparison, T11-T12 actual validator/Builder checks, and real HPC/controller/Results/retry integration.
+- [ ] Complete the five current pending groups printed by the runner: T07-T08 comparison, T11-T12 actual validator/Builder checks, and controller/Results/retry lifecycle. Standalone execution also defers the native HPC runtime portion until dependencies are present; Prompt 7 verifies it in the pinned combined project.
 - [x] Record the observed Windows certificate-store startup error alongside the successful smoke-run results. Graphical UI, real simulation integration, and exports await their respective verification tasks.
+- [x] Prompt 7 verified with Godot `4.7.2.stable.mono.official.ed1daf0bf`. Local runner passed 165 checks, combined pinned KE1/HPC/KE2 runner passed 205 checks, and unchanged HPC suite passed 31 checks. Every final command exited 0. Both evaluator/test parse checks exited 0. Five pending groups remain for T07/T08 comparison, T11/T12 mass boundaries/Builder, and Results/publication/retry lifecycle.
+- [x] Preserve producer code at `b9817c35628a4280a899d7fa73ce551d9d4a93ba` in an ignored isolated verification project. Record byte equality and SHA256 hashes for the 19 producer/dependency files in its source manifest. Document reproduction in `docs/ke2/hpc-integration.md`.
+- [x] Correct the Prompt 7 test's exact float expectation after observing 7.7333333328 versus 7.733333332800001. The reference check now uses absolute tolerance 1e-9 and a separate assertion verifies exact pass-through of the producer counter.
 
 ## 5. Add evidence-based feedback
 
@@ -136,46 +142,59 @@ Completed-task evidence, 14 November 2026:
   - [x] Retain event IDs and steps, using the requested space/ground segment mapping in supported cause records.
   - [x] Order relevant events by observation-goal priority, earliest step, then original input order. Exclude conflicting duplicate IDs and collapse identical duplicates.
   - [x] Provide neutral summaries and empty causes for missing, unknown, irrelevant, malformed, contradictory, future-step, or foreign-run evidence.
-  - [x] Attribute optional recorded abort text explicitly and keep unrelated blocked actions out of abort-cause claims. Confirm the real producer field during integration.
+  - [x] Attribute recorded abort text explicitly and keep unrelated blocked actions out of abort-cause claims. Verify the real producer's `terminal_reason` through `abort_run` and retain the older optional metadata fallback.
   - [x] Provide a specific experiment for each recognized event through `explain_event`; include corrections in cause text and expose the primary correction as `next_experiment`.
   - [x] Acknowledge met goals on successful runs and suggest a trade-off to explore.
   - [x] Run T09/T10 plus irrelevant-event, tie-ordering, abort-evidence, stored-versus-returned, determinism, input-preservation, and output-copy cases.
 
 Completion evidence: each asserted cause resolves to supplied evidence, and insufficient evidence yields the documented fallback.
 
-Feedback handoff details: `build_feedback(report, final_state, events)` returns the existing `explanation`, `root_causes`, and `next_experiment` fields. `explain_event(event)` returns one supported cause, segment, event reference, and corrective experiment. The signed example's older `operations` segment is superseded in this implementation by Prompt 5's requested `space` vocabulary. Real producer/Results execution remains an integration task.
+Feedback handoff details: `build_feedback(report, final_state, events)` returns the existing `explanation`, `root_causes`, and `next_experiment` fields. `explain_event(event)` returns one supported cause, segment, event reference, and corrective experiment. The signed example's older `operations` segment is superseded in this implementation by Prompt 5's requested `space` vocabulary. Producer execution is verified in the pinned Prompt 7 project; Results integration remains pending.
 
 ## 6. Prepare NASA source records and attribution
 
-- [ ] Prepare the KE2-owned `data/nasa_sources.json` ledger.
-  - [ ] Verify CubeSat 101's checklist locator and original mass criterion against the source.
-  - [ ] Record title, NASA organization, official URL, printed/PDF page, source ID, original units, conversion, strict comparator, and applicable profile.
-  - [ ] Record the actual validator/rule path, Builder label, credits path, and verification status as they become available.
+- [x] Prepare the KE2-owned `data/nasa_sources.json` ledger.
+  - [x] Verify CubeSat 101's checklist locator and original mass criterion against the source.
+  - [x] Record title, NASA organization, official URL, printed/PDF page, source ID, original units, conversion, strict comparator, and applicable profile.
+  - [x] Record intended implementation locations, missing paths, required Builder display, and separate source/code/gameplay/report/credit/export statuses.
+  - [ ] Replace pending validator entry point, Builder path, and credits path with verified owner handoffs as they become available.
   - [ ] Align `cubesat_101_1u_sample` with KE1's validator output and KE3's credit lookup.
-  - [ ] Record CML/MDL or other resources when their concepts or material are used in the game.
-  - [ ] Give SE/KE3 and the submission owner consistent attribution text.
+  - [x] Record NASA's mission-segment reference used by feedback code; retain MDL as planning-only and exclude unverified CML/GMAT implementation claims.
+  - [x] Prepare consistent attribution text and official URLs for SE/KE3 and the submission owner; external publication is pending.
+  - [x] Review Prompt 6 for missing metadata, invalid JSON, conversion/boundary errors, ID mismatches, broken references, credit drift, and unsupported integration claims. Correct the original prompt's locator to Appendix C, item 6, printed p.79 / PDF p.87.
 - [ ] Verify the sample-1U mass rule with KE1 and SE.
   - [ ] Run T11/T12 through the actual validator with other readiness checks passing.
   - [ ] Confirm profile switching, visible credit, and Launch behavior.
   - [ ] Record build/commit, expected/observed values, and screenshot or log evidence.
 
-Completion evidence: source metadata traces to an implemented rule and visible attribution. Track source verification and gameplay verification separately in the ledger.
+Ledger preparation evidence, 14 November 2026: both official CubeSat 101 URLs opened successfully. Verified Appendix C, item 6, printed p.79 / PDF p.87 of 96, checklist revision 02/20/2014, using official PDF text and a complete local-page visual check. Recorded the offline PDF SHA256. Exact conversion preserves `< 1.33 kg` as `< 1330 g`; documented boundary expectations are 1329 g pass and 1330/1331 g fail for `cubesat_1u_sample` only.
+
+Verification command: inline Python via `@' ... '@ | python -B -`, using strict JSON parsing, `decimal.Decimal`, `hashlib`, `pathlib`, and PyMuPDF. Eight check groups passed, zero failed, exit 0: required metadata/unique IDs/official URLs; exact conversion; documented strict boundaries; PDF hash/locator/text; contract IDs and absent implementation paths; feedback segment/evidence paths and planning-only MDL status; the existing report's empty source IDs/unapproved launch; and attribution/status consistency. PDF heading checks normalize extracted whitespace. Godot tests were not rerun because this task changes documentation/data only and no runtime script loads this ledger.
+
+The ledger's additional bibliographic IDs are local until coordinated for shared `source_ids`. Existing HPC handoff files were inspected and preserved: they record a real evaluated trace but no approved readiness check or source-credit linkage. The ledger records prior test evidence without presenting it as a new test run. No KE1/SE/KE3 files or report payloads were modified.
+
+Prompt 6 completion review, 14 November 2026. Reopened the official NASA PDF and confirmed the checklist text. Eight source-ledger/documentation check groups passed, zero failed, exit 0, using inline Python. The review covered strict JSON and unique IDs, required metadata and exact conversion/boundaries, locator/PDF hash, agreed source/profile IDs and implementation-path status, feedback/MDL evidence, report/integration status, exact credits, and document links. Found and corrected one outdated locator in KE2's `docs/prompts.md`. The ledger required no changes. Source-ledger preparation and attribution are complete. Actual gameplay verification remains assigned to the integration subtasks below.
+
+Remaining integration completion evidence: source metadata traces to an executed validator rule, a verified Builder display, and visible attribution in the selected export. T11/T12 remain pending; documentary arithmetic checks do not satisfy them.
 
 ## 7. Integrate real simulation output and Results
 
-- [ ] Connect KE2's evaluator to the actual HPC terminal output with the affected owners.
-  - [ ] Compare real fields and units against the frozen contract.
-  - [ ] Add a KE2-owned adapter only where an agreed mapping is necessary.
-  - [ ] Verify returned MB originates from valid ground reception and stored data stays separate.
-  - [ ] Test one completed run, one blocked action, and an aborted run when supported.
-  - [ ] Confirm repeated terminal notifications preserve the same report and baseline.
+- [x] Implement and verify KE2's adapter against actual HPC terminal output in the pinned integration project.
+  - [x] Compare real fields and units against the frozen contract. Native counters and decimal MB already match.
+  - [x] Add `MissionEvaluator.evaluate_hpc_state` to use `config_snapshot` and complete `event_log`; map the producer's `terminal_reason` in feedback.
+  - [x] Verify returned MB originates from a real accepted contact-window transmission and stored MB remains explanatory.
+  - [x] Execute a real readiness-approved completed run, recorded `NO_LINK_WINDOW` block, committed v0.2 trace, and actual `abort_run` result.
+  - [x] Verify repeated terminal evaluation is deterministic and preserves inputs and the launch snapshot.
 - [ ] Verify KE3's Results screen with SE/KE3.
+  - [ ] Wire the terminal adapter call into SE's controller and confirm repeated terminal notifications preserve one published report and baseline.
   - [ ] Check actual/target values, completion ratios, status, score, and source labels against the report.
   - [ ] Check error handling, null abort scores, empty causes, neutral explanation, and absent comparison.
   - [ ] Verify a retry starts a new run and New Mission clears the old baseline.
   - [ ] Verify reopening Results or navigating back preserves the intended run history.
 
 Completion evidence: real config, run ID, terminal trace, report, and displayed values agree. Route changes in another owner's files to that owner with the requested call/binding and verification steps.
+
+Prompt 7 runtime evidence. Pinned HPC `b9817c3` uses KE1 readiness dependencies attributed by its handoff to `55d4f33`. Executed high_inc completion at step 60/60 with 62 events, 1/4 observations, approximately 7.7333333328/30 MB received, approximately 4.2666666672 MB onboard, `partial`, score 25, and `NO_LINK_WINDOW` cause referencing `evt_008`. An actual abort after capture preserves counters and returns a null score with its producer reason. Commands and logs are recorded in [HPC integration](ke2/hpc-integration.md). Native HPC/KE1 modules remain outside the current KE2 checkout and were executed unchanged in the isolated project. Runtime controller/Results/retry/export checks remain pending.
 
 ## 8. Optional P1 retry comparison
 
@@ -205,14 +224,25 @@ Completion evidence: comparison eligibility, signed deltas, and reflection match
 
 Completion evidence: KE2's implementation, real Results path, automated checks, and source attribution have recorded verification for the release candidate.
 
+## 10. KE2 documentation
+
+- [x] Create a KE2 documentation index with owned files and current implementation status.
+- [x] Document evaluator/feedback APIs, consumed inputs, deterministic scoring, aborts, evidence selection, and corrective actions.
+- [x] Document KE1/HPC/SE/KE3 handoffs, all report/error fields, null handling, invocation, recorded payloads, and pending lifecycle checks.
+- [x] Document headless commands, historical verification results, acceptance coverage, and pending comparison/readiness/UI cases.
+- [x] Create a readable NASA source record with profile scope, strict boundaries, verification status, official URLs, and exact ledger attribution text.
+- [x] Verify local documentation links and anchors, report/root-cause/error field coverage, copied credits, and recorded sample metrics against the current files.
+
+Documentation task evidence, 14 November 2026. Five Markdown files are available under `docs/ke2/`. Five documentation check groups passed using inline Python, with zero failures and exit 0. Coverage includes 51 local links/anchors, balanced code fences, all 17 report fields, four cause fields, five error fields, three exact ledger credits, recorded metrics, test-script paths, and T01-T14 coverage. `git diff --check` passed. Prior Godot and recorded-trace results are labeled with their execution history. Gameplay verification remains tracked in Sections 4, 6, 7, and 8.
+
 ## Dependency tracking
 
 Update this table as owners provide decisions or samples. A pending producer mapping can coexist with fixture-based KE2 work.
 
 | Dependency | Owner to coordinate with | Current status / required evidence |
 | --- | --- | --- |
-| Final KE2 error/feedback fields and examples | KE1 + KE2 + HPC + KE3 | Implemented and fixture-tested; requested space/ground segments used; real abort-reason producer mapping pending |
+| Final KE2 error/feedback fields and examples | KE1 + KE2 + HPC + KE3 | Implemented and tested with real pinned modules; native terminal_reason mapping verified; space/ground segments used |
 | Shared contract and reference synchronization | KE1 | Complete in this checkout |
-| Scenario IDs, units, step/energy/abort rules, and real trace | HPC + KE1 | Public policies agreed; cached step-engine source inspected at ab7865c and feedback code/action semantics confirmed; runtime trace and integration pending |
+| Scenario IDs, units, step/energy/abort rules, and real trace | HPC + KE1 | Real readiness-approved completion/block/abort and v0.2 trace verified at b9817c3; combined KE2 runner 205 passed, producer suite 31 passed; controller/UI lifecycle pending |
 | Controller migration and report/retry calls | SE + HPC + KE3 + KE2 | Responsibilities and API agreed; actual call sites and runtime integration pending |
 | Results/credits display and export verification | KE3 + SE + KE2 | Pending runtime integration |

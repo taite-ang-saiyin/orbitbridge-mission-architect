@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "scenario_version": "orbit-presets-v1",
+  "unit_conventions": {
+    "step_duration": "hours",
+    "data_unit": "decimal_mb",
+    "kilobytes_per_megabyte": 1000
+  },
+  "orbits": [
+    {
+      "id": "low_eq",
+      "label": "Low equatorial",
+      "altitude_km": 400,
+      "inclination_deg": 0,
+      "step_duration_hours": 0.1538888889,
+      "steps_per_orbit": 10,
+      "sunlight_windows": [0, 1, 2, 3, 4, 5],
+      "ground_contact_windows": [8],
+      "target_windows": { "equator": [2, 5] },
+      "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+    },
+    {
+      "id": "high_inc",
+      "label": "High-inclination training orbit",
+      "altitude_km": 600,
+      "inclination_deg": 97.8,
+      "step_duration_hours": 0.1611111111,
+      "steps_per_orbit": 10,
+      "sunlight_windows": [1, 2, 3, 4, 5, 6],
+      "ground_contact_windows": [0, 7],
+      "target_windows": { "equator": [1, 6] },
+      "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+    }
+  ],
+  "targets": [
+    { "id": "equator", "label": "Equatorial estuary", "description": "Fictional teaching target." }
+  ]
+}

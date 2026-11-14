@@ -2,7 +2,7 @@ class_name MissionFeedback
 extends RefCounted
 ## Deterministic feedback for validated v1 reports and recorded step-engine events.
 ## Codes/actions checked against origin/feature/hpc-simulator at ab7865c.
-## Runtime integration still requires the producer's real trace and adapter handoff.
+## Native state/log and terminal_reason mapping checked against HPC at b9817c3.
 ## Segment names follow the requested launch/space/ground/user vocabulary.
 
 const RULES: Dictionary = {
@@ -171,9 +171,12 @@ static func _comes_before(left: Dictionary, right: Dictionary) -> bool:
 	return false
 
 
-## Optional caller-supplied abort metadata. Its runtime producer mapping remains
-## an HPC handoff detail. Operation-blocked events alone do not explain an abort.
+## HPC records terminal_reason on abort. Preserve the existing abort_reason
+## string/message boundary for callers supplying the original v1 dictionaries.
 static func _abort_reason(final_state: Dictionary) -> String:
+	var terminal_reason: Variant = final_state.get("terminal_reason")
+	if terminal_reason is String and not terminal_reason.strip_edges().is_empty():
+		return terminal_reason.strip_edges()
 	var reason: Variant = final_state.get("abort_reason")
 	if reason is Dictionary:
 		reason = reason.get("message")
