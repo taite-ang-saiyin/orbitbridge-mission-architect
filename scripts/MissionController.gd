@@ -79,7 +79,8 @@ func _ready():
 		link.text = entry[0]
 		link.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		link.custom_minimum_size.y = 46
-		link.pressed.connect(show_screen.bind(entry[1]))
+		if entry[0] == "＋  New Mission": link.pressed.connect(start_new_mission)
+		else: link.pressed.connect(show_screen.bind(entry[1]))
 		sidebar.add_child(link)
 	var rail_spacer = Control.new()
 	rail_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -142,7 +143,9 @@ func show_screen(index: int):
 			var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 			if not launched.ok: index = 3
 	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
-	if index == 5 and not state.has("run_trace"): index = 3
+	if index == 5:
+		if not state.has("run_trace"): index = 3
+		elif state.has("active_run_state"): on_terminal_state(state.active_run_state)
 	clear_screen()
 	shell.show()
 	landing_host.hide()
@@ -150,6 +153,10 @@ func show_screen(index: int):
 	current = load(path).instantiate()
 	current.state = state
 	current.navigate.connect(show_screen)
+	if current.has_signal("terminal_state"): current.terminal_state.connect(on_terminal_state)
+	if current.has_signal("abort_requested"): current.abort_requested.connect(abort_current_run)
+	if current.has_signal("retry_requested"): current.retry_requested.connect(retry_mission)
+	if current.has_signal("new_mission_requested"): current.new_mission_requested.connect(start_new_mission)
 	nav.visible = false
 	for i in sidebar.get_child_count():
 		var link = sidebar.get_child(i)
@@ -163,3 +170,33 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F11:
 		preload("res://scripts/ui/DesktopWindow.gd").toggle(get_window())
 		get_viewport().set_input_as_handled()
+
+func on_terminal_state(native_state: Dictionary) -> Dictionary:
+	return preload("res://scripts/integration/mission_results.gd").publish(state, native_state)
+
+func retry_mission() -> void:
+	preload("res://scripts/integration/mission_results.gd").retry(state)
+	var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+	show_screen(4 if launched.ok else 3)
+
+func start_new_mission() -> void:
+	preload("res://data/mock/DesignCatalog.gd").reset(state)
+	state.name = "Untitled Mission"
+	show_screen(1)
+
+func abort_current_run(reason: String = "Operator requested abort") -> void:
+	if not state.has("active_run_state"): return
+	var aborted: Dictionary = preload("res://core/MissionStepEngine.gd").abort_run(state.active_run_state, reason)
+	if not aborted.ok: return
+	state.active_run_state = aborted.state.duplicate(true)
+	var frames: Array = []
+	for frame in state.run_trace.frames:
+		if frame.state.step_index < aborted.state.step_index: frames.append(frame)
+	frames.append({"state": aborted.state.duplicate(true), "events": aborted.events.duplicate(true)})
+	state.run_trace.frames = frames
+	state.run_trace.final_state = aborted.state.duplicate(true)
+	state.run_trace.events = aborted.state.event_log.duplicate(true)
+	for i in state.run_history.size():
+		if state.run_history[i].final_state.run_id == aborted.state.run_id: state.run_history[i] = state.run_trace.duplicate(true)
+	on_terminal_state(aborted.state)
+	show_screen(5)

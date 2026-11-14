@@ -1,5 +1,6 @@
 extends RefCounted
 ## Explicit UI-to-contract boundary. Visual meshes never supply physical specifications.
+static var next_run_sequence: int = 0
 const Loader = preload("res://scripts/core/catalog_loader.gd")
 const Validator = preload("res://scripts/core/mission_validator.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
@@ -89,7 +90,8 @@ static func launch(draft: Dictionary) -> Dictionary:
 	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}}
 	var built: Dictionary = Adapter.build_scenario(loaded.catalogs, loaded.catalogs.orbit_catalog)
 	if not built.ok: return {"ok": false, "error": {"message": built.error_message}}
-	var sequence: int = int(draft.get("run_sequence", 0)) + 1
+	next_run_sequence = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
+	var sequence: int = next_run_sequence
 	var started: Dictionary = StepEngine.init_run(reviewed.config, built.scenario, "run_%03d" % sequence, "mission_local")
 	if not started.ok: return started
 	var current: Dictionary = started.state

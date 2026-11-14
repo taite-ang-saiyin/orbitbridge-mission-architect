@@ -70,7 +70,7 @@ func check() -> void:
 		assert("MB" in app.current.telemetry.text)
 		app.current.next_button.pressed.emit()
 		await settle()
-		assert("Evaluation pending KE2" in app.current.results.text)
+		assert("Score:" in app.current.results.text)
 		assert(not "1.24 GB" in app.current.results.text)
 		print("PASS integrated player flow at ", resolution)
 	app.state.budget = 60

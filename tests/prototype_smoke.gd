@@ -54,7 +54,7 @@ func check():
 				assert("MB" in app.current.telemetry.text)
 			if i == 5:
 				app.current.show_run("Run B")
-				assert("Evaluation pending KE2" in app.current.results.text)
+				assert("Score:" in app.current.results.text)
 		print("PASS: screens, layout, inputs, components, playback, comparison at ", resolution)
 	app.show_screen(2)
 	press(app.current, "<  Back: Mission Creator")

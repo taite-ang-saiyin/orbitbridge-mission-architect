@@ -1,4 +1,6 @@
 extends "res://scripts/screens/Workbench.gd"
+signal terminal_state(native_state: Dictionary)
+signal abort_requested(reason: String)
 var DATA = preload("res://scripts/integration/mission_playback.gd").new()
 const ORBIT_VIEW = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 const TRACK = preload("res://ui/components/GroundTrack.gd")
@@ -161,6 +163,7 @@ func build_visualization(parent: Node) -> void:
 		speed_buttons[multiplier] = button
 	skip_button = UI.button(controls, "Skip to End", skip_to_end)
 	UI.button(controls, "Expand", expand_orbit)
+	UI.button(controls, "Abort Mission", func(): abort_requested.emit("Operator requested abort"))
 	for button in controls.get_children():
 		button.add_theme_font_size_override("font_size", 11)
 		button.custom_minimum_size.y = 34
@@ -241,16 +244,16 @@ func rebuild_timeline() -> void:
 			timeline.add_item(DATA.time_label(e[1]) + "  " + e[0])
 			if i == event_index: timeline.select(timeline.item_count - 1)
 func seek(seconds: float) -> void:
-	playhead = clampf(seconds, 0, DATA.TOTAL_SECONDS)
+	playhead = clampf(seconds, 0, playback_end())
 	event_index = DATA.index_at(playhead)
-	if playhead >= DATA.TOTAL_SECONDS: playing = false
+	if playhead >= playback_end(): playing = false
 	refresh()
 func select_event(index: int) -> void:
 	playing = false
 	seek(DATA.EVENTS[clampi(index, 0, DATA.EVENTS.size() - 1)][1])
 func play() -> void:
 	playing = true
-	if playhead >= DATA.TOTAL_SECONDS:
+	if playhead >= playback_end():
 		seek(0)
 	else:
 		refresh()
@@ -264,16 +267,17 @@ func set_speed(multiplier: int) -> void:
 	refresh()
 func skip_to_end() -> void:
 	playing = false
-	seek(DATA.TOTAL_SECONDS)
+	seek(playback_end())
 func _process(delta: float) -> void:
 	if playing:
 		seek(playhead + delta * DATA.PLAYBACK_RATE * speed)
 func refresh() -> void:
 	if not is_instance_valid(telemetry): return
 	var e = DATA.EVENTS[event_index]
+	var snapshot: Dictionary = DATA.frames[event_index].state
 	var progress = playhead / DATA.TOTAL_SECONDS
 	var orbit_number = mini(run_configuration.mission.duration_orbits, 1 + int(progress * run_configuration.mission.duration_orbits))
-	var mission_status = "PLAYING" if playing else ("COMPLETE" if progress >= 1 else "PAUSED")
+	var mission_status = str(snapshot.run_status).to_upper() if snapshot.phase == "finished" else ("PLAYING" if playing else "PAUSED")
 	status.text = (state.name if not state.name.strip_edges().is_empty() else "Untitled Mission") + "\n" + mission_status
 	mission_details.text = "%s\n%s\nOrbit %s / %s  ·  %s\nRemaining   %s" % [state.objective, state.orbit, orbit_number, state.duration, DATA.time_label(playhead), DATA.time_label(DATA.TOTAL_SECONDS - playhead)]
 	for i in target_rows.size():
@@ -285,7 +289,6 @@ func refresh() -> void:
 		target_rows[i][1].value = float(count) / state.observations * 100
 	total_label.text = "Captured %s / %s · Returned %.3f / %s MB" % [e[5], run_configuration.mission.required_observations, e[6], run_configuration.mission.required_returned_data_mb]
 	total_progress.value = 100.0 * e[5] / run_configuration.mission.required_observations
-	var snapshot: Dictionary = DATA.frames[event_index].state
 	telemetry.text = "Captured %s · Returned %.3f MB\nBattery %.3f / %s Wh\nStored %.3f / %s MB\n%s · %s" % [snapshot.observations_completed, snapshot.returned_data_mb, snapshot.energy_wh, snapshot.battery_capacity_wh, snapshot.stored_data_mb, snapshot.storage_capacity_mb, e[8], e[10]]
 	battery_bar.value = e[3]
 	storage_bar.value = e[4]
@@ -304,10 +307,12 @@ func refresh() -> void:
 			cell.add_theme_color_override("font_color", Color("62e7ee") if i == event_index else Color("8caabd"))
 	for multiplier in speed_buttons:
 		speed_buttons[multiplier].set_pressed_no_signal(float(multiplier) == speed)
-	play_button.text = "Replay" if progress >= 1 else "Play"
+	play_button.text = "Replay" if snapshot.phase == "finished" else "Play"
 	play_button.disabled = playing
 	pause_button.disabled = not playing
-	next_button.disabled = progress < 1.0
+	state.active_run_state = snapshot.duplicate(true)
+	next_button.disabled = snapshot.phase != "finished"
+	if snapshot.phase == "finished": terminal_state.emit(snapshot.duplicate(true))
 	if timeline_event != event_index: rebuild_timeline()
 	var upcoming = []
 	for i in range(event_index + 1, mini(event_index + 4, DATA.EVENTS.size())):
@@ -333,3 +338,6 @@ func responsive() -> void:
 
 func return_to_readiness() -> void:
 	navigate.emit(3)
+
+func playback_end() -> float:
+	return float(DATA.EVENTS[-1][1]) if not DATA.EVENTS.is_empty() else DATA.TOTAL_SECONDS

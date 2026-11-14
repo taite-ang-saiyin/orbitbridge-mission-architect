@@ -64,7 +64,7 @@ func check() -> void:
 		page.next_button.pressed.emit()
 		await settle()
 		app.current.show_run("Run A")
-		if not require("Evaluation pending KE2" in app.current.results.text, "Operations and Debrief Run A disagree"): return
+		if not require("Score:" in app.current.results.text, "Operations and Debrief Run A disagree"): return
 		app.show_screen(4)
 		await settle()
 		app.current.previous.pressed.emit()

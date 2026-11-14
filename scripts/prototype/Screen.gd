@@ -1,5 +1,7 @@
 extends VBoxContainer
 signal navigate(index: int)
+signal retry_requested
+signal new_mission_requested
 const UI = preload("res://ui/components/UI.gd")
 const ORBIT = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 @export var screen_id: String
@@ -82,9 +84,8 @@ func start():
 func reset_state():
 	preload("res://data/mock/DesignCatalog.gd").reset(state)
 func new_mission():
-	reset_state()
-	state.name = "Untitled Mission"
-	navigate.emit(1)
+	new_mission_requested.emit()
+
 func refresh_summary():
 	if not is_instance_valid(summary):
 		return
@@ -94,16 +95,16 @@ func mission_name() -> String:
 var results: Label
 func debrief():
 	var row = columns()
-	var outcome = UI.panel(row, "MISSION TOTALS / HPC")
+	var outcome = UI.panel(row, "MISSION RESULTS / KE2")
 	var select = OptionButton.new()
-	var history: Array = state.get("run_history", [])
+	var history: Array = result_history()
 	for trace in history: select.add_item(trace.final_state.run_id)
 	outcome.add_child(select)
 	results = UI.label(outcome, "", 20)
 	select.item_selected.connect(func(index): show_actual_run(index))
 	show_actual_run(maxi(0, history.size() - 1))
 	select.selected = maxi(0, history.size() - 1)
-	var compare = UI.panel(row, "RECENT RUNS")
+	var compare = UI.panel(row, "RUN HISTORY")
 	var grid = GridContainer.new()
 	grid.columns = 3
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -114,20 +115,32 @@ func debrief():
 	for trace in history:
 		for cell in [trace.final_state.run_id, str(trace.final_state.observations_completed), "%.3f" % trace.final_state.returned_data_mb]: UI.label(grid, cell, 14)
 	var explanation = UI.panel(content, "WHAT CAN WE LEARN?")
-	UI.label(explanation, "These totals come from the HPC simulation using your selected policy. Captured observations and returned MB are independent goals. Mission scoring and causal feedback await KE2 integration. Orbital graphics are illustrative.", 16, "9cb0c8")
+	UI.label(explanation, "These totals come from the HPC simulation using your selected policy. Captured observations and returned MB are independent goals. KE2 reports and feedback are published once per run. Survey-specific scoring requires the current KE2 handoff. Orbital graphics are illustrative.", 16, "9cb0c8")
 	var buttons = HBoxContainer.new()
 	content.add_child(buttons)
+	UI.button(buttons, "Retry Mission", func(): retry_requested.emit())
 	UI.button(buttons, "Modify Design", func(): navigate.emit(2))
 	UI.button(buttons, "Start New Mission", new_mission)
 	actions(4, 0, "Return Home")
 func show_actual_run(index: int):
-	var history: Array = state.get("run_history", [])
+	var history: Array = result_history()
 	if history.is_empty():
 		results.text = "Launch a validated mission to view actual totals."
 		return
 	var trace: Dictionary = history[index]
 	var final: Dictionary = trace.final_state
-	results.text = "%s / %s\n%s\n\nCaptured %s / %s\nReturned %.3f / %s MB\nBattery %.3f Wh\nStored %.3f MB\n\nEvaluation pending KE2" % [final.run_id, final.run_status, trace.config.mission.title, final.observations_completed, trace.config.mission.required_observations, final.returned_data_mb, trace.config.mission.required_returned_data_mb, final.energy_wh, final.stored_data_mb]
+	var store: Dictionary = state.get("evaluation_store", {})
+	var reports: Dictionary = store.get("reports", {})
+	if reports.has(final.run_id):
+		var report: Dictionary = reports[final.run_id]
+		results.text = "%s / %s\nScore: %s\n%s\n\n%s\n\nNext experiment: %s" % [report.run_id, report.status, str(report.score) if report.score != null else "Not scored (aborted)", trace.config.mission.title, report.explanation, report.next_experiment]
+	else:
+		var error: Dictionary = store.get("errors", {}).get(final.run_id, {"message": "Finish or abort playback before requesting evaluation.", "suggested_fix": "Return to Operations and finish or abort the run."})
+		results.text = "Evaluation unavailable\n%s\n%s" % [error.message, error.suggested_fix]
+	var mass: Dictionary = trace.validation.get("checks", {}).get("profile_mass", {})
+	if mass.get("source_id") == "cubesat_101_1u_sample":
+		results.text += "\n\nLaunch source: NASA CubeSat 101, App. C item 6, p.79: sample 1U mass <1330 g."
+
 	var captures_met: bool = final.observations_completed >= trace.config.mission.required_observations
 	var data_met: bool = final.returned_data_mb + 0.00000001 >= trace.config.mission.required_returned_data_mb
 	results.text += "\n\nCapture goal: " + ("met" if captures_met else "not met") + "\nReturned-data goal: " + ("met" if data_met else "not met")
@@ -137,7 +150,7 @@ func show_actual_run(index: int):
 		if trace.config.mission.objective == "survey": results.text += " / " + ("survey delivery met" if int(final.get("observations_delivered_by_target", {}).get(target_id, 0)) > 0 else "survey delivery not met")
 
 func show_run(_key: String):
-	show_actual_run(maxi(0, state.get("run_history", []).size() - 1))
+	show_actual_run(maxi(0, result_history().size() - 1))
 
 func mission_control():
 	var row = columns()
@@ -161,3 +174,17 @@ func mission_control():
 			navigate.emit(1))
 	UI.label(quick, "Choose an equatorial imaging preset or create a mission. Results use your actual selected gameplay components.", 14, "9cb0c8")
 	actions(-1, 1, "Continue Mission")
+
+func result_history() -> Array:
+	var history: Array = []
+	var ids: Array = []
+	for record in state.get("evaluation_store", {}).get("history", []):
+		history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation})
+		ids.append(record.state.run_id)
+	for trace in state.get("run_history", []):
+		if ids.has(trace.final_state.run_id): continue
+		var display: Dictionary = trace.duplicate(true)
+		if state.get("active_run_state", {}).get("run_id") == trace.final_state.run_id:
+			display.final_state = state.active_run_state.duplicate(true)
+		history.append(display)
+	return history
