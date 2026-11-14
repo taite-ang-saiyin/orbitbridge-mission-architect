@@ -40,7 +40,7 @@
           {"mass_g": 1330, "mass_check_passed": false},
           {"mass_g": 1331, "mass_check_passed": false}
         ],
-        "boundary_verification_scope": "KE1 recorded actual validator boundary tests at commit 55d4f33. Independent KE2 execution and Builder cases T11/T12 remain pending. Passing this mass check does not establish overall launch readiness."
+        "boundary_verification_scope": "KE1 recorded validator boundary tests at 55d4f33. KE2 independently reran the existing 470-check readiness fixture suite at candidate 14c0f97, including 1329/1330/1331 g and alternate-profile cases. Boundary masses use private test catalog copies. Builder and exported-build cases T11/T12 remain pending. Passing this mass check does not establish overall launch readiness."
       },
       "applicable_profile": {
         "profile_id": "cubesat_1u_sample",
@@ -118,7 +118,26 @@
           ],
           "alternate_profile_scope": "illustrative_alternative uses <= 5000 g, source_id null, and assumption_id illustrative_small_sat_mass_limit_v1."
         },
-        "pending_evidence": "Independent KE2 boundary-suite rerun, SE Builder/profile-switch/Launch checks, integrated Results lifecycle, and source-credit display/link access in the selected export."
+        "independent_boundary_verification": {
+          "verified_on": "2026-11-14",
+          "reviewer": "KE2",
+          "candidate_commit": "14c0f973c140e9644650e94e769b6b1b3dfb3951",
+          "worktree": "tmp/se-ke2-integration",
+          "godot_version": "4.7.2.stable.mono.official.ed1daf0bf",
+          "runner": "res://tests/validation/test_mission_fixtures.gd",
+          "log": "tmp/ke2-prompt10-readiness-fixtures.log",
+          "checks_passed": 470,
+          "checks_failed": 0,
+          "exit_code": 0,
+          "scope": "Actual validator and catalogs, with private test-only bus mass overrides for exact boundaries. Interactive Builder, launch controls and exports remain pending.",
+          "source_sha256": {
+            "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+            "tests/validation/test_mission_fixtures.gd": "ebc22107335fd57da5cbe482bdf1a20c3d33c7e896a05c0c9d51c407debb222d",
+            "tests/fixtures/ke1_readiness_cases.json": "c760c958ee105ca44f40c70e82c8c08dfd51ada1b24a465db31bc952825c83c6",
+            "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+          }
+        },
+        "pending_evidence": "SE Builder/profile-switch/Launch checks, original partial/abort packets through the selected-release Results route, and source-credit display/link access in the selected export."
       }
     },
     {

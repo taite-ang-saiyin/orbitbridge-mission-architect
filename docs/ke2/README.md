@@ -26,12 +26,12 @@ KE2 owns mission evaluation, scoring, evidence-based explanations, corrective ex
 | Feedback | Four recognized blocked-action codes, event references, corrective templates, neutral fallback, verified `terminal_reason` mapping, reviewed KE3 preview display | Original partial/abort packets through the selected-release Results route |
 | Automated checks | 167 standalone, 207 pinned combined, 71 abort replay, and 57 candidate Results/lifecycle checks pass | Comparison/readiness cases and final release acceptance; standalone runner retains five pending labels |
 | HPC integration | Native-state adapter, actual readiness-approved run/block/abort, candidate Results publication and retry/reset checks | Manual action controls and selected-release verification |
-| NASA documentation | JSON ledger, source verification, conversion, KE1 recorded boundary evidence, preview and candidate scoped-credit binding | Independent boundary rerun, Builder checks and export credits |
+| NASA documentation | JSON ledger, verified PDF/conversion, independently rerun 470-check readiness fixture suite, preview and candidate scoped-credit binding | Builder boundaries/profile switching and export credits |
 | Retry comparison | Reserved baseline parameter and `comparison: null` | Optional P1 implementation and eligibility tests |
 
 The detailed verification history is in the testing document and the existing report handoff. [Testing](testing.md), [recorded HPC report](../handoffs/ke2-hpc-report-v0.1.md).
 
-The latest Results evidence belongs to the isolated candidate `tmp/se-ke2-integration` at `14c0f97`, with implementation `b23de72`. Its KE2 module/test bytes match the current root working files. The root checkout remains at `79e249b` with local changes. Prompt 8 has candidate integration evidence, Prompt 10 is ready for a focused stability review, and Prompt 9 remains optional comparison work. Manual actions, Survey scoring, official B10 and exported-build acceptance remain pending.
+The latest Results evidence belongs to the isolated candidate `tmp/se-ke2-integration` at `14c0f97`, with implementation `b23de72`. Its KE2 module/test bytes match the root at `c1ce6de`. Prompt 10 is complete with zero failing checks and no critical KE2 defect found. The review reran the existing suites and updated the ledger's independent validator evidence. Prompt 9 remains optional comparison work. Manual actions, Survey scoring, Builder boundary checks, official B10 and exported-build acceptance remain pending. [Stability report](testing.md#prompt-10-stability-review).
 
 ## Owned implementation files
 

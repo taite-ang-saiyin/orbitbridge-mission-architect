@@ -24,7 +24,8 @@ The KE2 JSON ledger stores source metadata, units, locators, profile scope, impl
 | Source and conversion | Verified |
 | Validator evidence | KE1 recorded 470 checks passing across 15 saved cases, including strict boundaries and the alternative profile |
 | Visible credit evidence | KE3 recorded Results preview displays the supplied readiness attribution and URL, reviewed through source hashes, logs, and screenshots |
-| Independent KE2 rerun, display, and export verification | Pending |
+| Independent KE2 validator rerun | 470 saved-fixture checks passed at candidate 14c0f97, including exact mass and alternate-profile boundaries |
+| Builder display and export verification | Pending |
 
 The verified locator is Appendix C, item 6. The checklist's source wording is `Mass (< 1.33 kg)`. Both official NASA URLs opened during source review. The offline copy's SHA256 is retained in the ledger. [Primary NASA PDF](https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf), [alternate NASA PDF](https://www.nasa.gov/wp-content/uploads/2017/03/nasa_csli_CubeSat_101_508.pdf), [offline reference](../references/NASA_CubeSat_101.pdf).
 
@@ -34,7 +35,7 @@ The verified locator is Appendix C, item 6. The checklist's source wording is `M
 | 1330 g | Fail |
 | 1331 g | Fail |
 
-These expectations apply to the educational sample profile. Other selected profiles use their own readiness rules. Overall readiness also depends on the remaining KE1 checks. KE1's recorded suite at `55d4f33` passes the 1329/1330/1331 g cases and alternative-profile cases at 1380/5000/5001 g. KE2 reviewed the pinned manifest, runner, validator, and recorded log. Independent KE2 execution, Builder profile switching, labels, and exported credits remain pending. [Testing status](testing.md).
+These expectations apply to the educational sample profile. Other selected profiles use their own readiness rules. Overall readiness also depends on the remaining KE1 checks. KE1's recorded suite at `55d4f33` passes the 1329/1330/1331 g cases and alternative-profile cases at 1380/5000/5001 g. During Prompt 10, KE2 independently reran the existing actual-validator fixture suite in candidate `14c0f97`. All 470 checks passed with zero failures and exit 0. Exact boundary masses use private test catalog copies. Builder profile switching, labels, and exported credits remain pending. [Stability verification](testing.md#prompt-10-stability-review).
 
 The case manifest is `tests/fixtures/ke1_readiness_cases.json`, the runner is `tests/validation/test_mission_fixtures.gd`, and the saved log is `docs/handoff/validation-test-log.txt`, all within KE1 commit `55d4f336e72a68ff31cf37e44f65a98c1cdcc193`. Boundary cases change bus mass in private catalog copies. The alternative profile records `source_id: null` and the illustrative assumption ID `illustrative_small_sat_mass_limit_v1` for its `<= 5000 g` rule. [Ledger evidence](../../data/nasa_sources.json).
 

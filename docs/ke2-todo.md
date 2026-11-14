@@ -3,7 +3,7 @@
 Owner: KE2  
 Planning basis: v1.0-agreed, updated 14 November 2026
 
-Current stage: SE/KE3 candidate Results integration verified at 14c0f97; stability review ready; optional comparison, Survey scoring, independent mass-boundary/Builder checks, manual actions, and release acceptance pending
+Current stage: Prompt 10 stability review complete at memberKE2 c1ce6de and integration candidate 14c0f97; validator boundaries independently verified; optional comparison, Survey scoring, Builder checks, manual actions, and release acceptance pending
 
 Update this checklist after each KE2 task. Use the team's recorded decisions to update pending tasks and expected results. The API names and policies below follow the agreed v1 contract. Independent preparation and labeled fixtures can proceed while runtime handoffs are being implemented. Mark a task complete when its stated evidence is available. Record blocked tasks with the dependency owner and missing input.
 
@@ -103,8 +103,8 @@ The table follows v1.0-agreed. Unless specified otherwise, targets are 3 capture
 | T08 | No eligible baseline | `comparison: null` | KE2 | Pending dedicated comparison check |
 | T09 | Returned-data shortfall and relevant blocked-transmit event | Feedback references the matching code/event and action | KE2 | Passed with the four recognized codes/actions and signed evt_007 fixture |
 | T10 | Missing, unknown, or irrelevant cause evidence | Neutral explanation, empty causes, concrete next experiment | KE2 | Passed, including malformed, conflicting, and foreign-run evidence |
-| T11 | Sample 1U profile at 1329 g, other checks valid | Mass check passes through KE1's actual validator | KE1 + KE2 + SE | KE1 recorded fixture passed at 55d4f33; independent KE2 rerun/Builder pending |
-| T12 | Sample 1U at 1330 g and 1331 g, plus another profile | Sample mass check fails at both boundaries, other profile uses its rules | KE1 + KE2 + SE | KE1 recorded fixtures passed at 55d4f33; independent KE2 rerun/Builder pending |
+| T11 | Sample 1U profile at 1329 g, other checks valid | Mass check passes through KE1's actual validator | KE1 + KE2 + SE | Independent KE2 validator rerun passed at 14c0f97; Builder pending |
+| T12 | Sample 1U at 1330 g and 1331 g, plus another profile | Sample mass check fails at both boundaries, other profile uses its rules | KE1 + KE2 + SE | Independent KE2 validator/alternate-profile rerun passed at 14c0f97; Builder pending |
 | T13 | Either target zero | Agreed input error under v1.0 positive-only policy | KE2, align with KE1 | Passed evaluator checks; KE1 integration pending |
 | T14 | Aborted, including after both targets were reached | `run_status: aborted`, `status: failed`, null score, actuals preserved | KE2 | Passed |
 
@@ -168,7 +168,7 @@ Feedback handoff details: `build_feedback(report, final_state, events)` returns 
   - [x] Review Prompt 6 for missing metadata, invalid JSON, conversion/boundary errors, ID mismatches, broken references, credit drift, and unsupported integration claims. Correct the original prompt's locator to Appendix C, item 6, printed p.79 / PDF p.87.
 - [ ] Verify the sample-1U mass rule with KE1 and SE.
   - [x] Review KE1's pinned validator, 15-case manifest, runner, and recorded log. Its 470-check fixture suite records the strict boundary and alternative-profile cases passing.
-  - [ ] Independently rerun T11/T12 through the pinned actual validator with other readiness checks passing.
+  - [x] Independently rerun the exact validator boundaries and alternate-profile cases using KE1's saved suite in candidate 14c0f97. All 470 checks passed, zero failed, exit 0. Boundary catalog changes remain private to the existing tests; Builder portions of T11/T12 remain pending.
   - [ ] Confirm profile switching, visible credit, and Launch behavior.
   - [ ] Record build/commit, expected/observed values, and screenshot or log evidence.
 
@@ -278,6 +278,21 @@ Completion evidence: KE2's implementation, real Results path, automated checks, 
 - [x] Verify local documentation links and anchors, report/root-cause/error field coverage, copied credits, and recorded sample metrics against the current files.
 
 Documentation task evidence, 14 November 2026. Five Markdown files are available under `docs/ke2/`. Five documentation check groups passed using inline Python, with zero failures and exit 0. Coverage includes 51 local links/anchors, balanced code fences, all 17 report fields, four cause fields, five error fields, three exact ledger credits, recorded metrics, test-script paths, and T01-T14 coverage. `git diff --check` passed. Prior Godot and recorded-trace results are labeled with their execution history. Gameplay verification remains tracked in Sections 4, 6, 7, and 8.
+
+## 11. Prompt 10 stability review
+
+- [x] Inspect the initial working-tree diff and the latest committed evaluator/test changes. The root working tree started clean at c1ce6de; the recent KE2 code changes are the Survey guard and its tests plus the standalone-runner flag.
+- [x] Confirm Godot 4.7.2 with `--version` and parse the evaluator, feedback and test runner. All three parse checks exited 0.
+- [x] Run the standalone evaluator (167 passed), pinned combined evaluator (207 passed), actual abort replay (71 passed), and candidate Results/lifecycle suite (57 passed). Every suite had zero failures and exit 0.
+- [x] Run the existing candidate player-flow, Operations and prototype smoke tests. All exited 0. These checks execute headlessly and retain their existing comparison/playback scope.
+- [x] Confirm dynamic observation/returned-MB targets, caps, half-up rounding, stored-data exclusion, invalid inputs, aborts, neutral handling of unknown events, deterministic output, and input preservation through existing assertions.
+- [x] Audit NASA ledger metadata, strict conversion, source/profile scope, local PDF hash, attributions and candidate KE2 byte identity. All 16 record checks passed. Independently execute KE1's 470-check readiness fixture suite, including the exact strict mass boundaries, and record its revision/hashes in the ledger.
+- [x] Review optional retry comparison. It remains unimplemented with `comparison: null`; T07/T08 remain pending.
+- [x] Check parse/runtime diagnostics and critical-defect triage. No critical KE2 defect was found. The known Windows certificate-store startup diagnostic accompanies passing runtime commands.
+- [x] Preserve ownership. This task updates KE2 documentation and ledger evidence. Existing scripts, other owners' files, frozen handoff packages and recorded report payloads retain their bytes.
+- [x] Record Sunday needs by owner and distinguish candidate/headless evidence from manual and exported-build acceptance. See [the stability report](ke2/testing.md#prompt-10-stability-review).
+
+Review evidence, 14 November 2026. Root revision `c1ce6de`, integration candidate `14c0f97`, pinned HPC projects `b9817c3` and `3990d3c`. Detailed results, exact commands, local log paths and open owner handoffs are in the linked stability report. The runner retains five pending labels, with candidate lifecycle and validator portions independently covered by separate suites. Manual-action B02, official B10, Builder boundary/profile switching, selected-release partial/abort display and exports remain open. Optional comparison and Survey require their own scope decisions.
 
 ## Dependency tracking
 
