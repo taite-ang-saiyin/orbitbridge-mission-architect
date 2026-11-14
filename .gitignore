@@ -1,3 +1,14 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Local tooling, generated exports, and preparation scratch files
+/exports/
+/builds/
+/tools/
+/work/
+/tmp/
+export_credentials.cfg
+.env
+.env.*
+!.env.example

@@ -8,6 +8,8 @@ This document translates the [signed team agreement](team-agreement.md) into the
 
 The [v1 example pack](contracts/v1-draft/README.md) is aligned to this revision. Its directory retains the earlier `v1-draft` name for existing links; its current status and agreement revision, not its directory name, identify the approved interface. Example payloads remain hand-authored documentation fixtures, not results of implemented game logic.
 
+Implementation status: K05 field/ID checks and K06 catalogs are implemented; see [k05-k06-progress.md](k05-k06-progress.md). The agreed interface below describes the completed target behavior. Until K07-K09 are built, validate() keeps ready_to_launch false, metrics null and the remaining six checks not_evaluated, with explicit messages. This is a staged implementation, not a changed agreement.
+
 ## 1. Ownership and entry points
 
 | Owner | Owned files / responsibility |
@@ -62,7 +64,7 @@ Required top-level keys: `schema_version`, `mission`, `design`. `schema_version`
 | design.launcher_id | Selected launch service |
 | design.orbit_id | Agreed current fixture IDs: `low_eq` or `high_inc` |
 
-Every ID must resolve in the proper catalog category. The component and launcher labels in the examples are fixture labels; K06 creates actual catalogs. Those labels are not claims that a production catalog or its physical values already exists.
+Every ID must resolve in the proper catalog category. K06 now supplies actual labeled training catalogs; see data/README.md. The contract examples remain hand-authored fixture payloads, and their totals are not catalog calculations. In particular instrument_boundary_heavy remains a documentation-only label; the real selectable advanced instrument is instrument_advanced.
 
 Captured observations and returned MB are independent requirements. Stored data does not count as returned data. The MVP does not claim that every image was fully delivered merely because a total MB threshold was reached. Both KE1 and KE2 reject zero observation targets, zero returned-data targets, and zero duration.
 
@@ -194,7 +196,7 @@ Keep immutable snapshots of scenario identity/version, mission requirements, dur
 
 The signed v1.0 agreement resolves the public units, field vocabulary, separate launcher/profile selection, capture/data goal semantics, power gate, action timing, run/event identity, score/abort behavior, source credit and ownership. K01-K04 are already recorded complete in tasks.md.
 
-Remaining implementation work includes KE1's actual catalogs/validator, HPC's real preset values/target matrix/step equations and legacy adapters, SE's prototype migration and branch configuration sync, and runtime integration tests. Those are implementation tasks, not a reason to relabel this contract as an unapproved draft. Do not claim another branch's scripts/tests were executed here.
+K05 field/lookup checks and K06 catalogs are implemented. Remaining work includes KE1's calculated totals/full feasibility/source-linked readiness (K07-K09), HPC's real preset values/target matrix/step equations and legacy adapters, SE's prototype migration and branch configuration sync, and runtime integration tests. Those are implementation tasks, not a reason to relabel this contract as an unapproved draft. Do not claim another branch's scripts/tests were executed here.
 
 Compatibility rendering is agreed, but the inspected local main project still declares Forward Plus/d3d12 while the agreement reports Compatibility on master. SE owns that sync and the early Web export check. This documentation/example synchronization does not modify project.godot or merge branches. Final Windows/Web packaging can be chosen at the first playable slice.
 

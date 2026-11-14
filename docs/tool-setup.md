@@ -4,7 +4,7 @@
 
 This cloned repository is the active KE1 workspace. Open its root in Codex and Antigravity so they read AGENTS.md, GEMINI.md, tasks.md, and docs/. The earlier OrbitBridge-KE1 folder is a preparation snapshot; make new project changes here.
 
-The existing project.godot and icon came from the team repository. K01-K04 are complete per v1.0-agreed; technical documentation/examples are synchronized. Gameplay scripts, scenes, and production validator tests have not been implemented. Import this existing project in Godot instead of creating another project or Git repository.
+The existing project.godot and icon came from the team repository. K01-K06 are complete; field/lookup checks and actual training catalogs are implemented and tested. Gameplay scripts, scenes, and production validator tests have not been implemented. Import this existing project in Godot instead of creating another project or Git repository.
 
 ## Editor and team agreement
 
@@ -59,7 +59,13 @@ A temporary copy of the existing project.godot and icon files loaded using the i
 
 ## Tests after kickoff
 
-Use the actual Godot executable with --headless, --path pointing to this repository, and --script pointing to the implemented test runner. No runner exists yet. Record the exact invocation and results here when it is implemented; a successful --version check is only tool verification.
+From the project root, using the current sibling editor layout:
+
+```powershell
+& '..\Godot\4.7.2-stable\Godot_v4.7.2-stable_win64.exe' --headless --path . --script res://tests/validation/test_mission_validator.gd
+```
+
+K05/K06 result: 296 checks passed, 0 failed, exit code 0 with Godot 4.7.2. The suite loads real KE1 catalog files and exercises valid/bad mission fields, lookup, malformed catalogs, source/assumption metadata, deterministic output and unchanged inputs. It does not test full launch approval, simulation, screens or exports. The detailed coverage and API usage are in [k05-k06-progress.md](k05-k06-progress.md).
 
 ## Version control
 

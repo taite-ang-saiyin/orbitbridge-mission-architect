@@ -1,8 +1,12 @@
 # KE1 validation and test plan
 
-Status: production validator test plan. K01-K04 now include documentation-only interface mocks and local structural/example checks, plus a headless load of a temporary project copy. No production validator tests or gameplay simulation fixtures have been implemented or executed.
+Status: K05/K06 field/lookup and catalog checks implemented. Godot 4.7.2 ran tests/validation/test_mission_validator.gd: 296 checks passed, 0 failed. The suite covers fields, IDs, catalog loading/integrity, determinism and input preservation. Full totals/feasibility, simulation and screen integration below remain future tasks; see k05-k06-progress.md.
 
 Authority: [contracts.md](contracts.md), aligned to team-agreement.md v1.0-agreed. Public rates use downlink_mb_per_hour, energy uses Wh, and data uses decimal MB (1000 KB = 1 MB). The current fixtures in contracts/v1-draft/ are documentation examples with consistency checks, not production-test results.
+
+## Current stage
+
+Only input_schema and catalog_references are implemented. Full readiness remains false, metrics stays null and six later checks are not_evaluated. Actual catalogs use hourly radio rates and labeled training values. Orbit names are registered, but no HPC target-access data is invented.
 
 ## Validation order
 

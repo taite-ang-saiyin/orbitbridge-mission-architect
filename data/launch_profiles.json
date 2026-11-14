@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "contract_revision": "v1.0-agreed",
+  "assumption_id": "orbitbridge_training_profiles_v1",
+  "notice": "Only the selected 1U sample mass rule is source-backed. All profile compatibility and the alternative threshold are illustrative.",
+  "launch_profiles": [
+    {
+      "id": "cubesat_1u_sample",
+      "display_name": "CubeSat 101 sample 1U check",
+      "assumption_id": "illustrative_profile_compatibility_v1",
+      "supported_orbit_ids": [
+        "low_eq",
+        "high_inc"
+      ],
+      "mass_rule": {
+        "comparator": "<",
+        "threshold_g": 1330,
+        "source_id": "cubesat_101_1u_sample",
+        "value_kind": "source_backed"
+      },
+      "source_locator": "CubeSat 101, Appendix C item 6, printed p.79 / PDF p.87. Only this mass check is adapted; this is not flight certification."
+    },
+    {
+      "id": "illustrative_alternative",
+      "display_name": "Illustrative small-satellite profile",
+      "assumption_id": "illustrative_small_sat_profile_v1",
+      "supported_orbit_ids": [
+        "low_eq",
+        "high_inc"
+      ],
+      "mass_rule": {
+        "comparator": "<=",
+        "threshold_g": 5000,
+        "assumption_id": "illustrative_small_sat_mass_limit_v1",
+        "value_kind": "illustrative"
+      }
+    }
+  ]
+}
