@@ -8,6 +8,10 @@ The newer local [K20 interface review](k20-ke2-interface-review.md) records user
 
 ## Current evaluator envelope and field dependencies
 
+SE-response update on 15 November 2026: [SE accepts the structure in principle](se-report-review-and-version-proposal.md), preserving the envelope/17 fields and captured-observation meaning. SE recommends report v1 for legacy records and report v2 plus an agreed report-contract revision for expanded reports; versioning/serialization details remain open. [Separate v2 candidate examples](evidence/report-examples-v2-proposal.json) and a [full evidence bundle](evidence/se-report-review-evidence.zip) address review needs without changing original examples or production. Historical keys are reproducible from typed native replay/preimage bytes, but all eight differ after direct Godot JSON reload; SE/KE2 need a versioned serialization strategy.
+
+Owner-response update on 15 November 2026: the user relayed [KE3's agreement on the proposed schema](ke3-report-schema-agreement.md), with no required field changes. KE3 confirms supplied goal verdicts/ratios, Survey detail, legacy Imaging fallback, unavailable/zero/null handling, same-execution evidence and credits. KE3 implementation/live acceptance, SE's report-version/storage response, scoring rules and HPC semantics remain open. The reply identifies KE3; it is not recorded as SE agreement.
+
 `MissionEvaluator.evaluate_mission(config, final_state, events, comparison_baseline = null)` returns `{ "ok": true, "report": MissionReport }` or `{ "ok": false, "error": EvaluationError }`. A valid aborted terminal run uses the report envelope with preserved actuals, failed status, and null score. Errors contain `code`, nullable `field_path`, `message`, `suggested_fix`, and nullable `run_id`.
 
 The current report has 17 required fields. Preserve their meanings during an additive migration.
@@ -115,14 +119,14 @@ The existing custom Imaging pair changes only `radio_basic` to `radio_fast` unde
 
 | Owner | Needed result |
 | --- | --- |
-| KE2 + KE3 + SE | Confirm additive fields/goal IDs, required existing fields, ratio/met semantics, unavailable data behavior, and report schema/revision strategy |
+| KE2 + KE3 + SE | KE3 agrees the goal schema; SE accepts the structure in principle and proposes legacy-v1/expanded-v2 reports. Settle revision placement, output selection, dual-version consumers and coordinated migration |
 | KE2 + affected owners | Confirm score weights, partial/failed progress, and required-evidence errors |
 | KE3 | Replace fixed photo/data assumptions for expanded objectives and verify Overview/Flight log/Sources against bound reports |
-| SE + KE2 | Agree saved-record properties, explicit A selection/replacement, legacy/custom identity, baseline/comparator call wiring, and lifecycle beyond trace eviction |
+| SE + KE2 | SE's saved-A proposal is recorded. Settle properties, deterministic serialization/content digest, explicit A lifecycle, custom identity and comparator wiring. Direct JSON reload changes all eight historical keys; do not rewrite them silently |
 | HPC + SE + KE2 | Confirm policy/request evidence, revolution mapping, sparse-map semantics, sample bounds, and version/fingerprint rules |
 | KE1 + SE | Supply KE1's already-confirmed K20 artifacts, align producer/consumer implementations, settle remaining custom identity/bounds, and provide actual matching expansion inputs with root identity/revision |
 
-The handoff is prepared for sharing. Owner agreement and delivery of this additional consumer draft remain pending. Integration acceptance still needs actual expanded-objective reports, dynamic goal rendering, one report per run, saved-A survival through B/Cancel/Retry/trace turnover, measured comparator results, and public browser journeys.
+KE3's schema agreement is received as relayed by the user; remaining owner decisions stay open. Integration acceptance still needs actual expanded-objective reports, dynamic goal rendering, one report per run, saved-A survival through B/Cancel/Retry/trace turnover, measured comparator results, and public browser journeys.
 
 ## Verification
 

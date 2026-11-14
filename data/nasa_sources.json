@@ -52,7 +52,8 @@
         "validator": {
           "owner": "KE1",
           "intended_path": "res://scripts/core/mission_validator.gd",
-          "path_present_in_checkout": false,
+          "path_present_in_checkout": true,
+          "presence_checked_on": "2026-11-15",
           "verified_entry_point": "MissionValidator.validate(config, catalogs)",
           "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
           "status": "owner_handoff_reviewed"
@@ -60,7 +61,8 @@
         "profile_catalog": {
           "owner": "KE1",
           "intended_path": "res://data/launch_profiles.json",
-          "path_present_in_checkout": false,
+          "path_present_in_checkout": true,
+          "presence_checked_on": "2026-11-15",
           "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
           "status": "owner_handoff_reviewed"
         },

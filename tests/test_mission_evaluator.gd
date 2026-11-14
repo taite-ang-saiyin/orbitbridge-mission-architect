@@ -4,6 +4,7 @@ extends SceneTree
 
 const Evaluator = preload("res://scripts/evaluation/mission_evaluator.gd")
 const Feedback = preload("res://scripts/evaluation/mission_feedback.gd")
+const SurveyProposal = preload("res://tests/fixtures/ke2_survey_scoring_proposal.gd")
 const EXAMPLES: String = "res://docs/contracts/v1-draft/"
 const REPORT_FIELDS: Array[String] = [
 	"schema_version", "run_id", "mission_id", "run_status", "status",
@@ -104,6 +105,7 @@ func _initialize() -> void:
 	_test_feedback(config, state)
 	_test_hpc_adapter(config, state)
 	_test_survey_delivery_measure(config)
+	_test_survey_scoring_proposal(config)
 	var hpc_runtime_checked: bool = false
 	if "--ke2-standalone" in OS.get_cmdline_user_args():
 		print("HPC runtime checks deferred by --ke2-standalone.")
@@ -828,6 +830,75 @@ func _test_survey_delivery_measure(base_config: Dictionary) -> void:
 	typed.mission.goal.minimum_complete_observations_per_target = 2
 	state.config_snapshot = typed.duplicate(true)
 	_check_error("SURVEY fixture unagreed higher minimum not silently ignored", Evaluator._measure_survey_deliveries(typed, state), "config.mission.goal", state.run_id)
+
+
+func _test_survey_scoring_proposal(base_config: Dictionary) -> void:
+	# Counter-only scoring fixtures. They are not native traces or official reports.
+	var config: Dictionary = base_config.duplicate(true)
+	config.mission.objective = "survey"
+	config.mission.target_region = "arctic_ice"
+	config.mission.target_regions = ["arctic_ice", "antarctic_region"]
+	config.mission.required_observations = 2
+	config.mission.required_returned_data_mb = 12.0
+	var state: Dictionary = {"run_id": "fixture_survey_scoring", "config_snapshot": config.duplicate(true),
+		"phase": "finished", "run_status": "completed", "step_index": 30, "total_steps": 30,
+		"observations_completed": 2, "returned_data_mb": 12.0,
+		"observations_delivered_by_target": {"arctic_ice": 1, "antarctic_region": 0}}
+	for row in [
+		["missing selected target", 2, 12.0, 1, 0, "partial", 83],
+		["all goals met", 2, 12.0, 1, 1, "success", 100],
+		["no progress", 0, 0.0, 0, 0, "failed", 0],
+		["capture progress only", 1, 0.0, 0, 0, "partial", 17],
+		["over-target captures cannot replace data", 7, 0.0, 0, 0, "partial", 33],
+		["over-target MB cannot replace missing target", 7, 120.5, 3, 0, "partial", 83],
+		["both target deliveries still need aggregate goals", 2, 24.0, 1, 1, "partial", 63, 4, 60.0],
+	]:
+		config.mission.required_observations = row[7] if row.size() > 7 else 2
+		config.mission.required_returned_data_mb = row[8] if row.size() > 8 else 12.0
+		state.config_snapshot = config.duplicate(true)
+		state.observations_completed = row[1]
+		state.returned_data_mb = row[2]
+		state.observations_delivered_by_target = {"arctic_ice": row[3], "antarctic_region": row[4]}
+		var before: Dictionary = state.duplicate(true)
+		var original: Dictionary = config.duplicate(true)
+		var result: Dictionary = SurveyProposal.assess(config, state)
+		_check("SURVEY SCORE proposal " + row[0], [result.get("ok"), result.get("proposal", {}).get("status"), result.get("proposal", {}).get("score")], [true, row[5], row[6]])
+		_check("SURVEY SCORE raw actuals and proposal label " + row[0], [result.get("proposal", {}).get("actuals"), result.get("proposal", {}).get("not_for_publication"), result.has("report")], [{"observations_completed": row[1], "returned_data_mb": row[2], "observations_delivered_by_target": state.observations_delivered_by_target}, true, false])
+		_check("SURVEY SCORE repeatability/input preservation " + row[0], [SurveyProposal.assess(config, state), state, config], [result, before, original])
+	state.observations_completed = 2
+	state.observations_delivered_by_target = {"arctic_ice": 1, "antarctic_region": 1}
+	config.mission.required_observations = 2
+	config.mission.required_returned_data_mb = 200.0
+	state.config_snapshot = config.duplicate(true)
+	for row in [[100.999, 83], [101.0, 84], [101.001, 84]]:
+		state.returned_data_mb = row[0]
+		_check("SURVEY SCORE half-up boundary " + str(row[0]), SurveyProposal.assess(config, state).proposal.score, row[1])
+	state.returned_data_mb = 199.0
+	_check("SURVEY SCORE rounded 100 does not mean success", [SurveyProposal.assess(config, state).proposal.status, SurveyProposal.assess(config, state).proposal.score], ["partial", 100])
+	state.returned_data_mb = 200.0
+	state.run_status = "aborted"
+	state.step_index = 29
+	_check("SURVEY SCORE abort after all goals", [SurveyProposal.assess(config, state).proposal.run_status, SurveyProposal.assess(config, state).proposal.status, SurveyProposal.assess(config, state).proposal.score, SurveyProposal.assess(config, state).proposal.actuals.returned_data_mb], ["aborted", "failed", null, 200.0])
+	state.run_status = "completed"
+	state.step_index = 30
+	for row in [["required_observations", 0], ["required_observations", true], ["required_returned_data_mb", 0], ["required_returned_data_mb", NAN], ["required_returned_data_mb", INF]]:
+		var invalid: Dictionary = config.duplicate(true)
+		invalid.mission[row[0]] = row[1]
+		state.config_snapshot = invalid.duplicate(true)
+		_check_error("SURVEY SCORE invalid goal " + str(row), SurveyProposal.assess(invalid, state), "config.mission." + row[0], state.run_id)
+	state.config_snapshot = config.duplicate(true)
+	for row in [["observations_completed", -1], ["observations_completed", 0.5], ["observations_completed", true], ["returned_data_mb", -1], ["returned_data_mb", "12"], ["returned_data_mb", INF]]:
+		var invalid: Dictionary = state.duplicate(true)
+		invalid[row[0]] = row[1]
+		_check_error("SURVEY SCORE invalid actual " + str(row), SurveyProposal.assess(config, invalid), "final_state." + row[0], state.run_id)
+	state.observations_delivered_by_target.erase("antarctic_region")
+	_check_error("SURVEY SCORE sparse map cannot invent a score", SurveyProposal.assess(config, state), "final_state.observations_delivered_by_target.antarctic_region", state.run_id)
+	state.observations_delivered_by_target.antarctic_region = 1
+	state.step_index = 29
+	_check_error("SURVEY SCORE invalid completed terminal step", SurveyProposal.assess(config, state), "final_state.step_index", state.run_id)
+	state.phase = "operating"
+	state.run_status = null
+	_check("SURVEY SCORE rejects nonterminal fixture", SurveyProposal.assess(config, state).get("error", {}).get("code"), "NONTERMINAL_RUN_STATE")
 
 
 func _test_survey_native_packets() -> void:

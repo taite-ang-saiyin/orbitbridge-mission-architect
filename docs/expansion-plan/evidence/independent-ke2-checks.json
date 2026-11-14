@@ -1,0 +1,111 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "branch": "features/KE2",
+  "head": "f04ab662e19c3ada6fdbd2240e355f27541a9e46",
+  "working_changes": true,
+  "scope": "Six independent KE2 implementations, internal/unwired, plus source-ledger integrity audit; no production expanded report, saved-A or browser integration.",
+  "godot": "4.7.2.stable.mono.official.ed1daf0bf",
+  "sequence_checkpoints": [
+    {
+      "task": "20.1",
+      "added_checks": 25,
+      "total_passed": 25
+    },
+    {
+      "task": "20.3",
+      "added_checks": 17,
+      "total_passed": 42
+    },
+    {
+      "task": "40.1",
+      "added_checks": 23,
+      "total_passed": 65
+    },
+    {
+      "task": "40.2",
+      "added_checks": 16,
+      "total_passed": 81
+    },
+    {
+      "task": "30.2",
+      "added_checks": 21,
+      "total_passed": 102
+    },
+    {
+      "task": "30.3",
+      "added_checks": 15,
+      "total_passed": 117
+    },
+    {
+      "task": "source_integrity",
+      "added_checks": 8,
+      "total_passed": 125
+    }
+  ],
+  "final_checks": {
+    "ke2_independent_work_check": {
+      "passed": 125,
+      "failed": 0,
+      "pending": null,
+      "exit_code": 0
+    },
+    "test_mission_evaluator": {
+      "passed": 294,
+      "failed": 0,
+      "pending": 5,
+      "exit_code": 0
+    },
+    "ke2_imaging_presets_check": {
+      "passed": 53,
+      "failed": 0,
+      "pending": null,
+      "exit_code": 0
+    },
+    "ke2_results_integration": {
+      "passed": 17,
+      "failed": 0,
+      "pending": null,
+      "exit_code": 0
+    },
+    "debrief_summary_check": {
+      "passed": 57,
+      "failed": 0,
+      "pending": null,
+      "exit_code": 0
+    }
+  },
+  "source_sha256": {
+    "scripts/evaluation/mission_goal_evidence.gd": "393be0ce688a0997a1226437d5d8f2eaea421df55096cec62ae914604ebec1ad",
+    "scripts/evaluation/mission_comparison.gd": "755bd4cc6995e143ee88423731c4e8ee623a6d965ae12b59b9641f297f4286d9",
+    "scripts/evaluation/mission_goal_feedback.gd": "d4196009f9aa65f1890576f0d590dc58fca789f9d7d06878787d1ab1438d6cd6",
+    "tests/ke2_independent_work_check.gd": "f6c648d3b1b916dad938bf6eff61f09a3e539e2857be628a09c0dad433d2361d",
+    "data/nasa_sources.json": "3d1a2ef7d299c3bad23635976d7bf6cbf0cb1542eafebec40e35d0c9d453d46b"
+  },
+  "log_sha256": {
+    "exports/check-logs/ke2_independent_work_check.log": "0bdabda901153e6b3575d184e591bbde7fc4ddb67fee800698a2c7991f5627d6",
+    "exports/check-logs/test_mission_evaluator.log": "746d9cdcba94ab77e35cf1a51e9cfe868a791cb8fa151a2be65849c274baebdb",
+    "exports/check-logs/ke2_imaging_presets_check.log": "9aefb2e883f28fceb0fedd888858727814ead0db0ead67658a6ca7704bcff34e",
+    "exports/check-logs/ke2_results_integration.log": "0986bcadbb4edeb1a0352f9eb883b651fd81edb5a87780c780ea13efdda7443f",
+    "exports/check-logs/debrief_summary_check.log": "6196e2588c5997c377c1b7e8b4dcd30a4e2a95566bd1e3f5d86f89d04587a611"
+  },
+  "historical_pair_verified_deltas": {
+    "returned_data_mb": 4.6133333328,
+    "total_mass_g": 60,
+    "total_cost_credits": 7,
+    "score_points": 19,
+    "lowest_battery_wh": -0.4616666667000011
+  },
+  "pending_contracts": [
+    "HPC event/packet/sparse/revolution/sample semantics",
+    "SE normalized record/key/digest/storage/runtime wiring",
+    "KE1/SE/HPC coordinated v2 config",
+    "scoring/report/comparison ratification",
+    "KE3 dynamic UI/live acceptance"
+  ],
+  "proposal_labels": "Private methods only; normalized legacy/initialization/sampling policies and report digest are test proposals, not shared contracts.",
+  "source_audit_scope": "IDs, locators and SHA256/presence only; original NASA prose and verification/credit/gameplay/export statuses unchanged.",
+  "browser_or_export_verified": false,
+  "full_43_program_runner_rerun": false,
+  "remote_actions": false
+}

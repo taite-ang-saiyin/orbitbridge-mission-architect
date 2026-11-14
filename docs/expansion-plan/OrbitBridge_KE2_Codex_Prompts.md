@@ -4,13 +4,19 @@ Updated on 15 November 2026 in Asia/Rangoon. The numbered route below orders all
 
 ## Start here
 
-**Steps 6 and 7 have completed their Imaging/proposal-review outputs. Step 8 / 10.2 now has a tested private delivery-measure helper, 27 fixture checks and 20 native packet checks; parent 10.2 remains open for HPC's absent-entry rule.** See the [Step 8 implementation and remaining inputs](survey-delivery-measure-step8.md) and [Imaging/report review](imaging-baseline-and-report-review.md). Next is Step 9 / 10.3: settle the proposed Survey scoring rule before production publication, or continue labeled proposal fixtures. Shared report agreement remains open. Steps 1-4 have produced their baseline/handoff drafts; wider owner agreement and integration checklists remain open where evidence is pending. Step 5 is an optional summary.
+Independent sequence update: [20.1, 20.3, 40.1, 40.2, 30.2 and 30.3 preparation is implemented and verified](independent-ke2-algorithms.md), with 125 focused checks including a source-ledger integrity audit. Existing evaluator/Imaging/Results/Debrief suites remain green. Those modules are unwired and comparison/mapping/sampling/feedback outputs retain proposal labels where required. Do not repeat completed prototype work; use incoming owner decisions to finish production integration and real acceptance checks.
+
+**Steps 6-10 have completed their currently available baseline/proposal/fixture/checkpoint outputs. Step 9 / 10.3 now has a test-only scoring prototype and 40 new assertions; the evaluator suite passes 294 checks.** See the [Step 9 prototype and Step 10 review](survey-scoring-proposal-step9.md), [Step 8 measure](survey-delivery-measure-step8.md) and [Imaging baseline](imaging-baseline-and-report-review.md). Parent 10.2 still needs HPC's absent-entry rule; production 10.3 still needs scoring/report integration decisions. Step 11 / 10.4 needs actual coordinated Survey modules; Step 12 / 20.1 counting fixtures can proceed independently using recorded evidence with handoffs labeled. Earlier owner agreement/integration tasks remain open where evidence is pending; Step 5 is an optional summary.
 
 The local [K20 review](k20-ke2-interface-review.md) records confirmed mission IDs/goal meanings and KE1's confirmation of the four interface recommendations. [KE1's draft-2 artifacts are received and verified](ke1-k20-draft2-receipt-review.md); remaining SE/HPC alignment and production integration are pending. Reuse the recorded confirmations. The [SE response](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) permits separate Save A/B storage and navigation work to proceed. The [consumer handoff](ke3-se-hpc-report-handoff.md) and [four report examples](evidence/report-examples-proposal.json) cover 00.4's drafting output.
 
 Use the [work checklist](ke2-work-plan.md) and [progress record](progress.md) for live completion and owner replies. A drafted prompt output can be complete while its shared-agreement task remains open.
 
 ## How to use the steps
+
+Owner-response update: [KE3 agrees the proposed goal-progress schema](ke3-report-schema-agreement.md), with no required field changes. Reuse this confirmation in Steps 7 and 23. KE3 implementation/live acceptance, exact SE version/serialization decisions, scoring and HPC's evidence decisions remain pending; do not request KE3's schema approval again.
+
+Subsequent SE response: [structure accepted in principle, version/storage proposals received](se-report-review-and-version-proposal.md). Separate v2 examples and full evidence bundle are ready. Exact report-contract revision/placement, output selection, dual-version consumer support and transported-record serialization remain open. Historical key preimages verify, but direct JSON reload changes all eight keys. Reuse received owner positions; do not treat them as completed production integration.
 
 1. In a new session, paste the session context once, then paste the text block for the next ready prompt.
 2. Follow the route below, choosing a ready independent task when a producer handoff is pending. The 60.x entries are review checkpoints and can summarize the work already completed.
@@ -56,6 +62,8 @@ Use this decision before publishing an undecided scoring or report extension thr
 
 Abort/null-score behavior, raw actual preservation, deterministic evaluation, and neutral evidence fallback follow existing requirements. Any still-open sparse-map/evidence interpretation is recorded with HPC. KE3/SE need the same report examples before public output migration. Prepare or refine fixtures while the undecided rule is under review.
 
+SE's version proposal keeps legacy report v1 and uses report v2 for expanded goals, independently of config/state versions. Review the [separate v2 examples](evidence/report-examples-v2-proposal.json); the candidate revision is metadata only until its spelling/placement and output selection are agreed. KE3's schema acceptance predates this version proposal.
+
 This is the first likely rule decision for the Survey implementation path after Step 6 and the report review at Step 7. Decision A is relevant as new config shapes enter the path.
 
 ### Decision C - Saved-run and comparison interface
@@ -69,6 +77,8 @@ Use this decision when an undecided public saved-record/comparator choice affect
 - Show signed B-minus-A values with units and null optional unavailable measures. Preserve the actual reports and make A replacement deliberate.
 
 Reuse the [consumer/saved-A handoff](ke3-se-hpc-report-handoff.md) and [measured Imaging pair](ke3-ke2-results-ab-handoff.md). SE can develop independent storage/navigation now. KE2 can prepare the comparator against agreed inputs or labeled fixtures while its UI lifecycle is pending.
+
+SE's proposed record fields and actual serialization finding are in the [SE review](se-report-review-and-version-proposal.md). Agree numeric/type normalization or retained hash bytes, ordering/encoding and digest scope before treating JSON-transported execution keys as stable. Recorded preimages support historical evidence review; the runtime hashing function remains unchanged.
 
 ## Numbered route
 
@@ -84,20 +94,20 @@ The decision letters below refer to unresolved choices at production boundaries.
 | **6** | **10.1** | Verify both existing Imaging presets | Complete: 53 checks at `8b76b5d`; evidence linked above |
 | 7 | **30.1** | Review the additive goal-progress report | Proposal review complete; owner agreement/production migration open |
 | 8 | **10.2** | Build the Survey delivery measure | Helper/fixture/native packet preparation verified; HPC absent-entry rule and integration open |
-| 9 | **10.3** | Add Survey outcomes and score | After the delivery measure; use agreed rules |
-| 10 | **60.2** | Review Survey and report progress | At the first Survey/report checkpoint |
+| 9 | **10.3** | Add Survey outcomes and score | Fixture prototype and 40 checks complete; production rule/integration open |
+| 10 | **60.2** | Review Survey and report progress | Review output complete; native/proposal evidence and owner dependencies recorded |
 | 11 | **10.4** | Verify actual Survey runs | When the relevant configs and traces are available |
-| 12 | **20.1** | Implement Communication evaluation | When goal/report and event meanings are known |
+| 12 | **20.1** | Implement Communication evaluation | Internal counting and historical/fixture checks complete; scoring/HPC/public integration open |
 | 13 | **20.2** | Prove the Communication starter | When KE1/HPC supply the candidate path |
-| 14 | **20.3** | Implement Weather evaluation | When goal/report and revolution semantics are known |
+| 14 | **20.3** | Implement Weather evaluation | Internal frozen-mapping counter/proxy checks complete; HPC/scoring/public integration open |
 | 15 | **20.4** | Prove the Weather starter | When the real Weather setup is available |
-| 16 | **40.1** | Implement comparison eligibility | Can begin with supported Imaging records once record semantics are known |
-| 17 | **40.2** | Implement signed comparison measures | After eligibility and metric meanings are known |
+| 16 | **40.1** | Implement comparison eligibility | Normalized fixture prototype complete; SE record/legacy/version decisions and wiring open |
+| 17 | **40.2** | Implement signed comparison measures | Historical-pair delta prototype complete; sampling/output/storage/UI integration open |
 | 18 | **40.3** | Verify saved A lifecycle | When SE provides its storage implementation |
 | 19 | **40.4** | Verify the connected Design Lab | When one actual Save A/Run B/Compare path is available |
 | 20 | **60.3** | Review the first real A/B loop | At the comparison checkpoint |
-| 21 | **30.2** | Verify evaluator boundaries | After each implemented objective or relevant change |
-| 22 | **30.3** | Implement evidence-based feedback | When required goal/evidence semantics are known |
+| 21 | **30.2** | Verify evaluator boundaries | New algorithm boundaries and existing 294 checks pass; repeat for new production objectives |
+| 22 | **30.3** | Implement evidence-based feedback | Internal goal-feedback proposal/tests complete; final semantics/output integration open |
 | 23 | **30.4** | Verify the active Debrief | When the report and consumer integration are available |
 | 24 | **50.1** | Accept both Imaging cards | When each real preset path can run |
 | 25 | **50.2** | Accept Survey packet delivery | When Survey rules and relevant traces are ready |

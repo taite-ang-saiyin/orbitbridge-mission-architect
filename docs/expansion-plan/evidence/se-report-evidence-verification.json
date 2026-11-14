@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-15",
+  "checkout_head": "f04ab662e19c3ada6fdbd2240e355f27541a9e46",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "production_changed": false,
+  "report_v2_status": "separate candidate only; report contract revision metadata unratified",
+  "source_packet_sha256": "a42a1ca3aaa4cbafca548576c14f68578961cef9084fec4275557583a7ceeb7e",
+  "historical_source_revision": "4c65496661a491a2641005906f490d894f683f01",
+  "historical_module_hashes": {
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "scripts/evaluation/mission_evaluator.gd": "c14ad4fc3a4f4e54daf64853b7c5327710b970952ae9d4552e575892486fe873",
+    "scripts/integration/mission_results.gd": "b8a6adaf51e4e79bbee231969c3722c31190c128c12a18abda92b11d9b5be33f",
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0"
+  },
+  "reconstruction": {
+    "native_case_count": 8,
+    "original_keys_reproduced": 8,
+    "matching_traces_and_actual_replies": 8,
+    "probe_failures": 0,
+    "exit_code": 0
+  },
+  "historical_evidence_verifier": {
+    "passed": 85,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "unresolved_json_roundtrip": {
+    "keys_checked": 8,
+    "mismatches": 8,
+    "minimal_original": "[1]",
+    "minimal_reloaded": "[1.0]",
+    "owner": "SE + KE2",
+    "state": "unresolved; original keys preserved; exact typed hash bytes reconstructed for review"
+  },
+  "file_sha256": {
+    "docs/expansion-plan/evidence/ke2-handoff-current.json": "a42a1ca3aaa4cbafca548576c14f68578961cef9084fec4275557583a7ceeb7e",
+    "docs/expansion-plan/evidence/report-examples-proposal.json": "39826425351c1e1e17f4f9d15b0624716e745b825a31c437e0bb61bfaa27f884",
+    "docs/expansion-plan/evidence/report-examples-v2-proposal.json": "15fcddc57a9c32ebc789137de9336e0d922b82667ca3708cd5d87b2fe3b7f77f",
+    "docs/expansion-plan/evidence/execution-key-preimages-review.json": "75de04f301716401dadfb857031c49f89f273363d80abf94fb88ea74214f2181",
+    "docs/expansion-plan/evidence/se-report-evidence-check.gd": "7137d40776dad4aee4890b463bffbb7ea1f148978216726153cd9fae0c1a7554"
+  },
+  "browser_or_storage_integration_verified": false
+}

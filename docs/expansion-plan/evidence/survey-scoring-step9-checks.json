@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-15",
+  "head": "f04ab662e19c3ada6fdbd2240e355f27541a9e46",
+  "working_changes": true,
+  "prompt": "10.3 / Step 9; 60.2 / Step 10 checkpoint",
+  "scope": "New scoring logic is fixture-only; no new production Survey report, no missing-as-zero policy and no production contract changes.",
+  "rule_status": "Equal thirds and any-scored-progress outcomes remain a labeled proposal.",
+  "new_scoring_checks": 40,
+  "new_check_labels": [
+    "proposal missing selected target",
+    "raw actuals and proposal label missing selected target",
+    "repeatability/input preservation missing selected target",
+    "proposal all goals met",
+    "raw actuals and proposal label all goals met",
+    "repeatability/input preservation all goals met",
+    "proposal no progress",
+    "raw actuals and proposal label no progress",
+    "repeatability/input preservation no progress",
+    "proposal capture progress only",
+    "raw actuals and proposal label capture progress only",
+    "repeatability/input preservation capture progress only",
+    "proposal over-target captures cannot replace data",
+    "raw actuals and proposal label over-target captures cannot replace data",
+    "repeatability/input preservation over-target captures cannot replace data",
+    "proposal over-target MB cannot replace missing target",
+    "raw actuals and proposal label over-target MB cannot replace missing target",
+    "repeatability/input preservation over-target MB cannot replace missing target",
+    "proposal both target deliveries still need aggregate goals",
+    "raw actuals and proposal label both target deliveries still need aggregate goals",
+    "repeatability/input preservation both target deliveries still need aggregate goals",
+    "half-up boundary 100.999",
+    "half-up boundary 101.0",
+    "half-up boundary 101.001",
+    "rounded 100 does not mean success",
+    "abort after all goals",
+    "invalid goal [\"required_observations\", 0]",
+    "invalid goal [\"required_observations\", true]",
+    "invalid goal [\"required_returned_data_mb\", 0]",
+    "invalid goal [\"required_returned_data_mb\", nan]",
+    "invalid goal [\"required_returned_data_mb\", inf]",
+    "invalid actual [\"observations_completed\", -1]",
+    "invalid actual [\"observations_completed\", 0.5]",
+    "invalid actual [\"observations_completed\", true]",
+    "invalid actual [\"returned_data_mb\", -1]",
+    "invalid actual [\"returned_data_mb\", \"12\"]",
+    "invalid actual [\"returned_data_mb\", inf]",
+    "sparse map cannot invent a score",
+    "invalid completed terminal step",
+    "rejects nonterminal fixture"
+  ],
+  "results": {
+    "evaluator": {
+      "passed": 294,
+      "failed": 0,
+      "pending": 5,
+      "exit_code": 0
+    },
+    "imaging_presets": {
+      "passed": 53,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "adapted_results": {
+      "passed": 17,
+      "failed": 0,
+      "exit_code": 0
+    }
+  },
+  "worked_case": {
+    "fixture": true,
+    "captures": {
+      "actual": 2,
+      "required": 2
+    },
+    "returned_mb": {
+      "actual": 12,
+      "required": 12
+    },
+    "selected_target_deliveries": {
+      "arctic_ice": 1,
+      "antarctic_region": 0
+    },
+    "expected_and_verified_proposed_status": "partial",
+    "expected_and_verified_proposed_score": 83,
+    "official_report_published": false
+  },
+  "source_sha256": {
+    "tests/fixtures/ke2_survey_scoring_proposal.gd": "f475927d7afd00133c6bf7a1c2bad18c2ac04983d0b0cdab55d486e061bad3f9",
+    "tests/test_mission_evaluator.gd": "9e8310c5e78bdd44960ee9be201b3b392431648ef2ef402f335e2fc7ec735c98",
+    "scripts/evaluation/mission_evaluator.gd": "f7778dead7794b5397beb462cc5e2c6f0e671c05e1cdd38017970902c3e2bc97"
+  },
+  "log_sha256": {
+    "exports/check-logs/test_mission_evaluator.log": "746d9cdcba94ab77e35cf1a51e9cfe868a791cb8fa151a2be65849c274baebdb",
+    "exports/check-logs/ke2_imaging_presets_check.log": "9aefb2e883f28fceb0fedd888858727814ead0db0ead67658a6ca7704bcff34e",
+    "exports/check-logs/ke2_results_integration.log": "0986bcadbb4edeb1a0352f9eb883b651fd81edb5a87780c780ea13efdda7443f"
+  },
+  "remaining": {
+    "HPC": "Sparse-map/packet semantics and Communication/Weather evidence confirmation",
+    "KE2_affected_owners": "Ratify scoring/progress before public output",
+    "SE_KE3": "Report version/revision/serialization/storage and consumer migration",
+    "KE1_SE_HPC": "Actual coordinated v2 config path"
+  },
+  "browser_or_export_verified": false
+}

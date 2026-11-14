@@ -46,6 +46,8 @@ Complete when KE2 can explain which recorded fact supports each new count and me
 Prompt 00.3's source trace and draft request were completed on 15 November 2026. Existing event/packet behavior is documented with a copied real-record excerpt. HPC agreement on new-objective evidence, resource sampling, and feasible success/shortfall traces remains open. The next independent planning prompt is 00.4.
 
 - [ ] **00.4 Agree reports and comparison with KE3 and SE.**
+  - [x] Record [SE's conditional structure review and proposed version/storage strategy](se-report-review-and-version-proposal.md). Prepare separate v2 examples and the source-evidence bundle; preserve original reports/keys and record the JSON round-trip hash issue. Full interface ratification and implementation remain open.
+  - [x] Record [KE3's schema agreement](ke3-report-schema-agreement.md), relayed by the user on 15 November 2026: no required goal-field changes, with legacy fallback, supplied verdicts/ratios, unavailable/null handling, evidence and credits preserved. Exact report-version/serialization decisions and implementation acceptance remain open.
   - [x] Supply a proposed report example for each of the four goal types. The [KE3 reports/A/B handoff](ke3-ke2-results-ab-handoff.md) contains actual Imaging reports and engine-backed proposed Survey, Communication, and Weather examples with production replies retained separately.
   - [ ] Identify existing report fields required by current callers and preserve their behavior during migration.
   - [ ] Agree comparison eligibility and requested action-policy identity with SE and HPC.
@@ -74,6 +76,8 @@ Verified at `8b76b5d`: actual preset buttons through native runs, publication an
 Step 8 preparation is verified: evaluator 254 passed / 0 failed / 5 existing pending, Imaging 53 passed, adapted Results 17 passed. See [implementation boundary, commands and remaining inputs](survey-delivery-measure-step8.md). The user reports HPC has not replied. Missing selected entries remain errors in the private helper; public Survey evaluation and scoring are unchanged. Parent 10.2 remains open for owner-confirmed semantics and integration.
 
 - [ ] **10.3 Add the Survey verdict and score.**
+  - [x] Implement a labeled test-fixture prototype of the proposed three-way rule, using Step 8's private delivery measure and explicit counters. It returns `ok/proposal`, is not imported by production, and is not a MissionReport.
+  - [x] Verify the proposal with 40 new assertions: partial/83, all-goal success, no progress, independent caps/raw actuals, half-up boundaries, abort/null score, deterministic input preservation and structured errors. [Step 9 evidence and limits](survey-scoring-proposal-step9.md).
   - [ ] Agree three equally weighted capped ratios for captures, returned MB, and selected targets with complete deliveries.
   - [ ] Define qualifying progress for partial and failed outcomes with the team.
   - [ ] Implement success only when every required goal is met.
@@ -81,6 +85,8 @@ Step 8 preparation is verified: evaluator 254 passed / 0 failed / 5 existing pen
   - [ ] Verify both aggregate goals met plus one of two target deliveries produces `partial` and `83` under the agreed proposed weights.
 
 The proposed score is `round_half_up(100 * (capture_ratio + data_ratio + delivered_target_ratio) / 3)`. Existing Imaging scoring retains its current two-goal rule.
+
+Prototype verified on 15 November: evaluator 294 passed / 0 failed / 5 existing pending; Imaging 53 passed; Results 17 passed. Parent 10.3's production/owner-agreement subtasks remain open. No sparse missing-as-zero rule or new report version was adopted.
 
 - [ ] **10.4 Verify the one-target preset and multi-target input.**
   - [ ] Run the current Arctic Ice preset through real validation, engine, evaluator, and presentation.
@@ -95,12 +101,14 @@ When using fixtures first, label their provenance and record the corresponding r
 The proposed thresholds remain three orbits, a qualifying count of two, and 12 MB until KE1/HPC demonstrate feasible runs.
 
 - [ ] **20.1 Count successful Communication steps.**
-  - [ ] Count distinct step indices for accepted Transmit events with positive returned MB.
-  - [ ] Count multiple positive steps in one continuous contact window individually.
-  - [ ] Deduplicate positive evidence entries for the same step.
-  - [ ] Exclude rejected and zero-MB attempts.
+  - [x] Count distinct step indices for accepted Transmit events with positive returned MB in an unwired KE2 measurement helper.
+  - [x] Count multiple positive steps in one continuous contact window individually.
+  - [x] Deduplicate positive evidence entries for the same step, including whole-valued int/float step representations.
+  - [x] Exclude rejected and zero-MB attempts; reject malformed/foreign/conflicting evidence.
   - [ ] Agree equal weighting for qualifying count and returned MB, plus partial-result semantics.
   - [ ] Confirm Observe-generated test payloads and event fields with HPC.
+
+Independent implementation verified on 15 November: `tests/ke2_independent_work_check.gd` initially passes 25 checks, including all eight historical native contact counts. Production reports/scoring are unchanged; parent 20.1 remains open for HPC/report/scoring integration. The running [implementation record](independent-ke2-algorithms.md) holds final commands and evidence.
 
 - [ ] **20.2 Prove the Communication threshold.**
   - [x] Inspect KE1's exact fast-radio stock candidate and reproduce its native surrogate mechanics: 1120 g / 89 credits; 24 MB over steps 7/10, plus a same-config count-only shortfall of 12 MB at step 7. [Evidence and limitations](ke1-k20-draft2-receipt-review.md#independent-rerun-and-same-config-control). Typed v2 readiness and HPC acceptance remain open.
@@ -111,9 +119,10 @@ The proposed thresholds remain three orbits, a qualifying count of two, and 12 M
   - [ ] Record the frozen or revised thresholds with KE1/HPC.
 
 - [ ] **20.3 Count repeat Weather observations.**
-  - [ ] Count distinct revolutions for accepted successful captures of the selected region.
+  - [x] Count distinct revolutions for accepted successful captures of the selected region in an internal preparation helper.
   - [ ] Use an HPC revolution index or an explicitly agreed mapping such as `floor(step_index / steps_per_orbit)` using the accepted observation event's step.
-  - [ ] Deduplicate repeated captures in the same revolution and exclude other regions.
+  - [x] Deduplicate repeated captures in the same revolution and exclude other regions.
+  - [x] Verify proposed pre-action/frozen-scenario mapping, 9/10 and non-ten-step boundaries, missing/invalid timing and the two historical Weather proxies. Mapping remains explicitly pending HPC ratification.
   - [ ] Surface missing revolution evidence according to the agreed contract.
   - [ ] Agree equal weighting for revolution visits and returned MB, plus partial-result semantics.
 
@@ -130,6 +139,9 @@ Describe Communication through qualifying transmit steps and Weather through rep
 ## 30 Reports and feedback
 
 - [ ] **30.1 Define objective-aware goal progress.**
+  - [x] Prepare four report-v2 candidate examples in response to SE, retaining the 17-plus-two field set and separate actual production replies. Exact revision, selection and dual-version consumer agreement remain open.
+  - [ ] Resolve deterministic serialization for transported records with SE; the existing direct JSON-reload path does not preserve any of the eight historical keys.
+  - [x] Obtain KE3 agreement on the four-example `goal_progress` schema and Survey per-target detail. See the [owner response](ke3-report-schema-agreement.md). Scoring, SE versioning/binding/storage and coordinated implementation remain pending.
   - [x] Review the existing additive report proposal against live consumers and verify four labeled examples, source hashes and legacy-field compatibility at `8b76b5d`. See the [review](imaging-baseline-and-report-review.md#report-proposal-review); owner agreement and production migration remain open.
   - [ ] Preserve the evaluation envelope, execution identity, terminal status, and authoritative score.
   - [ ] Agree a goal-progress list with stable goal ID, actual, required, unit, and met state.
@@ -138,12 +150,14 @@ Describe Communication through qualifying transmit steps and Weather through rep
   - [ ] Verify KE3 renders correct labels and thresholds for all four objectives.
 
 - [ ] **30.2 Keep evaluator error and abort behavior.**
+  - [x] Audit existing 294 evaluator checks and add 21 internal measurement/comparison boundary checks: malformed/future steps, missing/cumulative history, report mutation/required fields/versions, fractional goals and invalid samples. Whole-valued JSON numbers remain valid. Expanded-objective production acceptance remains open.
   - [ ] Preserve deterministic, scene-independent evaluation and input immutability.
   - [ ] Preserve structured errors for malformed and nonterminal inputs.
   - [ ] Preserve actuals with `status: failed` and `score: null` on abort, including abort after meeting all goals.
   - [ ] Verify invalid inputs, repeatability, no mutation, and abort-after-goals using fixtures and applicable real runs.
 
 - [ ] **30.3 Write cause and advice rules.**
+  - [x] Implement/test an unwired goal-feedback proposal for recorded contact/storage blocks, explicit Survey delivery shortfalls and conditional Weather revisit advice. Fifteen checks verify source identities, one experiment, neutral missing/unknown/irrelevant/conflicting evidence, abort reason and input preservation; production migration/segment confirmation remain open.
   - [ ] Cover missed communication opportunities, incomplete Survey deliveries, same-revolution Weather captures, and storage limits.
   - [ ] Explain the measured shortfall and cite relevant event IDs for specific causes.
   - [ ] Suggest one feasible next experiment.
@@ -162,6 +176,7 @@ The source example is "Arctic Ice has no complete delivery. Try using an availab
 KE2 computes eligibility and differences. SE owns stored records and lifecycle. KE3 presents the result.
 
 - [ ] **40.1 Specify the run record and compatibility check.**
+  - [x] Implement and test a normalized-record fixture prototype for completion/binding, requirements/setup, versions/context, initialization and requested-policy/manual classification. Internal eligibility is marked proposed; SE's final record/API and legacy policy remain open.
   - [ ] Require completed runs and reject abort or incomplete pairs with actionable reasons.
   - [ ] Match preset, objective, targets, goals, orbit, duration, scenario/schedule, versions, and starting conditions except effects of intended design changes.
   - [ ] Match the requested action plan or policy for a controlled comparison.
@@ -169,6 +184,7 @@ KE2 computes eligibility and differences. SE owns stored records and lifecycle. 
   - [ ] Label differing manual decisions Design + operations when other matching conditions hold.
 
 - [ ] **40.2 Calculate measured changes.**
+  - [x] Implement/test proposed signed numeric output on normalized records: recorded outcomes/goals, raw target detail, changed parts, MB/score/mass/cost and sampled extrema. Positive/negative/zero/unavailable cases pass; HPC sampling/SE record ratification and UI integration remain open.
   - [ ] Return both outcomes, qualifying count and goal, returned MB, lowest battery, highest storage, total cost, total mass, and changed parts.
   - [ ] Compute signed B-minus-A differences for comparable numeric measures.
   - [ ] Agree resource sampling boundaries with HPC and label Wh and percent separately where applicable.
@@ -238,6 +254,8 @@ Record revision, preset/scenario, verification level, run IDs, requirements, exp
 
 ## 60 Eight-hour schedule and release
 
+- [x] **60.2 Survey/report review checkpoint output:** reviewed 10.1, 10.2, fixture-only 10.3 and 30.1 against the existing four worked reports. [Checkpoint](survey-scoring-proposal-step9.md#step-10--602-review-checkpoint) distinguishes native/proxy measurements from proposed scores, identifies HPC/SE/KE3/KE1 dependencies and the next available KE2 action. This completes review output only, not elapsed-time or production acceptance claims.
+
 | Elapsed target | KE2 work and checkpoint |
 | --- | --- |
 | H+00:00-00:30 | 00.1-00.4, baseline and shared config/evidence/report/comparison fields |
@@ -257,6 +275,8 @@ The initial reported baseline has 38 passing programs, 48 acceptance checks, 23 
 If time slips, cut charts and extra advice rules first. Preserve five playable presets, completed Survey scoring, basic A/B measures, and one supported explanation.
 
 ## Ownership and source references
+
+- [x] Independently audit source-ledger IDs/locators/local PDF hash and actual implementation-path presence. Corrected two stale presence flags only; source/rule/gameplay/export verification scopes remain unchanged. Eight integrity checks pass in the [125-check independent suite](independent-ke2-algorithms.md).
 
 | Owner | Handoff paths |
 | --- | --- |

@@ -10,10 +10,10 @@ Use the [team scope](team-scope-v2.md) and [KE2 task checklists](ke2-work-plan.m
 | --- | --- | --- |
 | Markdown plans and task tracking | Complete | Both supplied PDFs converted, task IDs retained, and tracking instructions added |
 | 00 Contracts and handoffs | In progress | KE1 draft-2 artifacts received, hashes verified and 629 checks reproduced in isolation. 00.3 evidence request and 00.4 examples are prepared. Remaining bounds/custom identity, owner alignment and production integration stay open |
-| 10 Imaging and Survey | In progress | 10.1 complete, 53 checks. 10.2 private helper/fixtures and native packet checks verified: evaluator now 254 passes. HPC absent-entry policy, Survey scoring and public integration remain open |
-| 20 Communication and Weather | Open | KE1/HPC prove goal feasibility, KE2 implements agreed evaluation |
-| 30 Reports and feedback | In progress | 30.1 proposal reviewed against current consumers and four source-bound examples. KE2/KE3/SE agreement and output/presentation migration remain open |
-| 40 A/B Design Lab | Open | SE confirms separate storage/navigation can start now. Await implementation commit and lifecycle evidence. KE2 matching/deltas and KE3 presentation continue against the pending contract |
+| 10 Imaging and Survey | In progress | 10.1 complete, 53 checks. 10.2 private measure and 10.3 scoring-proposal fixtures verified: evaluator now 294 passes. HPC absent-entry rule, production scoring/report decisions and actual Survey integration remain open |
+| 20 Communication and Weather | In progress | Internal Communication and Weather counters verified against fixtures/recorded proxies. HPC/scoring/report integration remains open |
+| 30 Reports and feedback | In progress | KE3 agrees goal schema; SE accepts structure in principle and proposes legacy-v1/expanded-v2 reports. Separate v2 candidates/source bundle ready; scoring, revision/serialization decisions and implementation/live acceptance remain open |
+| 40 A/B Design Lab | In progress | KE2 normalized-record eligibility/delta prototypes verified, including the measured Imaging pair. SE final storage/API/digest/wiring, sampling/legacy rules and KE3 live presentation remain open |
 | 50 Expansion acceptance | Open | Collect fixture, integrated, and public-browser evidence for the expanded revision |
 | 60 Release | Open | SE confirms templates, public URL, and deployed revision, team verifies final journeys |
 
@@ -79,12 +79,12 @@ These are current planning dependencies with identified owners.
 | D02 | Survey three-way weighting and qualifying progress | KE2 + affected team owners | Proposed, confirm task 10.3 rules before treating the 83 example as approved behavior |
 | D03 | Accepted-event fields, absent Survey target entries, and revolution identity/mapping | HPC + KE2 | Source map and existing-run excerpt in [HPC handoff](hpc-evidence-handoff.md), confirm mapping, sparse-map/legacy handling, and packet semantics with HPC |
 | D04 | Communication/Weather thresholds and stock-design feasibility | KE1 + HPC + KE2 | KE1 confirmed the specified high_inc two-capture/basic-instrument/fast-radio Communication starter. Existing [headless evidence](ke3-ke2-results-ab-handoff.md) exercises Imaging mechanics proxies. Actual typed v2 runs, Weather revisit policy, and HPC confirmation remain pending |
-| D05 | Extended report schema and existing-field compatibility | KE2 + KE3 + SE | [00.4 proposals](ke3-ke2-results-ab-handoff.md) prepared with actual Imaging and engine-backed proposed new-goal reports. Agree fields and implement evaluator/consumer migration |
-| D06 | Comparison matching, action-policy identity, and independent saved-A record | KE1 + HPC + SE + KE2 | Measured radio-swap pair and signed-unit payload proposal prepared, actual baseline call still returns null. Agree eligibility/versions/sampling, implement KE2 comparator and SE saved-record/call wiring |
+| D05 | Extended report schema and existing-field compatibility | KE2 + KE3 + SE | KE3 schema agreement and [SE conditional review](se-report-review-and-version-proposal.md) received. Separate report-v2 candidates ready. Settle revision placement/output selection, dual-version consumers and coordinated implementation |
+| D06 | Comparison matching, action-policy identity, and independent saved-A record | KE1 + HPC + SE + KE2 | SE saved-A fields received as a proposal. Agree eligibility/versions/sampling, serialization/digest and comparator wiring. Historical keys reproduce from typed inputs, but all eight change on direct JSON reload; normalization/retained bytes remain open |
 | D07 | Save A eligibility from the reached active execution | SE + KE2 | SE confirms storage/navigation can start now. Gate Save A on reached completion and its bound report, then supply actual lifecycle evidence and the implementation commit |
 | D08 | Web templates, Netlify URL, deployed revision, and browser evidence | SE + team | Open, confirm release dependencies and test public journeys |
 | D09 | Newer recorded main producer/controller baseline | SE | Open, recorded `origin/main` is `dce75db`. SE requests exact owner commits, combined integration revision, commands, exit codes and example run records before production integration |
-| D10 | KE1 registry, catalog API, and validation tests | KE1 | User reports KE1 will share later. At this update, `data/mission_presets.json`, `scripts/core/mission_preset_catalog.gd`, and `tests/validation/test_mission_presets.gd` are absent locally |
+| D10 | KE1 registry, catalog API, and validation tests | KE1 | Draft-2 review artifacts received/verified/archived; they remain outside live production paths. Remaining dependency is coordinated v2 production validation/integration, not another artifact request |
 
 ## Completion history
 
@@ -139,6 +139,64 @@ On 15 November 2026, following the ordered prompts, added the private `_measure_
 - [ ] Finish 10.2 after HPC confirms absent-entry/packet semantics and the helper can be integrated against agreed inputs.
 
 See [Step 8 evidence and exact commands](survey-delivery-measure-step8.md) and [source/log hashes](evidence/survey-delivery-step8-checks.json). Verification uses labeled fixtures plus actual native modules and headless Imaging scenes; no browser/export run. Step 9 / 10.3 needs the Survey scoring/progress decision and coordinated report migration. KE1-owned, HPC-owned, SE-owned and KE3-owned implementations, signed contracts and unrelated working changes were preserved.
+
+## KE3 report-schema response received
+
+On 15 November 2026, at `features/KE2`, `f04ab66`, the user relayed KE3's explicit agreement on the four-example `goal_progress` schema. Recorded the [owner response and scope](ke3-report-schema-agreement.md); ticked KE3-specific subtasks in 00.4 and 30.1. Confirmed fields, Survey target detail, supplied verdicts/ratios, legacy Imaging display, measured-zero versus unavailable values, abort/null score, same-execution evidence and source credits. No required field changes were requested.
+
+The supplied response identifies KE3 even though the selected earlier request was addressed to SE. SE agreement was not inferred. `GoalProgress.gd` is a planned consumer and is absent locally. KE3 implementation/live acceptance, Survey scoring, SE report version/storage and HPC sparse-map semantics remain pending. Parent tasks 00.4 and 30.1 remain open.
+
+Verification: branch/HEAD/status, current handoff/consumers, `Test-Path`, inline Python JSON-field/local-link checks and `git diff --check`. Documentation-only update; no new fixture/native engine/browser/export execution. Current production reports and signed contracts remain unchanged. No messages or remote actions were sent.
+
+## SE conditional report review and evidence follow-up
+
+On 15 November 2026 at `features/KE2`, `f04ab66` plus local documentation changes, the user relayed SE's acceptance in principle of the envelope/17 fields plus objective/goal progress. Recorded report-v1/report-v2 recommendation and proposed saved-A fields, execution binding and completed-attempt lifecycle. Exact version/revision, serialization/evidence details and full integration acceptance remain open. KE3's earlier schema agreement does not imply agreement to this later version proposal.
+
+- [x] Prepared separate report-v2 candidate examples and a candidate report-contract label in review-file metadata. Original examples, production replies, runtime output and contracts remain unchanged.
+- [x] Addressed missing evidence by preparing a shareable source packet/probe/checker bundle with manifests and historical source snapshots. No delivery was claimed.
+- [x] Investigated eight actual execution-key failures after JSON reload. Typed native replay on the original eight matching module/data sources reproduced every original key, trace and actual reply; exact hash preimages are retained. Godot reserializes integer `[1]` as float `[1.0]` after loading, so portable serialization remains unresolved with SE.
+- [x] Review-only checker verifies preimage hashes/inputs, event references, actual replies and ratios for original/v2 candidates: 85 passed / 0 failed, exit 0, while explicitly reporting all eight known JSON-roundtrip mismatches. Isolated native reconstruction reports zero probe failures. Certificate-store diagnostic persists.
+
+See [SE review, commands and prepared reply](se-report-review-and-version-proposal.md). Evidence combines historical records, candidate fixtures and isolated replay of existing native cases. No production v2 evaluator, storage/UI integration, full-suite, export or browser acceptance was performed. Parent 00.4/30.1 and scoring/HPC/custom-identity dependencies remain open. No teammate message or remote action was sent.
+
+## KE3 Debrief display-contract follow-up
+
+On 15 November 2026 the user relayed a further KE3 confirmation limited to presentation suitability, with implementation pending. Recorded [the clarification](ke3-display-contract-followup.md). Independent JSON checks reproduced 9 goal entries and 2 Survey target rows, required fields, consistent ratios/verdicts and unchanged original Imaging values. Clarified empty causes, null comparison, unavailable missing evidence and separately scoped credits. No additional display fields or repeat KE3 approval are required.
+
+The reply does not approve goal semantics, scoring or report-version changes. `mission_results.gd` remains an SE-owned coordination point. Existing KE3 schema checkboxes stay complete; implementation and parent acceptance remain open. Preserved concurrently updated SE review/version/evidence records and shared notes. Checks: JSON/link assertions and `git diff --check`; no production change or new Godot/native/UI/browser execution. Remaining decisions stay with KE2, HPC and SE as detailed in the follow-up.
+
+## Step 9 scoring-proposal prototype and Step 10 review
+
+On 15 November 2026, at `features/KE2`, `f04ab66` plus local changes, followed prompt 10.3's labeled-fixture path after the user's request to start. Added `tests/fixtures/ke2_survey_scoring_proposal.gd`, imported only by the evaluator test. It uses the private Step 8 measure and explicit target counters, preserves raw actuals and returns `ok/proposal` with `not_for_publication`; public evaluator/report production and all shared/other-owner implementations remain unchanged.
+
+- [x] 10.3 prototype: proposed capped equal thirds, success only with all goals, partial with scored progress, failed with none, abort failed/null score and raw-actual preservation.
+- [x] 40 new fixture assertions: partial/83 worked case, success, no progress, caps, extra/unrelated delivery handling through Step 8, half-up boundaries, rounded-100 partial, deterministic input preservation, invalid goals/actuals, missing evidence and terminal checks.
+- [x] Existing evaluator plus new fixtures: 294 passed / 0 failed / 5 existing pending. Imaging presets 53 passed / 0 failed; adapted Results 17 passed / 0 failed. All exit 0 on confirmed Godot 4.7.2; `git diff --check` passed. Certificate-store diagnostic persists.
+- [x] 60.2 checkpoint output: reused the four existing worked report examples and format candidates, distinguished native/proxy actuals from proposed scores, and identified HPC/SE/KE3/KE1 dependencies and independent Communication counting preparation.
+
+See [Step 9 and checkpoint](survey-scoring-proposal-step9.md) and [source/log verification](evidence/survey-scoring-step9-checks.json). New scoring checks are numerical fixtures, not new native Survey scoring or official reports; existing native packet/engine and headless Imaging checks reran. No full-suite, export, browser or remote action. Scoring ratification, HPC sparse-map semantics and report integration remain open; parent 10.3 is not ticked. Unrelated local SE/KE3 evidence/document work was preserved.
+
+## Independent KE2 sequence in progress
+
+On 15 November 2026, following the user's requested sequence, implemented 20.1's unwired Communication counter and focused same-execution evidence validation. Initial suite: 25 passed / 0 failed, including the eight historical native contact counts. Ticked completed counting/dedup/exclusion subtasks only. HPC confirmation, scoring and real-objective publication remain open. See [implementation record](independent-ke2-algorithms.md). Preserved previous working changes and other-owner code.
+
+20.3 preparation then added 17 Weather checks: frozen-step mapping/dedup/target isolation, boundary cases and both recorded proxies. The focused suite passes 42 checks. Completed counting/fixture subtasks are ticked; owner-confirmed mapping, scoring and real Weather acceptance remain open.
+
+40.1 then added a proposed normalized-record eligibility module with historical input-byte binding, requirements/context/scenario matching and policy/manual classification. Focused suite: 65 passed / 0 failed. The normalized Imaging pair is a fixture-backed comparison candidate, not SE saved-A acceptance. Final record properties, legacy rules and transported-record serialization remain open.
+
+40.2 then added 16 signed-measure checks: the normalized native pair reproduces +4.6133333328 MB/+60 g/+7 credits/+19 score points, with negative/zero/optional-unavailable cases and initial/terminal sample boundaries. Focused suite: 81 passed / 0 failed. Sampling/record/output rules remain labeled proposals; no saved-A/UI comparator call was wired.
+
+30.2 added 21 evidence/comparison boundary cases and retained-whole-history/report-digest guards in the internal prototypes. Focused suite: 102 passed / 0 failed; existing evaluator rerun: 294 passed / 0 failed / 5 original pending. JSON whole numeric versions remain accepted. Parent production acceptance stays open; digest/normalization fields are fixture proposals, not an SE record contract.
+
+30.3 completed the sequence with 15 proposed goal-feedback checks. Focused suite: 117 passed / 0 failed. Known contact/storage causes cite recorded same-run IDs; Survey sparse evidence, conditional Weather mapping and unknown/irrelevant/conflicting evidence remain neutral. No production feedback/report publication was changed.
+
+## Independent sequence final verification
+
+All requested independent task outputs are now implemented: 20.1 counting, 20.3 proposed revolution mapping, 40.1 normalized-record eligibility, 40.2 signed measures, 30.2 boundaries and 30.3 proposed goal feedback. Also audited source-ledger integrity and fixed two stale validator/profile-catalog presence flags without changing NASA/rule/credit/gameplay verification claims.
+
+Final focused suite: **125 passed / 0 failed** (25 contact, 17 Weather, 23 compatibility, 16 deltas, 21 boundary, 15 feedback and 8 source-integrity checks). Existing final reruns: evaluator **294 passed / 0 failed / 5 original pending**; Imaging **53**, Results **17**, Debrief summary **57**, all zero failures/exits 0. Confirmed Godot 4.7.2; certificate-store diagnostic persists; `git diff --check` passed.
+
+See [files, exact commands, scope and remaining handoffs](independent-ke2-algorithms.md) and [source/log verification](evidence/independent-ke2-checks.json). New helpers remain unwired and normalized record/digest/sampling/legacy policies are explicit proposals. Verification combines handcrafted fixtures, recorded native traces and current native/headless regressions; no production expanded-objective publication, Save A/B UI lifecycle, full 43-program run, browser or export acceptance was performed. Preserved prior working changes and other-owner implementations; no remote action.
 
 ## Evidence format for future completions
 
