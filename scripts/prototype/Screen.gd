@@ -37,6 +37,21 @@ var report_body: VBoxContainer
 var report_sections: Array = []
 var flight_name: Label
 const SUMMARY = preload("res://scripts/presentation/DebriefSummary.gd")
+const GOAL_PROGRESS = preload("res://scripts/presentation/GoalProgress.gd")
+var goal_labels: Array[Label] = []
+var goal_headings: Array[BoxContainer] = []
+var target_deliveries: VBoxContainer
+var missed_goals: Label
+var progress_evidence: Label
+var run_identity: Label
+var qa_notice: Label
+var _goal_progress: Dictionary = {}
+const DESIGN_LAB = preload("res://scripts/presentation/DesignLabView.gd")
+var design_lab: VBoxContainer
+var _selected_execution_trace: Dictionary = {}
+var _lab_response: Dictionary = {}
+var _lab_error: Dictionary = {}
+var _lab_feedback: String = ""
 var report_surface: PanelContainer
 var result_hero: BoxContainer
 var goal_verdicts: Array[Label] = []
@@ -53,6 +68,9 @@ func _ready():
 	var kicker = UI.label(self, titles[screen_id][0], 12, "6fd9eb")
 	if screen_id == "DebriefCompare": kicker.hide()
 	UI.label(self, titles[screen_id][1], 25)
+	if screen_id == "DebriefCompare":
+		qa_notice = UI.label(self, "", 14, "f4d38b")
+		qa_notice.hide()
 	var scroll = ScrollContainer.new()
 	report_scroll = scroll
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -185,6 +203,7 @@ func debrief():
 	hero_copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hero.add_child(hero_copy)
 	flight_name = UI.label(hero_copy, "", 16, "8ea9bb")
+	run_identity = UI.label(hero_copy, "", 11, "8ea9bb")
 	outcome_title = UI.label(hero_copy, "", 34, "b9f4e7")
 	outcome_badge = UI.label(hero_copy, "", 12, "f4d38b")
 	results = UI.label(hero_copy, "", 18, "c2d9e6")
@@ -215,10 +234,10 @@ func debrief():
 			tab_style.border_color = Color("76ddd8")
 			tab_style.border_width_bottom = 2
 		report_tabs.add_theme_stylebox_override(mode, tab_style)
-	for caption in ["Overview", "Flight log", "Sources"]: report_tabs.add_tab(caption)
+	for caption in ["Overview", "Flight log", "Sources", "Design Lab"]: report_tabs.add_tab(caption)
 	report_tabs.tab_changed.connect(select_report_tab)
 	report_body.add_child(report_tabs)
-	for i in 3:
+	for i in 4:
 		var section = VBoxContainer.new()
 		section.add_theme_constant_override("separation", 14)
 		report_body.add_child(section)
@@ -236,12 +255,15 @@ func debrief():
 		var goal = VBoxContainer.new()
 		goal.add_theme_constant_override("separation", 7)
 		results_row.add_child(goal)
-		var heading = HBoxContainer.new()
+		var heading = BoxContainer.new()
+		heading.add_theme_constant_override("separation", 10)
+		goal_headings.append(heading)
 		goal.add_child(heading)
 		var title = UI.label(heading, caption, 17, "c2d9e6")
+		goal_labels.append(title)
 		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var value = UI.label(heading, "", 23)
-		value.autowrap_mode = TextServer.AUTOWRAP_OFF
+		var value = UI.label(heading, "", 21)
+		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		goal_cards.append(value)
 		var bar = ProgressBar.new()
 		bar.step = 0.0
@@ -252,6 +274,11 @@ func debrief():
 		goal_verdicts.append(UI.label(goal, "", 14))
 	photo_goal_value = goal_cards[0]
 	data_goal_value = goal_cards[1]
+	target_deliveries = VBoxContainer.new()
+	target_deliveries.add_theme_constant_override("separation", 6)
+	results_row.add_child(target_deliveries)
+	missed_goals = UI.label(results_row, "", 14, "f4d38b")
+	progress_evidence = UI.label(results_row, "", 12, "8ea9bb")
 	experiment_panel = PanelContainer.new()
 	experiment_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	experiment_panel.size_flags_stretch_ratio = 1.0
@@ -302,6 +329,14 @@ func debrief():
 	source_links = VBoxContainer.new()
 	source_disclosure.add_child(source_links)
 	UI.label(source_disclosure, "An educational simulation. Orbit paths, contact windows and most hardware values are illustrative.", 14, "9cb7c9")
+	design_lab = DESIGN_LAB.new()
+	report_sections[3].add_child(design_lab)
+	design_lab.modify_current_requested.connect(_request_retry)
+	design_lab.save_a_requested.connect(_lab_save)
+	design_lab.modify_a_requested.connect(_lab_continue)
+	design_lab.clear_a_requested.connect(_lab_clear)
+	design_lab.compare_requested.connect(_lab_compare)
+	design_lab.view_execution_requested.connect(_lab_open)
 	resized.connect(_fit_results)
 	report_scroll.resized.connect(_fit_results)
 	_fit_results.call_deferred()
@@ -319,37 +354,43 @@ func _history_cell(parent: Node,value: String) -> void:
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 func _fit_results() -> void:
+	if not is_inside_tree() or is_queued_for_deletion(): return
 	if is_instance_valid(report_body): report_body.custom_minimum_size.x = minf(1000, maxf(280, report_scroll.size.x - 78))
 	if is_instance_valid(result_hero): result_hero.vertical = report_scroll.size.x < 600
 	if is_instance_valid(overview_layout): overview_layout.vertical = report_scroll.size.x < 960
+	for i in goal_headings.size(): goal_headings[i].vertical = report_scroll.size.x < 1050 or goal_labels[i].text.length() > 20
 	if is_instance_valid(score_gauge):
 		var compact: bool = get_viewport_rect().size.y < 800
 		score_gauge.custom_minimum_size = Vector2(112,112) if compact else Vector2(150,150)
 		report_body.add_theme_constant_override("separation", 10 if compact else 22)
 		outcome_title.add_theme_font_size_override("font_size", 30 if compact else 34)
 		report_surface.get_theme_stylebox("panel").set_content_margin_all(20 if compact else 26)
+		experiment_panel.get_theme_stylebox("panel").set_content_margin_all(12 if compact else 20)
+		hero_copy.add_theme_constant_override("separation", 4 if compact else 8)
 func _report_keys(event: InputEvent) -> void:
 	if not report_scroll.has_focus() or not event is InputEventKey or not event.pressed: return
 	if event.alt_pressed or event.ctrl_pressed or event.meta_pressed: return
+	var maximum: int = maxi(0,floori(report_scroll.get_v_scroll_bar().max_value-report_scroll.get_v_scroll_bar().page))
 	var distance: int = 0
 	match event.keycode:
 		KEY_DOWN: distance = 32
 		KEY_UP: distance = -32
 		KEY_PAGEDOWN: distance = maxi(32,int(report_scroll.size.y)-32)
 		KEY_PAGEUP: distance = -maxi(32,int(report_scroll.size.y)-32)
+		KEY_HOME: distance = -maximum
+		KEY_END: distance = maximum
 		_: return
-	var maximum: int = maxi(0,floori(report_scroll.get_v_scroll_bar().max_value-report_scroll.get_v_scroll_bar().page))
 	if maximum == 0: return
 	report_scroll.scroll_vertical = clampi(report_scroll.scroll_vertical+distance,0,maximum)
 	report_scroll.accept_event()
 func _request_retry() -> void:
-	if _retry_pending or _presentation_model.get("state") not in ["report", "evaluation_error"]: return
+	if retry_button.disabled or _retry_pending or _presentation_model.get("state") not in ["report", "evaluation_error", "unsupported_report"]: return
 	_retry_pending = true
 	retry_button.disabled = true
 	same_mission_button.disabled = true
 	modify_requested.emit()
 func _request_same_retry() -> void:
-	if _retry_pending or _presentation_model.get("state") not in ["report", "evaluation_error"]: return
+	if same_mission_button.disabled or _retry_pending or _presentation_model.get("state") not in ["report", "evaluation_error", "unsupported_report"]: return
 	_retry_pending = true
 	retry_button.disabled = true
 	same_mission_button.disabled = true
@@ -366,6 +407,10 @@ func show_actual_run(index: int):
 	show_execution(trace)
 
 func show_execution(trace: Dictionary) -> void:
+	_selected_execution_trace = trace.duplicate(true)
+	_lab_response.clear()
+	_lab_error.clear()
+	_lab_feedback = ""
 	_presentation_model = PRESENTATION.build(trace, state.get("evaluation_store", {}))
 	_presentation_model.execution_key = preload("res://scripts/integration/mission_results.gd").input_key(trace)
 	var player: Dictionary = LANGUAGE.report(_presentation_model, trace)
@@ -384,26 +429,23 @@ func show_execution(trace: Dictionary) -> void:
 	if report.get("run_status") == "aborted": outcome_badge.text = "STOPPED EARLY · NOT SCORED"
 	outcome_badge.add_theme_color_override("font_color", Color(outcome_color))
 	var summary: Dictionary = SUMMARY.build(_presentation_model, trace)
-	results.text = summary.text if not summary.text.is_empty() else player.summary
+	results.text = summary.text if trace.config.mission.get("objective") == "imaging" and not summary.text.is_empty() else player.summary
 	full_explanation.text = player.summary
-	for i in 2:
-		var goal: Dictionary = summary.photos if i == 0 else summary.data
-		goal_verdicts[i].text = goal.label
-		var tint = Color("b9f4e7") if goal.reached else Color("f4d38b")
-		goal_verdicts[i].add_theme_color_override("font_color", tint)
-		goal_bars[i].value = goal.progress
-		goal_bars[i].visible = goal.progress_known
-		var fill = StyleBoxFlat.new()
-		fill.bg_color = tint
-		fill.set_corner_radius_all(3)
-		goal_bars[i].add_theme_stylebox_override("fill", fill)
+	render_goal_progress(trace, _presentation_model)
 	next_experiment.text = player.next
-	flight_facts.text = player.targets + "\nBattery remaining: %s Wh\nData still on the spacecraft: %s MB\n\nCollecting photos and sending them home are separate goals. Photos still on board have not yet reached Earth." % [player.battery, player.stored]
+	flight_facts.text = player.targets + "\nBattery remaining: %s Wh\nData still on the spacecraft: %s MB\n\nCaptured observations and returned data are separate measurements. A complete delivery is counted only after the whole observation reaches Earth." % [player.battery, player.stored]
 	flight_facts.tooltip_text = "Flight " + str(trace.final_state.run_id)
 	evidence.text = player.evidence if not player.evidence.is_empty() else "No specific cause was established by the recorded events."
-	var retry_allowed: bool = not _retry_pending and _presentation_model.state in ["report", "evaluation_error"]
+	var latest: Dictionary = state.get("run_trace", {})
+	var selected_is_latest: bool = _presentation_model.execution_key == preload("res://scripts/integration/mission_results.gd").input_key(latest)
+	# The current controller's generic Modify/Retry acts on run_trace, not the picker.
+	# Historical actions need SE's execution-specific route before they can be enabled.
+	var retry_allowed: bool = selected_is_latest and not _retry_pending and _presentation_model.state in ["report", "evaluation_error", "unsupported_report"]
 	retry_button.disabled = not retry_allowed
 	same_mission_button.disabled = not retry_allowed
+	for button in [retry_button, same_mission_button]:
+		button.tooltip_text = "" if selected_is_latest else "Return to the latest flight to modify or retry."
+	refresh_design_lab()
 	credits.text = LANGUAGE.credits(_presentation_model)
 	for link in source_links.get_children():
 		source_links.remove_child(link)
@@ -429,6 +471,133 @@ func show_execution(trace: Dictionary) -> void:
 		link.add_theme_font_size_override("font_size", 17)
 		link.pressed.connect(func(): OS.shell_open(url))
 		source_links.add_child(link)
+
+func _lab_controller() -> Node:
+	var node: Node = get_parent()
+	while node != null:
+		if node.has_method("offer_design_b") and node.has_method("get_saved_design_a"): return node
+		node = node.get_parent()
+	return null
+
+func refresh_design_lab() -> void:
+	var controller: Node = _lab_controller()
+	if controller == null:
+		design_lab.set_inputs(DESIGN_LAB.from_session(state, _selected_execution_trace))
+		return
+	var saved: Dictionary = controller.get_saved_design_a()
+	var a: Dictionary = {}
+	if saved.get("ok") and saved.get("execution") is Dictionary:
+		var packet: Dictionary = saved.execution
+		a = DESIGN_LAB.record(packet.trace, packet.evaluation.get("report", {}))
+	var candidate: Dictionary = {}
+	var key: String = str(_presentation_model.get("execution_key", ""))
+	var selected: Dictionary = controller.get_execution(key)
+	if selected.get("ok") and _presentation_model.get("state") == "report":
+		candidate = DESIGN_LAB.record(selected.execution.trace, _presentation_model.report)
+	var b: Dictionary = candidate if candidate.get("execution_key") != a.get("execution_key") else {}
+	if _lab_response.get("a_execution_key") != a.get("execution_key") or _lab_response.get("b_execution_key") != b.get("execution_key"): _lab_response.clear()
+	var error: Dictionary = _lab_error.duplicate(true)
+	if not saved.get("ok", false): error = saved.get("error", {}).duplicate(true)
+	design_lab.set_inputs({"a":a, "b":b, "candidate":candidate,
+		"a_saved":not a.is_empty(), "storage_available":true,
+		"modify_saved_available":not a.is_empty(), "modify_current_available":not retry_button.disabled,
+		"comparison_available":controller.has_method("compare_executions"),
+		"comparison":_lab_response, "error":error, "feedback":_lab_feedback})
+
+func _lab_result(reply: Dictionary, success: String = "") -> bool:
+	_lab_error = reply.get("error", {}).duplicate(true) if not reply.get("ok", false) else {}
+	_lab_feedback = success if reply.get("ok", false) else ""
+	refresh_design_lab()
+	return reply.get("ok", false)
+
+func _lab_save(_run_id: String, key: String, replace: bool) -> void:
+	var controller: Node = _lab_controller()
+	if controller == null: return
+	if replace:
+		_lab_result(controller.replace_design_a(key, design_lab.confirmed_expected_a_key), "Saved A replaced. Both flights remain in history.")
+	else:
+		if not _lab_result(controller.offer_design_b(key), "Design A saved. Continue with Design B now, or choose Not now."): return
+		var dialog: Node = controller.get_node_or_null("DesignASavedDialog")
+		if dialog != null: dialog.tree_exited.connect(_lab_offer_closed)
+
+func _lab_offer_closed() -> void:
+	# The popup and storage belong to SE; dismissal performs no mutation here.
+	if not is_inside_tree() or is_queued_for_deletion(): return
+	_lab_feedback = "Design A stays saved. Continue with Design B whenever you are ready."
+	refresh_design_lab()
+	if design_lab.is_visible_in_tree() and not design_lab.modify_button.disabled: design_lab.modify_button.grab_focus()
+
+func _lab_continue(_run_id: String, _key: String) -> void:
+	var controller: Node = _lab_controller()
+	if controller == null: return
+	var reply: Dictionary = controller.continue_saved_design_a()
+	if not reply.get("ok", false): _lab_result(reply)
+
+func _lab_clear() -> void:
+	var controller: Node = _lab_controller()
+	if controller != null: _lab_result(controller.clear_design_a(design_lab.confirmed_expected_a_key), "Saved A cleared. Your flight history is preserved.")
+
+func _lab_compare() -> void:
+	var controller: Node = _lab_controller()
+	if controller == null: return
+	var key: String = str(_presentation_model.get("execution_key", ""))
+	var reply: Dictionary = controller.compare_executions(key)
+	_lab_response.clear()
+	if reply.get("ok", false):
+		_lab_response = reply.get("comparison", {}).duplicate(true)
+		# The provider's pair keys are checked by SE. Add display context only.
+		if not _lab_response.has("mode"): _lab_response.mode = reply.get("mode")
+		var a: Dictionary = design_lab.inputs.get("a", {})
+		if not _lab_response.has("a_run_id"): _lab_response.a_run_id = a.get("run_id")
+		if not _lab_response.has("b_run_id"): _lab_response.b_run_id = _presentation_model.report.get("run_id")
+	_lab_result(reply)
+
+func _lab_open(key: String) -> void:
+	var controller: Node = _lab_controller()
+	if controller == null: return
+	var reply: Dictionary = controller.show_execution_result(key)
+	if not reply.get("ok", false): _lab_result(reply)
+
+func render_goal_progress(trace: Dictionary, model: Dictionary, supplied_details: Dictionary = {}) -> void:
+	# Optional details are a view input only; runtime never creates pending-goal configs.
+	_goal_progress = GOAL_PROGRESS.build(model, trace, supplied_details)
+	run_identity.text = "Flight " + str(_goal_progress.get("run_id", "Unavailable"))
+	qa_notice.text = str(_goal_progress.get("fixture_label", ""))
+	qa_notice.visible = not qa_notice.text.is_empty()
+	for i in 2:
+		var goal: Dictionary = _goal_progress.primary if i == 0 else _goal_progress.data
+		goal_labels[i].text = goal.label
+		goal_cards[i].text = goal.value
+		goal_verdicts[i].text = goal.verdict
+		var tint = Color("b9f4e7") if goal.known and goal.reached else Color("f4d38b")
+		goal_verdicts[i].add_theme_color_override("font_color", tint)
+		goal_bars[i].value = goal.progress
+		goal_bars[i].visible = goal.progress_known
+		var fill = StyleBoxFlat.new()
+		fill.bg_color = tint
+		fill.set_corner_radius_all(3)
+		goal_bars[i].add_theme_stylebox_override("fill", fill)
+	for child in target_deliveries.get_children():
+		target_deliveries.remove_child(child)
+		child.queue_free()
+	var extra_goals: Array = _goal_progress.get("extra_goals", [])
+	target_deliveries.visible = not _goal_progress.deliveries.is_empty() or not extra_goals.is_empty()
+	if target_deliveries.visible:
+		UI.label(target_deliveries, "COMPLETE DELIVERIES BY TARGET", 12, "8ea9bb")
+		for goal in extra_goals:
+			UI.label(target_deliveries, goal.label + " · " + goal.value, 16)
+			UI.label(target_deliveries, goal.verdict, 13, "b9f4e7" if goal.known and goal.reached else "f4d38b")
+		for delivery in _goal_progress.deliveries:
+			UI.label(target_deliveries, delivery.label + " · " + delivery.value, 16)
+			UI.label(target_deliveries, delivery.verdict, 13, "b9f4e7" if delivery.known and delivery.reached else "f4d38b")
+			UI.label(target_deliveries, delivery.get("context_text", "Target measurements: Unavailable"), 14, "8ea9bb")
+		UI.label(target_deliveries, "Captured-only and partial packets are not complete deliveries.", 12, "8ea9bb")
+	missed_goals.text = "Goal progress\n" + _goal_progress.missed_text
+	progress_evidence.text = "Same-run events\n" + _goal_progress.evidence_text
+	_fit_results.call_deferred()
+
+func get_goal_progress() -> Dictionary:
+	return _goal_progress.duplicate(true)
 
 func report_score_unavailable(model: Dictionary) -> bool:
 	return model.get("report", {}).get("score") == null
