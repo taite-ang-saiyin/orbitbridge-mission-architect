@@ -16,6 +16,8 @@ Conflicts in the controller/screens use the tested real KE1 flow. Conflicts in t
 
 Seven old scripts that asserted fixed mock results, unsupported multiple targets and development-only body selections are preserved in tests/archive/mock_prototype/. Their assumptions no longer describe the active app. Replacement real-flow suites remain active; Home/settings, responsive layout and isolated 3D tests are retained. The layout check supports the agreed single objective while retaining clipping, control-size and model-framing assertions.
 
+A concurrent README-only update on main (`9910819`) arrived during verification. Its deletions are preserved in a final merge with the tested integration `03c709a`. Every recorded runtime-input hash is unchanged, so no code or build behavior changed after the completed tests.
+
 ## Verification
 
 Godot 4.7.2.stable.official.ed1daf0bf:
