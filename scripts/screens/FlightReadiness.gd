@@ -27,6 +27,9 @@ func _ready() -> void:
 	screen_id = "FlightReadiness"
 	validation = preload("res://scripts/integration/mission_runtime.gd").review(state)
 	setup("04 / PREFLIGHT REVIEW", "Flight Readiness", "Review system checks, resolve warnings, and prepare your mission for launch.", 2, 4, "Launch Mission")
+	if state.has("design_lab_route"):
+		next_button.text = "Launch Design B"
+		UI.label(content, "DESIGN B · Saved A remains unchanged", 13, "6adacb")
 	main_columns = flexible_row(content)
 	workspace = main_columns
 	checklist = section(main_columns, "READINESS CHECKLIST")
@@ -66,6 +69,9 @@ func _ready() -> void:
 			return
 		if not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
 			navigate.emit(2)
+			return
+		if state.has("design_lab_route"):
+			navigate.emit(4)
 			return
 		var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 		if launched.ok: navigate.emit(4)

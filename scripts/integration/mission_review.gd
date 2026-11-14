@@ -8,6 +8,10 @@ static func snapshot(draft: Dictionary) -> Dictionary:
 		var value = draft.get(key, CATALOG.DEFAULTS[key])
 		result[key] = value.duplicate(true) if value is Array or value is Dictionary else value
 	result.required_returned_data_mb = float(draft.get("required_returned_data_mb", float(result.observations) * 12.0))
+	for key in preload("res://scripts/integration/mission_runtime.gd").CONTRACT_FIELDS:
+		if draft.has(key):
+			var value: Variant = draft[key]
+			result[key] = value.duplicate(true) if value is Dictionary or value is Array else value
 	return result
 static func can_confirm(draft: Dictionary) -> bool:
 	var mission: Dictionary = snapshot(draft)
@@ -20,4 +24,9 @@ static func confirm(draft: Dictionary, reviewed: Dictionary) -> bool:
 	return true
 static func details(draft: Dictionary) -> Dictionary:
 	var mission: Dictionary = snapshot(draft)
-	return {"Mission name": mission.name, "Description": mission.description if not str(mission.description).strip_edges().is_empty() else "No description added", "Objective": mission.objective, "Targets": ", ".join(mission.targets), "Orbit": mission.orbit, "Observations": str(mission.observations), "Data to return": "%s MB" % mission.required_returned_data_mb, "Duration": "%s orbits" % mission.duration, "Budget": "%s credits" % mission.budget}
+	var result: Dictionary = {"Mission name": mission.name, "Description": mission.description if not str(mission.description).strip_edges().is_empty() else "No description added", "Objective": mission.objective, "Targets": ", ".join(mission.targets), "Orbit": mission.orbit, "Observations": str(mission.observations), "Data to return": "%s MB" % mission.required_returned_data_mb, "Duration": "%s orbits" % mission.duration, "Budget": "%s credits" % mission.budget}
+	if mission.get("goal") is Dictionary:
+		var goal: Dictionary = mission.goal
+		for field in {"minimum_complete_observations_per_target":"Complete images delivered per target", "required_positive_contact_steps":"Successful transmission steps", "required_distinct_orbits":"Distinct orbits with a qualifying visit"}:
+			if goal.has(field): result[{"minimum_complete_observations_per_target":"Complete images delivered per target", "required_positive_contact_steps":"Successful transmission steps", "required_distinct_orbits":"Distinct orbits with a qualifying visit"}[field]] = str(goal[field])
+	return result

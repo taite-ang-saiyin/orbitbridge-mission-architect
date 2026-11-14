@@ -10,6 +10,8 @@ var shell_footer: Label
 var sidebar: VBoxContainer
 var flow_error: AcceptDialog
 var retry_restore: Dictionary = {}
+var design_lab_restore: Dictionary = {}
+var comparison_provider: Callable
 var sidebar_rail: PanelContainer
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
@@ -144,6 +146,9 @@ func request_screen(index: int) -> void:
 	show_screen(index)
 
 func show_screen(index: int):
+	if state.has("design_lab_route") and index in [0, 1]:
+		show_flow_error("Mission requirements are fixed for Design B. Cancel Design B to leave this draft.")
+		return
 	if index == -1:
 		show_home()
 		return
@@ -158,12 +163,17 @@ func show_screen(index: int):
 			if not is_instance_valid(current) or current.screen_id != "FlightReadiness": show_screen(3)
 			return
 		if not state.has("run_trace") or state.run_trace.config != review.config or state.run_trace.policy != state.policy:
-			var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+			var launched: Dictionary
+			if state.has("design_lab_route"):
+				launched = preload("res://scripts/integration/design_lab.gd").launch_b(state, str(state.design_lab_route.origin_execution_key))
+			else: launched = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 			if not launched.ok:
 				show_flow_error(launched.error.message)
 				return
 	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
-	if index == 4: retry_restore.clear()
+	if index == 4:
+		retry_restore.clear()
+		design_lab_restore.clear()
 	if index == 5:
 		if not state.has("active_run_state") or state.active_run_state.phase != "finished":
 			show_flow_error("Finish the mission before viewing a result.")
@@ -191,6 +201,12 @@ func show_screen(index: int):
 		var cancel = Button.new()
 		cancel.text = "Cancel Retry"
 		cancel.pressed.connect(cancel_retry)
+		current.previous.get_parent().add_child(cancel)
+
+	if not design_lab_restore.is_empty() and index in [2, 3]:
+		var cancel = Button.new()
+		cancel.text = "Cancel Design B"
+		cancel.pressed.connect(func(): cancel_design_b(str(state.design_lab_route.origin_execution_key)))
 		current.previous.get_parent().add_child(cancel)
 
 func _input(event: InputEvent) -> void:
@@ -233,6 +249,7 @@ func start_new_mission() -> void:
 		show_flow_error("Finish or stop the current mission before starting a new one.")
 		return
 	retry_restore.clear()
+	design_lab_restore.clear()
 	preload("res://data/mock/DesignCatalog.gd").reset(state)
 	state.name = "Untitled Mission"
 	show_screen(1)
@@ -279,3 +296,93 @@ func verify_demo() -> void:
 		result.failed += packaged.failed
 	print("Windows demo verification: %d checks passed; %d failed." % [result.passed, result.failed])
 	get_tree().quit(0 if result.failed == 0 else 1)
+
+
+# v2 SE hooks: KE3 supplies an execution key from the selected result, never a title.
+func get_execution(execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/mission_results.gd").get_execution(state, execution_key)
+
+func save_design_a(execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").save_a(state, execution_key)
+
+func get_saved_design_a() -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").saved_a(state)
+
+func replace_design_a(execution_key: String, expected_a_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").replace_a(state, execution_key, expected_a_execution_key)
+
+func clear_design_a(expected_a_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").clear_a(state, expected_a_execution_key)
+
+func show_execution_result(execution_key: String) -> Dictionary:
+	if is_operating(): return preload("res://scripts/integration/design_lab.gd").failure("RUN_ACTIVE", "Finish the current run first.")
+	var result: Dictionary = get_execution(execution_key)
+	if not result.ok: return result
+	state.run_trace = result.execution.trace.duplicate(true)
+	state.run_design = result.execution.trace.config.duplicate(true)
+	state.active_run_state = result.execution.trace.final_state.duplicate(true)
+	show_screen(5)
+	current.show_execution(result.execution.trace.duplicate(true))
+	return result
+
+func modify_execution(execution_key: String) -> Dictionary:
+	if not design_lab_restore.is_empty() or not retry_restore.is_empty():
+		return preload("res://scripts/integration/design_lab.gd").failure("DRAFT_ACTIVE", "Cancel the existing draft first.")
+	var result: Dictionary = preload("res://scripts/integration/design_lab.gd").modify_execution(state, execution_key)
+	if not result.ok: return result
+	design_lab_restore = state.duplicate(true)
+	design_lab_restore.run_trace = result.execution.trace.duplicate(true)
+	design_lab_restore.run_design = result.execution.trace.config.duplicate(true)
+	design_lab_restore.active_run_state = result.execution.trace.final_state.duplicate(true)
+	state = result.draft
+	show_screen(2)
+	return {"ok":true,"origin_execution_key":execution_key}
+
+func cancel_design_b(origin_execution_key: String) -> Dictionary:
+	if is_operating() or design_lab_restore.is_empty() or state.get("design_lab_route", {}).get("origin_execution_key") != origin_execution_key:
+		return preload("res://scripts/integration/design_lab.gd").failure("EXECUTION_MISMATCH", "No cancellable draft matches this execution.")
+	state = design_lab_restore.duplicate(true)
+	design_lab_restore.clear()
+	return show_execution_result(origin_execution_key)
+
+func run_design_b(origin_execution_key: String) -> Dictionary:
+	if not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
+		return preload("res://scripts/integration/design_lab.gd").failure("REVIEW_REQUIRED", "Review the mission requirements before launch.")
+	if is_operating(): return preload("res://scripts/integration/design_lab.gd").failure("RUN_ACTIVE", "A run is already operating.")
+	var result: Dictionary = preload("res://scripts/integration/design_lab.gd").launch_b(state, origin_execution_key)
+	if result.ok: show_screen(4)
+	return result
+
+func comparison_inputs(b_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").comparison_inputs(state, b_execution_key)
+
+func compare_executions(b_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").compare(state, b_execution_key, comparison_provider)
+
+# KE3's Continue button uses this entry point, independent of selected Results.
+func continue_saved_design_a() -> Dictionary:
+	var saved: Dictionary = get_saved_design_a()
+	if not saved.ok: return saved
+	if saved.execution == null:
+		return preload("res://scripts/integration/design_lab.gd").failure("A_NOT_SAVED", "Save Design A before creating B.")
+	return modify_execution(saved.execution.execution_key)
+
+# A successful Save has already happened before this optional continuation offer.
+# KE3 may use its own popup with save_design_a / continue_saved_design_a instead.
+func offer_design_b(execution_key: String) -> Dictionary:
+	var saved: Dictionary = save_design_a(execution_key)
+	if not saved.ok: return saved
+	var dialog = ConfirmationDialog.new()
+	dialog.name = "DesignASavedDialog"
+	dialog.title = "Design A saved"
+	dialog.dialog_text = "Keep this result as your baseline. Modify the spacecraft and run Design B?\n\nSaved for this session only. Closing or refreshing clears the comparison."
+	dialog.ok_button_text = "Create Design B"
+	dialog.cancel_button_text = "Not now"
+	dialog.confirmed.connect(func():
+		var result: Dictionary = continue_saved_design_a()
+		if not result.ok: show_flow_error(result.error.message)
+		dialog.queue_free())
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered(Vector2i(480, 190))
+	return saved

@@ -363,7 +363,11 @@ func show_actual_run(index: int):
 		results.text = "Finish a flight to see how you did."
 		return
 	var trace: Dictionary = history[clampi(index, 0, history.size() - 1)]
+	show_execution(trace)
+
+func show_execution(trace: Dictionary) -> void:
 	_presentation_model = PRESENTATION.build(trace, state.get("evaluation_store", {}))
+	_presentation_model.execution_key = preload("res://scripts/integration/mission_results.gd").input_key(trace)
 	var player: Dictionary = LANGUAGE.report(_presentation_model, trace)
 	outcome_title.text = player.headline
 	var outcome_color = "b9f4e7" if _presentation_model.get("report", {}).get("status") == "success" else "f4d38b"
