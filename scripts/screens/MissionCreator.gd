@@ -16,7 +16,9 @@ var count_buttons: Dictionary = {}
 var target_limit = 2
 var region = "All"
 var target_grid: GridContainer
-var coverage_view: TextureRect
+var coverage_view: SubViewportContainer
+var budget_ticks: Control
+var orbit_select: OptionButton
 var coverage_frame: Control
 var region_buttons: Dictionary = {}
 func _ready() -> void:
@@ -69,9 +71,9 @@ func build_details(parent: Node) -> void:
 		description_count.text = "%s / 200" % state.description.length())
 func build_objectives(parent: Node) -> void:
 	var box = section(parent, "02   MISSION OBJECTIVE")
-	UI.label(box, "Choose a mission type. Each has a different success rule.", 12, "a5bed0")
+	UI.label(box, "Choose pooled imagery or a survey across each selected target.", 12, "a5bed0")
 	var cards = row(box)
-	for entry in [["Capture Imagery", "Deliver complete observations across selected targets."], ["Survey Target Regions", "Deliver the total, including at least one observation from each target."]]:
+	for entry in [["Capture Imagery", "Capture images and return the required MB to Earth."], ["Survey Target Regions", "Return at least one complete observation from every selected target."]]:
 		var button = choice_card(cards, entry[0], entry[1], func():
 			state.objective = entry[0]
 			refresh(), 92)
@@ -133,20 +135,22 @@ func build_targets(parent: Node) -> void:
 func build_coverage(parent: Node) -> void:
 	var box = section(parent, "04   ORBIT COVERAGE PREVIEW")
 	UI.label(box, "Explore presets. The orbit stays your choice.", 12, "8ca9bd")
-	dropdown(box.get_child(0), CATALOG.ORBITS, state.orbit, func(value):
+	orbit_select = dropdown(box.get_child(0), CATALOG.ORBITS, state.orbit, func(value):
 		state.orbit = value
 		refresh())
-	var view = TextureRect.new()
-	view.texture = load("res://assets/ui/backgrounds/creator-orbit-preview-v1.png")
-	view.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	view.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var view = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn").instantiate()
 	coverage_view = view
 	coverage_frame = Control.new()
-	coverage_frame.custom_minimum_size = Vector2(230, 220)
+	coverage_frame.custom_minimum_size = Vector2(230, 255)
 	box.add_child(coverage_frame)
-	view.custom_minimum_size = Vector2.ZERO
 	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	coverage_frame.add_child(view)
+	view.configure(state)
+	view.set_preview_playing(true)
+	view.orbit_selected.connect(func(id):
+		for label in preload("res://scripts/integration/mission_runtime.gd").ORBITS:
+			if preload("res://scripts/integration/mission_runtime.gd").ORBITS[label] == id: state.orbit = label
+		refresh())
 	var coverage_overlay = PanelContainer.new()
 	coverage_overlay.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	coverage_overlay.offset_left = -154
@@ -156,11 +160,11 @@ func build_coverage(parent: Node) -> void:
 	coverage_rows = VBoxContainer.new()
 	coverage_rows.add_theme_constant_override("separation", 4)
 	coverage_overlay.add_child(coverage_rows)
-	UI.label(box, "Illustrative coverage / fixed 6-orbit reference windows.", 11, "7897ad")
+	UI.label(box, "Drag to rotate · scroll to zoom · click an orbit to select. Authored access windows.", 11, "7897ad")
 func build_requirements(parent: Node) -> void:
 	var requirements = row(parent)
 	var box = section(requirements, "05   REQUIRED OBSERVATIONS")
-	UI.label(box, "Total observations to deliver.", 12, "a5bed0")
+	UI.label(box, "Successful captures required.", 12, "a5bed0")
 	observation_input = SpinBox.new()
 	observation_input.min_value = 1
 	observation_input.max_value = 8
@@ -201,10 +205,10 @@ func build_requirements(parent: Node) -> void:
 	budget_input.value_changed.connect(func(value):
 		state.budget = int(value)
 		refresh())
-	var ticks = row(box)
-	for value in range(60, 151, 10):
-		var tick = UI.label(ticks, str(value), 11, "8cabc0")
-		tick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	budget_ticks = preload("res://scripts/ui/BudgetTicks.gd").new()
+	budget_ticks.slider = budget_input
+	box.add_child(budget_ticks)
+
 func build_summary() -> void:
 	var box = section(summary_column, "MISSION SUMMARY")
 	var art = THUMB.new()
@@ -215,7 +219,7 @@ func build_summary() -> void:
 	box.add_child(HSeparator.new())
 	UI.label(box, "SUCCESS CONDITION", 13, "4ceaa9")
 	success_label = UI.label(box, "", 14, "b4e6d5")
-	UI.label(box, "Mission definition only. Results and readiness remain mock data.", 11, "7d9daf")
+	UI.label(box, "Returned-data goal: 12 MB per requested capture. Readiness uses KE1; flight uses HPC.", 11, "7d9daf")
 func set_target_limit(limit: int) -> void:
 	target_limit = limit
 	state.target_limit = limit
@@ -255,6 +259,8 @@ func refresh() -> void:
 	for count in count_buttons:
 		count_buttons[count].set_pressed_no_signal(target_limit == count)
 	refresh_targets()
+	coverage_view.configure(state)
+	orbit_select.select(maxi(0, CATALOG.ORBITS.find(state.orbit)))
 	for child in coverage_rows.get_children():
 		coverage_rows.remove_child(child)
 		child.queue_free()
@@ -267,8 +273,8 @@ func refresh() -> void:
 		bar.show_percentage = false
 		bar.custom_minimum_size.y = 5
 		coverage_rows.add_child(bar)
-	next_button.disabled = state.name.strip_edges().is_empty()
-	next_button.tooltip_text = "Enter a mission name to continue." if next_button.disabled else "Continue to spacecraft design"
+	next_button.disabled = (state.name.strip_edges().is_empty() or (state.objective == "Survey Target Regions" and state.observations < state.targets.size()))
+	next_button.tooltip_text = "Enter a name and request at least one capture per survey target." if next_button.disabled else "Continue to spacecraft design"
 func responsive() -> void:
 	if not is_instance_valid(summary_column):
 		return

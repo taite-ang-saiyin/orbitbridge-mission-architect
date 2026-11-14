@@ -4,7 +4,7 @@ const UI = preload("res://ui/components/UI.gd")
 const CATALOG = preload("res://data/mock/DesignCatalog.gd")
 var state: Dictionary = {}
 var content: VBoxContainer
-var workspace: HBoxContainer
+var workspace: BoxContainer
 var summary: Label
 var summary_column: VBoxContainer
 var form_columns: HBoxContainer

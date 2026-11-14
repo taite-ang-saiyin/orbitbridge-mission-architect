@@ -47,7 +47,7 @@ func _ready():
 	header.add_child(mark)
 	header.add_child(title)
 	var status = Label.new()
-	status.text = "◉  MISSION CONTROL     •     LOCAL PROTOTYPE"
+	status.text = "◉  MISSION CONTROL     •     LOCAL SIMULATION"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
 	var home_button = Button.new()
@@ -93,7 +93,7 @@ func _ready():
 	dashboard.add_child(host)
 	var footer = Label.new()
 	shell_footer = footer
-	footer.text = "PROTOTYPE / MOCK DATA   •   OrbitBridge Mission Lab"
+	footer.text = "KE1 VALIDATION / HPC SIMULATION   •   OrbitBridge Mission Lab"
 	footer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	footer.add_theme_font_size_override("font_size", 12)
 	layout.add_child(footer)
@@ -135,6 +135,14 @@ func show_screen(index: int):
 		return
 	if index < 0 or index >= SCREENS.size():
 		return
+	if index == 4:
+		var review: Dictionary = preload("res://scripts/integration/mission_runtime.gd").review(state)
+		if not review.ready_to_launch: index = 3
+		elif not state.has("run_trace") or state.run_trace.config != review.config or state.run_trace.policy != state.policy:
+			var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+			if not launched.ok: index = 3
+	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
+	if index == 5 and not state.has("run_trace"): index = 3
 	clear_screen()
 	shell.show()
 	landing_host.hide()

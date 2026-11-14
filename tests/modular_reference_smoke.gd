@@ -20,11 +20,14 @@ func check():
 					if entry[0] != "body_id": assert(builder.preview.model.get_node("body_id") == before)
 				assert(builder.preview.model.get_child_count() == 3)
 				assert(builder.preview.group_bounds.size() == 3)
+	app.state.launch_profile_id = "illustrative_alternative"
+	app.state.launcher_id = "medium"
+	app.state.budget = 150
 	builder.next_button.pressed.emit()
 	await settle()
 	assert(app.current.preview.model.selected_ids == app.state.validated_design.selected_ids)
 	app.current.next_button.pressed.emit()
 	await settle()
-	assert(app.current.orbit_view.stage.craft.get_node("ModelSlot").selected_ids == app.state.run_design.selected_ids)
+	assert(app.current.orbit_view.stage.craft.get_node("ModelSlot").selected_ids == app.state.validated_design.selected_ids)
 	print("PASS: 27 reference part combinations, isolated replacement and run consistency")
 	quit()

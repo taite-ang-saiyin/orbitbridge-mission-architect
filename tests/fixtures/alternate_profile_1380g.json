@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "mission": {
+    "title": "Alternate profile 1380g feasible",
+    "objective": "imaging",
+    "target_region": "equator",
+    "required_observations": 4,
+    "required_returned_data_mb": 30,
+    "duration_orbits": 6,
+    "budget_credits": 120
+  },
+  "design": {
+    "bus_id": "bus_basic",
+    "instrument_id": "instrument_advanced",
+    "solar_id": "solar_standard",
+    "battery_id": "battery_standard",
+    "radio_id": "radio_basic",
+    "storage_id": "storage_standard",
+    "launch_profile_id": "illustrative_alternative",
+    "launcher_id": "medium",
+    "orbit_id": "high_inc"
+  }
+}

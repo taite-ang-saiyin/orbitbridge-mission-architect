@@ -1,9 +1,9 @@
 extends "res://scripts/screens/Workbench.gd"
-const DATA = preload("res://data/mock/OperationsFixture.gd")
+var DATA = preload("res://scripts/integration/mission_playback.gd").new()
 const ORBIT_VIEW = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 const TRACK = preload("res://ui/components/GroundTrack.gd")
 const THUMB = preload("res://ui/components/TargetThumbnail.gd")
-## Immutable handoff seam for HPC; current playback remains a fixture.
+## Independent validated config used by this HPC policy playback.
 var run_configuration: Dictionary = {}
 var event_index = 0
 var playing = false
@@ -43,8 +43,14 @@ var enlarged: AcceptDialog
 var expanded_orbit: SubViewportContainer
 func _ready() -> void:
 	screen_id = "MissionOperations"
-	run_configuration = state.get("run_design", {}).duplicate(true)
-	setup("05 / MISSION PLAYBACK", "Mission Operations", "Monitor the spacecraft and explore an accelerated mock mission timeline.", 3, 5, "View Debrief")
+	if not state.has("run_trace"):
+		var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+		if not launched.ok:
+			call_deferred("return_to_readiness")
+			return
+	DATA.configure(state.run_trace)
+	run_configuration = state.run_trace.config.duplicate(true)
+	setup("05 / MISSION PLAYBACK", "Mission Operations", "Explore the HPC simulation generated from your validated design and operating policy.", 3, 5, "View Debrief")
 	workspace = row(content)
 	var left = column(workspace, 0.9)
 	var center = column(workspace, 2.2)
@@ -62,7 +68,7 @@ func build_status(parent: Node) -> void:
 	var box = section(parent, "MISSION STATUS")
 	status = UI.label(box, "", 15, "58e4b5")
 	mission_details = UI.label(box, "", 12, "c2d9e6")
-	UI.label(box, "REFERENCE PLAYBACK / 90 MINUTES", 10, "78a6bf")
+	UI.label(box, "HPC SIMULATION / POLICY PLAYBACK", 10, "78a6bf")
 func build_progress(parent: Node) -> void:
 	var box = section(parent, "MISSION PROGRESS")
 	for target in state.targets:
@@ -85,7 +91,7 @@ func build_progress(parent: Node) -> void:
 	total_progress.show_percentage = false
 	total_progress.custom_minimum_size.y = 12
 	box.add_child(total_progress)
-	UI.label(box, "Fixed reference: 5 observations", 10, "789eb4")
+	UI.label(box, "Captured observations and returned MB are separate goals.", 10, "789eb4")
 func build_visualization(parent: Node) -> void:
 	var panel = PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -108,6 +114,7 @@ func build_visualization(parent: Node) -> void:
 	view_frame.add_child(orbit_view)
 	orbit_view.configure(state)
 	track_view = TRACK.new()
+	track_view.configure(state)
 	track_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	view_frame.add_child(track_view)
 	data_view = ScrollContainer.new()
@@ -120,7 +127,7 @@ func build_visualization(parent: Node) -> void:
 	table.add_theme_constant_override("h_separation", 10)
 	table.add_theme_constant_override("v_separation", 12)
 	data_view.add_child(table)
-	for caption in ["TIME", "EVENT", "BATTERY", "CAPTURED", "DELIVERED"]:
+	for caption in ["TIME", "EVENT", "BATTERY", "CAPTURED", "RETURNED MB"]:
 		UI.label(table, caption, 10, "64d9ed").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for e in DATA.EVENTS:
 		var cells = []
@@ -169,10 +176,10 @@ func build_visualization(parent: Node) -> void:
 	scrub.add_child(seek_slider)
 	time_display = UI.label(scrub, "", 11)
 	time_display.custom_minimum_size.x = 148
-	UI.label(box, "ILLUSTRATIVE VIEW / ACCELERATED MOCK PLAYBACK", 10, "79a5bc")
+	UI.label(box, "ILLUSTRATIVE VIEW / HPC SIMULATION PLAYBACK", 10, "79a5bc")
 	show_view("Earth & Orbit")
 func build_telemetry(parent: Node) -> void:
-	var box = section(parent, "SPACECRAFT TELEMETRY / MOCK")
+	var box = section(parent, "SPACECRAFT TELEMETRY")
 	box.add_theme_constant_override("separation", 5)
 	for entry in [["Battery", "battery"], ["Storage buffer", "storage"]]:
 		var line = row(box)
@@ -206,6 +213,7 @@ func build_lower_panels() -> void:
 	var map_box = section(lower, "LIVE GROUND TRACK / ILLUSTRATIVE")
 	map_box.get_parent().size_flags_stretch_ratio = 1.1
 	live_track = TRACK.new()
+	live_track.configure(state)
 	live_track.custom_minimum_size.y = 88
 	map_box.add_child(live_track)
 	UI.label(map_box, "GREEN  Current position   CYAN / PURPLE  Targets   GOLD  Ground station", 10, "7db4c7")
@@ -264,18 +272,21 @@ func refresh() -> void:
 	if not is_instance_valid(telemetry): return
 	var e = DATA.EVENTS[event_index]
 	var progress = playhead / DATA.TOTAL_SECONDS
-	var orbit_number = mini(state.duration, 1 + int(progress * state.duration))
+	var orbit_number = mini(run_configuration.mission.duration_orbits, 1 + int(progress * run_configuration.mission.duration_orbits))
 	var mission_status = "PLAYING" if playing else ("COMPLETE" if progress >= 1 else "PAUSED")
 	status.text = (state.name if not state.name.strip_edges().is_empty() else "Untitled Mission") + "\n" + mission_status
 	mission_details.text = "%s\n%s\nOrbit %s / %s  ·  %s\nRemaining   %s" % [state.objective, state.orbit, orbit_number, state.duration, DATA.time_label(playhead), DATA.time_label(DATA.TOTAL_SECONDS - playhead)]
 	for i in target_rows.size():
-		var count = e[5] if target_rows.size() == 1 else DATA.TARGET_CAPTURE[event_index][i]
-		var delivered = e[6] if target_rows.size() == 1 else DATA.TARGET_DELIVERY[event_index][i]
-		target_rows[i][0].text = "%s\n%s captured / %s delivered" % [target_rows[i][2], count, delivered]
-		target_rows[i][1].value = float(count) / (5 if target_rows.size() == 1 else [3, 2][i]) * 100
-	total_label.text = "Captured %s / 5   ·   Delivered %s / 5" % [e[5], e[6]]
-	total_progress.value = e[5] * 20
-	telemetry.text = "Captured   %s    Delivered   %s\nReturned data   %s\nDownlink   %s   /   %s\nAttitude   0.12° / -0.08° / 0.03°" % [e[5], e[6], e[7], e[10], e[9]]
+		var count = DATA.TARGET_CAPTURE[event_index][i]
+		var delivered = DATA.TARGET_DELIVERY[event_index][i]
+		var target_id: String = run_configuration.mission.get("target_regions", [run_configuration.mission.target_region])[i]
+		var fully_delivered: int = int(DATA.frames[event_index].state.get("observations_delivered_by_target", {}).get(target_id, 0))
+		target_rows[i][0].text = "%s\n%s captured / %s delivered\n%.3f MB returned" % [target_rows[i][2], count, fully_delivered, delivered]
+		target_rows[i][1].value = float(count) / state.observations * 100
+	total_label.text = "Captured %s / %s · Returned %.3f / %s MB" % [e[5], run_configuration.mission.required_observations, e[6], run_configuration.mission.required_returned_data_mb]
+	total_progress.value = 100.0 * e[5] / run_configuration.mission.required_observations
+	var snapshot: Dictionary = DATA.frames[event_index].state
+	telemetry.text = "Captured %s · Returned %.3f MB\nBattery %.3f / %s Wh\nStored %.3f / %s MB\n%s · %s" % [snapshot.observations_completed, snapshot.returned_data_mb, snapshot.energy_wh, snapshot.battery_capacity_wh, snapshot.stored_data_mb, snapshot.storage_capacity_mb, e[8], e[10]]
 	battery_bar.value = e[3]
 	storage_bar.value = e[4]
 	details.text = "%s / T+ %s\n%s" % [e[0], DATA.time_label(e[1]), e[2]]
@@ -296,16 +307,17 @@ func refresh() -> void:
 	play_button.text = "Replay" if progress >= 1 else "Play"
 	play_button.disabled = playing
 	pause_button.disabled = not playing
+	next_button.disabled = progress < 1.0
 	if timeline_event != event_index: rebuild_timeline()
 	var upcoming = []
 	for i in range(event_index + 1, mini(event_index + 4, DATA.EVENTS.size())):
 		upcoming.append("T+ %s   %s  /  %s" % [DATA.time_label(DATA.EVENTS[i][1]), DATA.EVENTS[i][0], DATA.EVENTS[i][8]])
-	next_events.text = "\n".join(upcoming) if not upcoming.is_empty() else "Reference playback complete.\nOpen Debrief to compare Run A and Run B."
+	next_events.text = "\n".join(upcoming) if not upcoming.is_empty() else "Simulation playback complete.\nOpen Debrief for actual run totals."
 	if is_instance_valid(expanded_orbit): expanded_orbit.set_frame(progress, e[0])
 func expand_orbit() -> void:
 	if is_instance_valid(enlarged): enlarged.queue_free()
 	enlarged = AcceptDialog.new()
-	enlarged.title = "Earth & Orbit / Mock Playback"
+	enlarged.title = "Earth & Orbit / HPC Playback"
 	add_child(enlarged)
 	expanded_orbit = ORBIT_VIEW.instantiate()
 	expanded_orbit.custom_minimum_size = Vector2(420, 300)
@@ -318,3 +330,6 @@ func responsive() -> void:
 	if not is_instance_valid(view_frame): return
 	fit_navigation()
 	view_frame.custom_minimum_size.y = clampf(size.y * 0.36, 230, 300)
+
+func return_to_readiness() -> void:
+	navigate.emit(3)

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "contract_revision": "v1.0-agreed",
+  "objective_ids": [
+    "imaging"
+  ],
+  "orbit_ids": [
+    "low_eq",
+    "high_inc"
+  ],
+  "target_region_ids": [
+    "equator"
+  ],
+  "notice": "Agreed ID vocabulary only. This file defines no physical orbit, target suitability, access window, contact window, or step duration. HPC owns data/orbits.json and actual scenario metadata."
+}

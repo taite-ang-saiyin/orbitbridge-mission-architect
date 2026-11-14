@@ -40,7 +40,7 @@ func _ready() -> void:
 		group_messages[key] = UI.label(box, "", 12, "ffbe79")
 	visual = column(form_columns, 1.35)
 	form_columns.move_child(visual, 0)
-	var box = section(visual, "DESIGN STUDIO  /  NASA SPACECRAFT")
+	var box = section(visual, "DESIGN STUDIO  /  GAMEPLAY PRESETS")
 	model_caption = UI.label(box, "", 11, "6adacb")
 	preview = PREVIEW.instantiate()
 	preview.custom_minimum_size = Vector2(280, 360)
@@ -58,6 +58,13 @@ func _ready() -> void:
 	var policy_controls = column(selectors)
 	UI.label(policy_controls, "Policy", 11, "8ca8bc")
 	dropdown(policy_controls, ["Observe First", "Downlink First"], state.policy, func(value): state.policy = value; refresh())
+	var launch_options = row(mission_controls)
+	dropdown(launch_options, ["Sample 1U (<1330 g)", "Alternative (≤5000 g)"], "Alternative (≤5000 g)" if state.get("launch_profile_id") == "illustrative_alternative" else "Sample 1U (<1330 g)", func(value):
+		state.launch_profile_id = "illustrative_alternative" if value.begins_with("Alternative") else "cubesat_1u_sample"
+		refresh())
+	dropdown(launch_options, ["Small launcher", "Medium launcher"], "Medium launcher" if state.get("launcher_id") == "medium" else "Small launcher", func(value):
+		state.launcher_id = "medium" if value == "Medium launcher" else "small"
+		refresh())
 	UI.label(box, "Appearance shows your selected parts. Specifications describe their mission capabilities.", 12, "a9cbdc")
 	
 	
@@ -79,6 +86,8 @@ func select_component(key: String, id: String) -> void:
 func reset_design() -> void:
 	state.satellite_id = "kit"
 	for key in ADAPTER.STARTER: state[key] = ADAPTER.STARTER[key]
+	state.launch_profile_id = "cubesat_1u_sample"
+	state.launcher_id = "small"
 	state.erase("run_design")
 	refresh()
 func refresh() -> void:
@@ -100,8 +109,8 @@ func refresh() -> void:
 		if result.blockers.has(key): group_messages[key].text = result.blockers[key]
 	selected_label.text = " / ".join(names)
 	total_values.text = result.totals_text
-	compatibility.text = "\n".join(result.warnings)
-	next_button.disabled = not result.can_proceed
+	compatibility.text = "\n".join(result.warnings) + "\n" + "\n".join(result.blockers.values())
+	next_button.disabled = result.validation.metrics == null
 	preview.configure_satellite(state)
 func responsive() -> void:
 	fit_navigation()
