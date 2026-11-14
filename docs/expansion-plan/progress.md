@@ -9,10 +9,10 @@ Use the [team scope](team-scope-v2.md) and [KE2 task checklists](ke2-work-plan.m
 | Work package | Status | Owner and next action |
 | --- | --- | --- |
 | Markdown plans and task tracking | Complete | Both supplied PDFs converted, task IDs retained, and tracking instructions added |
-| 00 Contracts and handoffs | In progress | KE1 confirmed the four K20 choices per user report and will share files later. 00.3 evidence request and 00.4 examples are prepared. Artifact receipt, remaining owner alignment, and production integration remain open |
-| 10 Imaging and Survey | Open | KE2, preserve both Imaging presets and implement agreed Survey delivery evaluation |
+| 00 Contracts and handoffs | In progress | KE1 draft-2 artifacts received, hashes verified and 629 checks reproduced in isolation. 00.3 evidence request and 00.4 examples are prepared. Remaining bounds/custom identity, owner alignment and production integration stay open |
+| 10 Imaging and Survey | In progress | 10.1 complete, 53 checks. 10.2 private helper/fixtures and native packet checks verified: evaluator now 254 passes. HPC absent-entry policy, Survey scoring and public integration remain open |
 | 20 Communication and Weather | Open | KE1/HPC prove goal feasibility, KE2 implements agreed evaluation |
-| 30 Reports and feedback | Open | KE2 and KE3 agree objective-specific progress and presentation |
+| 30 Reports and feedback | In progress | 30.1 proposal reviewed against current consumers and four source-bound examples. KE2/KE3/SE agreement and output/presentation migration remain open |
 | 40 A/B Design Lab | Open | SE confirms separate storage/navigation can start now. Await implementation commit and lifecycle evidence. KE2 matching/deltas and KE3 presentation continue against the pending contract |
 | 50 Expansion acceptance | Open | Collect fixture, integrated, and public-browser evidence for the expanded revision |
 | 60 Release | Open | SE confirms templates, public URL, and deployed revision, team verifies final journeys |
@@ -75,7 +75,7 @@ These are current planning dependencies with identified owners.
 
 | ID | Decision or missing handoff | Owner | Status and next action |
 | --- | --- | --- | --- |
-| D01 | Exact objective IDs, preset IDs, required-goal fields, and validation behavior | KE1 + KE2 + SE | User confirmed IDs/meanings and reports KE1 confirmed config v2, K20 goal names, root identity/revision, and the specified starter. KE1 files and remaining SE/HPC alignment are pending |
+| D01 | Exact objective IDs, preset IDs, required-goal fields, and validation behavior | KE1 + KE2 + SE | Confirmed choices and draft-2 KE1 artifacts received/verified. Remaining bounds/custom identity, production validation and SE/HPC alignment are pending |
 | D02 | Survey three-way weighting and qualifying progress | KE2 + affected team owners | Proposed, confirm task 10.3 rules before treating the 83 example as approved behavior |
 | D03 | Accepted-event fields, absent Survey target entries, and revolution identity/mapping | HPC + KE2 | Source map and existing-run excerpt in [HPC handoff](hpc-evidence-handoff.md), confirm mapping, sparse-map/legacy handling, and packet semantics with HPC |
 | D04 | Communication/Weather thresholds and stock-design feasibility | KE1 + HPC + KE2 | KE1 confirmed the specified high_inc two-capture/basic-instrument/fast-radio Communication starter. Existing [headless evidence](ke3-ke2-results-ab-handoff.md) exercises Imaging mechanics proxies. Actual typed v2 runs, Weather revisit policy, and HPC confirmation remain pending |
@@ -105,6 +105,40 @@ Append a row after each completed subtask or task and update its checkbox in the
 SE review recorded on 15 November 2026 confirms that the configuration draft remains unready for production integration. Separate Save A/B storage and navigation can start now. The [updated handoff](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) records the remaining contract, KE1, HPC, KE2 and revision/test deliverables. User-confirmed IDs/goal meanings retain their recorded status. This review completes the corresponding 00.2 documentation subtask. Storage/navigation implementation and task 40.3 remain open. Verification for this update consists of source/status inspection, local-link and checklist checks, and `git diff --check`. Gameplay checks reference the existing evidence packet and logs.
 
 | 2026-11-15 | Step-by-step prompt guide | Reordered all 35 original prompt IDs into numbered Steps 1-35 with phase, readiness, output, and decision/dependency guidance. Marked Step 6 / 10.1 as next ready work, retained confirmed IDs/goal meanings, and described conditional configuration, scoring/report, and saved-record/comparison decisions. Routine authorized KE2 work and owner-approved independent SE storage remain able to proceed | Document/source checks with inline `python -` verified 35 unique IDs, sequential step metadata, 36 prompt/context blocks, 11 local links/anchors, fences and whitespace. `git diff --check` passed. No gameplay test execution for this documentation change |
+
+## 15 November post-pull Imaging verification and report review
+
+Current inspected revision is `features/KE2` at `8b76b5df4f0b327d8d4293be22ed984b610f8647`, after the pulled `dce75db` and local handoff-document commit. The earlier baseline table remains a historical record. Initial working change was root `README.md`; preserved. No production or other-owner implementation file changed.
+
+- [x] 10.1: actual Estuary Watch and Tropical Forest Watch buttons, own config/schedules, native engine/report publication and Debrief values verified. New `tests/ke2_imaging_presets_check.gd`: 53 passed / 0 failed. Estuary: 5 captures, 60 MB, success/100. Tropical: 5 captures, 44.3200000032 MB, partial/87, with 15.6799999968 MB onboard.
+- [x] 30.1 proposal review: reused the existing handoff/four examples; eight production hashes and the source packet hash match, actual replies remain separate from proposed goal assessments, and all 17 legacy report fields are retained. Shared report/score agreement and implementation remain open.
+- [x] Existing checks: evaluator 207 passed / 0 failed / 5 declared pending; adapted Results 17 passed / 0 failed; Debrief summary 57 passed / 0 failed. Final commands exit 0 on confirmed Godot 4.7.2. Certificate-store diagnostic persists. The repository runner remains 43 programs and was not rerun in full or edited.
+- [x] Corrected prompt/consumer-handoff wording to reuse KE1's recorded four-choice confirmation. KE1 artifacts and remaining SE/HPC coordination are still pending.
+
+See [commands, verification scope and next handoffs](imaging-baseline-and-report-review.md) and the [source-bound native evidence](evidence/imaging-presets-8b76b5d.json). This is fixture/native-module/headless-scene evidence as identified per suite; no exported browser execution. Step 8 can advance with agreed delivery semantics or labeled fixtures; production scoring/report publication still requires the unresolved shared decision. SE's independent storage/navigation work remains available.
+
+## KE1 K20 draft-2 receipt and independent verification
+
+Received the user-supplied folder `KE1-KE2-K20-Review-draft-2` on 15 November 2026. Reviewed revisions: `expansion-goals-v2-draft-2`, `five-presets-candidate-2`, Communication preset revision 2, base main `dce75db`; live KE2 checkout remains `8b76b5d` with prior working changes preserved.
+
+- [x] 00.2 artifact receipt/review: all 16 supplied file hashes and four executed-input hashes match. Registry/API/tests/diagnostic/documentation and logs are archived as [17 exact review-only files](evidence/ke1-k20-draft2-review-package.zip). Nothing was installed into live producer paths.
+- [x] 00.2 preset-default check: supplied tests preserve all three original v1 configs; both Imaging definitions equal the previously measured actual card configs.
+- [x] Independent isolated rerun: 70 catalog + 265 starter + 294 existing validator = 629 passes / 0 failures, all exit 0. Parsed catalog and starter JSON exactly match KE1's supplied evidence. Confirmed Godot 4.7.2; certificate-store diagnostic persists.
+- [x] 20.2 mechanics evidence subtask: a labeled KE2 derivative keeps capture quota 2 in both trials and passes another 265 checks. Two Observes return 24 MB over positive steps 7/10; one Observe returns 12 MB at step 7 and step 10 is rejected `NO_DATA`. Both complete at step 30 with ordered stable same-run events and reconciled MB.
+
+See the [receipt/review and exact commands](ke1-k20-draft2-receipt-review.md) and [verification packet](evidence/k20-draft2-ke2-verification.json). These are real native-engine runs of test-only v1 Imaging physical surrogates, with official new-goal scores null; they are not production Communication-v2 integration or browser evidence. KE1 owns remaining production validation/bounds/custom identity; HPC owns evidence confirmation and Weather traces; SE owns propagation/storage; KE2/KE3/SE still need scoring/report/comparison agreement. A reply to KE1 is prepared locally in the review; no message or remote action was sent.
+
+## Step 8 / 10.2 implementation preparation
+
+On 15 November 2026, following the ordered prompts, added the private `_measure_survey_deliveries` helper in KE2's evaluator and focused checks in the existing evaluator test. The user reports no HPC reply yet. Missing selected-target entries therefore remain unavailable errors; explicit fixture zeros are never inferred from native sparse maps. `evaluate_mission`, publication, public report fields and scoring remain unchanged.
+
+- [x] Match launch snapshot, select configured targets, count each explicitly delivered target once and retain raw per-target counts.
+- [x] Add 27 fixture checks covering extra/unrelated deliveries, unavailable/malformed evidence, missing entries, repeatability, input preservation and reviewed minimum-one scope.
+- [x] Add 20 real native packet checks: one partial transmission leaves no completion counter; completing the packet supplies one counter and returns all 12 MB.
+- [x] Verify evaluator 254 passed / 0 failed / 5 existing pending; Imaging presets 53 passed / 0 failed; adapted Results 17 passed / 0 failed, all exit 0 with confirmed Godot 4.7.2. `git diff --check` passed; certificate-store diagnostic persists.
+- [ ] Finish 10.2 after HPC confirms absent-entry/packet semantics and the helper can be integrated against agreed inputs.
+
+See [Step 8 evidence and exact commands](survey-delivery-measure-step8.md) and [source/log hashes](evidence/survey-delivery-step8-checks.json). Verification uses labeled fixtures plus actual native modules and headless Imaging scenes; no browser/export run. Step 9 / 10.3 needs the Survey scoring/progress decision and coordinated report migration. KE1-owned, HPC-owned, SE-owned and KE3-owned implementations, signed contracts and unrelated working changes were preserved.
 
 ## Evidence format for future completions
 

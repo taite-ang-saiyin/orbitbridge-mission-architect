@@ -21,17 +21,17 @@ Completed by the baseline note and verification references in the [progress reco
   - [x] Record the user's agreement on the five mission IDs and objective-specific goal meanings on 15 November 2026.
   - [x] Review KE1's K20 draft and document the [four remaining interface differences](k20-ke2-interface-review.md) with recommendations and a concrete candidate Communication starter.
   - [x] Record KE1's confirmation of config v2, K20 nested goal names, root preset identity/revision, and the specified Communication starter, as reported by the user on 15 November 2026.
-  - [ ] Receive KE1's candidate registry, catalog API, tests, exact revision, and expected results, then inspect them against the confirmed interface.
+  - [x] Receive KE1's candidate registry, catalog API, tests, exact revision, and expected results, then inspect them against the confirmed interface. [Draft-2 receipt/review](ke1-k20-draft2-receipt-review.md): hashes verified; 629 supplied checks reproduced in isolation, plus 265 checks for a same-config surrogate control.
   - [x] Record SE's production-readiness review and confirmation that separate Save A/B storage and navigation can start. The [review response](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) records owner outputs and required integration evidence.
   - [ ] Keep existing `imaging` and `survey` inputs compatible.
   - [ ] Set exact new objective and preset IDs, target cardinality, duration, positive goal fields, and input-error behavior.
-  - [ ] Confirm that both existing Imaging presets and Polar Ice Survey retain their current settings.
+  - [x] Confirm that both existing Imaging presets and Polar Ice Survey retain their current settings. Draft-2 catalog checks preserve all three legacy configs; both Imaging configs also equal the measured actual card configs. Coordinated v2 migration remains open.
   - [x] Share one valid config and one invalid-input example with KE1 and SE. User reported sending the configuration handoff on 15 November 2026.
   - [ ] Coordinate corresponding agreement, contract, example, validator, adapter, and consumer changes.
 
 Complete when the affected owners use the same examples and field meanings. Current validation rejects unknown config fields.
 
-Draft prepared on 15 November 2026 at `4c65496` and shared with KE1/SE as reported by the user. IDs and goal meanings are user-confirmed. KE1 has confirmed the four K20 interface choices and will share the required files later. Artifact receipt, remaining SE/HPC alignment, production updates, and integrated compatibility checks remain open. Independent KE2 work, including existing Imaging regression checks, can continue.
+Draft prepared on 15 November 2026 at `4c65496` and shared with KE1/SE as reported by the user. IDs and goal meanings are user-confirmed. KE1's four K20 interface choices are confirmed, and the draft-2 registry/API/tests and measured evidence have now been received and independently checked at `8b76b5d`. Remaining bounds/custom-identity decisions, SE/HPC alignment, production updates and integrated compatibility checks stay open. See the [receipt/review](ke1-k20-draft2-receipt-review.md). Existing Imaging task 10.1 is complete.
 
 - [ ] **00.3 Agree the evidence interface with HPC.**
   - [x] Draft the [HPC evidence handoff](hpc-evidence-handoff.md) by inspecting engine, adapter, planner, and runtime fields, with a hashed excerpt of existing local integration evidence and explicit missing-field requests.
@@ -56,18 +56,22 @@ The 15 November response includes eight direct headless module executions, a sou
 
 ## 10 Imaging and Survey
 
-- [ ] **10.1 Pin both Imaging regressions.**
-  - [ ] Exercise Estuary Watch with its actual config, target, thresholds, and schedule.
-  - [ ] Exercise Tropical Forest Watch with its own config, target, thresholds, and schedule.
-  - [ ] Verify raw actuals, status, existing score calculation, and goal labels for each.
+- [x] **10.1 Pin both Imaging regressions.**
+  - [x] Exercise Estuary Watch with its actual config, target, thresholds, and schedule.
+  - [x] Exercise Tropical Forest Watch with its own config, target, thresholds, and schedule.
+  - [x] Verify raw actuals, status, existing score calculation, and goal labels for each.
 
 Complete when both presets retain their configured meaning and expected outcomes.
 
+Verified at `8b76b5d`: actual preset buttons through native runs, publication and headless Debrief pass 53 checks. Estuary returns 60 MB / success / 100; Tropical Forest returns 44.3200000032 MB / partial / 87. See the [baseline and report review](imaging-baseline-and-report-review.md) for commands, source-bound evidence and remaining owner dependencies.
+
 - [ ] **10.2 Read complete deliveries for selected Survey targets.**
-  - [ ] Read selected targets from the launch configuration and deliveries from `observations_delivered_by_target`.
-  - [ ] Count each selected target once when at least one complete observation is delivered, retaining its actual delivery count.
+  - [x] Read selected targets from the launch configuration and deliveries from `observations_delivered_by_target` in a private, unwired preparation helper with snapshot binding.
+  - [x] Count each selected target once when at least one complete observation is explicitly recorded, retaining its actual delivery count. Fixture checks cover extra/unrelated deliveries, repeatability and input preservation.
   - [ ] Confirm absent-target entries with HPC and distinguish them from an unavailable delivery map.
-  - [ ] Verify partial packets do not qualify, complete packets do qualify, and unrelated targets contribute zero.
+  - [x] Verify partial packets do not qualify, complete packets do qualify, and unrelated targets contribute zero. Native packet checks leave sparse entries unavailable; explicit fixture counters cover multi-target counting.
+
+Step 8 preparation is verified: evaluator 254 passed / 0 failed / 5 existing pending, Imaging 53 passed, adapted Results 17 passed. See [implementation boundary, commands and remaining inputs](survey-delivery-measure-step8.md). The user reports HPC has not replied. Missing selected entries remain errors in the private helper; public Survey evaluation and scoring are unchanged. Parent 10.2 remains open for owner-confirmed semantics and integration.
 
 - [ ] **10.3 Add the Survey verdict and score.**
   - [ ] Agree three equally weighted capped ratios for captures, returned MB, and selected targets with complete deliveries.
@@ -99,6 +103,7 @@ The proposed thresholds remain three orbits, a qualifying count of two, and 12 M
   - [ ] Confirm Observe-generated test payloads and event fields with HPC.
 
 - [ ] **20.2 Prove the Communication threshold.**
+  - [x] Inspect KE1's exact fast-radio stock candidate and reproduce its native surrogate mechanics: 1120 g / 89 credits; 24 MB over steps 7/10, plus a same-config count-only shortfall of 12 MB at step 7. [Evidence and limitations](ke1-k20-draft2-receipt-review.md#independent-rerun-and-same-config-control). Typed v2 readiness and HPC acceptance remain open.
   - [ ] Obtain a valid stock design from KE1.
   - [ ] Obtain a real three-orbit trace returning at least 12 MB over at least two qualifying steps.
   - [ ] Obtain a real shortfall that isolates a missed requirement.
@@ -125,6 +130,7 @@ Describe Communication through qualifying transmit steps and Weather through rep
 ## 30 Reports and feedback
 
 - [ ] **30.1 Define objective-aware goal progress.**
+  - [x] Review the existing additive report proposal against live consumers and verify four labeled examples, source hashes and legacy-field compatibility at `8b76b5d`. See the [review](imaging-baseline-and-report-review.md#report-proposal-review); owner agreement and production migration remain open.
   - [ ] Preserve the evaluation envelope, execution identity, terminal status, and authoritative score.
   - [ ] Agree a goal-progress list with stable goal ID, actual, required, unit, and met state.
   - [ ] Include selected-target Survey delivery progress.

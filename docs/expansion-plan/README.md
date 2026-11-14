@@ -53,4 +53,8 @@ The following clarifications from the repository review are added explicitly to 
 
 ## Suggested first deliverable
 
+KE1's [K20 draft-2 package receipt/review](ke1-k20-draft2-receipt-review.md) now records the supplied artifacts, verified archive, 629 reproduced checks and a same-config Communication surrogate control. Production integration and owner decisions remain open.
+
+Update on 15 November: [10.1 Imaging verification and 30.1 report proposal review](imaging-baseline-and-report-review.md) are recorded at `8b76b5d`. Actual Imaging card checks pass; shared expansion rules and owner artifacts remain pending.
+
 After the initial contract work, produce the Survey case where both aggregate goals are met but one of two selected targets has no complete delivery. The proposed three-way weighting gives `partial` and score `83`. Label fixture evidence and then verify the corresponding real engine run with HPC and KE3.

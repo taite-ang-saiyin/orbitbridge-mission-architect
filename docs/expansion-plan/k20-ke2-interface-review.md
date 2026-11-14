@@ -8,6 +8,8 @@ Confirmation update on 15 November 2026: the user reports KE1 confirmed the four
 
 ## Four differences and KE2 recommendations
 
+Receipt update on 15 November 2026: KE1 supplied draft 2, `expansion-goals-v2-draft-2`, registry `five-presets-candidate-2`, Communication preset revision 2. The [receipt/review](ke1-k20-draft2-receipt-review.md) verifies the supplied artifacts and reproduces 629 checks plus a same-config native surrogate control. Draft 2 supersedes draft 1 for current review. The original analysis below remains its historical rationale; claims of missing review artifacts refer to that earlier inspection. Production installation, bounds/custom identity, HPC/SE alignment and scoring/report decisions remain open.
+
 | Item | Initial KE2 proposal | KE1 K20 proposal | KE2 review recommendation |
 | --- | --- | --- | --- |
 | Configuration version | Add fields to schema 1 | Explicit config schema 2 with a contract revision | Prefer config v2, preserve the supported v1 path and its fixtures/results |
@@ -95,7 +97,7 @@ The current [engine-backed proxy packet](evidence/ke2-handoff-current.json) alre
 
 | Owner | Needed response |
 | --- | --- |
-| KE1 | Four interface choices confirmed per user report. Supply the candidate registry, catalog API, tests, exact revision, and expected results. Document any remaining bounds or Survey-minimum details with the files |
+| KE1 | Four interface choices confirmed; draft-2 registry/API/tests and evidence received and verified. Resolve remaining bounds, Survey minimum/custom identity and coordinated production validation |
 | SE | Confirm root preset metadata, v1/custom-Creator policy, config/review/snapshot propagation, and the integration revision |
 | HPC | Confirm config v2 acceptance, unchanged or revised state/event versions, revolution mapping, capture/revisit policy, and actual high_inc Communication success/count-only-shortfall traces |
 | KE2 + SE + KE3 | Confirm report envelope/goal progress migration and scoring separately, then implement objective-aware evaluation and comparison |

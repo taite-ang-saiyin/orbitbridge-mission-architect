@@ -231,6 +231,68 @@ static func evaluate_mission(
 	return {"ok": true, "report": report}
 
 
+## Step 10.2 preparation only: not called by evaluate_mission or report publication.
+## Read explicit complete-delivery counters; missing sparse entries remain unavailable
+## until HPC confirms their meaning. No scores, outcome or missing-as-zero policy here.
+static func _measure_survey_deliveries(config: Dictionary, final_state: Dictionary) -> Dictionary:
+	var run_id: Variant = final_state.get("run_id")
+	if not run_id is String or run_id.strip_edges().is_empty():
+		run_id = null
+	if final_state.get("config_snapshot") != config:
+		return _error(INVALID_INPUT, "final_state.config_snapshot",
+			"Survey delivery measurement requires the matching launch snapshot.",
+			"Use the config retained by this execution, rather than an edited draft.", run_id)
+	var mission: Variant = config.get("mission")
+	if not mission is Dictionary or mission.get("objective") != "survey":
+		return _error(INVALID_INPUT, "config.mission.objective",
+			"This internal measure requires a Survey launch configuration.",
+			"Keep Imaging on its existing evaluation path.", run_id)
+	var selected: Variant = mission.get("target_regions", [mission.get("target_region")])
+	if not selected is Array or selected.is_empty() or selected.size() > 2:
+		return _error(INVALID_INPUT, "config.mission.target_regions",
+			"Select one or two distinct Survey targets.", "Pass the validated launch targets.", run_id)
+	var seen: Array = []
+	for target in selected:
+		if not target is String or target.strip_edges().is_empty() or target in seen:
+			return _error(INVALID_INPUT, "config.mission.target_regions",
+				"Survey target IDs must be distinct nonempty strings.", "Pass the validated launch targets.", run_id)
+		seen.append(target)
+	if selected[0] != mission.get("target_region"):
+		return _error(INVALID_INPUT, "config.mission.target_region",
+			"The primary target must match the first selected target.", "Pass the validated launch targets.", run_id)
+	if mission.has("goal"):
+		var goal: Variant = mission.goal
+		if not goal is Dictionary or goal.get("kind") != "survey_delivery" or goal.size() != 2 or not _is_whole_number(goal.get("minimum_complete_observations_per_target")) or goal.get("minimum_complete_observations_per_target") != 1:
+			return _error(INVALID_INPUT, "config.mission.goal",
+				"This preparation measure supports the reviewed minimum of one complete observation per target.",
+				"Resolve other minima with KE1 before extending this measure.", run_id)
+	var deliveries: Variant = final_state.get("observations_delivered_by_target")
+	if not deliveries is Dictionary:
+		return _error(INVALID_INPUT, "final_state.observations_delivered_by_target",
+			"Complete-delivery evidence is unavailable.",
+			"Retain the native delivery map; returned MB cannot replace packet-completion evidence.", run_id)
+	for target in deliveries:
+		if not target is String or target.strip_edges().is_empty() or not _is_whole_number(deliveries[target]) or deliveries[target] < 0:
+			return _error(INVALID_INPUT, "final_state.observations_delivered_by_target",
+				"Delivery evidence must contain nonnegative whole counters indexed by target ID.",
+				"Retain valid native complete-delivery counts without coercing malformed values.", run_id)
+	var rows: Array = []
+	var completed: int = 0
+	for target in selected:
+		if not deliveries.has(target):
+			return _error(INVALID_INPUT, "final_state.observations_delivered_by_target." + target,
+				"The selected target has no explicit complete-delivery counter.",
+				"Confirm sparse-map semantics with HPC; use explicit counters in labeled fixtures meanwhile.", run_id)
+		var actual: Variant = deliveries[target]
+		var has_delivery: bool = actual >= 1
+		if has_delivery:
+			completed += 1
+		rows.append({"target_id": target, "complete_observations_delivered": actual, "has_complete_delivery": has_delivery})
+	return {"ok": true, "measure": {
+		"selected_target_count": selected.size(), "delivered_selected_target_count": completed, "by_target": rows,
+	}}
+
+
 ## Adapts the native HPC state using its immutable launch snapshot and full log.
 ## Counters, units, and event records pass directly to the agreed evaluator.
 static func evaluate_hpc_state(final_state: Dictionary, comparison_baseline = null) -> Dictionary:

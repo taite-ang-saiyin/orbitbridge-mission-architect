@@ -103,11 +103,14 @@ func _initialize() -> void:
 	_test_invalid_inputs(config, state)
 	_test_feedback(config, state)
 	_test_hpc_adapter(config, state)
+	_test_survey_delivery_measure(config)
 	var hpc_runtime_checked: bool = false
 	if "--ke2-standalone" in OS.get_cmdline_user_args():
 		print("HPC runtime checks deferred by --ke2-standalone.")
 	else:
 		hpc_runtime_checked = _test_hpc_runtime()
+		if hpc_runtime_checked:
+			_test_survey_native_packets()
 	for pending: String in PENDING_CASES:
 		print("PENDING " + (pending.replace("real HPC trace, ", "") if hpc_runtime_checked else pending))
 	print("Evaluator checks: %d passed, %d failed, %d pending." % [_passed, _failed, PENDING_CASES.size()])
@@ -765,6 +768,103 @@ func _test_hpc_runtime() -> bool:
 	_check("HPC real abort attributes producer reason", str(abort_report.get("explanation")).contains("Recorded abort reason was Operator requested stop after capture."), true)
 	_check("HPC real abort retains state and logs", abort_state, abort_before)
 	return true
+
+
+func _test_survey_delivery_measure(base_config: Dictionary) -> void:
+	# Labeled preparation fixture: explicit zeros, never inferred from sparse maps.
+	var config: Dictionary = base_config.duplicate(true)
+	config.mission.objective = "survey"
+	config.mission.target_region = "arctic_ice"
+	config.mission.target_regions = ["arctic_ice", "antarctic_region"]
+	var state: Dictionary = {"run_id": "fixture_survey_measure", "config_snapshot": config.duplicate(true),
+		"observations_delivered_by_target": {"arctic_ice": 3, "antarctic_region": 0, "equator": 99},
+		"returned_data_mb": 999.0, "observations_completed": 99}
+	var before: Dictionary = state.duplicate(true)
+	var config_before: Dictionary = config.duplicate(true)
+	var result: Dictionary = Evaluator._measure_survey_deliveries(config, state)
+	_check("SURVEY fixture extra and unrelated deliveries cannot fill missing target", result, {"ok": true, "measure": {
+		"selected_target_count": 2, "delivered_selected_target_count": 1,
+		"by_target": [{"target_id": "arctic_ice", "complete_observations_delivered": 3, "has_complete_delivery": true},
+			{"target_id": "antarctic_region", "complete_observations_delivered": 0, "has_complete_delivery": false}]}})
+	_check("SURVEY fixture inputs unchanged", [config, state], [config_before, before])
+	_check("SURVEY fixture repeatability", Evaluator._measure_survey_deliveries(config, state), result)
+	state.observations_delivered_by_target.antarctic_region = 2.0
+	_check("SURVEY fixture each delivered selected target counts once", Evaluator._measure_survey_deliveries(config, state).measure.delivered_selected_target_count, 2)
+	state.observations_delivered_by_target.arctic_ice = 0
+	state.observations_delivered_by_target.antarctic_region = 0
+	_check("SURVEY fixture pooled MB and captures are not deliveries", Evaluator._measure_survey_deliveries(config, state).measure.delivered_selected_target_count, 0)
+	for malformed in [null, [], false, "counts"]:
+		state.observations_delivered_by_target = malformed
+		_check_error("SURVEY fixture unavailable or malformed map " + str(malformed), Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target", state.run_id)
+	for malformed in [-1, 0.5, true, "1", null, NAN, INF]:
+		state.observations_delivered_by_target = {"arctic_ice": malformed, "antarctic_region": 0}
+		_check_error("SURVEY fixture malformed counter " + str(malformed), Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target", state.run_id)
+	state.observations_delivered_by_target = {"arctic_ice": 1}
+	_check_error("SURVEY fixture omitted target stays unavailable pending HPC", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.antarctic_region", state.run_id)
+	state.observations_delivered_by_target = {}
+	_check_error("SURVEY fixture empty map does not imply zeros", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.arctic_ice", state.run_id)
+	state.observations_delivered_by_target = {"arctic_ice": 1}
+	var legacy: Dictionary = config.duplicate(true)
+	legacy.mission.erase("target_regions")
+	state.config_snapshot = legacy.duplicate(true)
+	_check("SURVEY fixture legacy primary-target selection", Evaluator._measure_survey_deliveries(legacy, state).measure.selected_target_count, 1)
+	for selected in [[], ["arctic_ice", "arctic_ice"], ["arctic_ice", "antarctic_region", "equator"], [null], "arctic_ice"]:
+		var invalid: Dictionary = config.duplicate(true)
+		invalid.mission.target_regions = selected
+		state.config_snapshot = invalid.duplicate(true)
+		_check_error("SURVEY fixture malformed selection " + str(selected), Evaluator._measure_survey_deliveries(invalid, state), "config.mission.target_regions", state.run_id)
+	state.config_snapshot = config.duplicate(true)
+	var edited: Dictionary = config.duplicate(true)
+	edited.mission.target_regions = ["antarctic_region", "arctic_ice"]
+	_check_error("SURVEY fixture edited draft cannot replace launch targets", Evaluator._measure_survey_deliveries(edited, state), "final_state.config_snapshot", state.run_id)
+	var typed: Dictionary = legacy.duplicate(true)
+	typed.schema_version = 2
+	typed.contract_revision = "expansion-goals-v2-draft-2"
+	typed.preset_id = "polar_ice_survey"
+	typed.preset_revision = 1
+	typed.mission.goal = {"kind": "survey_delivery", "minimum_complete_observations_per_target": 1}
+	state.config_snapshot = typed.duplicate(true)
+	_check("SURVEY fixture reviewed minimum one", Evaluator._measure_survey_deliveries(typed, state).measure.delivered_selected_target_count, 1)
+	typed.mission.goal.minimum_complete_observations_per_target = 2
+	state.config_snapshot = typed.duplicate(true)
+	_check_error("SURVEY fixture unagreed higher minimum not silently ignored", Evaluator._measure_survey_deliveries(typed, state), "config.mission.goal", state.run_id)
+
+
+func _test_survey_native_packets() -> void:
+	# Actual producer mechanics; this does not ratify sparse-map defaults or emit a report.
+	var runtime: GDScript = load("res://scripts/integration/mission_runtime.gd")
+	var engine: GDScript = load("res://core/MissionStepEngine.gd")
+	var catalog: GDScript = load("res://data/mock/DesignCatalog.gd")
+	var draft: Dictionary = catalog.DEFAULTS.duplicate(true)
+	draft.objective = "Survey Target Regions"
+	draft.targets = ["Arctic Ice"]
+	draft.orbit = "Polar – 600 km"
+	draft.observations = 1
+	draft.required_returned_data_mb = 12
+	draft.duration = 3
+	var loaded: Dictionary = runtime.load_game_catalogs()
+	_check("SURVEY native catalogs load", loaded.get("ok"), true)
+	if not loaded.get("ok", false): return
+	var config: Dictionary = runtime.config_for(draft)
+	var started: Dictionary = engine.init_validated_run(config, loaded.catalogs, "run_ke2_survey_packet", "mission_ke2_survey_packet")
+	_check("SURVEY native validated setup", started.get("ok"), true)
+	if not started.get("ok", false): return
+	var state: Dictionary = started.state
+	for step in range(11):
+		var action: String = "observe" if step == 0 else ("transmit" if step == 7 or step == 10 else "power_save")
+		var reply: Dictionary = engine.request_action(state, action)
+		_check("SURVEY native accepted packet action at step " + str(step), reply.get("ok", false) and reply.get("allowed", false), true)
+		if not reply.get("ok", false) or not reply.get("allowed", false): return
+		state = reply.state
+		if step == 7:
+			_check("SURVEY native partial packet has positive return and onboard remainder", state.returned_data_mb > 0 and state.stored_data_mb > 0, true)
+			_check("SURVEY native partial packet has no complete-delivery counter", state.observations_delivered_by_target, {})
+			_check_error("SURVEY native sparse entry stays unavailable pending owner rule", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.arctic_ice", state.run_id)
+	var measured: Dictionary = Evaluator._measure_survey_deliveries(config, state)
+	_check("SURVEY native full packet qualifies", measured.get("ok"), true)
+	_check("SURVEY native one recorded complete delivery", measured.get("measure", {}).get("delivered_selected_target_count"), 1)
+	_check_close("SURVEY native completed packet returns 12 MB", state.returned_data_mb, 12.0)
+	_check("SURVEY native completed packet leaves no stored remainder", state.stored_data_mb, 0.0)
 
 
 func _check_close(label: String, actual: Variant, expected: float, tolerance: float = 1e-9) -> void:

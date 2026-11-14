@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-15",
+  "branch": "features/KE2",
+  "head": "8b76b5df4f0b327d8d4293be22ed984b610f8647",
+  "working_tree_changes": true,
+  "prompt": "10.2 / Step 8",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "scope": "Private unwired measurement helper with explicit-counter fixtures and native packet-mechanics checks; no new production report or scoring.",
+  "hpc_reply": "User reports no reply yet; sparse absent entries remain unavailable errors.",
+  "results": {
+    "evaluator": {
+      "passed": 254,
+      "failed": 0,
+      "pending": 5,
+      "added_fixture_checks": 27,
+      "added_native_checks": 20,
+      "exit_code": 0
+    },
+    "imaging_presets": {
+      "passed": 53,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "adapted_results": {
+      "passed": 17,
+      "failed": 0,
+      "exit_code": 0
+    }
+  },
+  "native_packet_case": {
+    "run_id": "run_ke2_survey_packet",
+    "mission_id": "mission_ke2_survey_packet",
+    "objective": "survey",
+    "target": "arctic_ice",
+    "observe_step": 0,
+    "transmit_steps": [
+      7,
+      10
+    ],
+    "after_first_transfer": "Positive Earth return and positive onboard remainder, empty native complete-delivery map; helper returns unavailable error.",
+    "after_second_transfer": {
+      "returned_mb": 12,
+      "stored_mb": 0,
+      "delivered_selected_target_count": 1
+    },
+    "terminal_report_published": false
+  },
+  "source_sha256": {
+    "scripts/evaluation/mission_evaluator.gd": "f7778dead7794b5397beb462cc5e2c6f0e671c05e1cdd38017970902c3e2bc97",
+    "tests/test_mission_evaluator.gd": "50427f6bf03572376831b4bd4da08c5785bcda84c8283246d48396eb6df55a4e",
+    "tests/ke2_imaging_presets_check.gd": "3dec7e31919e92bc86ca2f9139e79e81fe18f0a7c458569ebe559f530b4b8906",
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+    "scripts/integration/mission_results.gd": "b8a6adaf51e4e79bbee231969c3722c31190c128c12a18abda92b11d9b5be33f"
+  },
+  "log_sha256": {
+    "exports/check-logs/test_mission_evaluator.log": "7d8f7181041300eba098fea72b704eee9db24395fb16e2b7c8d205d86c686ef3",
+    "exports/check-logs/ke2_imaging_presets_check.log": "9aefb2e883f28fceb0fedd888858727814ead0db0ead67658a6ca7704bcff34e",
+    "exports/check-logs/ke2_results_integration.log": "0986bcadbb4edeb1a0352f9eb883b651fd81edb5a87780c780ea13efdda7443f"
+  },
+  "browser_or_export_verified": false,
+  "next_prompt": "10.3 / Step 9: agreed Survey scoring; proposed equal three-way weighting still pending."
+}

@@ -4,9 +4,9 @@ Updated on 15 November 2026 in Asia/Rangoon. The numbered route below orders all
 
 ## Start here
 
-**Next ready action is Step 6, prompt 10.1, to verify the existing Imaging presets.** It uses existing behavior and can proceed within your KE2 scope. Steps 1-4 have produced their baseline/handoff drafts. Their wider owner agreement and integration checklists remain open where evidence is pending. Step 5 is an optional summary of that work.
+**Steps 6 and 7 have completed their Imaging/proposal-review outputs. Step 8 / 10.2 now has a tested private delivery-measure helper, 27 fixture checks and 20 native packet checks; parent 10.2 remains open for HPC's absent-entry rule.** See the [Step 8 implementation and remaining inputs](survey-delivery-measure-step8.md) and [Imaging/report review](imaging-baseline-and-report-review.md). Next is Step 9 / 10.3: settle the proposed Survey scoring rule before production publication, or continue labeled proposal fixtures. Shared report agreement remains open. Steps 1-4 have produced their baseline/handoff drafts; wider owner agreement and integration checklists remain open where evidence is pending. Step 5 is an optional summary.
 
-The local [K20 review](k20-ke2-interface-review.md) records confirmed mission IDs and goal meanings, plus four remaining interface recommendations. The [SE response](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) permits separate Save A/B storage and navigation work to proceed. The [consumer handoff](ke3-se-hpc-report-handoff.md) and [four report examples](evidence/report-examples-proposal.json) cover 00.4's drafting output.
+The local [K20 review](k20-ke2-interface-review.md) records confirmed mission IDs/goal meanings and KE1's confirmation of the four interface recommendations. [KE1's draft-2 artifacts are received and verified](ke1-k20-draft2-receipt-review.md); remaining SE/HPC alignment and production integration are pending. Reuse the recorded confirmations. The [SE response](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) permits separate Save A/B storage and navigation work to proceed. The [consumer handoff](ke3-se-hpc-report-handoff.md) and [four report examples](evidence/report-examples-proposal.json) cover 00.4's drafting output.
 
 Use the [work checklist](ke2-work-plan.md) and [progress record](progress.md) for live completion and owner replies. A drafted prompt output can be complete while its shared-agreement task remains open.
 
@@ -40,7 +40,7 @@ Use this decision when implementing or integrating undecided expansion-config fi
 - Root authored-preset `preset_id` and positive `preset_revision`, with a defined custom/legacy mission policy.
 - Proposed Communication starter uses `high_inc`, `equator`, two basic-instrument captures, fast radio, three orbits, 12 MB, and a 100-credit budget. Catalog arithmetic is 1120 g and 89 credits. Actual coordinated v2 execution remains a handoff check.
 
-The five preset IDs, four objective IDs, and their goal meanings are already recorded as confirmed. Ask only about remaining interface choices. KE1/SE/HPC coordinate their producer/validator/adapter changes. Keep config, catalog, state/event, report, and saved-record versions explicit and independent.
+The five preset IDs, four objective IDs, goal meanings and KE1's four K20 choices are already recorded as confirmed. Do not request those confirmations again. Use the received draft-2 artifacts and resolve remaining custom identity/bounds and SE/HPC implementation alignment. Reviewed revisions are `expansion-goals-v2-draft-2`, `five-presets-candidate-2`, Communication preset revision 2. Keep config, catalog, state/event, report, and saved-record versions explicit and independent.
 
 Independent Imaging checks, existing-counter analysis, and labeled fixtures can advance while Decision A is open.
 
@@ -77,13 +77,13 @@ The decision letters below refer to unresolved choices at production boundaries.
 | Step | Prompt | Action | Readiness or review point |
 | --- | --- | --- | --- |
 | 1 | **00.1** | Pin the baseline | Complete; repeat when the checkout changes |
-| 2 | **00.2** | Review the configuration proposal | Draft shared; IDs and goal meanings confirmed |
+| 2 | **00.2** | Review the configuration proposal | Draft 2 received/verified; remaining rules and production alignment open |
 | 3 | **00.3** | Review the HPC evidence handoff | Draft prepared; collect HPC replies |
 | 4 | **00.4** | Review reports and the saved-run proposal | Draft and four examples prepared |
 | 5 | **60.1** | Optional kickoff checkpoint | Use when a consolidated status is useful |
-| **6** | **10.1** | Verify both existing Imaging presets | Ready now; start here |
-| 7 | **30.1** | Review the additive goal-progress report | Use existing 00.4 drafts; refine any remaining gap |
-| 8 | **10.2** | Build the Survey delivery measure | Use known delivery semantics; retain fixture labels for pending integration |
+| **6** | **10.1** | Verify both existing Imaging presets | Complete: 53 checks at `8b76b5d`; evidence linked above |
+| 7 | **30.1** | Review the additive goal-progress report | Proposal review complete; owner agreement/production migration open |
+| 8 | **10.2** | Build the Survey delivery measure | Helper/fixture/native packet preparation verified; HPC absent-entry rule and integration open |
 | 9 | **10.3** | Add Survey outcomes and score | After the delivery measure; use agreed rules |
 | 10 | **60.2** | Review Survey and report progress | At the first Survey/report checkpoint |
 | 11 | **10.4** | Verify actual Survey runs | When the relevant configs and traces are available |
@@ -200,7 +200,7 @@ Summarize the KE2 kickoff from 00.1-00.4 using the current checkout and handoffs
 
 **Step 6. Verify both existing Imaging presets.**
 
-- Use when ready now; start here.
+- Use when rerunning the completed Imaging baseline after relevant changes.
 - Complete with actual Imaging regression results and any focused missing coverage.
 - Decision or dependency handling follows this rule. Proceed under existing KE2 scope.
 
@@ -213,7 +213,7 @@ Find the live Estuary Watch and Tropical Forest Watch presets and the current Im
 
 **Step 7. Review the additive goal-progress report.**
 
-- Use when use existing 00.4 drafts; refine any remaining gap.
+- Use when refining the reviewed 00.4 proposal or implementing an agreed report interface.
 - Complete with confirmed additive output or a clearly labeled proposal.
 - Decision or dependency handling follows this rule. Decision B before publishing undecided report semantics.
 

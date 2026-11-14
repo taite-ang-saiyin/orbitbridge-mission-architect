@@ -4,7 +4,7 @@ Prepared by KE2 on 15 November 2026 in Asia/Rangoon for task 00.4, from `feature
 
 This consumer-focused draft reuses the existing [reports/A/B response](ke3-ke2-results-ab-handoff.md) and local headless evidence packet. Its [four complete report examples](evidence/report-examples-proposal.json) retain actual production replies separately from proposed goal-progress output. Verification in this task is source inspection and example validation using existing records.
 
-The newer local [K20 interface review](k20-ke2-interface-review.md) records user-confirmed mission IDs and goal meanings. It recommends config v2, nested goals, root preset identity/revision, and a two-capture Communication starter, with those interface details still under coordinated review. The [SE response](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) records that separate Save A/B storage and navigation work can proceed. This handoff supports that independent record work while report and config adoption are settled.
+The newer local [K20 interface review](k20-ke2-interface-review.md) records user-confirmed mission IDs/goal meanings and KE1's confirmation, relayed by the user, of config v2, nested goals, root preset identity/revision, and the specified two-capture Communication starter. Artifact receipt and SE/HPC implementation alignment remain open. The [SE response](ke1-se-config-handoff.md#se-review-and-work-that-can-proceed) records that separate Save A/B storage and navigation work can proceed. This handoff supports that independent work while report adoption and coordinated config integration are settled.
 
 ## Current evaluator envelope and field dependencies
 
@@ -120,7 +120,7 @@ The existing custom Imaging pair changes only `radio_basic` to `radio_fast` unde
 | KE3 | Replace fixed photo/data assumptions for expanded objectives and verify Overview/Flight log/Sources against bound reports |
 | SE + KE2 | Agree saved-record properties, explicit A selection/replacement, legacy/custom identity, baseline/comparator call wiring, and lifecycle beyond trace eviction |
 | HPC + SE + KE2 | Confirm policy/request evidence, revolution mapping, sparse-map semantics, sample bounds, and version/fingerprint rules |
-| KE1 + SE | Resolve the K20 version/goal/preset-location choices, preserve confirmed ID/goal meanings, and supply actual matching expansion inputs with root identity/revision where agreed |
+| KE1 + SE | Supply KE1's already-confirmed K20 artifacts, align producer/consumer implementations, settle remaining custom identity/bounds, and provide actual matching expansion inputs with root identity/revision |
 
 The handoff is prepared for sharing. Owner agreement and delivery of this additional consumer draft remain pending. Integration acceptance still needs actual expanded-objective reports, dynamic goal rendering, one report per run, saved-A survival through B/Cancel/Retry/trace turnover, measured comparator results, and public browser journeys.
 
