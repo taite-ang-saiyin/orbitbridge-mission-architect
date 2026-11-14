@@ -1,0 +1,151 @@
+{
+  "main_base": "e71aaf8712b9b9438247cb514467bb33bc015989",
+  "se_tip": "8399c319cfe0aef3ba6acbfc0cfc9c3680a48b15",
+  "ke2_evaluator": "dbf65adc5c23793dcdf4acb31bc18382cd3ca936",
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "program_count": 25,
+  "counted_assertions": 1785,
+  "ke2_pending_checks": 5,
+  "programs": [
+    {
+      "script": "tests/validation/test_mission_validator.gd",
+      "result": "passed",
+      "log_sha256": "581a31dd56ebe5db4a3e5cda302a1152740d85c8d65e4dbfcde62be378141ca3"
+    },
+    {
+      "script": "tests/validation/test_mission_readiness.gd",
+      "result": "passed",
+      "log_sha256": "b88fe7ea7c21a85bddd99842affae89df7e85fe2e8056b690e552d8944d78432"
+    },
+    {
+      "script": "tests/validation/test_mission_fixtures.gd",
+      "result": "passed",
+      "log_sha256": "33c5ed24b91b77f656d8e33087f218f815bc92911b862428ab125740680ea540"
+    },
+    {
+      "script": "tests/test_hpc.gd",
+      "result": "passed",
+      "log_sha256": "b8d0cd633f9a7d6120075822cbc9be396743a39769deb278cec4064ef7ecfb5d"
+    },
+    {
+      "script": "tests/test_simulator.gd",
+      "result": "passed",
+      "log_sha256": "554054a141b798078e4a93fc360a602b580addeb5324c47d43134694ac7c0de1"
+    },
+    {
+      "script": "tests/test_mission_evaluator.gd",
+      "result": "passed",
+      "log_sha256": "b234e0cee385ec8be28ce83bf222e7b5c581b4deb4990f87cec26de64212466c"
+    },
+    {
+      "script": "tests/integration/test_mission_flow.gd",
+      "result": "passed",
+      "log_sha256": "be98625bfc70fb8eb23742f318a7839904f4a49ffbd868b2d7da05381c58c23a"
+    },
+    {
+      "script": "tests/integration/test_screen_flow.gd",
+      "result": "passed",
+      "log_sha256": "ea23591eee8ca7613b0f954edcc6f11aad92e3297e3d800d1bd1804778c58cf6"
+    },
+    {
+      "script": "tests/acceptance/test_k14_acceptance.gd",
+      "result": "passed",
+      "log_sha256": "1c2d3e0f2c3eb4c5db76ddd193e2546078e96a1edb652172103834df25e0d3c7"
+    },
+    {
+      "script": "tests/home_smoke.gd",
+      "result": "passed",
+      "log_sha256": "6812515045feb3d632cf1a2d6089e31fa917eb454b0e19d0e5b26a53e433428c"
+    },
+    {
+      "script": "tests/responsive_layout_smoke.gd",
+      "result": "passed",
+      "log_sha256": "a3f7c2a5d7dae9ce0a89ae9726d44996102e022196d7b13a2b64550cb474dccd"
+    },
+    {
+      "script": "tests/3d/preview_smoke.gd",
+      "result": "passed",
+      "log_sha256": "14c4b52bb22bc3fbb9723d14c4871d2676f68162cad9a778393faeb6483d8e66"
+    },
+    {
+      "script": "tests/integration_smoke.gd",
+      "result": "passed",
+      "log_sha256": "2f257275d52ec73422cf71c48b6b623add0a988bfebb4aef47f081f439abfbf7"
+    },
+    {
+      "script": "tests/controller_evaluation_smoke.gd",
+      "result": "passed",
+      "log_sha256": "299bcb8d0f64d85e86dff85519435e033483efe6d2d1b6e564632b52cbc9618e"
+    },
+    {
+      "script": "tests/creator_builder_catalog_smoke.gd",
+      "result": "passed",
+      "log_sha256": "30f4049f49981252f7506428187b579a10c91584da8a08c00d6c4b2c1926a10d"
+    },
+    {
+      "script": "tests/expanded_missions_smoke.gd",
+      "result": "passed",
+      "log_sha256": "46257938f1a8f94819f2e370156d13c8abcd88f7722eb435902eac1157cf9dfd"
+    },
+    {
+      "script": "tests/mission_control_smoke.gd",
+      "result": "passed",
+      "log_sha256": "3845f395c7d2f53d677b5b222d74ed8520c3eec7d558d0d9648b9719bbc1c818"
+    },
+    {
+      "script": "tests/prediction_multitarget_smoke.gd",
+      "result": "passed",
+      "log_sha256": "6ab0f9fb37047152bd0c2b7ed014d2c27c62e61e710cb8826dedbf5b785fcda1"
+    },
+    {
+      "script": "tests/design_workflow_smoke.gd",
+      "result": "passed",
+      "log_sha256": "bc3b8904c02d201f8c4fbfae2a41755834c9211c53ddd9dcac9d62541d4800dc"
+    },
+    {
+      "script": "tests/modular_reference_smoke.gd",
+      "result": "passed",
+      "log_sha256": "9f87b0235dd9201c39f9c70fcae3ead79e868820b256822348f81d61f47e6b64"
+    },
+    {
+      "script": "tests/operations_smoke.gd",
+      "result": "passed",
+      "log_sha256": "218c13a3decd3d1f3dbb83ea807a51fcee4a6215ec422f9e37647e3cd5b04a17"
+    },
+    {
+      "script": "tests/prototype_smoke.gd",
+      "result": "passed",
+      "log_sha256": "ff3a337a50a7d54a3d8f38e3c1ed453051d660b522ecf7c3a815b7d235241030"
+    },
+    {
+      "script": "tests/readiness_smoke.gd",
+      "result": "passed",
+      "log_sha256": "cdc28e9f64f83711a3f2d89334ff07a0e21fd7f798a2cb36ab1e6c41c9a5da6f"
+    },
+    {
+      "script": "tests/satellite_builder_smoke.gd",
+      "result": "passed",
+      "log_sha256": "d0ef05afd4ec27d1752422ff5cbfd83e633f3396e6291989c4bc11e1b46e9776"
+    },
+    {
+      "script": "tests/satellite_selection_smoke.gd",
+      "result": "passed",
+      "log_sha256": "62151dd787824d3be8d59b5fb44f59096fc951dfe7f1d751d6fd861d669bb5ec"
+    }
+  ],
+  "windows_release": {
+    "headless_assertions_passed": 66,
+    "graphical_assertions_passed": 66,
+    "failed": 0,
+    "sha256": "fd12a002907be6afbbc4e020261c75d80a94800826f12047d29178f8b55222f8"
+  },
+  "visual_review": "GPU-rendered captures of six merged screens; automated layout checks at multiple resolutions; not a teammate acceptance review",
+  "limits": [
+    "Survey evaluation unavailable",
+    "Controlled A/B comparison not established",
+    "Browser export not verified",
+    "Another Windows computer not tested"
+  ],
+  "unchanged_native_orbits_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+  "logs_location": "Ignored exports/check-logs and exports/windows-se in the isolated merge checkout"
+}

@@ -225,8 +225,8 @@ func build_lower_panels() -> void:
 	map_box.get_parent().size_flags_stretch_ratio = 1.1
 	live_track = TRACK.new()
 	live_track.configure(state)
-	live_track.custom_minimum_size.y = 80
 	map_box.add_child(live_track)
+	live_track.custom_minimum_size.y = 60
 	UI.label(map_box, "GREEN  Current position   CYAN / PURPLE  Targets   GOLD  Ground station", 10, "7db4c7")
 	var box = section(lower, "NEXT EVENTS")
 	next_events = UI.label(box, "", 12, "b4d6e5")

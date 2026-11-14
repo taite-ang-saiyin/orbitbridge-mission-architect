@@ -1,5 +1,7 @@
 # KE1 / HPC game integration
 
+Merged-main follow-up: [SE merge record](se-main-merge.md) describes the current behavior. Operations now also supports manual native-engine actions and immutable retry; Debrief uses KE2 for Imaging and explicitly reports Survey evaluation unavailable. The earlier sections below record SE's integration stages.
+
 Current follow-up: both mission types and all displayed target buttons are enabled. See the expanded mission section at the end; it supersedes the initial single-target scope below.
 
 Integrated 14 November 2026. No `.tscn`, theme, model, visual asset or project setting was changed. Screen scripts keep the existing panel layout and feed it actual validation and simulation results. Existing Builder controls now also expose launch profile and launcher choices.
