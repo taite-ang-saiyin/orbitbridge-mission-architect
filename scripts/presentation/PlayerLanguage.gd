@@ -2,12 +2,12 @@ extends RefCounted
 ## Player-facing wording and rounding only. Supplied records remain unchanged.
 
 static func amount(value: Variant) -> String:
-	if not (value is int or value is float) or not is_finite(value): return "Not available"
+	if not (value is int or value is float) or not is_finite(value): return "Unavailable"
 	if value != 0 and absf(value) < 0.005: return "< 0.01" if value > 0 else "> -0.01"
 	return ("%.2f" % value).trim_suffix(".00")
 
 static func sentence(value: Variant) -> String:
-	if value == null: return "Not available"
+	if value == null: return "Unavailable"
 	var result: String = str(value)
 	var decimals = RegEx.new()
 	decimals.compile("-?[0-9]+\\.[0-9]+")
@@ -36,8 +36,8 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 	var supplied: Dictionary = model.get("report", {})
 	var valid: bool = model.get("state") == "report"
 	var result: Dictionary = {
-		"headline":"Results not available yet", "score":"Not available",
-		"summary":"Finish the flight to see how you did.", "next":"Return to Operations to continue your flight.",
+		"headline":"Results not available yet", "score":"Unavailable",
+		"summary":"Finish the flight to see how you did.", "next":"Unavailable",
 		"photos":amount(final.get("observations_completed")), "photo_goal":amount(mission.get("required_observations")),
 		"data":amount(final.get("returned_data_mb")), "data_goal":amount(mission.get("required_returned_data_mb")),
 		"battery":amount(final.get("energy_wh")), "stored":amount(final.get("stored_data_mb")),
@@ -46,7 +46,7 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 	if valid:
 		result.headline = {"success":"All goals reached", "partial":"Some goals reached", "failed":"Goals not reached"}.get(supplied.get("status"), "Mission results")
 		if supplied.get("run_status") == "aborted": result.headline = "Mission stopped early"
-		result.score = "Not scored" if supplied.get("score") == null else amount(supplied.score) + " / 100"
+		result.score = "Not scored" if supplied.get("score") == null and supplied.get("run_status") == "aborted" else ("Unavailable" if amount(supplied.get("score")) == "Unavailable" else amount(supplied.score) + " / 100")
 		result.summary = sentence(supplied.get("explanation"))
 		result.next = sentence(supplied.get("next_experiment"))
 		result.photos = amount(supplied.get("observations_completed"))
@@ -57,7 +57,12 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 		result.headline = "Flight complete · score unavailable"
 		result.summary = "Evaluation unavailable for this flight. Your recorded measurements are shown below."
 		if mission.get("objective") == "survey": result.summary = "Your Survey flight is complete. Survey scoring is not available yet; you can still review the photos and data you collected."
-		result.next = "Try an imagery mission for a scored result, or modify this design and fly again."
+		var error: Dictionary = model.get("evaluation_error", {})
+		result.summary += "\n%s · %s\n%s" % [str(error.get("code", "Unavailable")), str(error.get("field_path", "Unavailable")), str(error.get("message", "Unavailable"))]
+		result.next = sentence(model.get("evaluation_error", {}).get("suggested_fix"))
+	elif model.get("state") == "unsupported_report":
+		result.headline = "Objective scoring unavailable"
+		result.summary = "The supplied aggregate capture/data report does not evaluate this objective's contact or orbit goal. Its outcome and score are not used as an expanded-objective result."
 	elif model.get("state") == "stale_report":
 		result.headline = "These results do not match this flight"
 		result.summary = "The report could not be matched to your recorded flight. Its score and explanation are not shown."
@@ -81,7 +86,7 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 			result.evidence += sentence(cause.get("explanation")) + "\n"
 			for id in cause.get("evidence_event_ids", []):
 				if not history.has(id) or ambiguous.has(id): result.evidence += "Evidence Unavailable: " + str(id) + "\n"
-				else: result.evidence += "Evidence: Step %s · %s\n" % [amount(history[id].get("step_index")), sentence(history[id].get("message"))]
+				else: result.evidence += "Evidence: %s · Step %s · %s\n" % [id, amount(history[id].get("step_index")), sentence(history[id].get("message"))]
 	return result
 
 static func credits(model: Dictionary) -> String:
