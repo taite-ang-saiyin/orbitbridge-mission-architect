@@ -56,6 +56,8 @@ func check():
 			if i == 5:
 				app.current.show_run("Run B")
 				assert("Score:" in app.current.results.text)
+				app.current.previous_flights.set_expanded(true)
+				for frame in 4: await process_frame
 				for cell in app.current.find_child("RunHistory", true, false).get_children():
 					assert(cell.size.x >= 45, "History columns collapsed")
 		print("PASS: screens, layout, inputs, components, playback, comparison at ", resolution)

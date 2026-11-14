@@ -94,7 +94,7 @@ func _run() -> void:
 	_check(not app.state.evaluation_store.reports.has(final.run_id) and app.state.evaluation_store.errors.has(final.run_id), "Current KE2 guard prevents an invented Survey score")
 	app.show_screen(5)
 	await settle()
-	_check(app.current.results.text.contains("Evaluation unavailable"), "Results show the unsupported scoring state clearly")
+	_check(app.current.results.text.contains("Survey scoring is not available yet") and app.current.get_presentation_model().state == "evaluation_error", "Results explain unsupported Survey scoring in player language")
 	app.queue_free()
 	await settle()
 	print("Merged screen edge cases: %d checks passed; %d failed." % [passed, failed])

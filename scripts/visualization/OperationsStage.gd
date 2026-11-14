@@ -70,6 +70,9 @@ func fit_view(view_size: Vector2i) -> void:
 	if not is_inside_tree(): return
 	last_view_size = view_size
 	var aspect: float = float(view_size.x) / maxf(1, view_size.y)
+	# The distance is fitted to height; retaining horizontal FOV crops Earth
+	# in a wide, shallow panel. Keep the vertical field of view stable instead.
+	$Camera3D.keep_aspect = Camera3D.KEEP_HEIGHT
 	var distance: float = maxf(3.4, 3.2 / maxf(0.5, aspect)) * view_zoom
 	$Camera3D.position = Vector3(sin(view_yaw) * cos(view_pitch), sin(view_pitch), cos(view_yaw) * cos(view_pitch)) * distance
 	$Camera3D.look_at(Vector3.ZERO, Vector3.UP)

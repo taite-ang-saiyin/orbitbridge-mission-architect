@@ -106,7 +106,7 @@ func run() -> void:
 	check(report.run_id == trace.final_state.run_id and report.observations_completed == trace.final_state.observations_completed and report.returned_data_mb == trace.final_state.returned_data_mb,"KE2 counters match exact run")
 	check("Score: "+str(report.score) in app.current.results.text,"Visible score supplied by KE2")
 	check(report.source_ids == [] and report.comparison == null,"Optional source_ids/comparison preserved")
-	check("Scope: readiness" in app.current.credits.text and "Feedback-vocabulary credit metadata: Unavailable" in app.current.credits.text,"Actual readiness credit and honest missing feedback metadata")
+	check("Scope: readiness" in app.current.get_presentation_model().credits and "Feedback-vocabulary credit metadata: Unavailable" in app.current.get_presentation_model().credits and "NASA CubeSat 101" in app.current.credits.text,"Actual attribution preserved internally and readable reference displayed")
 	save("run-a",{"trace":trace,"report":report,"validation":validation})
 	await capture("results-1280")
 	app.show_screen(5)
@@ -147,6 +147,8 @@ func run() -> void:
 		await settle()
 		var page = app.current
 		var preserved: Dictionary = page.get_presentation_model()
+		page.previous_flights.set_expanded(true)
+		await settle()
 		for label in history_labels(page): check(label.size.y <= 30,"History cell readable "+str(resolution)+" "+label.text)
 		check(page.content.size.x <= page.report_scroll.size.x+1,"No Results horizontal overflow "+str(resolution))
 		page.report_scroll.grab_focus()
@@ -209,9 +211,14 @@ func run() -> void:
 	root.size = Vector2i(900,680)
 	await settle()
 	var page = app.current
+	page.flight_details.set_expanded(true)
+	await settle()
 	check(page.event_header.vertical and page.event_header.get_child(0).size.y<=30,"900px event heading readable without character columns")
 	for control in [page.play_button,page.pause_button,page.step_button,page.skip_button]:
 		if control.disabled: continue
+		if control == page.skip_button:
+			page.extra_controls.set_expanded(true)
+			await settle()
 		var retained: Dictionary = app.state.active_run_state.duplicate(true)
 		control.grab_focus()
 		await settle()

@@ -89,7 +89,7 @@ func run(app: Control) -> Dictionary:
 	_check(app.state.active_run_state.step_index == 60 and app.state.active_run_state.returned_data_mb == 48, "Real run completes 60 steps and returns 48 MB")
 	operations.next_button.pressed.emit()
 	await _settle(app)
-	_check(app.current.results.text.to_lower().contains("success") and app.current.results.text.contains("Score: 100"), "Real evaluation reaches Results")
+	_check(app.current.get_presentation_model().report.status == "success" and app.current.outcome_title.text == "All goals reached" and app.current.results.text.contains("Score: 100"), "Real evaluation reaches understandable Results")
 	_record_run(app, "high_inc_completed")
 	app.show_screen(5)
 	await _settle(app)

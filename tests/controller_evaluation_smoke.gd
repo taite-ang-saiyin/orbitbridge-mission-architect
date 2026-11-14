@@ -59,7 +59,8 @@ func check() -> void:
 	assert(app.state.active_run_state.event_log.is_empty())
 	assert(app.state.evaluation_store.baseline == original.baseline)
 	app.current.step()
-	assert(press(app.current, "Abort Mission"))
+	app.current.extra_controls.set_expanded(true)
+	assert(press(app.current, "Stop mission early"))
 	await settle()
 	var aborted_report: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
 	assert(aborted_report.run_status == "aborted" and aborted_report.score == null)
@@ -83,7 +84,7 @@ func check() -> void:
 	app.current.skip_to_end()
 	app.show_screen(5)
 	await settle()
-	assert("Evaluation unavailable" in app.current.results.text)
+	assert("Survey scoring is not available yet" in app.current.results.text and app.current.get_presentation_model().state == "evaluation_error")
 	assert(not app.state.evaluation_store.reports.has(app.state.active_run_state.run_id))
 	assert(app.state.evaluation_store.history.size() == 3 and app.state.evaluation_store.baseline == original.baseline)
 	assert(press(app.current, "Start New Mission"))

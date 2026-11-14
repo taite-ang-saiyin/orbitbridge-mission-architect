@@ -49,7 +49,7 @@ func _ready():
 	header.add_child(mark)
 	header.add_child(title)
 	var status = Label.new()
-	status.text = "◉  MISSION CONTROL     •     LOCAL SIMULATION"
+	status.text = "MISSION CONTROL"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
 	var home_button = Button.new()
@@ -76,12 +76,12 @@ func _ready():
 	sidebar = VBoxContainer.new()
 	sidebar.add_theme_constant_override("separation", 12)
 	rail.add_child(sidebar)
-	for entry in [["⌂  Home", -1], ["＋  New Mission", 1], ["◉  Mission Control", 0], ["◇  Spacecraft Builder", 2], ["✓  Flight Readiness", 3], ["▷  Operations", 4], ["≡  Debrief", 5]]:
+	for entry in [["Home", -1], ["New Mission", 1], ["Mission Control", 0], ["Spacecraft Builder", 2], ["Flight Readiness", 3], ["Operations", 4], ["Debrief", 5]]:
 		var link = Button.new()
 		link.text = entry[0]
 		link.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		link.custom_minimum_size.y = 46
-		if entry[0] == "＋  New Mission": link.pressed.connect(start_new_mission)
+		if entry[0] == "New Mission": link.pressed.connect(start_new_mission)
 		else: link.pressed.connect(show_screen.bind(entry[1]))
 		sidebar.add_child(link)
 	var rail_spacer = Control.new()
@@ -96,7 +96,7 @@ func _ready():
 	dashboard.add_child(host)
 	var footer = Label.new()
 	shell_footer = footer
-	footer.text = "KE1 VALIDATION / HPC SIMULATION   •   OrbitBridge Mission Lab"
+	footer.text = "OrbitBridge · Explore, experiment, learn."
 	footer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	footer.add_theme_font_size_override("font_size", 12)
 	layout.add_child(footer)

@@ -94,7 +94,7 @@ func build_checklist() -> void:
 		toggle.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		toggle.tooltip_text = "Expand " + check[1] + " details / " + check[2]
 		check_buttons[check[0]] = toggle
-	UI.label(checklist, "KE1 VALIDATION / EIGHT REQUIRED CHECKS", 10, "77a8c0")
+	UI.label(checklist, "Eight checks before launch", 16, "b4ccdc")
 func toggle_check(key: String) -> void:
 	var detail: Label = check_details[key]
 	detail.visible = not detail.visible
@@ -153,7 +153,7 @@ func build_preview(parent: Node) -> void:
 	var orbit_text = VBoxContainer.new()
 	orbit_card.add_child(orbit_text)
 	orbit_label = UI.label(orbit_text, state.orbit, 13)
-	UI.label(orbit_text, "Drag to rotate · scroll to zoom · click an orbit. HPC authored windows.", 11, "b4ccdc")
+	UI.label(orbit_text, "Drag to rotate · scroll to zoom · choose an orbit.", 14, "b4ccdc")
 func build_resources(parent: Node) -> void:
 	var box = section(parent, "RESOURCE SUMMARY")
 	var row_of_gauges = row(box)

@@ -70,6 +70,7 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 	model.text += "\n\nHPC battery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
 	# Launch credit is bound to the executed validation, independent of report source_ids.
 	var mass: Dictionary = trace.get("validation", {}).get("checks", {}).get("profile_mass", {})
+	model.readiness_credit = mass.duplicate(true)
 	if mass.get("source_id") == "cubesat_101_1u_sample":
 		model.credits = "Scope: readiness\nNASA CubeSat 101, App. C item 6, printed p.79 / PDF p.87.\nExecuted sample mass check: %s g %s %s g. This is not flight certification.\nSource ID: %s" % [text(mass.get("total_mass_g")),text(mass.get("comparator")),text(mass.get("threshold_g")),text(mass.get("source_id"))]
 	else: model.credits = "Readiness source credit: Unavailable"
@@ -80,6 +81,7 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 			var metadata: Variant = record.get("source_credit_metadata", {})
 			if metadata is Dictionary and metadata.get("applicable_source_credits") is Array: scoped = metadata.applicable_source_credits
 	var has_feedback: bool = false
+	model.source_credits = scoped.duplicate(true)
 	for credit in scoped:
 		if not credit is Dictionary: continue
 		if credit.get("credit_scope") == "feedback_vocabulary": has_feedback = true

@@ -164,16 +164,16 @@ func apply_preset(entry: Array) -> void:
 	navigate.emit(1)
 
 func build_system_status(parent: Node) -> void:
-	var box = panel(parent, "⌁  SYSTEM STATUS")
+	var box = panel(parent, "READY TO EXPLORE")
 	var loaded: Dictionary = Runtime.load_game_catalogs()
-	for entry in [["Simulation Engine (HPC)", ResourceLoader.exists("res://core/MissionStepEngine.gd")], ["Mission Catalog", loaded.get("ok", false)], ["Data Services", loaded.get("ok", false)]]:
+	for entry in [["Flight simulation", ResourceLoader.exists("res://core/MissionStepEngine.gd")], ["Spacecraft parts", loaded.get("ok", false)], ["Mission library", loaded.get("ok", false)]]:
 		var line = HBoxContainer.new()
 		box.add_child(line)
 		UI.label(line, entry[0], 11, "bed7e5").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var status = UI.label(line, "● READY" if entry[1] else "● UNAVAILABLE", 10, "38edb0" if entry[1] else "ffb56c")
 		status.autowrap_mode = TextServer.AUTOWRAP_OFF
 		status.custom_minimum_size.x = 82
-	UI.label(box, "Local files / no external data service", 10, "709cb3")
+	UI.label(box, "Explore the catalog and plan your next flight.", 13, "a7c4d5")
 
 func build_recent(parent: Node) -> void:
 	var box = panel(parent, "◷  RECENT MISSIONS")
