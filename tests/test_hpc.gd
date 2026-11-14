@@ -35,6 +35,7 @@ func _initialize() -> void:
 	_test_ke1_catalog_bridge()
 	_test_abort_run(catalog)
 	_test_ke1_readiness_integration()
+	_test_next_step_prediction(catalog)
 	if _failed > 0:
 		push_error("HPC Team Contract v1 suite failed: %d passed, %d failed" % [_passed, _failed])
 		quit(1)
@@ -337,6 +338,93 @@ func _read_json(path: String) -> Dictionary:
 		_failed += 1
 		return {}
 	return parsed
+
+func _test_next_step_prediction(source_catalog: Dictionary) -> void:
+	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [0], [0])
+	var state: Dictionary = _initialized(_config(), catalog)
+	state.energy_wh = 10.0
+	state.stored_data_mb = 8.0
+	var hours: float = float(_orbit(catalog, "low_eq").step_duration_hours)
+	var observed: Dictionary = StepEngine.predict_next_step(state, "observe").prediction
+	_case("prediction observes using Wh and decimal MB", _prediction_matches_execution(state, "observe") and is_equal_approx(float(observed.energy_wh_after), 10.0 + 10.0 * hours) and observed.stored_data_mb_after == 16.0 and observed.storage_remaining_mb_after == 34.0 and observed.delta_observations == 1 and is_equal_approx(float(observed.energy_generated_wh), 40.0 * hours) and is_equal_approx(float(observed.energy_consumed_wh), 30.0 * hours))
+	var transmitted: Dictionary = StepEngine.predict_next_step(state, "transmit").prediction
+	_case("prediction transmits hourly rate times step hours", _prediction_matches_execution(state, "transmit") and is_equal_approx(float(transmitted.data_transmitted_mb), 36.0 * hours) and is_equal_approx(float(transmitted.stored_data_mb_after), 8.0 - 36.0 * hours))
+	state.stored_data_mb = 0.125
+	var emptied: Dictionary = StepEngine.predict_next_step(state, "transmit").prediction
+	_case("prediction limits downlink to stored data", _prediction_matches_execution(state, "transmit") and emptied.stored_data_mb_after == 0.0 and emptied.data_transmitted_mb == 0.125)
+	state.energy_wh = state.battery_capacity_wh
+	var capped: Dictionary = StepEngine.predict_next_step(state, "power_save").prediction
+	_case("prediction clamps solar charging at capacity", _prediction_matches_execution(state, "power_save") and capped.energy_wh_after == state.battery_capacity_wh and capped.energy_clamped and capped.delta_energy_wh == 0.0)
+	state.stored_data_mb = state.storage_capacity_mb
+	var full: Dictionary = StepEngine.predict_next_step(state, "observe").prediction
+	_case("prediction blocks storage overflow with zero deltas", _prediction_matches_execution(state, "observe") and full.blocked_code == "STORAGE_FULL" and full.elapsed_step_hours == 0.0 and full.next_step_index == state.step_index)
+	state.stored_data_mb = 0.0
+	_case("prediction handles empty downlink and unknown action", _prediction_matches_execution(state, "transmit") and StepEngine.predict_next_step(state, "transmit").prediction.blocked_code == "NO_DATA" and _prediction_matches_execution(state, "invalid") and StepEngine.predict_next_step(state, "invalid").prediction.blocked_code == "INVALID_ACTION")
+	var eclipse: Dictionary = source_catalog.duplicate(true)
+	_orbit(eclipse, "low_eq").sunlight_windows = []
+	_orbit(eclipse, "low_eq").target_windows.equator = [0]
+	_part(eclipse, "cam").requires_sunlight = false
+	state = _initialized(_config(), eclipse)
+	state.energy_wh = 0.01
+	var depleted: Dictionary = StepEngine.predict_next_step(state, "power_save").prediction
+	_case("prediction power_save clamps in eclipse and advances", _prediction_matches_execution(state, "power_save") and depleted.energy_wh_after == 0.0 and depleted.energy_clamped and depleted.next_step_index == 1 and depleted.energy_generated_wh == 0.0)
+	var low_energy: Dictionary = StepEngine.predict_next_step(state, "observe").prediction
+	_case("prediction low battery keeps energy and storage unchanged", _prediction_matches_execution(state, "observe") and low_energy.blocked_code == "LOW_BATTERY" and low_energy.energy_wh_after == state.energy_wh and low_energy.stored_data_mb_after == state.stored_data_mb)
+	var replay_matches: bool = true
+	var last_step_matches: bool = true
+	for orbit_id in ["low_eq", "high_inc"]:
+		state = _initialized(_config(orbit_id), source_catalog)
+		while state.phase != "finished":
+			for action in StepEngine.ACTIONS:
+				replay_matches = _prediction_matches_execution(state, action) and replay_matches
+			var action: String = "power_save"
+			var available: Dictionary = StepEngine.get_available_actions(state).available_actions
+			if available.observe.allowed:
+				action = "observe"
+			elif available.transmit.allowed:
+				action = "transmit"
+			if state.step_index == state.total_steps - 1:
+				var final_prediction: Dictionary = StepEngine.predict_next_step(state, action).prediction
+				last_step_matches = last_step_matches and final_prediction.will_finish and final_prediction.next_step_index == state.total_steps and final_prediction.phase_after == "finished" and final_prediction.run_status_after == "completed"
+			state = StepEngine.request_action(state, action).state
+		var finished: Dictionary = StepEngine.predict_next_step(state, "power_save").prediction
+		replay_matches = _prediction_matches_execution(state, "power_save") and finished.blocked_code == "MISSION_FINISHED" and finished.step_duration_hours == 0.0 and not finished.will_finish and replay_matches
+	_case("prediction equals execution throughout both orbit presets without input mutation", replay_matches)
+	_case("prediction identifies final accepted step", last_step_matches)
+	state = StepEngine.abort_run(_initialized(_config(), source_catalog), "Operator test abort").state
+	var aborted: Dictionary = StepEngine.predict_next_step(state, "observe").prediction
+	_case("prediction preserves aborted terminal status", _prediction_matches_execution(state, "observe") and aborted.blocked_code == "MISSION_FINISHED" and aborted.run_status_after == "aborted" and aborted.elapsed_step_hours == 0.0)
+	var invalid: Dictionary = StepEngine.predict_next_step({}, "observe")
+	state = _initialized(_config(), source_catalog)
+	state.energy_wh = NAN
+	var nonfinite: Dictionary = StepEngine.predict_next_step(state, "observe")
+	_case("prediction rejects malformed and nonfinite state", not invalid.ok and invalid.error.code == "INVALID_MISSION_STATE" and not nonfinite.ok and nonfinite.error.code == "INVALID_MISSION_STATE")
+
+func _prediction_matches_execution(state: Dictionary, action: String) -> bool:
+	var before: Dictionary = state.duplicate(true)
+	var predicted: Dictionary = StepEngine.predict_next_step(state, action)
+	var repeated: Dictionary = StepEngine.predict_next_step(state, action)
+	if not predicted.get("ok", false) or predicted != repeated or state != before:
+		return false
+	var actual: Dictionary = StepEngine.request_action(state, action)
+	if not actual.get("ok", false) or state != before:
+		return false
+	var p: Dictionary = predicted.prediction
+	var s: Dictionary = actual.state
+	if p.allowed != actual.allowed or p.next_step_index != s.step_index or p.phase_after != s.phase or p.run_status_after != s.run_status:
+		return false
+	if p.run_id != state.run_id or p.mission_id != state.mission_id or p.scenario_id != state.scenario_id or p.step_index != state.step_index:
+		return false
+	for key in ["energy_wh", "stored_data_mb", "returned_data_mb", "observations_completed"]:
+		if p[key + "_after"] != s[key]:
+			return false
+	var event: Dictionary = actual.events[0]
+	for key in ["delta_energy_wh", "delta_stored_data_mb", "delta_returned_data_mb", "delta_observations", "energy_generated_wh", "energy_consumed_wh", "energy_clamped", "data_added_mb", "data_transmitted_mb"]:
+		if p[key] != event.get(key, false if key == "energy_clamped" else 0.0):
+			return false
+	if not p.allowed and (p.blocked_code != event.code or p.reason != event.message):
+		return false
+	return true
 
 func _catalog() -> Dictionary:
 	var file := FileAccess.open("res://data/fixtures/hpc_catalog.json", FileAccess.READ)

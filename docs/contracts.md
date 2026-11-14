@@ -215,3 +215,8 @@ Added at the user's request on 14 November 2026. This implementation addendum do
 ### HPC validated initialization (refreshed owner implementation)
 
 `MissionStepEngine.init_validated_run(config: Dictionary, ke1_catalogs: Dictionary, run_id: String, mission_id: String) -> Dictionary` validates the supplied config with KE1, constructs the scenario from that same catalog bundle and initializes only when readiness passes. Success retains the existing `ok/state/events` wrapper plus `validation_result`. Readiness failure returns `ok: false`, a `MISSION_NOT_READY` error and the actual `validation_result`. The lower-level `init_run` remains available for isolated tests. Active game Launch uses the validated entry point. This additive owner API does not change numeric catalog values or the preserved signed agreement.
+
+
+### Optional next-step prediction (HPC bd51e55)
+
+`MissionStepEngine.predict_next_step(state: Dictionary, action: String) -> Dictionary` returns `{ok: true, prediction: {...}}` for a well-formed state, including blocked actions, or the native `ok/error` wrapper for malformed state. Prediction includes action availability/reason, next index and terminal status, before/after resource values, energy generation/consumption/clamping, available storage and capture/data deltas. Blocked actions leave counters/time unchanged. It never modifies caller state, appends events or allocates event IDs. Prediction, eligibility and accepted execution share `_project_resources` accounting. SE retains its multi-target selection, FIFO packet attribution and Survey reservation logic. This addition does not add prediction controls to the UI.
