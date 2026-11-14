@@ -2,11 +2,11 @@ extends SceneTree
 
 const StepEngine = preload("res://core/MissionStepEngine.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
-const HPC_BASE_SHA: String = "ab7865cf45e65de84637b4319899759928ee7082"
+const HPC_BASE_SHA: String = "ce478f94a918047c0449fe30bfffe18f368315fd"
 const KE1_SHA: String = "15385a442c0dfeebd4752a8a648e306624327098"
-const TRACE_REVISION: String = "hpc-ke1-adapter-abort-v0.1"
-const RUN_ID: String = "run_ke2_handoff_v01"
-const MISSION_ID: String = "mission_ke2_handoff_v01"
+const TRACE_REVISION: String = "hpc-ke3-ops-trace-v0.1"
+const RUN_ID: String = "run_ke3_handoff_v01"
+const MISSION_ID: String = "mission_ke3_handoff_v01"
 
 func _initialize() -> void:
 	var config_file: FileAccess = FileAccess.open("res://docs/contracts/v1-draft/mission-config.example.json", FileAccess.READ)
@@ -76,9 +76,9 @@ func _initialize() -> void:
 		"source": {
 			"repository": "taite-ang-saiyin/orbitbridge-mission-architect",
 			"hpc_branch": "feature/hpc-simulator",
-			"hpc_base_commit_sha": HPC_BASE_SHA,
+			"hpc_implementation_commit_sha": HPC_BASE_SHA,
 			"hpc_working_tree_revision": TRACE_REVISION,
-			"hpc_changes_committed": false,
+			"hpc_changes_committed": true,
 			"ke1_branch": "ke1",
 			"ke1_commit_sha": KE1_SHA,
 			"config_fixture": "origin/ke1:tests/fixtures/ke1_config.json (same payload as docs/contracts/v1-draft/mission-config.example.json)",
@@ -112,13 +112,13 @@ func _initialize() -> void:
 		"final_state": _terminal_state_payload(state),
 		"events": ordered_events
 	}
-	var output: FileAccess = FileAccess.open("res://docs/hpc-ke2-trace-v0.1.json", FileAccess.WRITE)
+	var output: FileAccess = FileAccess.open("res://docs/hpc-ke3-ops-trace-v0.1.json", FileAccess.WRITE)
 	if output == null:
 		_fail("Could not write trace payload")
 		return
 	output.store_string(JSON.stringify(trace, "\t"))
 	output.close()
-	print("Wrote KE2 trace revision %s (%d events, %s)." % [TRACE_REVISION, ordered_events.size(), state.run_status])
+	print("Wrote KE3 operations trace revision %s (%d events, %s)." % [TRACE_REVISION, ordered_events.size(), state.run_status])
 	quit(0)
 
 func _ke1_catalog_sample() -> Dictionary:
