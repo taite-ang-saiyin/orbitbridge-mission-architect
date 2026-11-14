@@ -34,9 +34,9 @@ See [current integration guide](docs/LOGIC_INTEGRATION.md) for mappings, limits 
 - `scenes/screens/*.tscn`：六个独立可导航场景。运行时使用容器构建 UI，编辑器中场景只显示根节点；实际界面请运行查看。
 - `scripts/prototype/Screen.gd`：六页的轻量 UI 行为。页面发出 `navigate(index)` 信号，由 Main 执行切换；无 autoload 或复杂状态框架。
 - `ui/components/UI.gd`：Label、Button、PanelContainer 的小型创建工具。
-- `ui/components/OrbitIllustration.gd`：Control `_draw()` 原生绘图；位置来自事件索引，无轨道计算。
+- `scripts/visualization/OperationsOrbitViewport.gd`：交互式地球、目标与轨道预览；图形为示意动画。
 - `ui/theme/PrototypeTheme.gd`：Theme + StyleBoxFlat 统一颜色、边框、间距和圆角。
-- `data/mock/PrototypeData.gd`：独立固定组件规格、事件、Run A / B 数据。它不是生产 RunTrace schema。
+- `scripts/integration/mission_runtime.gd`：使用实际组件目录、验证结果及模拟状态；旧固定报告已移除。
 - `tests/prototype_smoke.gd`：可独立运行的 UI 行为与布局检查。
 
 实现顺序对应 A 导航 → B 主题 → C 开始/任务 → D 设计/检查 → E 运营 → F 对比 → G 验证。学习时优先阅读 Controller 的 `show_screen()`，然后 Screen 的 `choice()`、`select_event()`：分别展示场景替换、控件信号更新状态、固定数据驱动多个 UI 元素。
@@ -76,3 +76,11 @@ The Builder now has three independent choices for Body, Solar Panels, and Radio,
 Engineering and simulation data remain development fixtures; the team contracts are preserved for integration. See [team agreement](docs/team-agreement.md), [contracts](docs/contracts.md), and [satellite integration details](docs/SATELLITE_BUILDER.md). Earlier prototype sections describe prior iterations.
 
 Current controller evaluation status, version caveats and evidence: [SE/KE2 integration handoff](docs/SE_KE2_CONTROLLER_HANDOFF.md).
+
+## Mission summary review
+
+Creator's **Next: Spacecraft Builder** button opens a themed overlay with the mission name, description, objective, targets, orbit, capture/data goals, duration and budget. The player must tick the acknowledgement before **Confirm & Continue to Builder** becomes available. Closing the overlay does not confirm the mission.
+
+`request_screen()` enforces this review for player navigation into Builder, Readiness and Operations. The confirmation records an exact mission snapshot; changed requirements need a matching review, while New Mission clears it. Engineering checks and launch validation remain separate. `show_screen()` is the low-level renderer used by isolated screen tests, not a player navigation entry point.
+
+Run `tests/mission_review_smoke.gd` for the acknowledgement, cancel, stale-summary, sidebar and responsive-overlay checks.

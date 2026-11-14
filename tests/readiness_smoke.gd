@@ -14,12 +14,12 @@ func check() -> void:
 	app.state.policy = "Downlink First"
 	for resolution in [Vector2i(1440, 900), Vector2i(1280, 720), Vector2i(1024, 768), Vector2i(1920, 1080), Vector2i(3360, 2100)]:
 		root.size = resolution
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.show_screen(3)
 		await settle()
 		var page = app.current
 		assert(page.screen_id == "FlightReadiness")
-		assert(page.progress_nav.get_child(3).button_pressed)
-		assert(not app.nav.visible and not app.shell_footer.visible)
+		assert(not app.shell_footer.visible)
 		assert(page.content.size.x <= page.scroll.size.x + 1, "Horizontal overflow")
 		assert(Rect2(Vector2.ZERO, app.size).encloses(page.next_button.get_global_rect()))
 		assert("Readiness Review" in page.summary.text)
@@ -46,11 +46,16 @@ func check() -> void:
 		page.warning_details_button.pressed.emit()
 		assert(page.warning_dialog.visible)
 		assert("readiness" in page.warning_dialog.dialog_text)
-		page.warning_dialog.hide()
+		await settle()
+		assert(Rect2(Vector2.ZERO, app.size).encloses(page.warning_dialog.card.get_global_rect()), "Readiness details must fit the viewport")
+		assert(page.warning_dialog.checks_box.get_child_count() == 8)
+		page.warning_dialog.close_button.pressed.emit()
+		assert(not page.warning_dialog.visible)
 		page.next_button.pressed.emit()
 		await settle()
 		assert(app.current.screen_id == "MissionOperations")
 		assert("Readiness Review" in app.current.status.text)
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.show_screen(3)
 		await settle()
 		app.current.previous.pressed.emit()
@@ -62,6 +67,7 @@ func check() -> void:
 	app.state.launch_profile_id = "illustrative_alternative"
 	app.state.launcher_id = "medium"
 	app.state.budget = 120
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.show_screen(3)
 	await settle()
 	assert(app.current.gauges.mass.limit_text.contains("5000"))

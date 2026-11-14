@@ -1,4 +1,5 @@
 extends "res://scripts/screens/Workbench.gd"
+const REVIEW = preload("res://scripts/integration/mission_review.gd")
 const THUMB = preload("res://ui/components/TargetThumbnail.gd")
 var name_input: LineEdit
 var description_input: TextEdit
@@ -7,7 +8,6 @@ var observation_input: SpinBox
 var returned_data_input: SpinBox
 var budget_input: HSlider
 var budget_label: Label
-var success_label: Label
 var target_note: Label
 var coverage_rows: VBoxContainer
 var target_buttons: Dictionary = {}
@@ -22,6 +22,9 @@ var budget_ticks: Control
 var orbit_select: OptionButton
 var coverage_frame: Control
 var region_buttons: Dictionary = {}
+var right_column: VBoxContainer
+var requirements_row: BoxContainer
+var review_dialog: Control
 func _ready() -> void:
 	screen_id = "MissionCreator"
 	setup("02 / MISSION DESIGN", "Mission Creator", "Define the objective, targets and boundaries of your mission.", 0, 2, "Next: Spacecraft Builder")
@@ -32,16 +35,18 @@ func _ready() -> void:
 	form_columns.size_flags_stretch_ratio = 4.2
 	var left = column(form_columns)
 	left.add_theme_constant_override("separation", 8)
-	var center = column(form_columns, 1.23)
-	summary_column = column(workspace, 1.0)
+	var center = column(form_columns, 1.1)
+	right_column = center
 	build_details(left)
 	build_objectives(left)
 	build_targets(left)
 	build_coverage(center)
 	build_requirements(center)
-	build_summary()
 	resized.connect(responsive)
+	right_column.resized.connect(responsive)
 	call_deferred("responsive")
+	for connection in next_button.pressed.get_connections(): next_button.pressed.disconnect(connection.callable)
+	next_button.pressed.connect(continue_to_builder)
 	refresh()
 func build_details(parent: Node) -> void:
 	var box = section(parent, "01   MISSION DETAILS")
@@ -69,7 +74,7 @@ func build_details(parent: Node) -> void:
 			description_input.text = description_input.text.left(200)
 			description_input.set_caret_column(200)
 		state.description = description_input.text
-		description_count.text = "%s / 200" % state.description.length())
+		refresh())
 func build_objectives(parent: Node) -> void:
 	var box = section(parent, "02   MISSION OBJECTIVE")
 	UI.label(box, "Choose pooled imagery or a survey across each selected target.", 12, "a5bed0")
@@ -81,9 +86,9 @@ func build_objectives(parent: Node) -> void:
 		objective_buttons[entry[0]] = button
 func build_targets(parent: Node) -> void:
 	var box = section(parent, "03   SELECT TARGETS")
-	var counts = row(box.get_child(0))
+	var counts = row(box)
 	counts.add_theme_constant_override("separation", 5)
-	UI.label(counts, "Number of targets", 11, "9db9cb").custom_minimum_size.x = 98
+	UI.label(counts, "Number of targets", 11, "9db9cb").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for count in [1, 2]:
 		var button = UI.button(counts, str(count), func(): set_target_limit(count))
 		button.toggle_mode = true
@@ -102,7 +107,7 @@ func build_targets(parent: Node) -> void:
 		region_button.custom_minimum_size.y = 32
 		region_buttons[entry[0]] = region_button
 	var locations = column(selector)
-	UI.label(locations, "Target location / select up to 2", 11, "a5bed0")
+	UI.label(locations, "Target locations", 11, "a5bed0")
 	target_grid = GridContainer.new()
 	target_grid.columns = 3
 	target_grid.add_theme_constant_override("h_separation", 8)
@@ -110,7 +115,7 @@ func build_targets(parent: Node) -> void:
 	locations.add_child(target_grid)
 	for entry in CATALOG.TARGETS:
 		var button = Button.new()
-		button.custom_minimum_size = Vector2(0, 70)
+		button.custom_minimum_size = Vector2(0, 78)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.toggle_mode = true
 		button.tooltip_text = entry[0] + " / " + entry[1]
@@ -123,26 +128,32 @@ func build_targets(parent: Node) -> void:
 		button.add_child(margin)
 		var layout = VBoxContainer.new()
 		layout.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		layout.add_theme_constant_override("separation", 4)
 		margin.add_child(layout)
 		var thumb = THUMB.new()
 		thumb.terrain = entry[2]
 		layout.add_child(thumb)
-		var caption = UI.label(layout, entry[0].replace("Equatorial Ocean", "Equatorial\nOcean").replace("Antarctic Region", "Antarctic"), 10)
+		var caption = UI.label(layout, entry[0].replace("Antarctic Region", "Antarctic"), 10)
+		caption.custom_minimum_size.y = 28
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var fit_card = func(): button.custom_minimum_size.y = margin.get_combined_minimum_size().y
+		margin.minimum_size_changed.connect(fit_card)
+		fit_card.call_deferred()
 		button.pressed.connect(toggle_target.bind(entry[0]))
 		target_buttons[entry[0]] = button
 	target_note = UI.label(box, "", 11, "79c9d6")
 func build_coverage(parent: Node) -> void:
 	var box = section(parent, "04   ORBIT COVERAGE PREVIEW")
-	UI.label(box, "Explore presets. The orbit stays your choice.", 12, "8ca9bd")
+	UI.label(box, "Preview the selected orbit and target access.", 12, "8ca9bd")
 	orbit_select = dropdown(box.get_child(0), CATALOG.ORBITS, state.orbit, func(value):
 		state.orbit = value
 		refresh())
 	var view = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn").instantiate()
+	view.set_script(preload("res://scripts/visualization/CreatorOrbitViewport.gd"))
 	coverage_view = view
 	coverage_frame = Control.new()
-	coverage_frame.custom_minimum_size = Vector2(230, 255)
+	coverage_frame.custom_minimum_size = Vector2(230, 320)
 	box.add_child(coverage_frame)
 	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	coverage_frame.add_child(view)
@@ -161,36 +172,40 @@ func build_coverage(parent: Node) -> void:
 	coverage_rows = VBoxContainer.new()
 	coverage_rows.add_theme_constant_override("separation", 4)
 	coverage_overlay.add_child(coverage_rows)
-	UI.label(box, "Drag to rotate · scroll to zoom · click an orbit to select. Authored access windows.", 11, "7897ad")
+	UI.label(box, "Drag to rotate · scroll to zoom · click an orbit to select.", 11, "7897ad")
 func build_requirements(parent: Node) -> void:
-	var requirements = row(parent)
-	var box = section(requirements, "05   REQUIRED OBSERVATIONS")
-	UI.label(box, "Successful captures required.", 12, "a5bed0")
+	requirements_row = BoxContainer.new()
+	requirements_row.add_theme_constant_override("separation", 12)
+	parent.add_child(requirements_row)
+	var box = section(requirements_row, "05   REQUIRED OBSERVATIONS")
+	var captures = row(box)
+	UI.label(captures, "Images (1–8)", 12, "a5bed0").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	observation_input = SpinBox.new()
 	observation_input.min_value = 1
 	observation_input.max_value = 8
 	observation_input.value = state.observations
-	observation_input.custom_minimum_size.y = 40
+	observation_input.custom_minimum_size = Vector2(100, 38)
 	observation_input.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	box.add_child(observation_input)
+	captures.add_child(observation_input)
 	observation_input.value_changed.connect(func(value):
 		state.observations = int(value)
 		refresh())
-	UI.label(box, "Range: 1–8", 11, "a5bed0")
-	UI.label(box, "Required data returned to Earth (MB)", 12, "a5bed0")
+	var returned = row(box)
+	UI.label(returned, "Return data (MB)", 12, "a5bed0").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if not state.has("required_returned_data_mb"): state.required_returned_data_mb = float(state.observations) * 12.0
 	returned_data_input = SpinBox.new()
 	returned_data_input.min_value = 0.1
 	returned_data_input.max_value = 10000
 	returned_data_input.step = 0.1
 	returned_data_input.value = state.required_returned_data_mb
-	returned_data_input.custom_minimum_size.y = 40
-	box.add_child(returned_data_input)
+	returned_data_input.custom_minimum_size = Vector2(100, 38)
+	returned_data_input.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	returned.add_child(returned_data_input)
 	returned_data_input.value_changed.connect(func(value):
 		state.required_returned_data_mb = value
 		refresh())
-	box = section(requirements, "06   MISSION DURATION")
-	UI.label(box, "Select the mission length.", 12, "a5bed0")
+	box = section(requirements_row, "06   MISSION DURATION")
+
 	var durations = row(box)
 	durations.add_theme_constant_override("separation", 5)
 	for duration in [3, 6, 9]:
@@ -198,14 +213,13 @@ func build_requirements(parent: Node) -> void:
 			state.duration = duration
 			refresh())
 		button.toggle_mode = true
-		button.custom_minimum_size = Vector2(0, 56)
+		button.custom_minimum_size = Vector2(0, 76)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.add_theme_font_size_override("font_size", 12)
 		duration_buttons[duration] = button
 	box = section(parent, "07   BUDGET")
-	var budget_header = row(box)
-	UI.label(budget_header, "Set the total mission budget (credits).", 12, "a5bed0").size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	budget_label = UI.label(budget_header, "", 15, "d9f5ff")
+	var budget_header = box.get_child(0)
+	budget_label = UI.label(budget_header, "", 14, "d9f5ff")
 	budget_label.custom_minimum_size.x = 110
 	budget_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	budget_input = HSlider.new()
@@ -222,17 +236,6 @@ func build_requirements(parent: Node) -> void:
 	budget_ticks.slider = budget_input
 	box.add_child(budget_ticks)
 
-func build_summary() -> void:
-	var box = section(summary_column, "MISSION SUMMARY")
-	var art = THUMB.new()
-	art.terrain = "coast"
-	art.custom_minimum_size.y = 98
-	box.add_child(art)
-	summary = UI.label(box, "", 13)
-	box.add_child(HSeparator.new())
-	UI.label(box, "SUCCESS CONDITION", 13, "4ceaa9")
-	success_label = UI.label(box, "", 13, "b4e6d5")
-	UI.label(box, "Captures and returned MB are independent goals.", 11, "7d9daf")
 func set_target_limit(limit: int) -> void:
 	target_limit = limit
 	state.target_limit = limit
@@ -257,14 +260,13 @@ func refresh_targets() -> void:
 		target_buttons[entry[0]].visible = region == "All" or region == entry[1]
 		target_buttons[entry[0]].set_pressed_no_signal(entry[0] in state.targets)
 func refresh() -> void:
-	if not is_instance_valid(summary):
-		return
+	if not is_instance_valid(coverage_view): return
 	state.target = ", ".join(state.targets)
-	summary.text = "%s\n\nObjective    %s\n\nTargets\n%s\n\nObservations    %s\n\nReturned data    %s MB\n\nDuration    %s Orbits\n\nBudget    %s Credits" % [state.name if not state.name.strip_edges().is_empty() else "Untitled Mission", state.objective, "\n".join(state.targets), state.observations, state.required_returned_data_mb, state.duration, state.budget]
-	success_label.text = CATALOG.success(state)
+	next_button.text = "Next: Spacecraft Builder  →"
+
 	description_count.text = "%s / 200" % state.description.length()
 	budget_label.text = "%s Credits" % state.budget
-	target_note.text = "%s / %s selected · Click the active region to show all." % [state.targets.size(), target_limit]
+	target_note.text = "%s / %s selected · Click the region again to show all." % [state.targets.size(), target_limit]
 	for objective in objective_buttons:
 		objective_buttons[objective].set_pressed_no_signal(state.objective == objective)
 	for duration in duration_buttons:
@@ -289,7 +291,28 @@ func refresh() -> void:
 	next_button.disabled = (state.name.strip_edges().is_empty() or (state.objective == "Survey Target Regions" and state.observations < state.targets.size()))
 	next_button.tooltip_text = "Enter a name and request at least one capture per survey target." if next_button.disabled else "Continue to spacecraft design"
 func responsive() -> void:
-	if not is_instance_valid(summary_column):
+	if not is_instance_valid(right_column):
 		return
-	fit_workbench()
-	coverage_frame.custom_minimum_size.y = clampf(size.y * 0.29, 160, 255)
+	fit_navigation()
+	form_columns.add_theme_constant_override("separation", 12)
+	requirements_row.vertical = right_column.size.x < 560
+	coverage_frame.custom_minimum_size.y = clampf(size.y * 0.52, 320, 480)
+
+func continue_to_builder() -> void:
+	open_mission_review()
+
+func open_mission_review() -> void:
+	if not is_instance_valid(review_dialog):
+		var layer = CanvasLayer.new()
+		layer.layer = 100
+		add_child(layer)
+		review_dialog = preload("res://ui/components/MissionSummaryReview.gd").new()
+		layer.add_child(review_dialog)
+		review_dialog.confirmed.connect(func(reviewed):
+			if REVIEW.confirm(state, reviewed):
+				refresh()
+				navigate.emit(2)
+			else:
+				refresh()
+				open_mission_review())
+	review_dialog.show_summary(state)

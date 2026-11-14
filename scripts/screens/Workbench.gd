@@ -14,7 +14,6 @@ var screen_id: String
 var heading: HBoxContainer
 var badge: Label
 var previous: Button
-var progress_nav: HBoxContainer
 func setup(_kicker: String, title: String, subtitle: String, back: int, next: int, next_text: String) -> void:
 	CATALOG.ensure(state)
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -28,31 +27,6 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 	
 	UI.label(titles, title, 23)
 	UI.label(titles, subtitle, 12, "9ab5c8")
-	progress_nav = HBoxContainer.new()
-	progress_nav.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	progress_nav.add_theme_constant_override("separation", 4)
-	progress_nav.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	progress_nav.size_flags_stretch_ratio = 3.0
-	heading.add_child(progress_nav)
-	var current_step: int = {"MissionCreator": 1, "SpacecraftBuilder": 2, "FlightReadiness": 3, "MissionOperations": 4}.get(screen_id, 0)
-	for index in 6:
-		var step = preload("res://scripts/ui/MissionStepButton.gd").new()
-		step.number = index + 1
-		step.complete = index < current_step
-		step.show_arrow = index < 5
-		step.tooltip_text = ["Start", "Mission Creator", "Spacecraft Builder", "Flight Readiness", "Operations", "Debrief"][index]
-		step.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		progress_nav.add_child(step)
-		step.pressed.connect(func(): navigate.emit(index))
-		step.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-		var active = preload("res://ui/theme/WorkbenchTheme.gd").box(Color("02394b"), Color("4aeeff"), 0)
-		active.set_corner_radius_all(14)
-		active.shadow_color = Color(0, 0.85, 1, 0.35)
-		active.shadow_size = 6
-		step.add_theme_stylebox_override("pressed", active)
-		step.add_theme_stylebox_override("hover", active)
-		step.toggle_mode = true
-		step.set_pressed_no_signal(index == current_step)
 	scroll = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -64,7 +38,7 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 	var actions = HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 12)
 	add_child(actions)
-	previous = UI.button(actions, "<  Back: " + {0: "Mission Control", 1: "Mission Creator", 2: "Spacecraft Builder", 3: "Flight Readiness"}.get(back, "Back"), func(): navigate.emit(back))
+	previous = UI.button(actions, "<  Back: " + {0: "Home", 1: "Mission Creator", 2: "Spacecraft Builder", 3: "Flight Readiness"}.get(back, "Back"), func(): navigate.emit(back))
 	previous.custom_minimum_size.y = 44
 	var spacer = Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -120,29 +94,6 @@ func fit_navigation() -> void:
 	add_theme_constant_override("separation", gap)
 	previous.custom_minimum_size.y = 48
 	next_button.custom_minimum_size = Vector2(270, 48)
-	# Inline beside the page title on desktop; a second row keeps small screens readable.
-	var destination: Node = self if size.x < 1180 else heading
-	if progress_nav.get_parent() != destination:
-		progress_nav.reparent(destination)
-		if destination == self: move_child(progress_nav, 1)
-	for index in 6:
-		var step = progress_nav.get_child(index)
-		step.compact = (size.x < 1180 or progress_nav.size.x < 820)
-		step.size_flags_stretch_ratio = 1.0 if step.compact else [1.0, 1.3, 1.5, 1.4, 1.1, 0.9][index]
-		step.caption = (["Start", "Create", "Build", "Check", "Operate", "Debrief"] if step.compact else ["Start", "Mission Creator", "Spacecraft Builder", "Flight Readiness", "Operations", "Debrief"])[index]
-		step.custom_minimum_size.y = 54
-		step.queue_redraw()
-
-func fit_workbench() -> void:
-	fit_navigation()
-	var gap = 12 if size.x >= 1250 else 10
-	workspace.add_theme_constant_override("separation", gap)
-	form_columns.add_theme_constant_override("separation", gap)
-	var destination: Node = content
-	if size.x >= 1180:
-		destination = workspace
-	if summary_column.get_parent() != destination:
-		summary_column.reparent(destination)
 
 func choice_card(parent: Node, title: String, detail: String, action: Callable, height: float = 100) -> Button:
 	var button = Button.new()

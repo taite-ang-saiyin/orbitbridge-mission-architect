@@ -36,7 +36,7 @@ func check():
 						node.text = "Test Mission"
 						node.text_changed.emit(node.text)
 						break
-				assert("Test Mission" in app.current.summary.text)
+				assert(app.current.name_input.text == "Test Mission")
 			if i == 2:
 				app.current.select_component("body_id", "dev_body_2")
 				assert(app.state.body_id == "dev_body_2")

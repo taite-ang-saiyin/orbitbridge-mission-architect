@@ -6,9 +6,9 @@ var shell: Control
 var landing_host: Control
 var host: Control
 var current: Control
-var nav: HBoxContainer
 var shell_footer: Label
 var sidebar: VBoxContainer
+var sidebar_rail: PanelContainer
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -47,21 +47,13 @@ func _ready():
 	header.add_child(mark)
 	header.add_child(title)
 	var status = Label.new()
-	status.text = "◉  MISSION CONTROL     •     LOCAL SIMULATION"
+	status.text = "ORBITBRIDGE     •     MISSION LAB"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
 	var home_button = Button.new()
 	home_button.text = "Home"
-	home_button.pressed.connect(show_home)
+	home_button.pressed.connect(request_screen.bind(0))
 	header.add_child(home_button)
-	nav = HBoxContainer.new()
-	layout.add_child(nav)
-	for i in SCREENS.size():
-		var button = Button.new()
-		button.text = str(i + 1) + "  " + ["Control", "Mission Creator", "Spacecraft", "Readiness", "Operations", "Debrief"][i]
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.pressed.connect(show_screen.bind(i))
-		nav.add_child(button)
 	host = Control.new()
 	host.name = "ScreenHost"
 	host.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -69,18 +61,19 @@ func _ready():
 	dashboard.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	layout.add_child(dashboard)
 	var rail = PanelContainer.new()
+	sidebar_rail = rail
 	rail.custom_minimum_size.x = 172
 	dashboard.add_child(rail)
 	sidebar = VBoxContainer.new()
 	sidebar.add_theme_constant_override("separation", 12)
 	rail.add_child(sidebar)
-	for entry in [["⌂  Home", -1], ["＋  New Mission", 1], ["◉  Mission Control", 0], ["◇  Spacecraft Builder", 2], ["✓  Flight Readiness", 3], ["▷  Operations", 4], ["≡  Debrief", 5]]:
+	for entry in [["⌂  Home", 0], ["＋  Mission Creator", 1], ["◇  Spacecraft Builder", 2], ["✓  Flight Readiness", 3], ["▷  Operations", 4], ["≡  Debrief", 5]]:
 		var link = Button.new()
 		link.text = entry[0]
 		link.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		link.custom_minimum_size.y = 46
-		if entry[0] == "＋  New Mission": link.pressed.connect(start_new_mission)
-		else: link.pressed.connect(show_screen.bind(entry[1]))
+		link.set_meta("screen_index", entry[1])
+		link.pressed.connect(request_screen.bind(entry[1]))
 		sidebar.add_child(link)
 	var rail_spacer = Control.new()
 	rail_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -94,7 +87,7 @@ func _ready():
 	dashboard.add_child(host)
 	var footer = Label.new()
 	shell_footer = footer
-	footer.text = "KE1 VALIDATION / HPC SIMULATION   •   OrbitBridge Mission Lab"
+	footer.text = "OrbitBridge Mission Lab"
 	footer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	footer.add_theme_font_size_override("font_size", 12)
 	layout.add_child(footer)
@@ -110,9 +103,6 @@ func fit_shell():
 	var padding = 18 if size.x >= 1250 else 12
 	for side in ["left", "right", "top", "bottom"]:
 		shell.add_theme_constant_override("margin_" + side, padding)
-	for button in nav.get_children():
-		button.custom_minimum_size.y = 44
-		button.add_theme_font_size_override("font_size", 14 if size.x >= 1200 else 13)
 
 func clear_screen():
 	if is_instance_valid(current):
@@ -129,6 +119,15 @@ func show_home():
 	current.start_requested.connect(show_screen.bind(0))
 	current.quit_requested.connect(func(): get_tree().quit())
 	landing_host.add_child(current)
+
+func request_screen(index: int) -> void:
+	# Player navigation must acknowledge the current mission before the engineering flow.
+	var needs_review: bool = index in [2, 3, 4] or (index == 5 and not state.has("run_trace"))
+	if needs_review and not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
+		if not is_instance_valid(current) or current.screen_id != "MissionCreator": show_screen(1)
+		current.open_mission_review()
+		return
+	show_screen(index)
 
 func show_screen(index: int):
 	if index == -1:
@@ -152,19 +151,17 @@ func show_screen(index: int):
 	var path = "res://scenes/screens/mission_control/MissionControl.tscn" if index == 0 else "res://scenes/screens/" + SCREENS[index] + ".tscn"
 	current = load(path).instantiate()
 	current.state = state
-	current.navigate.connect(show_screen)
+	current.navigate.connect(request_screen)
 	if current.has_signal("terminal_state"): current.terminal_state.connect(on_terminal_state)
 	if current.has_signal("abort_requested"): current.abort_requested.connect(abort_current_run)
 	if current.has_signal("retry_requested"): current.retry_requested.connect(retry_mission)
 	if current.has_signal("new_mission_requested"): current.new_mission_requested.connect(start_new_mission)
-	nav.visible = false
+	sidebar_rail.visible = index != 0
 	for i in sidebar.get_child_count():
 		var link = sidebar.get_child(i)
-		if link is Button: link.disabled = [-1, 1, 0, 2, 3, 4, 5][i] == index
-	shell_footer.visible = index not in [1, 2, 3, 4]
+		if link is Button: link.disabled = link.get_meta("screen_index", -1) == index
+	shell_footer.visible = index not in [0, 1, 2, 3, 4]
 	host.add_child(current)
-	for i in nav.get_child_count():
-		nav.get_child(i).disabled = i == index
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F11:
@@ -175,6 +172,9 @@ func on_terminal_state(native_state: Dictionary) -> Dictionary:
 	return preload("res://scripts/integration/mission_results.gd").publish(state, native_state)
 
 func retry_mission() -> void:
+	if not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
+		request_screen(2)
+		return
 	preload("res://scripts/integration/mission_results.gd").retry(state)
 	var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 	show_screen(4 if launched.ok else 3)

@@ -71,7 +71,7 @@ func start():
 	UI.button(left, "How to Play", func():
 		var popup = AcceptDialog.new()
 		popup.title = "How to Play"
-		popup.dialog_text = "1. Define a mission.\n2. Select a spacecraft and policy.\n3. Review KE1 readiness checks.\n4. Play or step through HPC events.\n5. Inspect actual run totals.\n\nAll values are local demonstration fixtures."
+		popup.dialog_text = "1. Define a mission.\n2. Select a spacecraft and policy.\n3. Review flight readiness.\n4. Play or step through your mission.\n5. Inspect actual run totals.\n\nAll values are local demonstration fixtures."
 		add_child(popup)
 		popup.popup_centered(Vector2i(490, 300)))
 	var right = UI.panel(row, "EARTH OBSERVATION / CONCEPT VIEW")
@@ -95,7 +95,7 @@ func mission_name() -> String:
 var results: Label
 func debrief():
 	var row = columns()
-	var outcome = UI.panel(row, "MISSION RESULTS / KE2")
+	var outcome = UI.panel(row, "MISSION RESULTS")
 	var select = OptionButton.new()
 	var history: Array = result_history()
 	for trace in history: select.add_item(trace.final_state.run_id)
@@ -115,7 +115,7 @@ func debrief():
 	for trace in history:
 		for cell in [trace.final_state.run_id, str(trace.final_state.observations_completed), "%.3f" % trace.final_state.returned_data_mb]: UI.label(grid, cell, 14)
 	var explanation = UI.panel(content, "WHAT CAN WE LEARN?")
-	UI.label(explanation, "These totals come from the HPC simulation using your selected policy. Captured observations and returned MB are independent goals. KE2 reports and feedback are published once per run. Survey-specific scoring requires the current KE2 handoff. Orbital graphics are illustrative.", 16, "9cb0c8")
+	UI.label(explanation, "Compare the capture and returned-data goals, then adjust your design or operating policy for your next attempt.", 16, "9cb0c8")
 	var buttons = HBoxContainer.new()
 	content.add_child(buttons)
 	UI.button(buttons, "Retry Mission", func(): retry_requested.emit())
@@ -136,7 +136,7 @@ func show_actual_run(index: int):
 		results.text = "%s / %s\nScore: %s\n%s\n\n%s\n\nNext experiment: %s" % [report.run_id, report.status, str(report.score) if report.score != null else "Not scored (aborted)", trace.config.mission.title, report.explanation, report.next_experiment]
 	else:
 		var error: Dictionary = store.get("errors", {}).get(final.run_id, {"message": "Finish or abort playback before requesting evaluation.", "suggested_fix": "Return to Operations and finish or abort the run."})
-		results.text = "Evaluation unavailable\n%s\n%s" % [error.message, error.suggested_fix]
+		results.text = "Evaluation unavailable\n%s\n%s" % [UI.user_message(error.message), UI.user_message(error.suggested_fix)]
 	var mass: Dictionary = trace.validation.get("checks", {}).get("profile_mass", {})
 	if mass.get("source_id") == "cubesat_101_1u_sample":
 		results.text += "\n\nLaunch source: NASA CubeSat 101, App. C item 6, p.79: sample 1U mass <1330 g."
@@ -161,7 +161,6 @@ func mission_control():
 	globe.custom_minimum_size = Vector2(280, 310)
 	intro.add_child(globe)
 	globe.configure(state)
-	UI.label(intro, "KE1 readiness and HPC flight simulation / illustrative gameplay values.", 13, "9cb0c8")
 	var quick = UI.panel(row, "QUICK START")
 	UI.button(quick, "Create New Mission  >", new_mission)
 	UI.label(quick, "MISSION PRESETS", 14, "6fd9eb")

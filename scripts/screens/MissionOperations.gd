@@ -52,7 +52,7 @@ func _ready() -> void:
 			return
 	DATA.configure(state.run_trace)
 	run_configuration = state.run_trace.config.duplicate(true)
-	setup("05 / MISSION PLAYBACK", "Mission Operations", "Explore the HPC simulation generated from your validated design and operating policy.", 3, 5, "View Debrief")
+	setup("05 / MISSION PLAYBACK", "Mission Operations", "Follow your mission using the spacecraft and operating policy you selected.", 3, 5, "View Debrief")
 	workspace = row(content)
 	var left = column(workspace, 0.9)
 	var center = column(workspace, 2.2)
@@ -70,7 +70,7 @@ func build_status(parent: Node) -> void:
 	var box = section(parent, "MISSION STATUS")
 	status = UI.label(box, "", 15, "58e4b5")
 	mission_details = UI.label(box, "", 12, "c2d9e6")
-	UI.label(box, "HPC SIMULATION / POLICY PLAYBACK", 10, "78a6bf")
+	UI.label(box, "MISSION PLAYBACK", 10, "78a6bf")
 func build_progress(parent: Node) -> void:
 	var box = section(parent, "MISSION PROGRESS")
 	for target in state.targets:
@@ -179,7 +179,7 @@ func build_visualization(parent: Node) -> void:
 	scrub.add_child(seek_slider)
 	time_display = UI.label(scrub, "", 11)
 	time_display.custom_minimum_size.x = 148
-	UI.label(box, "ILLUSTRATIVE VIEW / HPC SIMULATION PLAYBACK", 10, "79a5bc")
+	UI.label(box, "ILLUSTRATIVE ORBIT VIEW", 10, "79a5bc")
 	show_view("Earth & Orbit")
 func build_telemetry(parent: Node) -> void:
 	var box = section(parent, "SPACECRAFT TELEMETRY")
@@ -322,7 +322,7 @@ func refresh() -> void:
 func expand_orbit() -> void:
 	if is_instance_valid(enlarged): enlarged.queue_free()
 	enlarged = AcceptDialog.new()
-	enlarged.title = "Earth & Orbit / HPC Playback"
+	enlarged.title = "Earth & Orbit"
 	add_child(enlarged)
 	expanded_orbit = ORBIT_VIEW.instantiate()
 	expanded_orbit.custom_minimum_size = Vector2(420, 300)

@@ -1,0 +1,126 @@
+[gd_scene load_steps=11 format=3]
+[sub_resource type="StandardMaterial3D" id="PlateMaterial"]
+albedo_color = Color(0.16, 0.21, 0.25, 1)
+metallic = 0.8
+roughness = 0.36
+[sub_resource type="StandardMaterial3D" id="SilverMaterial"]
+albedo_color = Color(0.7, 0.77, 0.82, 1)
+metallic = 0.85
+roughness = 0.28
+[sub_resource type="BoxMesh" id="MountMesh"]
+material = SubResource("PlateMaterial")
+size = Vector3(0.28, 0.045, 0.20)
+[sub_resource type="CylinderMesh" id="SocketMesh"]
+material = SubResource("PlateMaterial")
+top_radius = 0.022
+bottom_radius = 0.024
+height = 0.035
+radial_segments = 16
+[sub_resource type="CylinderMesh" id="BoltMesh"]
+material = SubResource("SilverMaterial")
+top_radius = 0.012
+bottom_radius = 0.012
+height = 0.008
+radial_segments = 6
+[sub_resource type="SphereMesh" id="TipMesh"]
+material = SubResource("SilverMaterial")
+radius = 0.007
+height = 0.014
+radial_segments = 12
+rings = 6
+[sub_resource type="CylinderMesh" id="RodMesh1"]
+material = SubResource("SilverMaterial")
+top_radius = 0.0055
+bottom_radius = 0.0065
+height = 0.46
+radial_segments = 12
+[sub_resource type="CylinderMesh" id="RodMesh2"]
+material = SubResource("SilverMaterial")
+top_radius = 0.0055
+bottom_radius = 0.0065
+height = 0.34
+radial_segments = 12
+[sub_resource type="CylinderMesh" id="RodMesh3"]
+material = SubResource("SilverMaterial")
+top_radius = 0.0055
+bottom_radius = 0.0065
+height = 0.43
+radial_segments = 12
+[sub_resource type="CylinderMesh" id="RodMesh4"]
+material = SubResource("SilverMaterial")
+top_radius = 0.0055
+bottom_radius = 0.0065
+height = 0.38
+radial_segments = 12
+[node name="CompactAntennaArray" type="Node3D"]
+[node name="MountingPlate" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.0225, 0)
+mesh = SubResource("MountMesh")
+[node name="Socket1" type="Node3D" parent="."]
+position = Vector3(-0.095, 0.045, 0.02)
+[node name="Collar" type="MeshInstance3D" parent="Socket1"]
+position = Vector3(0, 0.0175, 0)
+mesh = SubResource("SocketMesh")
+[node name="Whip" type="Node3D" parent="Socket1"]
+position = Vector3(0, 0.028, 0)
+rotation_degrees = Vector3(0, 0, 17)
+[node name="Rod" type="MeshInstance3D" parent="Socket1/Whip"]
+position = Vector3(0, 0.23, 0)
+mesh = SubResource("RodMesh1")
+[node name="Tip" type="MeshInstance3D" parent="Socket1/Whip"]
+position = Vector3(0, 0.46, 0)
+mesh = SubResource("TipMesh")
+[node name="Socket2" type="Node3D" parent="."]
+position = Vector3(-0.032, 0.045, -0.02)
+[node name="Collar" type="MeshInstance3D" parent="Socket2"]
+position = Vector3(0, 0.0175, 0)
+mesh = SubResource("SocketMesh")
+[node name="Whip" type="Node3D" parent="Socket2"]
+position = Vector3(0, 0.028, 0)
+rotation_degrees = Vector3(0, 0, 5)
+[node name="Rod" type="MeshInstance3D" parent="Socket2/Whip"]
+position = Vector3(0, 0.17, 0)
+mesh = SubResource("RodMesh2")
+[node name="Tip" type="MeshInstance3D" parent="Socket2/Whip"]
+position = Vector3(0, 0.34, 0)
+mesh = SubResource("TipMesh")
+[node name="Socket3" type="Node3D" parent="."]
+position = Vector3(0.032, 0.045, -0.02)
+[node name="Collar" type="MeshInstance3D" parent="Socket3"]
+position = Vector3(0, 0.0175, 0)
+mesh = SubResource("SocketMesh")
+[node name="Whip" type="Node3D" parent="Socket3"]
+position = Vector3(0, 0.028, 0)
+rotation_degrees = Vector3(0, 0, -7)
+[node name="Rod" type="MeshInstance3D" parent="Socket3/Whip"]
+position = Vector3(0, 0.215, 0)
+mesh = SubResource("RodMesh3")
+[node name="Tip" type="MeshInstance3D" parent="Socket3/Whip"]
+position = Vector3(0, 0.43, 0)
+mesh = SubResource("TipMesh")
+[node name="Socket4" type="Node3D" parent="."]
+position = Vector3(0.095, 0.045, 0.02)
+[node name="Collar" type="MeshInstance3D" parent="Socket4"]
+position = Vector3(0, 0.0175, 0)
+mesh = SubResource("SocketMesh")
+[node name="Whip" type="Node3D" parent="Socket4"]
+position = Vector3(0, 0.028, 0)
+rotation_degrees = Vector3(0, 0, -20)
+[node name="Rod" type="MeshInstance3D" parent="Socket4/Whip"]
+position = Vector3(0, 0.19, 0)
+mesh = SubResource("RodMesh4")
+[node name="Tip" type="MeshInstance3D" parent="Socket4/Whip"]
+position = Vector3(0, 0.38, 0)
+mesh = SubResource("TipMesh")
+[node name="Bolt1" type="MeshInstance3D" parent="."]
+position = Vector3(-0.11, 0.049, -0.07)
+mesh = SubResource("BoltMesh")
+[node name="Bolt2" type="MeshInstance3D" parent="."]
+position = Vector3(0.11, 0.049, -0.07)
+mesh = SubResource("BoltMesh")
+[node name="Bolt3" type="MeshInstance3D" parent="."]
+position = Vector3(-0.11, 0.049, 0.07)
+mesh = SubResource("BoltMesh")
+[node name="Bolt4" type="MeshInstance3D" parent="."]
+position = Vector3(0.11, 0.049, 0.07)
+mesh = SubResource("BoltMesh")

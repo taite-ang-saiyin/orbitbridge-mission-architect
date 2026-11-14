@@ -14,6 +14,7 @@ func check() -> void:
 	var app = load("res://scenes/Main.tscn").instantiate()
 	root.add_child(app)
 	app.state.name = "Operations Review"
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	for resolution in [Vector2i(1440, 900), Vector2i(1280, 720), Vector2i(1024, 768), Vector2i(1920, 1080), Vector2i(3360, 2100)]:
 		root.size = resolution
 		app.show_screen(4)
