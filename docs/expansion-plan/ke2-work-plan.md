@@ -17,6 +17,7 @@ The first planned result is a Survey report with both aggregate goals met and on
 Completed by the baseline note and verification references in the [progress record](progress.md#baseline-and-verification). This is baseline preparation completed before expansion implementation.
 
 - [ ] **00.2 Agree objective and goal fields with KE1 and SE.**
+  - [x] Prepare the [KE2 K20–K31 owner response](ke2-k20-k31-owner-reply.md) against `owner-replies-draft-1`, with explicit D1–D6 replies, proposed scoring/report details, current callable limits and owner dependencies. Prepared for the user to send; no delivery, consolidated approval or production acceptance recorded.
   - [x] Draft the [KE1/SE configuration handoff](ke1-se-config-handoff.md) with source-inspected current behavior, proposed IDs/fields, candidate valid and invalid examples, and open owner decisions.
   - [x] Record the user's agreement on the five mission IDs and objective-specific goal meanings on 15 November 2026.
   - [x] Review KE1's K20 draft and document the [four remaining interface differences](k20-ke2-interface-review.md) with recommendations and a concrete candidate Communication starter.
@@ -46,6 +47,7 @@ Complete when KE2 can explain which recorded fact supports each new count and me
 Prompt 00.3's source trace and draft request were completed on 15 November 2026. Existing event/packet behavior is documented with a copied real-record excerpt. HPC agreement on new-objective evidence, resource sampling, and feasible success/shortfall traces remains open. The next independent planning prompt is 00.4.
 
 - [ ] **00.4 Agree reports and comparison with KE3 and SE.**
+  - [x] Deliver the [callable v1 Imaging comparison handoff](callable-comparison-ke3-handoff.md) using current SE records and verified evidence, with explicit unavailable/error/operation-context handling. SE/KE3 wiring and expanded contracts remain open.
   - [x] Record [SE's conditional structure review and proposed version/storage strategy](se-report-review-and-version-proposal.md). Prepare separate v2 examples and the source-evidence bundle; preserve original reports/keys and record the JSON round-trip hash issue. Full interface ratification and implementation remain open.
   - [x] Record [KE3's schema agreement](ke3-report-schema-agreement.md), relayed by the user on 15 November 2026: no required goal-field changes, with legacy fallback, supplied verdicts/ratios, unavailable/null handling, evidence and credits preserved. Exact report-version/serialization decisions and implementation acceptance remain open.
   - [x] Supply a proposed report example for each of the four goal types. The [KE3 reports/A/B handoff](ke3-ke2-results-ab-handoff.md) contains actual Imaging reports and engine-backed proposed Survey, Communication, and Weather examples with production replies retained separately.
@@ -76,6 +78,7 @@ Verified at `8b76b5d`: actual preset buttons through native runs, publication an
 Step 8 preparation is verified: evaluator 254 passed / 0 failed / 5 existing pending, Imaging 53 passed, adapted Results 17 passed. See [implementation boundary, commands and remaining inputs](survey-delivery-measure-step8.md). The user reports HPC has not replied. Missing selected entries remain errors in the private helper; public Survey evaluation and scoring are unchanged. Parent 10.2 remains open for owner-confirmed semantics and integration.
 
 - [ ] **10.3 Add the Survey verdict and score.**
+  - [x] Record the user's 15 November decision to **keep Survey equal-thirds and Communication/Weather equal-halves scoring as proposals**. No production approval is inferred from KE3's producer request; do not repeat the same scoring question without a changed instruction.
   - [x] Implement a labeled test-fixture prototype of the proposed three-way rule, using Step 8's private delivery measure and explicit counters. It returns `ok/proposal`, is not imported by production, and is not a MissionReport.
   - [x] Verify the proposal with 40 new assertions: partial/83, all-goal success, no progress, independent caps/raw actuals, half-up boundaries, abort/null score, deterministic input preservation and structured errors. [Step 9 evidence and limits](survey-scoring-proposal-step9.md).
   - [ ] Agree three equally weighted capped ratios for captures, returned MB, and selected targets with complete deliveries.
@@ -176,6 +179,7 @@ The source example is "Arctic Ice has no complete delivery. Try using an availab
 KE2 computes eligibility and differences. SE owns stored records and lifecycle. KE3 presents the result.
 
 - [ ] **40.1 Specify the run record and compatibility check.**
+  - [x] Add public `compare_runs(a_record, b_record)` for existing bound v1 Imaging records. Native publication/API tests cover compatible and changed-goal pairs, retained-byte JSON history, complete/aborted/malformed records and explicit versus unavailable requested-policy context.
   - [x] Implement and test a normalized-record fixture prototype for completion/binding, requirements/setup, versions/context, initialization and requested-policy/manual classification. Internal eligibility is marked proposed; SE's final record/API and legacy policy remain open.
   - [ ] Require completed runs and reject abort or incomplete pairs with actionable reasons.
   - [ ] Match preset, objective, targets, goals, orbit, duration, scenario/schedule, versions, and starting conditions except effects of intended design changes.
@@ -184,6 +188,7 @@ KE2 computes eligibility and differences. SE owns stored records and lifecycle. 
   - [ ] Label differing manual decisions Design + operations when other matching conditions hold.
 
 - [ ] **40.2 Calculate measured changes.**
+  - [x] Expose callable v1 signed capture/MB/score/mass/cost values and identities/keys. Unsupported resource sampling remains unavailable; source reports and records are preserved. New API suite passes 34 checks; Save A/B wiring and expansion acceptance remain open.
   - [x] Implement/test proposed signed numeric output on normalized records: recorded outcomes/goals, raw target detail, changed parts, MB/score/mass/cost and sampled extrema. Positive/negative/zero/unavailable cases pass; HPC sampling/SE record ratification and UI integration remain open.
   - [ ] Return both outcomes, qualifying count and goal, returned MB, lowest battery, highest storage, total cost, total mass, and changed parts.
   - [ ] Compute signed B-minus-A differences for comparable numeric measures.

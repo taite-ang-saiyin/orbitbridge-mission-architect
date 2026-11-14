@@ -76,7 +76,7 @@ These are current planning dependencies with identified owners.
 | ID | Decision or missing handoff | Owner | Status and next action |
 | --- | --- | --- | --- |
 | D01 | Exact objective IDs, preset IDs, required-goal fields, and validation behavior | KE1 + KE2 + SE | Confirmed choices and draft-2 KE1 artifacts received/verified. Remaining bounds/custom identity, production validation and SE/HPC alignment are pending |
-| D02 | Survey three-way weighting and qualifying progress | KE2 + affected team owners | Proposed, confirm task 10.3 rules before treating the 83 example as approved behavior |
+| D02 | Expansion score weights and qualifying progress | KE2 + affected team owners | User explicitly chose Keep scoring as a proposal on 15 November. Survey thirds and Communication/Weather halves are not approved for production; KE3's implementation request does not ratify them |
 | D03 | Accepted-event fields, absent Survey target entries, and revolution identity/mapping | HPC + KE2 | Source map and existing-run excerpt in [HPC handoff](hpc-evidence-handoff.md), confirm mapping, sparse-map/legacy handling, and packet semantics with HPC |
 | D04 | Communication/Weather thresholds and stock-design feasibility | KE1 + HPC + KE2 | KE1 confirmed the specified high_inc two-capture/basic-instrument/fast-radio Communication starter. Existing [headless evidence](ke3-ke2-results-ab-handoff.md) exercises Imaging mechanics proxies. Actual typed v2 runs, Weather revisit policy, and HPC confirmation remain pending |
 | D05 | Extended report schema and existing-field compatibility | KE2 + KE3 + SE | KE3 schema agreement and [SE conditional review](se-report-review-and-version-proposal.md) received. Separate report-v2 candidates ready. Settle revision placement/output selection, dual-version consumers and coordinated implementation |
@@ -197,6 +197,26 @@ All requested independent task outputs are now implemented: 20.1 counting, 20.3 
 Final focused suite: **125 passed / 0 failed** (25 contact, 17 Weather, 23 compatibility, 16 deltas, 21 boundary, 15 feedback and 8 source-integrity checks). Existing final reruns: evaluator **294 passed / 0 failed / 5 original pending**; Imaging **53**, Results **17**, Debrief summary **57**, all zero failures/exits 0. Confirmed Godot 4.7.2; certificate-store diagnostic persists; `git diff --check` passed.
 
 See [files, exact commands, scope and remaining handoffs](independent-ke2-algorithms.md) and [source/log verification](evidence/independent-ke2-checks.json). New helpers remain unwired and normalized record/digest/sampling/legacy policies are explicit proposals. Verification combines handcrafted fixtures, recorded native traces and current native/headless regressions; no production expanded-objective publication, Save A/B UI lifecycle, full 43-program run, browser or export acceptance was performed. Preserved prior working changes and other-owner implementations; no remote action.
+
+## KE2 K20–K31 owner-response preparation
+
+On 15 November 2026, at `features/KE2`, inspected HEAD `0e77c488a121dbaa63898d01cfea5d07cf340b73` plus existing local evaluator/comparator changes and an untracked comparison check. Preserved those files. Read the user's supplied `OrbitBridge-K20-K31-Owner-Replies.md` as review material and prepared the [KE2 response](ke2-k20-k31-owner-reply.md) for the user to send. It supplies D1–D6 replies, exact proposed partial/score rules, report-version candidate, current and intended callable scope, existing packet reference, evidence limits and owner blockers. No shared contract was ratified and no message was sent.
+
+Completed the response-preparation subtask only; parent 00.2 and production tasks remain open. New scoring/report/record choices remain proposals. Named missing K22/K23 preparation documents for KE1, without requesting the already verified combined packet again. Next handoff is KE1 consolidation plus HPC producer semantics and SE/KE3 record/report integration.
+
+Verification in this session: branch/status/diff and source/document inspection; reply-to-form coverage and packet SHA-256 checks; `git diff --check`. Gameplay results in the response are explicitly historical recorded fixture/native/headless evidence, not reruns. No Godot invocation, expanded-objective integration, browser or exported-build test was required for this documentation-only preparation.
+
+## KE3 production request, retained proposal decision and callable comparison
+
+At `features/KE2`, `0e77c48`, the user relayed KE3's request for production Survey/Communication/Weather evaluation and a callable comparison, confirming the original JSON packet/eight keys are already verified. Reused those artifacts without requesting them again. The user then explicitly chose **Keep scoring as a proposal** for the three expansion scoring formulas. Production scoring/report-v2 enablement remains unapproved; recorded the decision rather than asking repeatedly.
+
+- [x] Delivered public `Comparison.compare_runs(a_record, b_record)` for existing SE v1 Imaging records, with bound run/mission IDs and execution keys, reproduction of approved report data, requirements/scenario matching and signed core deltas.
+- [x] Keep absent/contradictory requested operations unclassified; explicit valid versioned policy/manual context yields Design or Design + operations. Optional unratified resource extrema remain null. No single-component causal guarantee is asserted.
+- [x] Support original typed-key bytes for JSON-transported historical inputs without rewriting keys. Validate their hash and JSON values before typed reconstruction; no new packet or native scenario evidence was requested.
+- [x] Harden production objective dispatch: unsupported Survey/Communication/Weather/unknown objectives return structured errors and cannot inherit Imaging's score.
+- [x] New public API suite: 34 passed / 0 failed on actual native launches/current report publication, changed-goal run, preserved inputs, explicit manual-context fixtures and historical transport. Existing evaluator 294 / 0 / 5 pending; independent 125, Imaging 53, Results 17, Debrief 57 all pass with zero failures. T07/T08 wording now identifies missing SE runtime/baseline wiring; original pending count remains five.
+
+See [callable API, exact commands and prepared KE3 reply](callable-comparison-ke3-handoff.md) and [verification hashes](evidence/callable-comparison-checks.json). API tests are direct native/module evidence, not UI Save A/B or new-objective runs. SE/KE3 integration, HPC semantics, KE1/SE/HPC v2 acceptance and final report/record contracts remain open. No other-owner implementation, signed contract, source packet, browser/export or remote action was changed/performed.
 
 ## Evidence format for future completions
 

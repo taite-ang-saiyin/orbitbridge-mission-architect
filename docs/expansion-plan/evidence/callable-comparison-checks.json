@@ -1,0 +1,81 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "head": "0e77c488a121dbaa63898d01cfea5d07cf340b73",
+  "working_changes": true,
+  "request": "KE3 production evaluator/callable comparison handoff",
+  "scoring_decision": "User explicitly chose Keep scoring as a proposal; expanded production scoring not enabled.",
+  "delivered": "Callable v1 Imaging analytical compare_runs for existing SE records; all unsupported objectives rejected by production evaluator.",
+  "original_packet_reused": true,
+  "source_packet_sha256": "a42a1ca3aaa4cbafca548576c14f68578961cef9084fec4275557583a7ceeb7e",
+  "verification": {
+    "ke2_comparison_api_check": {
+      "passed": 34,
+      "failed": 0,
+      "pending": 0,
+      "exit_code": 0
+    },
+    "test_mission_evaluator": {
+      "passed": 294,
+      "failed": 0,
+      "pending": 5,
+      "exit_code": 0
+    },
+    "ke2_independent_work_check": {
+      "passed": 125,
+      "failed": 0,
+      "pending": 0,
+      "exit_code": 0
+    },
+    "ke2_imaging_presets_check": {
+      "passed": 53,
+      "failed": 0,
+      "pending": 0,
+      "exit_code": 0
+    },
+    "ke2_results_integration": {
+      "passed": 17,
+      "failed": 0,
+      "pending": 0,
+      "exit_code": 0
+    },
+    "debrief_summary_check": {
+      "passed": 57,
+      "failed": 0,
+      "pending": 0,
+      "exit_code": 0
+    }
+  },
+  "native_scope": "Direct native launches, readiness and current report publication; actual API call on records. Manual-operation context cases are labeled fixtures; no Save A/B UI journey.",
+  "verified_deltas": {
+    "returned_mb": 4.6133333328,
+    "score_points": 19,
+    "mass_g": 60,
+    "cost_credits": 7
+  },
+  "resource_extrema": "Unavailable in callable v1 path until sampling contract agreed",
+  "transport": "Original hash bytes verified and typed values reconstructed only from already valid/hash-matched JSON. No key normalization/replacement or shared serialization ratification.",
+  "source_sha256": {
+    "scripts/evaluation/mission_comparison.gd": "9a5f9440e365c0217bd7da6fdb44e4b9ca5422017654e5e2380b16f3afbe4e42",
+    "scripts/evaluation/mission_evaluator.gd": "0839d67a1e22b032cecafe51c1c4e18f08ce13d31585b97b08bbc7d1daeae877",
+    "tests/ke2_comparison_api_check.gd": "e1a4d200f042de58e73d7a3e27c682d9a77f59d161ec5689b9ec1f879b8854a4",
+    "tests/test_mission_evaluator.gd": "40e9d2e9ae54d1df73c7e44e4b54ce53ae33d9592b2e027320ae58d6189b7309"
+  },
+  "log_sha256": {
+    "exports/check-logs/ke2_comparison_api_check.log": "ab67274b27047748dcda298f6484b7e8405ff1a1c2e14eb043df14cb608b0e8a",
+    "exports/check-logs/test_mission_evaluator.log": "b4394c689553f4dda4a922280e8c6dbe81e93da8c454c766e42d51b00f8d4c5a",
+    "exports/check-logs/ke2_independent_work_check.log": "0bdabda901153e6b3575d184e591bbde7fc4ddb67fee800698a2c7991f5627d6",
+    "exports/check-logs/ke2_imaging_presets_check.log": "9aefb2e883f28fceb0fedd888858727814ead0db0ead67658a6ca7704bcff34e",
+    "exports/check-logs/ke2_results_integration.log": "0986bcadbb4edeb1a0352f9eb883b651fd81edb5a87780c780ea13efdda7443f",
+    "exports/check-logs/debrief_summary_check.log": "6196e2588c5997c377c1b7e8b4dcd30a4e2a95566bd1e3f5d86f89d04587a611"
+  },
+  "remaining": {
+    "KE2_affected_owners": "Production score/report rules remain proposals by user choice.",
+    "HPC": "Sparse-map/contact/revolution/sampling semantics and typed goal evidence.",
+    "KE1_SE_HPC": "Coordinated v2 config/validator/adapter.",
+    "SE_KE3": "Invoke/bind callable comparison, Save A lifecycle and UI; final version/record/digest contracts."
+  },
+  "browser_or_export_verified": false,
+  "full_runner_rerun": false,
+  "remote_actions": false
+}

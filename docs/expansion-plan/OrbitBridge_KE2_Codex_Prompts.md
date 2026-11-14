@@ -4,6 +4,8 @@ Updated on 15 November 2026 in Asia/Rangoon. The numbered route below orders all
 
 ## Start here
 
+Current handoff update: [callable v1 Imaging comparison is delivered](callable-comparison-ke3-handoff.md), with 34 public API/native-publication checks. SE/KE3 still own saved-A/runtime/display wiring. The user explicitly chose **Keep scoring as a proposal** for Survey/Communication/Weather; their production scores remain unenabled and unsupported objectives cannot fall through to Imaging arithmetic. Reuse the already-verified original packet/eight keys; no resend or repeat scoring question is needed absent a changed instruction.
+
 Independent sequence update: [20.1, 20.3, 40.1, 40.2, 30.2 and 30.3 preparation is implemented and verified](independent-ke2-algorithms.md), with 125 focused checks including a source-ledger integrity audit. Existing evaluator/Imaging/Results/Debrief suites remain green. Those modules are unwired and comparison/mapping/sampling/feedback outputs retain proposal labels where required. Do not repeat completed prototype work; use incoming owner decisions to finish production integration and real acceptance checks.
 
 **Steps 6-10 have completed their currently available baseline/proposal/fixture/checkpoint outputs. Step 9 / 10.3 now has a test-only scoring prototype and 40 new assertions; the evaluator suite passes 294 checks.** See the [Step 9 prototype and Step 10 review](survey-scoring-proposal-step9.md), [Step 8 measure](survey-delivery-measure-step8.md) and [Imaging baseline](imaging-baseline-and-report-review.md). Parent 10.2 still needs HPC's absent-entry rule; production 10.3 still needs scoring/report integration decisions. Step 11 / 10.4 needs actual coordinated Survey modules; Step 12 / 20.1 counting fixtures can proceed independently using recorded evidence with handoffs labeled. Earlier owner agreement/integration tasks remain open where evidence is pending; Step 5 is an optional summary.
@@ -101,8 +103,8 @@ The decision letters below refer to unresolved choices at production boundaries.
 | 13 | **20.2** | Prove the Communication starter | When KE1/HPC supply the candidate path |
 | 14 | **20.3** | Implement Weather evaluation | Internal frozen-mapping counter/proxy checks complete; HPC/scoring/public integration open |
 | 15 | **20.4** | Prove the Weather starter | When the real Weather setup is available |
-| 16 | **40.1** | Implement comparison eligibility | Normalized fixture prototype complete; SE record/legacy/version decisions and wiring open |
-| 17 | **40.2** | Implement signed comparison measures | Historical-pair delta prototype complete; sampling/output/storage/UI integration open |
+| 16 | **40.1** | Implement comparison eligibility | Callable current-record v1 Imaging API ready; expanded records/contracts and SE wiring open |
+| 17 | **40.2** | Implement signed comparison measures | Callable v1 core deltas ready; resource sampling, Save A/UI and expansion acceptance open |
 | 18 | **40.3** | Verify saved A lifecycle | When SE provides its storage implementation |
 | 19 | **40.4** | Verify the connected Design Lab | When one actual Save A/Run B/Compare path is available |
 | 20 | **60.3** | Review the first real A/B loop | At the comparison checkpoint |

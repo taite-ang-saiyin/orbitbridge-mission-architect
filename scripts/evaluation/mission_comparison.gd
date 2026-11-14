@@ -1,8 +1,114 @@
 extends RefCounted
-## KE2 internal comparison prototype; normalized inputs below are fixture proposals.
-## Not called by evaluate_mission, SE storage or UI. No public record API ratification.
+## Callable v1 Imaging analytical comparison plus internal expansion prototypes.
+## SE owns Save A/runtime/UI wiring. Expansion normalization below remains proposed.
 const Evaluator = preload("res://scripts/evaluation/mission_evaluator.gd")
 const Goals = preload("res://scripts/evaluation/mission_goal_evidence.gd")
+
+## Accept current SE records: {report, state, validation, execution_key}.
+## Optional key_preimage_utf8 supports historical records transported through JSON.
+## Optional operations metadata classifies requested choices, not hardware causality.
+## Returns an independent {ok, comparison} result or the existing structured error.
+static func compare_runs(a_record: Variant, b_record: Variant) -> Dictionary:
+	var records: Array = []
+	for entry in [["a", a_record], ["b", b_record]]:
+		var checked: Dictionary = _published_record(entry[1], entry[0])
+		if not checked.ok or checked.has("comparison"): return checked
+		records.append(checked.record)
+	var a: Dictionary = records[0]
+	var b: Dictionary = records[1]
+	if not _same(_requirements(a.config), _requirements(b.config)): return _unavailable("REQUIREMENTS_MISMATCH", "config")
+	if not _same(a.final_state.scenario_snapshot, b.final_state.scenario_snapshot): return _unavailable("SCENARIO_MISMATCH", "state.scenario_snapshot")
+	var av: Dictionary = _values(a)
+	var bv: Dictionary = _values(b)
+	var rows: Array = []
+	for spec in [["observations_completed", "count"], ["returned_data_mb", "MB"], ["score", "points"], ["total_mass_g", "g"], ["total_cost_credits", "credits"], ["lowest_battery_wh", "Wh"], ["highest_storage_mb", "MB"]]:
+		var id: String = spec[0]
+		var known: bool = Evaluator._is_finite_number(av.get(id)) and Evaluator._is_finite_number(bv.get(id))
+		rows.append({"id": id, "unit": spec[1], "a": av.get(id), "b": bv.get(id), "available": known,
+			"delta_b_minus_a": bv[id] - av[id] if known else null,
+			"unavailable_reason": null if known else "Optional measurement or agreed resource-sampling evidence is unavailable."})
+	var classification: Variant = null
+	var operations_a: Variant = a_record.get("operations")
+	var operations_b: Variant = b_record.get("operations")
+	if _operation_context(operations_a, a) and _operation_context(operations_b, b):
+		classification = "Design" if _same(operations_a.policy, operations_b.policy) and _same(operations_a.manual_requests, operations_b.manual_requests) else "Design + operations"
+	var parts: Array = []
+	for key in ["bus_id", "instrument_id", "solar_id", "battery_id", "radio_id", "storage_id"]:
+		if a.config.design.get(key) != b.config.design.get(key): parts.append({"field": key, "a": a.config.design.get(key), "b": b.config.design.get(key)})
+	return {"ok": true, "comparison": {"eligible": true, "classification": classification, "objective": "imaging",
+		"a_run_id": a.final_state.run_id, "b_run_id": b.final_state.run_id,
+		"a_mission_id": a.final_state.mission_id, "b_mission_id": b.final_state.mission_id,
+		"a_execution_key": a_record.execution_key, "b_execution_key": b_record.execution_key,
+		"outcomes": {"a": a.report.status, "b": b.report.status}, "measures": rows, "changed_parts": parts,
+		"reasons": [], "limitations": ["Descriptive v1 comparison of bound recorded results; no single-component causal guarantee.",
+			"Operations classification requires explicit versioned requested-policy/manual context; missing context remains unclassified.",
+			"Resource extrema, producer-version/initialization guarantees and expansion eligibility await their coordinated record contract."]}}
+
+static func _published_record(value: Variant, path: String) -> Dictionary:
+	if not value is Dictionary: return _public_error(path, null)
+	var state: Variant = value.get("state", value.get("final_state"))
+	var id: Variant = state.get("run_id") if state is Dictionary else null
+	if not state is Dictionary or not value.get("report") is Dictionary or not value.get("validation") is Dictionary: return _public_error(path, id)
+	if state.get("phase") != "finished" or state.get("run_status") != "completed": return _unavailable("RUN_NOT_COMPLETED", path + ".state.run_status")
+	var config: Variant = state.get("config_snapshot")
+	if not config is Dictionary or not config.get("mission") is Dictionary or not config.get("design") is Dictionary or not state.get("event_log") is Array or not state.get("scenario_snapshot") is Dictionary: return _public_error(path + ".state", id)
+	if value.has("config") and not _same(value.config, config): return _public_error(path + ".config", id)
+	if not Evaluator._is_whole_number(value.report.get("schema_version")): return _public_error(path + ".report.schema_version", id)
+	if config.mission.get("objective") != "imaging" or value.report.get("schema_version") != 1: return _unavailable("SCORING_CONTRACT_PENDING", path + ".report")
+	if not state.scenario_snapshot.get("scenario_version") is String or state.scenario_snapshot.scenario_version.is_empty() or not state.scenario_snapshot.get("orbits") is Array: return _public_error(path + ".state.scenario_snapshot", id)
+	if state.get("scenario_id") != config.design.get("orbit_id"): return _public_error(path + ".state.scenario_id", id)
+	if value.report.size() != Evaluator.REPORT_FIELDS.size(): return _unavailable("REPORT_CONTRACT_PENDING", path + ".report")
+	if value.validation.get("ready_to_launch") != true: return _public_error(path + ".validation", id)
+	var inputs: Array = [config, state, state.event_log, value.validation]
+	var key: Variant = value.get("execution_key")
+	var matches: bool = key is String and JSON.stringify(inputs, "", true, true).sha256_text() == key
+	if not matches:
+		var retained: Variant = value.get("key_preimage_utf8")
+		matches = key is String and retained is String and retained.sha256_text() == key and _same(JSON.parse_string(retained), inputs)
+		if matches:
+			# Parse ONLY already hash-verified, valid JSON. Variant parsing preserves the
+			# original integer/float spellings needed to reproduce historical feedback.
+			# No object-enabled deserialization or replacement execution key is used.
+			var typed: Variant = str_to_var(retained)
+			if not typed is Array or typed.size() != 4 or not _same(typed, inputs): return _public_error(path + ".execution_key", id)
+			inputs = typed
+			config = inputs[0]
+			state = inputs[1]
+	if not matches: return _public_error(path + ".execution_key", id)
+	var history: Dictionary = Goals._events(state, state.event_log)
+	if not history.ok: return _public_error(path + ".state.event_log", id)
+	var evaluated: Dictionary = Evaluator.evaluate_mission(config, state, state.event_log)
+	if not evaluated.get("ok", false): return _public_error(path + ".report", id)
+	for field in Evaluator.REPORT_FIELDS:
+		if not value.report.has(field) or (field != "comparison" and not _same(value.report[field], evaluated.report[field])): return _public_error(path + ".report." + field, id)
+	return {"ok": true, "record": {"config": config.duplicate(true), "final_state": state.duplicate(true),
+		"events": state.event_log.duplicate(true), "validation": value.validation.duplicate(true), "report": value.report.duplicate(true),
+		"initial_state": {}, "resource_sampling_id": null}}
+
+static func _operation_context(value: Variant, record: Dictionary) -> bool:
+	if not value is Dictionary or not value.get("policy") is Dictionary or not value.get("manual_requests") is Array or not value.get("requested_actions") is Array: return false
+	if not value.policy.get("id") is String or value.policy.id.is_empty() or not Evaluator._is_whole_number(value.policy.get("version")) or value.policy.version <= 0 or not value.policy.get("parameters") is Dictionary: return false
+	var requested: Array = []
+	for event in record.events:
+		if event.get("type") in ["action_accepted", "action_blocked"]: requested.append({"step_index": event.step_index, "action": event.get("action")})
+	if not _same(requested, value.requested_actions): return false
+	var cursor: int = 0
+	for manual in value.manual_requests:
+		if not manual is Dictionary or not Evaluator._is_whole_number(manual.get("step_index")) or manual.step_index < 0 or not manual.get("action") in ["observe", "transmit", "power_save"]: return false
+		while cursor < requested.size() and not _same(manual, requested[cursor]): cursor += 1
+		if cursor == requested.size(): return false
+		cursor += 1
+	return true
+
+static func _unavailable(code: String, path: String) -> Dictionary:
+	var candidate: Dictionary = _blocked(code, path)
+	candidate.erase("proposal")
+	return {"ok": true, "comparison": {"eligible": false, "classification": null, "reasons": candidate.reasons}}
+
+static func _public_error(path: String, id: Variant) -> Dictionary:
+	if not id is String or id.strip_edges().is_empty(): id = null
+	return Evaluator._error(Evaluator.INVALID_INPUT, path, "Comparison requires a bound completed v1 Imaging report and its original execution/readiness.",
+		"Use SE's immutable report/state/validation/execution_key record. Preserve original hash bytes for JSON-transported inputs.", id)
 
 static func _eligibility(a: Variant, b: Variant) -> Dictionary:
 	for side in [["a", a], ["b", b]]:

@@ -2,6 +2,8 @@
 
 Started on 15 November 2026 at `features/KE2`, HEAD `f04ab66` plus preserved working changes. The user authorized the ordered independent sequence 20.1, 20.3, 40.1, 40.2, 30.2 and 30.3. New modules are internal/unwired; unsettled mapping, comparison, sampling and feedback rules remain explicitly marked proposals. No shared production contract or other-owner implementation is changed.
 
+Subsequent update at `0e77c48`: the [public v1 Imaging comparison](callable-comparison-ke3-handoff.md) now accepts existing SE records and passes 34 native/API checks. The internal expansion prototypes below remain proposals. The user explicitly retained expansion scoring as a proposal; production evaluator now rejects every unsupported objective rather than allowing an Imaging fallback. The historical results below retain their original scope.
+
 ## 20.1 Communication counting
 
 Added `mission_goal_evidence.gd` with internal accepted-event measurement and strict same-execution validation. Positive accepted Transmit steps count once; two steps in one contact window count twice. Exact duplicate events are deduplicated, conflicting IDs/foreign runs/invalid MB fail, and rejected/zero-MB requests add nothing. Whole-valued int/float steps normalize to the same integer identity.

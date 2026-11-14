@@ -1,6 +1,6 @@
 class_name MissionEvaluator
 extends RefCounted
-## Scene-independent KE2 evaluation boundary for the agreed v1 dictionaries.
+## Scene-independent approved v1 Imaging evaluation; expansion scoring is unratified.
 ## Data uses decimal MB, counts use whole numeric values, and energy uses Wh.
 ## Both goals must be positive. Zero targets return INVALID_EVALUATION_INPUT.
 ## Completion ratios range from 0 to 1; multiply by 100 for display percentages.
@@ -111,11 +111,11 @@ static func evaluate_mission(
 		)
 
 	var mission: Dictionary = config["mission"]
-	if mission.get("objective") == "survey":
+	if mission.get("objective") != "imaging":
 		return _error(
 			INVALID_INPUT, "config.mission.objective",
-			"Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
-			"Use the supported imaging evaluation or coordinate the Survey scoring extension.", run_id
+			"This objective requires a coordinated scoring extension and cannot use Imaging's two-goal score.",
+			"Keep expansion scoring as a proposal until its production rules and evidence contract are confirmed.", run_id
 		)
 	for requirement: Dictionary in [
 		{"field": "required_observations", "maximum": 20},

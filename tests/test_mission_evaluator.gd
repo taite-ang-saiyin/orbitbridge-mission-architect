@@ -14,8 +14,8 @@ const REPORT_FIELDS: Array[String] = [
 	"next_experiment", "source_ids", "comparison",
 ]
 const PENDING_CASES: Array[String] = [
-	"T07 controlled retry deltas await comparison implementation",
-	"T08 baseline eligibility awaits comparison implementation",
+	"T07 controlled retry deltas await SE saved-A/runtime comparison wiring",
+	"T08 baseline eligibility awaits SE baseline/comparator wiring",
 	"T11 actual 1329 g validation and Builder check await KE1/SE integration",
 	"T12 actual 1330/1331 g and profile-switch checks await KE1/SE integration",
 	"INTEGRATION real HPC trace, Results, duplicate publication, and retry/reset",
