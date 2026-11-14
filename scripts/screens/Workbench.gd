@@ -23,6 +23,7 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 	add_child(heading)
 	var titles = VBoxContainer.new()
 	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	titles.size_flags_stretch_ratio = 1.0
 	heading.add_child(titles)
 	
 	UI.label(titles, title, 25)
@@ -30,13 +31,28 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 	progress_nav = HBoxContainer.new()
 	progress_nav.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	progress_nav.add_theme_constant_override("separation", 4)
+	progress_nav.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	progress_nav.size_flags_stretch_ratio = 3.0
 	heading.add_child(progress_nav)
+	var current_step: int = {"MissionCreator": 1, "SpacecraftBuilder": 2, "FlightReadiness": 3, "MissionOperations": 4, "DebriefCompare": 5}.get(screen_id, 0)
 	for index in 6:
-		var step = UI.button(progress_nav, "", func(): navigate.emit(index))
+		var step = preload("res://scripts/ui/MissionStepButton.gd").new()
+		step.number = index + 1
+		step.complete = index < current_step
+		step.show_arrow = index < 5
+		step.tooltip_text = ["Start", "Mission Creator", "Spacecraft Builder", "Flight Readiness", "Operations", "Debrief"][index]
+		step.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		progress_nav.add_child(step)
+		step.pressed.connect(func(): navigate.emit(index))
+		step.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		var active = preload("res://ui/theme/WorkbenchTheme.gd").box(Color("02394b"), Color("4aeeff"), 0)
+		active.set_corner_radius_all(14)
+		active.shadow_color = Color(0, 0.85, 1, 0.35)
+		active.shadow_size = 6
+		step.add_theme_stylebox_override("pressed", active)
+		step.add_theme_stylebox_override("hover", active)
 		step.toggle_mode = true
-		step.set_pressed_no_signal(index == {"MissionCreator": 1, "SpacecraftBuilder": 2, "FlightReadiness": 3, "MissionOperations": 4, "DebriefCompare": 5}.get(screen_id, 0))
-		step.add_theme_font_size_override("font_size", 12)
-		step.custom_minimum_size.y = 36
+		step.set_pressed_no_signal(index == current_step)
 	scroll = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -59,6 +75,7 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 func section(parent: Node, title: String) -> VBoxContainer:
 	var shell = PanelContainer.new()
 	shell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	shell.add_theme_stylebox_override("panel", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("031a2bed"), Color("377a9d"), 12))
 	parent.add_child(shell)
 	var panel = VBoxContainer.new()
 	panel.add_theme_constant_override("separation", 8)
@@ -68,12 +85,8 @@ func section(parent: Node, title: String) -> VBoxContainer:
 	panel.add_child(line)
 	var parts = title.split("   ", true, 1)
 	if parts.size() == 2:
-		var number = Label.new()
-		number.text = str(int(parts[0]))
-		number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		number.custom_minimum_size = Vector2(26, 26)
-		number.add_theme_stylebox_override("normal", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("007cc7"), Color("39e5ff"), 2))
+		var number = preload("res://scripts/ui/SectionNumber.gd").new()
+		number.number = int(parts[0])
 		line.add_child(number)
 	UI.label(line, parts[-1].capitalize(), 17).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return panel
@@ -103,13 +116,22 @@ func summary_text() -> String:
 
 func fit_navigation() -> void:
 	# Preserve the reference's compact dashboard rhythm; larger windows reveal more canvas.
-	var gap = 12 if size.x >= 1250 else 10
+	var gap = 10
 	add_theme_constant_override("separation", gap)
 	previous.custom_minimum_size.y = 48
 	next_button.custom_minimum_size = Vector2(270, 48)
-	var names = ["Start", "Create", "Build", "Check", "Operate", "Debrief"] if size.x >= 1180 else ["", "", "", "", "", ""]
+	# Inline beside the page title on desktop; a second row keeps small screens readable.
+	var destination: Node = self if size.x < 1180 else heading
+	if progress_nav.get_parent() != destination:
+		progress_nav.reparent(destination)
+		if destination == self: move_child(progress_nav, 1)
 	for index in 6:
-		progress_nav.get_child(index).text = str(index + 1) + "  " + names[index]
+		var step = progress_nav.get_child(index)
+		step.compact = (size.x < 1180 or progress_nav.size.x < 820)
+		step.size_flags_stretch_ratio = 1.0 if step.compact else [1.0, 1.3, 1.5, 1.4, 1.1, 0.9][index]
+		step.caption = (["Start", "Create", "Build", "Check", "Operate", "Debrief"] if step.compact else ["Start", "Mission Creator", "Spacecraft Builder", "Flight Readiness", "Operations", "Debrief"])[index]
+		step.custom_minimum_size.y = 54
+		step.queue_redraw()
 
 func fit_workbench() -> void:
 	fit_navigation()

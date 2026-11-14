@@ -233,7 +233,7 @@ func build_summary() -> void:
 	box.add_child(HSeparator.new())
 	UI.label(box, "SUCCESS CONDITION", 13, "4ceaa9")
 	success_label = UI.label(box, "", 14, "b4e6d5")
-	UI.label(box, "Captures and returned MB are independent goals. Readiness uses KE1; flight uses HPC.", 11, "7d9daf")
+	UI.label(box, "Captures and returned MB are independent goals.", 11, "7d9daf")
 func set_target_limit(limit: int) -> void:
 	target_limit = limit
 	state.target_limit = limit
