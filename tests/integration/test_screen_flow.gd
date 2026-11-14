@@ -1,104 +1,103 @@
 extends SceneTree
-const Workflow = preload("res://scripts/integration/mission_workflow.gd")
+const Verify = preload("res://scripts/verification/demo_verification.gd")
+const Runtime = preload("res://scripts/integration/mission_runtime.gd")
 var passed: int = 0
 var failed: int = 0
 
 func _initialize() -> void:
-	create_timer(90).timeout.connect(func(): printerr("FAIL: Screen test timed out"); quit(1))
+	create_timer(90).timeout.connect(func(): printerr("FAIL: Screen merge check timed out"); quit(1))
 	call_deferred("_run")
 
-func _settle() -> void:
-	for frame in 4: await process_frame
+func settle() -> void:
+	for frame in 5: await process_frame
 
 func _run() -> void:
 	var app = load("res://scenes/Main.tscn").instantiate()
 	root.add_child(app)
-	await _settle()
-	app.show_screen(1)
-	await _settle()
-	_check(app.current.screen_id == "MissionCreator", "Real Creator opens")
-	_check(app.current.data_input.value == 30 and not app.current.next_button.disabled, "Creator includes independent returned-MB goal")
-	app.current.data_input.value = 31
-	_check(app.state.required_returned_data_mb == 31, "Editing the data goal updates the real draft")
-	app.current.data_input.value = 30
-	app.current.next_button.pressed.emit()
-	await _settle()
-	var builder = app.current
-	_check(builder.screen_id == "SpacecraftBuilder", "Creator Continue opens real Builder")
-	_check(builder.total_values.text.contains("1060 g") and builder.total_values.text.contains("82 credits"), "Builder displays calculated baseline totals")
-	_check(not builder.next_button.disabled, "Valid design can continue")
-	builder.option_buttons.instrument_advanced.pressed.emit()
-	_check(builder.total_values.text.contains("1380 g") and builder.total_values.text.contains("96 credits"), "A real component button updates displayed mass and cost")
-	_check(builder.next_button.disabled and builder.compatibility.text.contains("1330"), "Heavy camera blocks Continue and explains the selected limit")
-	app.show_screen(3)
-	await _settle()
-	var readiness = app.current
-	_check(readiness.next_button.disabled and readiness.readiness_label.text == "LAUNCH BLOCKED", "Readiness Launch is blocked for overweight design")
-	_check(readiness.check_details.profile_mass.text.begins_with("FAIL") and readiness.source_label.text.contains("NASA CubeSat 101"), "Real failed mass check and source are displayed")
-	readiness.next_button.pressed.emit()
-	await _settle()
-	_check(app.current == readiness and app.state.active_run.is_empty(), "Even a forced disabled-button signal cannot launch invalid input")
-	app.show_screen(4)
-	await _settle()
-	_check(app.current == readiness and app.state.active_run.is_empty(), "Sidebar/progress Operations entry cannot bypass launch validation")
-	app.flow_error.hide()
+	await settle()
+	var helper = Verify.new()
+	helper.fresh(app)
+	app.show_screen(0)
+	await settle()
+	_check(app.current.presets.size() == 3 and app.current.earth.stage.orbit_paths.size() == 2, "SE dashboard retains presets and real orbit presentation")
 	app.show_screen(2)
-	await _settle()
-	builder = app.current
-	builder.selectors.launch_profile.item_selected.emit(1)
-	builder.selectors.launcher.item_selected.emit(1)
-	_check(app.state.launch_profile == "illustrative_alternative" and app.state.launcher == "medium", "Each real dropdown updates its own launch selection")
-	_check(builder.total_values.text.contains("116 credits") and builder.next_button.disabled, "Alternative still blocks a budget that is too small")
+	await settle()
+	helper.choose(app.current, "instrument", "instrument_advanced")
+	app.state.launch_profile_id = "illustrative_alternative"
+	app.state.launcher_id = "medium"
 	app.state.budget = 120
-	builder.refresh()
-	_check(not builder.next_button.disabled, "Compatible alternative passes when all independent checks pass")
+	app.current.refresh()
+	_check(Runtime.review(app.state).ready_to_launch, "Advanced part works with its valid alternative profile")
 	app.show_screen(3)
-	await _settle()
-	_check(app.current.source_label.text.contains("not a NASA") and not app.current.next_button.disabled, "Alternative displays its own assumption rather than a NASA source claim")
-	# A passing screen result becomes stale as soon as the draft changes.
-	app.state.budget = 1
+	await settle()
+	_check(app.current.validation.checks.profile_mass.threshold_g == 5000 and app.current.validation.checks.profile_mass.source_id == null, "Alternative profile keeps its own threshold and no NASA source claim")
 	app.current.next_button.pressed.emit()
-	await _settle()
-	_check(app.state.active_run.is_empty() and app.current.next_button.disabled, "Launch click revalidates a stale passing screen")
-	Workflow.reset(app.state)
-	app.show_screen(3)
-	await _settle()
-	app.current.next_button.pressed.emit()
-	await _settle()
+	await settle()
 	var operations = app.current
-	_check(operations.screen_id == "MissionOperations", "Valid Launch reaches real Operations screen")
-	_check(operations.run_configuration.mission.required_observations == 4 and operations.run_configuration.design.instrument_id == "instrument_basic", "Operations receives the launch snapshot with original IDs and goals")
-	_check(operations.next_button.disabled and operations.telemetry.text.contains("25.00"), "Operations shows live battery and prevents premature results")
-	app.show_screen(5)
-	_check(app.current == operations, "Debrief route cannot invent a result before completion")
+	var launch: Dictionary = operations.run_configuration.duplicate(true)
+	var native: Dictionary = app.state.active_run_state.duplicate(true)
+	operations.refresh()
+	operations.refresh()
+	_check(app.state.active_run_state == native, "Repeated presentation/prediction leaves native state unchanged")
+	operations.take_action("power_save")
+	_check(app.state.active_run_state.step_index == 1, "Manual action still works in SE Operations")
+	operations.take_action("observe")
+	_check(app.state.active_run_state.observations_completed == 1, "Manual Observe records an actual capture")
+	_check(app.state.active_run_state.stored_data_mb == 24, "Manual Observe uses the selected advanced instrument")
+	_check(operations.run_configuration == launch and app.state.active_run_state.config_snapshot == launch, "UI and engine preserve one launch config")
+	app.show_screen(0)
+	await settle()
+	var saved_targets: Array = app.state.targets.duplicate()
+	app.current.presets["Polar Ice Survey"].pressed.emit()
+	_check(app.state.targets == saved_targets, "Mission preset cannot reset an operating run")
 	app.flow_error.hide()
-	app.show_screen(2)
-	_check(app.current == operations, "An operating mission cannot be edited behind its launch snapshot")
+	app.show_screen(4)
+	await settle()
+	_check(app.state.active_run_state.step_index == 2, "Returning to Operations resumes its current state")
+	app.current.skip_to_end()
+	var id: String = app.state.active_run_state.run_id
+	var recorded: Dictionary = app.state.evaluation_store.reports[id].duplicate(true)
+	app.current.play()
+	_check(app.state.active_run_state.step_index == 0, "SE replay controls still inspect the recorded trace")
+	var denied: Dictionary = Runtime.take_action(app.state, "power_save")
+	_check(not denied.ok and app.state.evaluation_store.reports[id] == recorded, "Replay cannot rewrite an already published run")
+	app.abort_current_run("Must not alter an already recorded run")
+	_check(app.state.evaluation_store.reports[id] == recorded, "Abort cannot contradict a previously published report")
 	app.flow_error.hide()
-	operations.finish_run()
-	_check(not operations.next_button.disabled and operations.status.text.contains("COMPLETED"), "Real engine completion enables View Debrief")
-	_check(operations.telemetry.text.contains("Returned: 48.00 / 30.00 MB") and operations.timeline.item_count > 0, "Operations displays actual returned data and HPC events")
-	operations.next_button.pressed.emit()
-	await _settle()
-	_check(app.current.screen_id == "DebriefCompare" and app.current.results.text.contains("SUCCESS") and app.current.results.text.contains("Score: 100"), "Result screen displays the real KE2 report")
-	_check(app.current.results.text.contains("48.00 / 30.00 MB"), "Result totals match the Operations screen")
-	var previous_id: String = app.state.active_run.state.run_id
+	app.current.skip_to_end()
 	app.show_screen(5)
-	await _settle()
-	_check(app.state.reports.size() == 1, "Reopening results does not duplicate history")
-	app.current.retry()
-	await _settle()
-	_check(app.current.screen_id == "MissionOperations" and app.state.active_run.state.run_id != previous_id and app.state.active_run.state.step_index == 0, "Retry button starts a clean new run through the same real flow")
-	app.current.stop_run()
+	await settle()
+	var baseline: Variant = app.state.evaluation_store.baseline.duplicate(true)
+	var bad: Dictionary = app.state.active_run_state.duplicate(true)
+	bad.run_id = "malformed_merge_check"
+	bad.erase("config_snapshot")
+	var reply: Dictionary = app.on_terminal_state(bad)
+	_check(not reply.ok and app.state.evaluation_store.history.size() == 1, "Malformed evaluation does not create a report")
+	_check(app.state.evaluation_store.baseline == baseline, "Evaluation error preserves the eligible baseline")
+	app.start_new_mission()
+	await settle()
+	app.state.name = "Survey merge check"
+	app.state.objective = "Survey Target Regions"
+	app.state.targets = ["Arctic Ice", "Antarctic Region"]
+	app.state.target_limit = 2
+	app.state.orbit = "Polar – 600 km"
+	app.state.observations = 2
+	app.state.required_returned_data_mb = 24
+	app.show_screen(3)
+	await settle()
+	_check(not app.current.next_button.disabled and app.current.warning_label.text.contains("score will be unavailable"), "Survey is usable with an explicit scoring limitation")
 	app.current.next_button.pressed.emit()
-	await _settle()
-	_check(app.current.results.text.contains("FAILED") and app.current.results.text.contains("Score: —"), "Stopped mission displays a failed result without a fake numeric score")
-	app.begin_new_mission()
-	await _settle()
-	_check(app.current.screen_id == "MissionCreator" and app.state.active_run.is_empty() and app.state.reports.is_empty(), "New Mission route clears live state and prior reports")
+	await settle()
+	app.current.skip_to_end()
+	var final: Dictionary = app.state.active_run_state
+	_check(final.observations_delivered_by_target.arctic_ice == 1 and final.observations_delivered_by_target.antarctic_region == 1, "Survey records full real deliveries for both regions")
+	_check(not app.state.evaluation_store.reports.has(final.run_id) and app.state.evaluation_store.errors.has(final.run_id), "Current KE2 guard prevents an invented Survey score")
+	app.show_screen(5)
+	await settle()
+	_check(app.current.results.text.contains("Evaluation unavailable"), "Results show the unsupported scoring state clearly")
 	app.queue_free()
-	await _settle()
-	print("K12/K13 screen flow: %d checks passed; %d failed." % [passed, failed])
+	await settle()
+	print("Merged screen edge cases: %d checks passed; %d failed." % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
 func _check(condition: bool, label: String) -> void:

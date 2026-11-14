@@ -4,8 +4,8 @@ extends RefCounted
 const Support = preload("res://scripts/core/validation_support.gd")
 const CATEGORIES: Array = ["bus", "instrument", "solar", "battery", "radio", "storage"]
 const ORBIT_IDS: Array = ["low_eq", "high_inc"]
-const TARGET_IDS: Array = ["equator"]
-const OBJECTIVE_IDS: Array = ["imaging"]
+const TARGET_IDS: Array = ["equator", "tropical_forest", "equatorial_ocean", "coastal_region", "temperate_land", "arctic_ice", "antarctic_region"]
+const OBJECTIVE_IDS: Array = ["imaging", "survey"]
 
 
 static func load_catalogs(base_path: String = "res://data") -> Dictionary:

@@ -5,11 +5,13 @@ The game data is inside the executable. Keep this README with the demo if sharin
 
 Quick demo
 1. Select Start Mission, then Continue Mission.
-2. Keep the starter mission: 4 observations, 30 MB returned, 6 orbits, budget 100.
+2. For the tested success example, choose Capture Imagery, Equator, Polar - 600 km,
+   4 observations, 30 MB returned, 6 orbits, budget 100, and Observe First policy.
 3. In Satellite Builder, the starter totals are 1060 g and 82 credits.
 4. Continue to Readiness, then choose Launch Mission.
-5. Choose Run to end, then View Debrief.
-6. The starter mission captures 4 observations, returns 48 MB and scores 100.
+5. Choose Skip to End, then View Debrief.
+6. This example captures 4 observations, returns 48 MB and scores 100.
+The default preset has different goals; results depend on the selected settings.
 
 Try a blocked design
 Choose the Advanced imaging camera in Builder. Weight becomes 1380 g.
@@ -19,7 +21,7 @@ Choose the Basic imaging camera again to return to the starter design.
 Controls
 F11 switches between fullscreen and a window.
 Observe, Send data and Save power each use one mission step when allowed.
-Run automatically follows the selected policy. Run to end finishes all remaining steps.
+Play follows the selected policy trace. Skip to End finishes playback.
 Stop mission ends the run with no numeric score. Retry same mission starts with clean counters.
 Use Home, then Quit to close the app.
 
@@ -37,4 +39,5 @@ From a terminal in this folder:
 The app runs its checks, writes the log and closes automatically.
 Opening the app normally never runs this mode.
 
-The optional run-comparison feature and browser version are not part of this demo.
+Survey can show per-target deliveries but scoring is unavailable in this build.
+The optional run-comparison feature and browser version are not verified for this demo.

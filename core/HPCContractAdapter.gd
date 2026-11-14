@@ -197,12 +197,25 @@ static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictiona
 	var target_windows: Dictionary = orbit.target_windows
 	if not target_windows.has(str(mission.target_region)) or not target_windows[str(mission.target_region)] is Array or not _valid_windows(target_windows[str(mission.target_region)], int(orbit.steps_per_orbit)):
 		return _error("TARGET_UNSUITABLE_FOR_ORBIT", "target '%s' has no valid observation window for orbit '%s'" % [mission.target_region, design.orbit_id])
+	var target_ids: Variant = mission.get("target_regions", [mission.target_region])
+	if not target_ids is Array or target_ids.is_empty() or target_ids.size() > 2 or target_ids[0] != mission.target_region:
+		return _error("INVALID_TARGETS", "Choose one or two consistent target IDs.")
+	var unique_targets: Array = []
+	for target_id in target_ids:
+		if not target_id is String or unique_targets.has(target_id) or _find(catalog.get("targets", []), target_id).is_empty():
+			return _error("UNKNOWN_TARGET_ID", "Targets must be unique registered IDs.")
+		if not target_windows.get(target_id) is Array or not _valid_windows(target_windows[target_id], int(orbit.steps_per_orbit)):
+			return _error("TARGET_UNSUITABLE_FOR_ORBIT", "No authored access windows for " + target_id)
+		unique_targets.append(target_id)
+	if mission.objective == "survey" and int(mission.required_observations) < target_ids.size():
+		return _error("INVALID_SURVEY_GOAL", "Survey needs at least one observation per target.")
 	var total_steps: int = int(mission.duration_orbits) * int(orbit.steps_per_orbit)
 	return {
 		"ok": true,
 		"config_snapshot": config.duplicate(true),
 		"scenario_id": str(design.orbit_id),
 		"target_id": str(mission.target_region),
+		"target_ids": unique_targets,
 		"observations_required": int(mission.required_observations),
 		"required_returned_data_mb": float(mission.required_returned_data_mb),
 		"total_steps": total_steps,

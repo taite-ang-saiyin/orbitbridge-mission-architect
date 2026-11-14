@@ -111,6 +111,12 @@ static func evaluate_mission(
 		)
 
 	var mission: Dictionary = config["mission"]
+	if mission.get("objective") == "survey":
+		return _error(
+			INVALID_INPUT, "config.mission.objective",
+			"Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+			"Use the supported imaging evaluation or coordinate the Survey scoring extension.", run_id
+		)
 	for requirement: Dictionary in [
 		{"field": "required_observations", "maximum": 20},
 		{"field": "duration_orbits", "maximum": 12},

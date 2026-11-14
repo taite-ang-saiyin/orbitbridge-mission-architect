@@ -20,7 +20,7 @@ static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, m
 	var resolved: Dictionary = Adapter.validate_config(config, catalog)
 	if not resolved.ok:
 		return _adapter_error(resolved)
-	var plan: Dictionary = Planner.build_step_plan(str(config.design.orbit_id), [str(config.mission.target_region)], int(resolved.total_steps), catalog)
+	var plan: Dictionary = Planner.build_step_plan(str(config.design.orbit_id), resolved.target_ids, int(resolved.total_steps), catalog)
 	if not plan.ok:
 		return _error(str(plan.get("error_code", "INVALID_SCENARIO")), str(plan.get("error_message", "Could not create the mission step plan.")))
 	var parts: Dictionary = resolved.parts
@@ -45,6 +45,10 @@ static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, m
 		"storage_capacity_mb": storage_capacity_mb,
 		"returned_data_mb": 0.0,
 		"observations_completed": 0,
+		"observations_by_target": {},
+		"returned_data_by_target_mb": {},
+		"observations_delivered_by_target": {},
+		"data_packets": [],
 		"available_actions": {},
 		"event_log": [],
 		"next_event_sequence": 0,
@@ -175,6 +179,7 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 		next_state.next_event_sequence = event_sequence + 1
 		return {"ok": true, "allowed": false, "state": next_state, "events": [blocked]}
 
+	var step: Dictionary = context_result.plan.steps[current_index]
 	var resources: Dictionary = _project_resources(state, action, context_result.resolved, context_result.plan)
 	var before_energy: float = float(state.energy_wh)
 	var before_stored: float = float(state.stored_data_mb)
@@ -185,6 +190,26 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 	var after_energy: float = float(resources.energy_wh)
 	for key in ["energy_wh", "stored_data_mb", "returned_data_mb", "observations_completed"]:
 		next_state[key] = resources[key]
+	if action == "observe":
+		var target_id: String = _observation_target(state, context_result.resolved, step)
+		next_state.observations_by_target = state.get("observations_by_target", {}).duplicate(true)
+		next_state.observations_by_target[target_id] = int(next_state.observations_by_target.get(target_id, 0)) + 1
+		next_state.data_packets = state.get("data_packets", []).duplicate(true)
+		next_state.data_packets.append({"target_id": target_id, "remaining_mb": data_added_mb})
+	elif action == "transmit":
+		next_state.returned_data_by_target_mb = state.get("returned_data_by_target_mb", {}).duplicate(true)
+		next_state.data_packets = state.get("data_packets", []).duplicate(true)
+		next_state.observations_delivered_by_target = state.get("observations_delivered_by_target", {}).duplicate(true)
+		var remaining: float = data_transmitted_mb
+		while remaining > 0.00000001 and not next_state.data_packets.is_empty():
+			var packet: Dictionary = next_state.data_packets[0]
+			var amount: float = minf(remaining, packet.remaining_mb)
+			next_state.returned_data_by_target_mb[packet.target_id] = float(next_state.returned_data_by_target_mb.get(packet.target_id, 0)) + amount
+			packet.remaining_mb -= amount
+			remaining -= amount
+			if packet.remaining_mb < 0.00000001:
+				next_state.observations_delivered_by_target[packet.target_id] = int(next_state.observations_delivered_by_target.get(packet.target_id, 0)) + 1
+				next_state.data_packets.pop_front()
 	next_state.step_index = current_index + 1
 	if int(next_state.step_index) >= int(next_state.total_steps):
 		next_state.step_index = int(next_state.total_steps)
@@ -207,7 +232,7 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 		"observations_completed": int(next_state.observations_completed)
 	}
 	if action == "observe":
-		details.target_id = str(context_result.resolved.target_id)
+		details.target_id = _observation_target(state, context_result.resolved, step)
 	var message: String = _success_message(action, data_added_mb, data_transmitted_mb)
 	var accepted: Dictionary = _make_event(next_state, event_sequence, current_index, action, "action_accepted", "ACTION_ACCEPTED", message, details)
 	log.append(accepted)
@@ -287,7 +312,7 @@ static func _context(state: Dictionary) -> Dictionary:
 		return _error("INVALID_MISSION_STATE", "Finished run_status must be completed or aborted")
 	if expected_phase == "operating" and state.run_status != null:
 		return _error("INVALID_MISSION_STATE", "Operating run_status must be null")
-	var plan: Dictionary = Planner.build_step_plan(str(config.design.orbit_id), [str(config.mission.target_region)], int(state.total_steps), catalog)
+	var plan: Dictionary = Planner.build_step_plan(str(config.design.orbit_id), resolved.target_ids, int(state.total_steps), catalog)
 	if not plan.ok:
 		return _error(str(plan.get("error_code", "INVALID_SCENARIO")), str(plan.get("error_message", "Could not rebuild the step plan.")))
 	return {"ok": true, "catalog": catalog, "resolved": resolved, "plan": plan}
@@ -300,7 +325,7 @@ static func _evaluate(action: String, state: Dictionary, resolved: Dictionary, p
 	var step: Dictionary = plan.steps[int(state.step_index)]
 	var parts: Dictionary = resolved.parts
 	if action == "observe":
-		if not step.target_windows.has(str(resolved.target_id)):
+		if _observation_target(state, resolved, step).is_empty():
 			return _blocked("TARGET_NOT_VISIBLE", "The selected target is not visible during this step.")
 		if int(state.observations_completed) >= int(resolved.observations_required):
 			return _blocked("OBSERVATION_LIMIT_REACHED", "The required observation count has already been reached.")
@@ -372,7 +397,9 @@ static func _refresh_step_context(state: Dictionary, plan: Dictionary) -> void:
 	var step: Dictionary = plan.steps[index]
 	var target_id: String = str(state.config_snapshot.mission.target_region)
 	state.is_sunlit = bool(step.sunlight)
-	state.in_target_access = step.target_windows.has(target_id)
+	state.in_target_access = false
+	for selected in state.config_snapshot.mission.get("target_regions", [target_id]):
+		if step.target_windows.has(selected): state.in_target_access = true
 	state.in_ground_contact = bool(step.contact)
 
 static func _downlink_rate_mb_per_hour(radio: Dictionary) -> float:
@@ -412,3 +439,20 @@ static func _adapter_error(result: Dictionary) -> Dictionary:
 
 static func _error(code: String, message: String) -> Dictionary:
 	return {"ok": false, "error": {"code": code, "message": message}}
+
+static func _observation_target(state: Dictionary, resolved: Dictionary, step: Dictionary) -> String:
+	var counts: Dictionary = state.get("observations_by_target", {})
+	var selected: String = ""
+	var best: int = 2147483647
+	for target_id in resolved.target_ids:
+		var count: int = int(counts.get(target_id, 0))
+		if step.target_windows.has(target_id) and count < best:
+			selected = target_id
+			best = count
+	# Reserve remaining captures for unsurveyed regions.
+	if state.config_snapshot.mission.objective == "survey":
+		var missing: int = 0
+		for target_id in resolved.target_ids:
+			if int(counts.get(target_id, 0)) == 0: missing += 1
+		if resolved.observations_required - state.observations_completed <= missing and best > 0: return ""
+	return selected

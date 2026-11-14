@@ -15,7 +15,20 @@ $orbitScripts = @(
     'acceptance/test_k14_acceptance.gd',
     'home_smoke.gd',
     'responsive_layout_smoke.gd',
-    '3d/preview_smoke.gd'
+    '3d/preview_smoke.gd',
+    'integration_smoke.gd',
+    'controller_evaluation_smoke.gd',
+    'creator_builder_catalog_smoke.gd',
+    'expanded_missions_smoke.gd',
+    'mission_control_smoke.gd',
+    'prediction_multitarget_smoke.gd',
+    'design_workflow_smoke.gd',
+    'modular_reference_smoke.gd',
+    'operations_smoke.gd',
+    'prototype_smoke.gd',
+    'readiness_smoke.gd',
+    'satellite_builder_smoke.gd',
+    'satellite_selection_smoke.gd'
 )
 $orbitLogs = Join-Path $orbitProject 'exports\check-logs'
 New-Item -ItemType Directory -Path $orbitLogs -Force | Out-Null
@@ -38,4 +51,4 @@ foreach ($orbitScript in $orbitScripts) {
     Write-Output ("PASS " + $orbitScript)
     Write-Output ($orbitText -split "`n" | Where-Object { $_ -match 'checks passed|tests passed:|Evaluator checks:|K14 scenarios:' })
 }
-Write-Output 'All 12 active check programs passed. Historical mock-prototype checks are archived separately.'
+Write-Output "All $($orbitScripts.Count) active check programs passed. Historical mock-prototype checks are archived separately."

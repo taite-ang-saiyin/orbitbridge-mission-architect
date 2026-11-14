@@ -205,3 +205,16 @@ Change record for this synchronization: aligned with `v1.0-agreed`; replaced old
 ## 11. Local integration seam (K12/K13)
 
 `mission_workflow.gd` is controller glue, not a replacement owner API. `to_config(draft)` maps UI fields into the agreed config; `review(draft)` refreshes the direct ValidationResult; `start_run(draft)` revalidates and calls HPC's scenario adapter/init. `request_action`, `automatic_step` and `abort` retain HPC state/events; `evaluation` calls KE2 only at terminal state and returns a copy. `retry` uses saved config/catalog/scenario snapshots; `reset` creates a new mission and clears history. Draft keys such as active_run/reports are local controller state, not additions to MissionConfig or MissionState. Launch never depends on the appearance-only dev_* art IDs. See k12-k13-progress.md for file ownership and reproduction.
+
+## 12. SE extension merged with main
+
+The signed agreement remains unchanged. The following additive implementation details describe the merged application; they do not claim new team approval or replace the signed scoring rules.
+
+- `mission.target_regions` is optional. When present, it contains one or two unique registered target IDs and includes the primary `target_region`. Omitting it retains the single-target contract. The active UI offers Imaging and Survey; expanded IDs must be present in the loaded catalog.
+- `data/mission_scenarios.json` supplies separate illustrative target windows for the extended UI. `mission_runtime.gd` loads these through `load_game_catalogs()`. The original `data/orbits.json` is unchanged, and ordinary catalog loading retains its original behavior. These windows are educational assumptions.
+- The native engine adds `observations_by_target`, `returned_data_by_target_mb`, `observations_delivered_by_target`, and `data_packets`. Captures create target-labelled packets; transmissions drain them in capture order. A delivered-observation count increases only after its entire packet arrives. Aggregate counters remain available.
+- Survey's target deliveries can be simulated and displayed. Current KE2 evaluation rejects Survey, so the UI displays evaluation unavailable and preserves the earlier comparison baseline. No Imaging score is reused as a Survey score. Imaging retains the agreed aggregate goals and scoring.
+- Active screens use `mission_runtime.gd`, `mission_playback.gd`, and `mission_results.gd`. The earlier pure `mission_workflow.gd` API remains covered by its tests. Playback uses real engine states and events; manual actions extend the current run through the engine. Prediction does not mutate state. Recorded runs cannot be rewritten by replay.
+- Launch revalidates the current draft. Editing, resetting, and showing results are blocked during an unfinished run. Retry creates a new run ID using saved configuration, draft, and catalog snapshots. An abort remains a distinct terminal outcome without a numeric score.
+
+Reproduction and verification: [SE merge record](se-main-merge.md).

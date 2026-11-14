@@ -98,7 +98,7 @@ static func _run_readiness(config: Dictionary, catalogs: Dictionary, indexes: Di
 	var threshold: int = int(rule["threshold_g"])
 	var mass_passed: bool = mass < threshold if rule["comparator"] == "<" else mass <= threshold
 	_set_check(checks, "profile_mass", mass_passed, "Spacecraft mass meets the selected profile rule." if mass_passed else "Spacecraft mass does not meet the selected profile rule.")
-	checks["profile_mass"].merge({"total_mass_g": mass, "threshold_g": threshold, "comparator": rule["comparator"], "profile_id": profile["id"], "source_id": rule.get("source_id")})
+	checks["profile_mass"].merge({"total_mass_g": mass, "threshold_g": threshold, "comparator": rule["comparator"], "profile_id": profile["id"], "source_id": rule.get("source_id")}, true)
 	if rule.has("assumption_id"):
 		checks["profile_mass"]["assumption_id"] = rule["assumption_id"]
 	if not mass_passed:
@@ -127,9 +127,13 @@ static func _run_readiness(config: Dictionary, catalogs: Dictionary, indexes: Di
 		compatibility_errors.append(Support.issue("LAUNCH_ORBIT_INCOMPATIBLE", "design.orbit_id", "This launcher does not support the selected orbit.", "Choose an orbit supported by the launcher or change launcher."))
 	_set_check(checks, "launch_orbit", compatibility_errors.is_empty(), "Profile, launcher and orbit are compatible." if compatibility_errors.is_empty() else "The selected profile, launcher and orbit are not compatible.")
 	result["errors"].append_array(compatibility_errors)
-	var target: Dictionary = _check_target(catalogs.get("orbit_catalog"), orbit_id, config["mission"]["target_region"])
-	checks["target_orbit"] = target["check"]
-	result["errors"].append_array(target["errors"])
+	for target_id in config.mission.get("target_regions", [config.mission.target_region]):
+		var target: Dictionary = _check_target(catalogs.get("orbit_catalog"), orbit_id, target_id)
+		if checks.target_orbit.status == "not_evaluated" or target.check.status != "pass":
+			checks.target_orbit = target.check
+		for issue in target.errors:
+			issue.message = str(target_id) + ": " + issue.message
+		result.errors.append_array(target.errors)
 	var power_passed: bool = metrics["battery_capacity_wh"] > 0 and metrics["initial_energy_wh"] > 0 and metrics["initial_energy_wh"] <= metrics["battery_capacity_wh"] and metrics["solar_generation_power_w"] >= metrics["baseline_power_w"]
 	_set_check(checks, "essential_power", power_passed, "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately." if power_passed else "Design fails the illustrative pre-launch power rule.")
 	if not power_passed:
@@ -216,7 +220,21 @@ static func _check_shape(config: Variant) -> Array:
 
 static func _check_mission(mission: Dictionary, errors: Array) -> void:
 	_required(mission, MISSION_FIELDS, "mission", errors)
-	_unknown(mission, MISSION_FIELDS, "mission", errors)
+	_unknown(mission, MISSION_FIELDS + ["target_regions"], "mission", errors)
+	if mission.has("target_regions"):
+		var targets: Variant = mission.target_regions
+		if not targets is Array or targets.is_empty() or targets.size() > 2:
+			errors.append(Support.issue("INVALID_VALUE", "mission.target_regions", "Choose one or two target regions.", "Select up to two different targets."))
+		else:
+			var seen: Array = []
+			for target in targets:
+				if not Support.is_text(target) or seen.has(target):
+					errors.append(Support.issue("INVALID_VALUE", "mission.target_regions", "Target IDs must be unique registered strings.", "Choose different targets."))
+				seen.append(target)
+			if targets[0] != mission.get("target_region"):
+				errors.append(Support.issue("INVALID_VALUE", "mission.target_region", "Primary target must match the first target region.", "Keep both target fields consistent."))
+			if mission.get("objective") == "survey" and Support.is_whole(mission.get("required_observations")) and mission.required_observations < targets.size():
+				errors.append(Support.issue("INVALID_VALUE", "mission.required_observations", "Survey needs at least one capture per selected target.", "Increase required observations."))
 	for field in ["title", "objective", "target_region"]:
 		if mission.has(field):
 			_check_text(mission[field], "mission." + field, errors)
@@ -242,6 +260,9 @@ static func _check_references(config: Dictionary, catalogs: Dictionary, indexes:
 	for pair in [["objective", "objective_ids"], ["target_region", "target_region_ids"]]:
 		if not catalogs[pair[1]].has(mission[pair[0]]):
 			errors.append(Support.issue("INVALID_VALUE", "mission." + pair[0], "Unknown " + pair[0] + ": " + mission[pair[0]], "Choose an ID from the registered mission choices."))
+	for target in mission.get("target_regions", [mission.target_region]):
+		if not catalogs.target_region_ids.has(target):
+			errors.append(Support.issue("INVALID_VALUE", "mission.target_regions", "Unknown target ID: " + str(target), "Choose a registered target."))
 	for category in CatalogLoader.CATEGORIES:
 		var field: String = category + "_id"
 		var id_value: String = design[field]

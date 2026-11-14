@@ -1,10 +1,10 @@
 extends VBoxContainer
 signal navigate(index: int)
 const UI = preload("res://ui/components/UI.gd")
-const CATALOG = preload("res://scripts/integration/design_catalog.gd")
+const CATALOG = preload("res://data/mock/DesignCatalog.gd")
 var state: Dictionary = {}
 var content: VBoxContainer
-var workspace: HBoxContainer
+var workspace: BoxContainer
 var summary: Label
 var summary_column: VBoxContainer
 var form_columns: HBoxContainer
@@ -48,7 +48,7 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 	var actions = HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 12)
 	add_child(actions)
-	previous = UI.button(actions, "<  Back: " + {-1: "Home", 0: "Mission Control", 1: "Mission Creator", 2: "Spacecraft Builder", 3: "Flight Readiness", 4: "Mission Operations"}.get(back, "Back"), func(): navigate.emit(back))
+	previous = UI.button(actions, "<  Back: " + {0: "Mission Control", 1: "Mission Creator", 2: "Spacecraft Builder", 3: "Flight Readiness"}.get(back, "Back"), func(): navigate.emit(back))
 	previous.custom_minimum_size.y = 44
 	var spacer = Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -92,8 +92,8 @@ func row(parent: Node) -> HBoxContainer:
 func dropdown(parent: Node, options: Array, selected: String, change: Callable) -> OptionButton:
 	var select = OptionButton.new()
 	for option in options:
-		select.add_item(CATALOG.orbit_label(option) if option in CATALOG.ORBITS else option)
-	select.selected = options.find(selected)
+		select.add_item(option)
+	select.selected = maxi(0, options.find(selected))
 	select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	select.item_selected.connect(func(index): change.call(options[index]))
 	parent.add_child(select)

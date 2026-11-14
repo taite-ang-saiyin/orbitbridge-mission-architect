@@ -1,8 +1,6 @@
 extends Control
 const SCREENS = ["MissionControl", "MissionCreator", "SpacecraftBuilder", "FlightReadiness", "MissionOperations", "DebriefCompare"]
-const Workflow = preload("res://scripts/integration/mission_workflow.gd")
-var state = Workflow.new_draft()
-var flow_error: AcceptDialog
+var state = preload("res://data/mock/DesignCatalog.gd").DEFAULTS.duplicate(true)
 var preferences = preload("res://scripts/settings/PrototypeSettings.gd").DEFAULTS.duplicate()
 var shell: Control
 var landing_host: Control
@@ -11,6 +9,7 @@ var current: Control
 var nav: HBoxContainer
 var shell_footer: Label
 var sidebar: VBoxContainer
+var flow_error: AcceptDialog
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -49,7 +48,7 @@ func _ready():
 	header.add_child(mark)
 	header.add_child(title)
 	var status = Label.new()
-	status.text = "◉  MISSION CONTROL     •     TRAINING SIMULATOR"
+	status.text = "◉  MISSION CONTROL     •     LOCAL SIMULATION"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
 	var home_button = Button.new()
@@ -81,10 +80,8 @@ func _ready():
 		link.text = entry[0]
 		link.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		link.custom_minimum_size.y = 46
-		if entry[0] == "＋  New Mission":
-			link.pressed.connect(begin_new_mission)
-		else:
-			link.pressed.connect(show_screen.bind(entry[1]))
+		if entry[0] == "＋  New Mission": link.pressed.connect(start_new_mission)
+		else: link.pressed.connect(show_screen.bind(entry[1]))
 		sidebar.add_child(link)
 	var rail_spacer = Control.new()
 	rail_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -98,7 +95,7 @@ func _ready():
 	dashboard.add_child(host)
 	var footer = Label.new()
 	shell_footer = footer
-	footer.text = "ILLUSTRATIVE TRAINING MODEL   •   OrbitBridge Mission Lab"
+	footer.text = "KE1 VALIDATION / HPC SIMULATION   •   OrbitBridge Mission Lab"
 	footer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	footer.add_theme_font_size_override("font_size", 12)
 	layout.add_child(footer)
@@ -112,8 +109,7 @@ func _ready():
 	flow_error.title = "Mission check"
 	add_child(flow_error)
 	show_home()
-	if "--verify-demo" in OS.get_cmdline_user_args():
-		verify_demo.call_deferred()
+	if "--verify-demo" in OS.get_cmdline_user_args(): verify_demo.call_deferred()
 
 func fit_shell():
 	var padding = 18 if size.x >= 1250 else 12
@@ -143,22 +139,27 @@ func show_screen(index: int):
 	if index == -1:
 		show_home()
 		return
-	if index < 0 or index >= SCREENS.size():
-		return
-	# Guard every entry route, including sidebar and progress navigation.
-	if index in [1, 2, 3] and Workflow.is_operating(state):
+	if index < 0 or index >= SCREENS.size(): return
+	if index in [1, 2, 3] and is_operating():
 		show_flow_error("Finish or stop the current mission before editing its design.")
 		return
-	if index == 4 and state.get("active_run", {}).is_empty():
-		var started: Dictionary = Workflow.start_run(state)
-		if not started.ok:
-			show_flow_error(started.error.message)
+	if index == 4 and not is_operating():
+		var review: Dictionary = preload("res://scripts/integration/mission_runtime.gd").review(state)
+		if not review.ready_to_launch:
+			show_flow_error("Resolve the readiness checks before launch.")
+			if not is_instance_valid(current) or current.screen_id != "FlightReadiness": show_screen(3)
 			return
+		if not state.has("run_trace") or state.run_trace.config != review.config or state.run_trace.policy != state.policy:
+			var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+			if not launched.ok:
+				show_flow_error(launched.error.message)
+				return
+	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
 	if index == 5:
-		var evaluated: Dictionary = Workflow.evaluation(state)
-		if evaluated.is_empty():
+		if not state.has("active_run_state") or state.active_run_state.phase != "finished":
 			show_flow_error("Finish the mission before viewing a result.")
 			return
+		on_terminal_state(state.active_run_state)
 	clear_screen()
 	shell.show()
 	landing_host.hide()
@@ -166,30 +167,74 @@ func show_screen(index: int):
 	current = load(path).instantiate()
 	current.state = state
 	current.navigate.connect(show_screen)
+	if current.has_signal("terminal_state"): current.terminal_state.connect(on_terminal_state)
+	if current.has_signal("abort_requested"): current.abort_requested.connect(abort_current_run)
+	if current.has_signal("retry_requested"): current.retry_requested.connect(retry_mission)
+	if current.has_signal("new_mission_requested"): current.new_mission_requested.connect(start_new_mission)
 	nav.visible = false
 	for i in sidebar.get_child_count():
 		var link = sidebar.get_child(i)
 		if link is Button: link.disabled = [-1, 1, 0, 2, 3, 4, 5][i] == index
 	shell_footer.visible = index not in [1, 2, 3, 4]
 	host.add_child(current)
-	for i in nav.get_child_count():
-		nav.get_child(i).disabled = i == index
+	for i in nav.get_child_count(): nav.get_child(i).disabled = i == index
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F11:
 		preload("res://scripts/ui/DesktopWindow.gd").toggle(get_window())
 		get_viewport().set_input_as_handled()
 
+func on_terminal_state(native_state: Dictionary) -> Dictionary:
+	return preload("res://scripts/integration/mission_results.gd").publish(state, native_state)
+
+func retry_mission() -> void:
+	if is_operating():
+		show_flow_error("Finish or stop the current mission before retrying.")
+		return
+	var previous: Dictionary = state.get("run_trace", {}).duplicate(true)
+	preload("res://scripts/integration/mission_results.gd").retry(state)
+	var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state, previous)
+	if launched.ok: show_screen(4)
+	else: show_flow_error(launched.error.message)
+
+func start_new_mission() -> void:
+	if is_operating():
+		show_flow_error("Finish or stop the current mission before starting a new one.")
+		return
+	preload("res://data/mock/DesignCatalog.gd").reset(state)
+	state.name = "Untitled Mission"
+	show_screen(1)
+
+func abort_current_run(reason: String = "Operator requested abort") -> void:
+	if not state.has("active_run_state"): return
+	var recorded: Dictionary = state.get("evaluation_store", {})
+	if recorded.get("reports", {}).has(state.active_run_state.run_id) or recorded.get("errors", {}).has(state.active_run_state.run_id):
+		show_flow_error("This run is already recorded. Retry it to begin another mission.")
+		return
+	var aborted: Dictionary = preload("res://core/MissionStepEngine.gd").abort_run(state.active_run_state, reason)
+	if not aborted.ok: return
+	state.active_run_state = aborted.state.duplicate(true)
+	var frames: Array = []
+	for frame in state.run_trace.frames:
+		if frame.state.step_index < aborted.state.step_index: frames.append(frame)
+	frames.append({"state": aborted.state.duplicate(true), "events": aborted.events.duplicate(true)})
+	state.run_trace.frames = frames
+	state.run_trace.final_state = aborted.state.duplicate(true)
+	state.run_trace.events = aborted.state.event_log.duplicate(true)
+	for i in state.run_history.size():
+		if state.run_history[i].final_state.run_id == aborted.state.run_id: state.run_history[i] = state.run_trace.duplicate(true)
+	on_terminal_state(aborted.state)
+	show_screen(5)
+
+func is_operating() -> bool:
+	return state.get("active_run_state", {}).get("phase") == "operating"
+
 func show_flow_error(message: String) -> void:
 	flow_error.dialog_text = message
 	flow_error.popup_centered(Vector2i(440, 160))
 
 func begin_new_mission() -> void:
-	if Workflow.is_operating(state):
-		show_flow_error("Finish or stop the current mission before starting a new one.")
-		return
-	Workflow.reset(state)
-	show_screen(1)
+	start_new_mission()
 
 func verify_demo() -> void:
 	get_tree().create_timer(90).timeout.connect(func(): printerr("FAIL: Demo verification timed out"); get_tree().quit(1))

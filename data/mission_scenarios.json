@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "assumption_id": "expanded_ui_scenarios_v1",
+  "notice": "Authored illustrative gameplay extension. Preserves original HPC orbit heights, inclinations, timing, sunlight and contact windows. These target access steps are invented training scenarios, not physical coverage predictions.",
+  "targets": [
+    {
+      "id": "equator",
+      "label": "Equator",
+      "latitude_deg": 0,
+      "longitude_deg": 0,
+      "windows": {
+        "low_eq": [
+          2,
+          5
+        ],
+        "high_inc": [
+          1,
+          6
+        ]
+      }
+    },
+    {
+      "id": "tropical_forest",
+      "label": "Tropical Forest",
+      "latitude_deg": 0,
+      "longitude_deg": -60,
+      "windows": {
+        "low_eq": [
+          2
+        ],
+        "high_inc": [
+          1,
+          6
+        ]
+      }
+    },
+    {
+      "id": "equatorial_ocean",
+      "label": "Equatorial Ocean",
+      "latitude_deg": 0,
+      "longitude_deg": 140,
+      "windows": {
+        "low_eq": [
+          5
+        ],
+        "high_inc": [
+          1,
+          6
+        ]
+      }
+    },
+    {
+      "id": "coastal_region",
+      "label": "Coastal Region",
+      "latitude_deg": 30,
+      "longitude_deg": 30,
+      "windows": {
+        "low_eq": [],
+        "high_inc": [
+          2,
+          5
+        ]
+      }
+    },
+    {
+      "id": "temperate_land",
+      "label": "Temperate Land",
+      "latitude_deg": 45,
+      "longitude_deg": -90,
+      "windows": {
+        "low_eq": [],
+        "high_inc": [
+          2,
+          5
+        ]
+      }
+    },
+    {
+      "id": "arctic_ice",
+      "label": "Arctic Ice",
+      "latitude_deg": 80,
+      "longitude_deg": 0,
+      "windows": {
+        "low_eq": [],
+        "high_inc": [
+          0,
+          7
+        ]
+      }
+    },
+    {
+      "id": "antarctic_region",
+      "label": "Antarctic Region",
+      "latitude_deg": -80,
+      "longitude_deg": 0,
+      "windows": {
+        "low_eq": [],
+        "high_inc": [
+          0,
+          7
+        ]
+      }
+    }
+  ]
+}

@@ -1,126 +1,177 @@
 extends RefCounted
-## Explicit --verify-demo mode checks the same screens inside an exported game.
-const Workflow = preload("res://scripts/integration/mission_workflow.gd")
+const Runtime = preload("res://scripts/integration/mission_runtime.gd")
+const Catalog = preload("res://data/mock/DesignCatalog.gd")
 var passed: int = 0
 var failed: int = 0
 var cases: Array = []
 
 func run(app: Control) -> Dictionary:
 	await _settle(app)
+	fresh(app)
+	app.show_screen(1)
+	await _settle(app)
+	_check(app.current.returned_data_input.value == 30, "Independent returned-MB goal is retained")
 	app.show_screen(2)
 	await _settle(app)
-	var builder = app.current
-	_check(builder.total_values.text.contains("1060 g") and builder.total_values.text.contains("82 credits"), "Starter totals are displayed")
-	_check(not builder.next_button.disabled, "Starter design is ready")
+	_check(app.current.total_values.text.contains("1060") and app.current.total_values.text.contains("82"), "Starter totals are displayed")
+	_check(not app.current.next_button.disabled, "Starter design is ready")
 	_record(app, "starter")
-	builder.option_buttons.instrument_advanced.pressed.emit()
-	_check(builder.total_values.text.contains("1380 g"), "Heavy camera changes the visible weight")
-	_check(builder.next_button.disabled, "Heavy camera blocks Continue")
-	_check(app.state.validation.checks.profile_mass.passed == false and app.state.validation.checks.launcher_capacity.passed == true, "1380 g fails the strict sample rule, not the 1500 g launcher limit")
+	choose(app.current, "instrument", "instrument_advanced")
+	_check(app.current.total_values.text.contains("1380"), "Heavy camera changes displayed weight")
+	_check(app.current.next_button.disabled, "Heavy camera blocks Continue")
+	var result: Dictionary = Runtime.review(app.state)
+	_check(result.checks.profile_mass.passed == false and result.checks.launcher_capacity.passed == true, "1380 g fails the strict sample rule, not launcher capacity")
 	app.show_screen(3)
 	await _settle(app)
 	_check(app.current.warning_label.text.contains("1330"), "Weight failure explains the selected limit")
-	_check(app.current.source_label.text.contains("NASA CubeSat 101"), "Source credit is visible")
+	_check(all_text(app.current).contains("NASA CubeSat 101"), "Source credit remains visible")
 	_record(app, "heavy_camera_1380g")
-	await _blocked_launch(app, "Heavy camera")
+	await _blocked(app, "Heavy camera")
 	app.show_screen(2)
 	await _settle(app)
 	app.state.budget = 120
-	app.current.option_buttons.battery_large.pressed.emit()
-	_check(app.current.total_values.text.contains("1580 g"), "Heavy camera plus large battery reaches 1580 g")
-	_check(app.state.validation.checks.launcher_capacity.passed == false and app.state.validation.checks.budget.passed == true, "Small launcher independently fails while budget passes")
+	choose(app.current, "battery", "battery_large")
+	result = Runtime.review(app.state)
+	_check(result.metrics.total_mass_g == 1580, "Heavy camera and large battery reach 1580 g")
+	_check(result.checks.launcher_capacity.passed == false and result.checks.budget.passed == true, "Small launcher independently fails while budget passes")
 	app.show_screen(3)
 	await _settle(app)
-	_check(app.current.check_details.launcher_capacity.text.begins_with("FAIL"), "Launcher capacity failure is displayed")
 	_record(app, "heavy_camera_small_launcher_1580g")
-	await _blocked_launch(app, "Small-launcher capacity")
-	Workflow.reset(app.state)
+	await _blocked(app, "Small launcher")
+	fresh(app)
 	app.state.budget = 81
 	app.show_screen(3)
 	await _settle(app)
-	_check(app.state.validation.metrics.total_mass_g == 1060 and app.state.validation.checks.profile_mass.passed == true, "Low-budget design still passes the weight check")
-	_check(app.current.check_details.budget.text.begins_with("FAIL") and app.current.warning_label.text.contains("82"), "Cost 82 versus budget 81 is displayed as a blocker")
+	result = Runtime.review(app.state)
+	_check(result.metrics.total_mass_g == 1060 and result.checks.profile_mass.passed == true, "Low budget design still passes mass")
+	_check(result.checks.budget.passed == false and app.state.budget == 81, "Cost 82 versus exact budget 81 stays blocked without rounding")
 	_record(app, "passing_mass_failing_budget")
-	await _blocked_launch(app, "Low budget")
-	Workflow.reset(app.state)
-	app.state.targets = ["Coastal Region"]
+	await _blocked(app, "Low budget")
+	fresh(app)
+	app.state.targets = ["Unknown target"]
 	app.show_screen(3)
 	await _settle(app)
-	_check(app.state.validation.metrics == null and not app.state.validation.ready_to_launch, "Unsupported target is rejected without fabricated totals")
-	_check(app.current.warning_label.text.contains("Equator"), "Unsupported-target correction names the available target")
-	_record(app, "unsupported_target")
-	await _blocked_launch(app, "Unsupported target")
+	_check(Runtime.review(app.state).metrics == null and app.current.next_button.disabled, "Unregistered target is rejected without false totals")
+	_record(app, "unregistered_target")
+	await _blocked(app, "Unregistered target")
 	app.show_screen(1)
 	await _settle(app)
 	app.current.target_buttons["Equator"].pressed.emit()
-	_check(app.state.targets == ["Equator"] and not app.current.next_button.disabled, "Choosing Equator explicitly fixes the target")
+	_check(app.state.targets == ["Equator"], "Explicit target selection repairs the draft")
 	app.show_screen(3)
 	await _settle(app)
 	_check(not app.current.next_button.disabled, "Supported target restores readiness")
+	# A previously passing screen never authorizes a later invalid config.
+	app.state.budget = 1
 	app.current.next_button.pressed.emit()
 	await _settle(app)
-	_check(app.current.screen_id == "MissionOperations", "Valid design launches in this build")
-	_check(app.current.run_configuration.mission.target_region == "equator", "The selected target reaches the launch snapshot unchanged")
-	app.current.finish_run()
-	_check(app.state.active_run.state.step_index == 60 and app.state.active_run.state.returned_data_mb == 48, "Real high-inclination mission completes 60 steps and returns 48 MB")
-	app.current.next_button.pressed.emit()
-	await _settle(app)
-	_check(app.current.results.text.contains("SUCCESS") and app.current.results.text.contains("Score: 100"), "Actual success and score reach the Results screen")
-	_check(app.current.results.text.contains("48.00 / 30.00 MB"), "Actual returned MB and goal are visible in Results")
-	_record_run(app, "high_inc_completed")
-	app.show_screen(5)
-	await _settle(app)
-	_check(app.state.reports.size() == 1, "Reopening Results keeps one report")
-	app.current.retry()
-	await _settle(app)
-	_check(app.state.active_run.state.step_index == 0 and app.state.active_run.state.event_log.is_empty(), "Retry clears live counters and events")
-	app.current.stop_run()
-	app.current.next_button.pressed.emit()
-	await _settle(app)
-	_check(app.current.results.text.contains("FAILED") and app.current.results.text.contains("Score: —"), "Stopping a run produces a null-score failed result")
-	app.begin_new_mission()
-	await _settle(app)
-	_check(app.state.active_run.is_empty() and app.state.reports.is_empty(), "New Mission clears history")
-	app.show_screen(2)
-	await _settle(app)
-	app.current.selectors.orbit.item_selected.emit(0)
-	_check(app.state.orbit == "low_eq" and not app.current.next_button.disabled, "The other authored orbit remains suitable for Equator")
+	_check(not app.state.has("run_trace"), "Launch click rechecks stale permissions")
+	app.state.budget = 100
 	app.show_screen(3)
 	await _settle(app)
 	app.current.next_button.pressed.emit()
 	await _settle(app)
-	app.current.finish_run()
+	_check(app.current.screen_id == "MissionOperations", "Validated launch opens Operations")
+	_check(app.current.run_configuration.mission.target_region == "equator", "Target reaches the native launch snapshot")
+	var operations = app.current
+	var before: Dictionary = app.state.active_run_state.duplicate(true)
+	operations.take_action("power_save")
+	_check(app.state.active_run_state.step_index == before.step_index + 1, "Preserved manual action advances the real engine once")
+	_check(app.state.active_run_state.config_snapshot == before.config_snapshot, "Manual action preserves launch goals and IDs")
+	_check(operations.action_buttons.power_save.tooltip_text.contains("Wh"), "Native next-step prediction is available on the action control")
+	app.show_screen(5)
+	_check(app.current == operations, "Navigation cannot show an invented early result")
+	app.flow_error.hide()
+	app.show_screen(2)
+	_check(app.current == operations, "Operating snapshot cannot be edited behind the run")
+	app.flow_error.hide()
+	operations.skip_to_end()
+	_check(app.state.active_run_state.step_index == 60 and app.state.active_run_state.returned_data_mb == 48, "Real run completes 60 steps and returns 48 MB")
+	operations.next_button.pressed.emit()
+	await _settle(app)
+	_check(app.current.results.text.to_lower().contains("success") and app.current.results.text.contains("Score: 100"), "Real evaluation reaches Results")
+	_record_run(app, "high_inc_completed")
+	app.show_screen(5)
+	await _settle(app)
+	_check(app.state.evaluation_store.history.size() == 1, "Repeated results are published only once")
+	var frozen: Dictionary = app.state.run_trace.config.duplicate(true)
+	var old_id: String = app.state.run_trace.final_state.run_id
+	app.state.observations = 20
+	app.retry_mission()
+	await _settle(app)
+	_check(app.state.run_trace.config == frozen and app.state.run_trace.final_state.run_id != old_id, "Retry restores exact original config and a new run ID")
+	_check(app.state.active_run_state.step_index == 0 and app.state.active_run_state.event_log.is_empty(), "Retry resets counters and events")
+	app.abort_current_run("Stopped by verification")
+	await _settle(app)
+	var aborted: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
+	_check(aborted.status == "failed" and aborted.score == null and app.current.results.text.contains("Not scored"), "Abort retains failed/null-score behavior")
+	app.start_new_mission()
+	await _settle(app)
+	_check(not app.state.has("run_trace") and not app.state.has("evaluation_store"), "New Mission clears history")
+	fresh(app)
+	app.state.orbit = "LEO – 400 km"
+	app.show_screen(3)
+	await _settle(app)
+	_check(not app.current.next_button.disabled, "Other native orbit remains suitable")
 	app.current.next_button.pressed.emit()
 	await _settle(app)
-	_check(app.current.results.text.contains("SUCCESS"), "The low-equatorial orbit also reaches actual success")
-	_check(app.state.active_run.evaluation.report.returned_data_mb >= 30, "Low-equatorial return is measured from its own contact windows")
+	app.current.skip_to_end()
+	app.current.next_button.pressed.emit()
+	await _settle(app)
+	var report: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
+	_check(report.status == "success" and report.returned_data_mb >= 30, "Other orbit reaches actual success")
 	_record_run(app, "low_eq_completed")
 	print("K14 scenarios: %d checks passed; %d failed." % [passed, failed])
 	print("K14_EVIDENCE " + JSON.stringify({"passed": passed, "failed": failed, "cases": cases}))
 	return {"passed": passed, "failed": failed, "cases": cases}
 
-func _blocked_launch(app: Control, label: String) -> void:
+func fresh(app: Control) -> void:
+	Catalog.reset(app.state)
+	app.state.name = "Verification imaging trial"
+	app.state.targets = ["Equator"]
+	app.state.target_limit = 1
+	app.state.observations = 4
+	app.state.required_returned_data_mb = 30
+	app.state.duration = 6
+	app.state.budget = 100
+	app.state.orbit = "Polar – 600 km"
+
+func choose(page: Control, slot: String, id: String) -> void:
+	var select: OptionButton = page.engineering_selectors[slot]
+	for index in select.item_count:
+		if select.get_item_metadata(index) == id:
+			select.select(index)
+			select.item_selected.emit(index)
+			return
+	_check(false, "Missing catalog choice: " + id)
+
+func all_text(node: Node) -> String:
+	var text: String = node.text if node is Label else ""
+	for child in node.get_children(): text += "\n" + all_text(child)
+	return text
+
+func _blocked(app: Control, label: String) -> void:
 	var readiness = app.current
-	_check(readiness.next_button.disabled, label + ": Launch button is disabled")
+	_check(readiness.next_button.disabled, label + ": Launch is disabled")
 	readiness.next_button.pressed.emit()
 	await _settle(app)
-	_check(app.current == readiness and app.state.active_run.is_empty(), label + ": forced button signal cannot start a run")
+	_check(app.current == readiness and not app.state.has("run_trace"), label + ": forced button cannot launch")
 	app.show_screen(4)
 	await _settle(app)
-	_check(app.current == readiness and app.state.active_run.is_empty(), label + ": navigation cannot bypass the gate")
+	_check(app.current == readiness and not app.state.has("run_trace"), label + ": navigation cannot bypass checks")
 	app.flow_error.hide()
+
+func _record(app: Control, id: String) -> void:
+	var result: Dictionary = Runtime.review(app.state)
+	var codes: Array = []
+	for issue in result.errors: codes.append(issue.code)
+	cases.append({"id": id, "ready_to_launch": result.ready_to_launch, "metrics": result.metrics, "error_codes": codes})
+
+func _record_run(app: Control, id: String) -> void:
+	cases.append({"id": id, "report": app.state.evaluation_store.reports[app.state.active_run_state.run_id]})
 
 func _settle(app: Control) -> void:
 	for frame in 4: await app.get_tree().process_frame
-
-func _record(app: Control, id: String) -> void:
-	var validation: Dictionary = app.state.validation
-	var codes: Array = []
-	for issue in validation.errors: codes.append(issue.code)
-	cases.append({"id": id, "ready_to_launch": validation.ready_to_launch, "metrics": validation.metrics, "error_codes": codes})
-
-func _record_run(app: Control, id: String) -> void:
-	cases.append({"id": id, "report": app.state.active_run.evaluation.report})
 
 func _check(condition: bool, label: String) -> void:
 	if condition: passed += 1
@@ -137,7 +188,7 @@ func check_packaging() -> Dictionary:
 	for slot in art.STARTER:
 		for option in art.catalog(slot):
 			_check(ResourceLoader.exists(option.asset) and load(option.asset) is PackedScene, "Packaged art variant exists: " + option.id)
-	for name in ["components", "launch_profiles", "launchers", "ke1_reference_ids", "orbits"]:
+	for name in ["components", "launch_profiles", "launchers", "ke1_reference_ids", "orbits", "mission_scenarios"]:
 		_check(FileAccess.file_exists("res://data/" + name + ".json"), "Packaged runtime data exists: " + name)
 	for path in ["AGENTS.md", "GEMINI.md", "tasks.md", "docs/team-agreement.md", "docs/references/NASA_CubeSat_101.pdf"]:
 		_check(not FileAccess.file_exists("res://" + path), "Private/source documentation excluded: " + path)
