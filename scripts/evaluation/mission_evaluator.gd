@@ -111,6 +111,12 @@ static func evaluate_mission(
 		)
 
 	var mission: Dictionary = config["mission"]
+	if mission.get("objective") == "survey":
+		return _error(
+			INVALID_INPUT, "config.mission.objective",
+			"Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+			"Use the supported imaging evaluation or coordinate the Survey scoring extension.", run_id
+		)
 	for requirement: Dictionary in [
 		{"field": "required_observations", "maximum": 20},
 		{"field": "duration_orbits", "maximum": 12},
@@ -225,6 +231,29 @@ static func evaluate_mission(
 	return {"ok": true, "report": report}
 
 
+## Adapts the native HPC state using its immutable launch snapshot and full log.
+## Counters, units, and event records pass directly to the agreed evaluator.
+static func evaluate_hpc_state(final_state: Dictionary, comparison_baseline = null) -> Dictionary:
+	var run_id: Variant = final_state.get("run_id")
+	if not run_id is String or run_id.strip_edges().is_empty():
+		run_id = null
+	if not final_state.get("config_snapshot") is Dictionary:
+		return _error(
+			INVALID_INPUT, "final_state.config_snapshot",
+			"The HPC state must contain its launch-time config snapshot.",
+			"Pass the native MissionStepEngine state with config_snapshot intact.", run_id
+		)
+	if not final_state.get("event_log") is Array:
+		return _error(
+			INVALID_INPUT, "final_state.event_log",
+			"The HPC state must contain its cumulative event log.",
+			"Pass the state's event_log, including earlier blocked actions.", run_id
+		)
+	return evaluate_mission(
+		final_state["config_snapshot"], final_state, final_state["event_log"], comparison_baseline
+	)
+
+
 ## Explicit setup helper for caller-supplied MissionReport documentation fixtures.
 ## It checks required keys and returns an independent deep copy in the v1 wrapper.
 ## Callers own fixture loading and labeling. This helper does not evaluate a run
@@ -266,16 +295,3 @@ static func _error(
 			"run_id": run_id,
 		},
 	}
-
-
-## SE native-state compatibility entry point over KE2 f313e6f's evaluator.
-## Replace with KE2's current native adapter when its handoff is available.
-static func evaluate_hpc_state(state: Dictionary) -> Dictionary:
-	if not state.get("config_snapshot") is Dictionary or not state.get("event_log") is Array:
-		return _error(INVALID_INPUT, "state", "Native state must contain config_snapshot and full event_log.", "Pass HPC's unchanged state including its config snapshot and ordered event history.", state.get("run_id"))
-	if state.config_snapshot.get("mission", {}).get("objective") == "survey":
-		return _error("UNSUPPORTED_SURVEY_EXTENSION", "config.mission.objective", "The cached KE2 version does not evaluate multi-target survey delivery goals.", "Integrate KE2's current survey-capable evaluator before scoring this objective.", state.get("run_id"))
-	var terminal: Dictionary = state.duplicate(true)
-	if terminal.get("run_status") == "aborted" and terminal.get("terminal_reason") is String:
-		terminal.abort_reason = terminal.terminal_reason
-	return evaluate_mission(state.config_snapshot, terminal, state.event_log)

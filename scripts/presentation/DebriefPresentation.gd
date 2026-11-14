@@ -21,6 +21,8 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 	var heading: String = "%s / %s\n%s" % [text(final.get("run_id")), text(final.get("run_status")), text(mission.get("title"))]
 	if not report.is_empty():
 		var matches: bool = report.get("run_id") == final.get("run_id") and report.get("mission_id") == final.get("mission_id")
+		var expected_key: Variant = store.get("bindings",{}).get(id)
+		if expected_key != null and expected_key != preload("res://scripts/integration/mission_results.gd").input_key(trace): matches = false
 		for key in ["required_observations", "required_returned_data_mb"]:
 			if report.has(key) and report[key] != mission.get(key): matches = false
 		for key in ["observations_completed", "returned_data_mb", "run_status"]:
@@ -65,7 +67,8 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 	else: model.credits = "Readiness source credit: Unavailable"
 	var scoped: Array = []
 	for record in store.get("history", []):
-		if record.get("state", {}).get("run_id") == id and record.state.get("config_snapshot") == config:
+		# Attribution attached to a rejected report must not leak via matching history.
+		if model.state == "report" and record.get("state", {}).get("run_id") == id and record.state.get("config_snapshot") == config and record.get("state") == final:
 			var metadata: Variant = record.get("source_credit_metadata", {})
 			if metadata is Dictionary and metadata.get("applicable_source_credits") is Array: scoped = metadata.applicable_source_credits
 	var has_feedback: bool = false

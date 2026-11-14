@@ -102,8 +102,14 @@ func _initialize() -> void:
 	_test_scoring(config, state)
 	_test_invalid_inputs(config, state)
 	_test_feedback(config, state)
+	_test_hpc_adapter(config, state)
+	var hpc_runtime_checked: bool = false
+	if "--ke2-standalone" in OS.get_cmdline_user_args():
+		print("HPC runtime checks deferred by --ke2-standalone.")
+	else:
+		hpc_runtime_checked = _test_hpc_runtime()
 	for pending: String in PENDING_CASES:
-		print("PENDING " + pending)
+		print("PENDING " + (pending.replace("real HPC trace, ", "") if hpc_runtime_checked else pending))
 	print("Evaluator checks: %d passed, %d failed, %d pending." % [_passed, _failed, PENDING_CASES.size()])
 	quit(0 if _failed == 0 else 1)
 
@@ -573,7 +579,7 @@ func _check_error(label: String, result: Dictionary, field_path: Variant, run_id
 
 
 func _fixture(filename: String, expected_type: int = TYPE_DICTIONARY) -> Variant:
-	var path: String = EXAMPLES + filename
+	var path: String = filename if filename.begins_with("res://") else EXAMPLES + filename
 	var parser := JSON.new()
 	var parse_error: Error = parser.parse(FileAccess.get_file_as_string(path))
 	if parse_error != OK:
@@ -583,6 +589,189 @@ func _fixture(filename: String, expected_type: int = TYPE_DICTIONARY) -> Variant
 		_check("Fixture root type: " + filename, type_string(typeof(parser.data)), type_string(expected_type))
 		return [] if expected_type == TYPE_ARRAY else {}
 	return parser.data
+
+
+## Synthetic native-state envelope checks, independent of the HPC checkout.
+func _test_hpc_adapter(config: Dictionary, state: Dictionary) -> void:
+	var native: Dictionary = _terminal(state, 3, 10.0)
+	native["config_snapshot"] = config.duplicate(true)
+	native["config_snapshot"]["mission"]["required_observations"] = 3
+	native["event_log"] = [_blocked_event("NO_LINK_WINDOW", "transmit")]
+	var before: Dictionary = native.duplicate(true)
+	var result: Dictionary = Evaluator.evaluate_hpc_state(native)
+	var report: Dictionary = result.get("report", {})
+	_check("HPC adapter returns a complete evaluation", result.get("ok"), true)
+	_check("HPC adapter uses launch observation target", report.get("required_observations"), 3)
+	_check("HPC adapter uses launch return target", report.get("required_returned_data_mb"), 30)
+	_check("HPC adapter preserves returned MB", report.get("returned_data_mb"), 10.0)
+	_check("HPC adapter delegates capped scoring", report.get("score"), 67)
+	var adapter_causes: Array = report.get("root_causes", [])
+	_check("HPC adapter delegates event evidence", adapter_causes[0].get("code") if not adapter_causes.is_empty() else null, "NO_LINK_WINDOW")
+	_check("HPC adapter preserves state and nested snapshots", native, before)
+	_check("HPC adapter is deterministic", Evaluator.evaluate_hpc_state(native), result)
+	_check(
+		"HPC adapter agrees with the public three-input evaluator", result,
+		Evaluator.evaluate_mission(native["config_snapshot"], native, native["event_log"])
+	)
+	for field: String in ["config_snapshot", "event_log"]:
+		var malformed: Dictionary = native.duplicate(true)
+		malformed.erase(field)
+		_check_error("HPC adapter rejects missing " + field, Evaluator.evaluate_hpc_state(malformed), "final_state." + field, native["run_id"])
+		malformed[field] = "invalid"
+		_check_error("HPC adapter rejects invalid " + field, Evaluator.evaluate_hpc_state(malformed), "final_state." + field, native["run_id"])
+	var malformed_events: Dictionary = native.duplicate(true)
+	malformed_events["event_log"] = [null]
+	_check_error("HPC adapter delegates event validation", Evaluator.evaluate_hpc_state(malformed_events), "events[0]", native["run_id"])
+	var operating: Dictionary = native.duplicate(true)
+	operating["phase"] = "operating"
+	operating["run_status"] = null
+	_check("HPC adapter rejects a live operating state", Evaluator.evaluate_hpc_state(operating).get("error", {}).get("code"), "NONTERMINAL_RUN_STATE")
+	var aborted: Dictionary = native.duplicate(true)
+	aborted["run_status"] = "aborted"
+	aborted["terminal_reason"] = "  Operator ended this attempt.  "
+	aborted["abort_reason"] = "Older alternate metadata."
+	var abort_before: Dictionary = aborted.duplicate(true)
+	var abort_report: Dictionary = Evaluator.evaluate_hpc_state(aborted).get("report", {})
+	_check("HPC terminal_reason is attributed", str(abort_report.get("explanation")).contains("Recorded abort reason was Operator ended this attempt."), true)
+	_check("HPC terminal_reason takes precedence", str(abort_report.get("explanation")).contains("Older alternate metadata."), false)
+	_check("HPC abort score is null", abort_report.get("score", "missing"), null)
+	_check("HPC abort retains actual progress", abort_report.get("observations_completed"), 3)
+	_check("HPC abort mapping preserves inputs", aborted, abort_before)
+	aborted["terminal_reason"] = " "
+	_check("HPC empty terminal_reason preserves legacy fallback", str(Evaluator.evaluate_hpc_state(aborted).get("report", {}).get("explanation")).contains("Older alternate metadata."), true)
+	_check_error("HPC empty state uses nullable identity", Evaluator.evaluate_hpc_state({}), "final_state.config_snapshot", null)
+	var survey: Dictionary = native.duplicate(true)
+	survey["config_snapshot"]["mission"]["objective"] = "survey"
+	survey["observations_completed"] = 3
+	survey["returned_data_mb"] = 30.0
+	survey["observations_delivered_by_target"] = {}
+	_check_error(
+		"Survey aggregate thresholds require the delivery extension", Evaluator.evaluate_hpc_state(survey),
+		"config.mission.objective", survey["run_id"]
+	)
+	_check_error(
+		"Survey guard also applies to the public evaluator",
+		Evaluator.evaluate_mission(survey["config_snapshot"], survey, survey["event_log"]),
+		"config.mission.objective", survey["run_id"]
+	)
+
+
+## Executes unchanged HPC/KE1 modules when the integrated checkout provides them.
+## The isolated pinned-project recipe is recorded in docs/ke2/hpc-integration.md.
+func _test_hpc_runtime() -> bool:
+	if not FileAccess.file_exists("res://core/MissionStepEngine.gd"):
+		print("HPC runtime checks deferred to the pending integration group because producer modules are absent.")
+		return false
+	var step_engine: GDScript = load("res://core/MissionStepEngine.gd")
+	var catalog_loader: GDScript = load("res://scripts/core/catalog_loader.gd")
+	if step_engine == null or catalog_loader == null:
+		_check("HPC runtime dependencies load", false, true)
+		return false
+	var catalogs: Dictionary = catalog_loader.load_catalogs()
+	_check("HPC real KE1 catalogs load", catalogs.get("ok"), true)
+	if not catalogs.get("ok", false):
+		return false
+	var config: Dictionary = _fixture("res://tests/fixtures/valid_1u_feasible.json")
+	var started: Dictionary = step_engine.init_validated_run(config, catalogs["catalogs"], "run_ke2_prompt7", "mission_ke2_prompt7")
+	_check("HPC actual KE1 readiness permits initialization", started.get("ok"), true)
+	if not started.get("ok", false):
+		printerr(var_to_str(started))
+		return false
+	_check("HPC actual readiness is approved", started.get("validation_result", {}).get("ready_to_launch"), true)
+	var current: Dictionary = started["state"]
+	# Caller edits after Launch must leave the run's retained goals intact.
+	config["mission"]["required_observations"] = 20
+	config["mission"]["required_returned_data_mb"] = 999.0
+	var blocked_once: bool = false
+	var captured_state: Dictionary = {}
+	var requests: int = 0
+	var maximum_requests: int = int(current["total_steps"]) + 2
+	while current["phase"] == "operating" and requests < maximum_requests:
+		var step: int = int(current["step_index"])
+		var action: String = "power_save"
+		if step == 1:
+			action = "observe"
+		elif step == 7 or (step == 8 and not blocked_once):
+			action = "transmit"
+		var previous: Dictionary = current.duplicate(true)
+		var reply: Dictionary = step_engine.request_action(current, action)
+		if not reply.get("ok", false):
+			_check("HPC action request completes", reply, {"ok": true})
+			return false
+		current = reply["state"]
+		requests += 1
+		if step == 8 and action == "transmit":
+			blocked_once = true
+			_check("HPC recorded transmission is blocked", reply.get("allowed"), false)
+			_check("HPC recorded block code", reply["events"][0].get("code"), "NO_LINK_WINDOW")
+			for field: String in ["step_index", "energy_wh", "stored_data_mb", "returned_data_mb", "observations_completed"]:
+				_check("HPC blocked action preserves " + field, current[field], previous[field])
+		elif not reply.get("allowed", false):
+			_check("HPC planned action is accepted at step %d" % step, reply["events"], "accepted action")
+			return false
+		if step == 1:
+			captured_state = current.duplicate(true)
+	_check("HPC real mission finishes naturally", current.get("run_status"), "completed")
+	_check("HPC real mission reaches step 60", current.get("step_index"), 60)
+	_check("HPC real mission retains all 62 events", current.get("event_log", []).size(), 62)
+	var before: Dictionary = current.duplicate(true)
+	var result: Dictionary = Evaluator.evaluate_hpc_state(current)
+	_check("HPC completed simulation evaluates", result.get("ok"), true)
+	var report: Dictionary = result.get("report", {})
+	var fields: Array = report.keys()
+	var required: Array = REPORT_FIELDS.duplicate()
+	fields.sort()
+	required.sort()
+	_check("HPC report contains every agreed field", fields, required)
+	_check("HPC completed verdict", report.get("status"), "partial")
+	_check("HPC completed score", report.get("score"), 25)
+	_check("HPC successful captures pass through", report.get("observations_completed"), 1)
+	_check("HPC actual Earth reception passes through exactly", report.get("returned_data_mb"), current["returned_data_mb"])
+	_check_close("HPC Earth reception matches the recorded reference", report.get("returned_data_mb"), 7.7333333328)
+	_check("HPC stored data stays in the explanation", str(report.get("explanation")).contains(str(current["stored_data_mb"]) + " MB remain onboard."), true)
+	_check("HPC launch capture target survives caller edits", report.get("required_observations"), 4)
+	_check("HPC launch return target survives caller edits", report.get("required_returned_data_mb"), 30)
+	var causes: Array = report.get("root_causes", [])
+	_check("HPC earlier block survives terminal notification", causes.size(), 1)
+	if not causes.is_empty():
+		_check("HPC earlier event ID is retained", causes[0].get("evidence_event_ids"), ["evt_008"])
+		_check("HPC earlier reason is retained", causes[0].get("code"), "NO_LINK_WINDOW")
+	_check("HPC terminal state remains immutable", current, before)
+	_check("HPC repeated terminal evaluation is deterministic", Evaluator.evaluate_hpc_state(current), result)
+	var trace: Dictionary = _fixture("res://docs/hpc-ke3-ops-trace-v0.2.json")
+	if trace.is_empty():
+		return false
+	var recorded: Dictionary = Evaluator.evaluate_mission(trace["config"], trace["final_state"], trace["events"])
+	_check("HPC committed trace has launch approval", trace.get("validation", {}).get("launch_approved"), true)
+	_check("HPC committed trace evaluates", recorded.get("ok"), true)
+	_check("HPC committed trace score", recorded.get("report", {}).get("score"), 25)
+	var recorded_causes: Array = recorded.get("report", {}).get("root_causes", [])
+	_check("HPC committed trace retains evt_008", recorded_causes[0].get("evidence_event_ids") if not recorded_causes.is_empty() else null, ["evt_008"])
+	if captured_state.is_empty():
+		_check("HPC abort setup captured an observation", false, true)
+		return false
+	var aborted: Dictionary = step_engine.abort_run(captured_state, "Operator requested stop after capture.")
+	_check("HPC real abort succeeds", aborted.get("ok"), true)
+	if not aborted.get("ok", false):
+		return false
+	var abort_state: Dictionary = aborted["state"]
+	var abort_before: Dictionary = abort_state.duplicate(true)
+	var abort_report: Dictionary = Evaluator.evaluate_hpc_state(abort_state).get("report", {})
+	_check("HPC real abort status", abort_report.get("run_status"), "aborted")
+	_check("HPC real abort verdict", abort_report.get("status"), "failed")
+	_check("HPC real abort score", abort_report.get("score", "missing"), null)
+	_check("HPC real abort preserves captures", abort_report.get("observations_completed"), 1)
+	_check("HPC real abort preserves received MB", abort_report.get("returned_data_mb"), 0.0)
+	_check("HPC real abort attributes producer reason", str(abort_report.get("explanation")).contains("Recorded abort reason was Operator requested stop after capture."), true)
+	_check("HPC real abort retains state and logs", abort_state, abort_before)
+	return true
+
+
+func _check_close(label: String, actual: Variant, expected: float, tolerance: float = 1e-9) -> void:
+	if (actual is int or actual is float) and is_finite(float(actual)) and absf(float(actual) - expected) <= tolerance:
+		_check(label, expected, expected)
+	else:
+		_check(label, actual, expected)
 
 
 func _check(label: String, actual: Variant, expected: Variant) -> void:

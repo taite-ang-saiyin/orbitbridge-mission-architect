@@ -220,7 +220,7 @@ func result_history() -> Array:
 	var history: Array = []
 	var ids: Array = []
 	for record in state.get("evaluation_store", {}).get("history", []):
-		history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation})
+		history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation, "events": record.state.event_log.duplicate(true)})
 		ids.append(record.state.run_id)
 	for trace in state.get("run_history", []):
 		if ids.has(trace.final_state.run_id): continue

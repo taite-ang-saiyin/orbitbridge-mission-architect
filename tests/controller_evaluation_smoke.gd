@@ -73,7 +73,7 @@ func check() -> void:
 	app.current.skip_to_end()
 	app.show_screen(5)
 	await settle()
-	assert("survey-capable" in app.current.results.text)
+	assert("Survey" in app.current.results.text and "evaluation_error" == app.current.get_presentation_model().state)
 	assert(app.state.evaluation_store.history.size() == 2 and app.state.evaluation_store.baseline == original.baseline)
 	assert(press(app.current, "Start New Mission"))
 	await settle()

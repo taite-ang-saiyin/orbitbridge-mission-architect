@@ -61,8 +61,15 @@ func run() -> void:
 	app.state.observations = int(fixture.mission.required_observations)
 	app.state.required_returned_data_mb = fixture.mission.required_returned_data_mb
 	app.state.orbit = "Polar – 600 km"
-	app.show_screen(2)
+	app.show_screen(1)
 	await settle()
+	app.current.name_input.text = fixture.mission.title
+	app.current.name_input.text_changed.emit(fixture.mission.title)
+	app.current.observation_input.value = fixture.mission.required_observations
+	app.current.returned_data_input.value = fixture.mission.required_returned_data_mb
+	app.current.next_button.pressed.emit()
+	await settle()
+	check(app.current.screen_id == "SpacecraftBuilder","Actual Creator Continue→Builder")
 	for category in ["bus","instrument","solar","battery","radio","storage"]:
 		app.current.select_engineering_component(category,fixture.design[category+"_id"])
 	app.current.next_button.pressed.emit()
@@ -202,6 +209,7 @@ func run() -> void:
 	root.size = Vector2i(900,680)
 	await settle()
 	var page = app.current
+	check(page.event_header.vertical and page.event_header.get_child(0).size.y<=30,"900px event heading readable without character columns")
 	for control in [page.play_button,page.pause_button,page.step_button,page.skip_button]:
 		if control.disabled: continue
 		var retained: Dictionary = app.state.active_run_state.duplicate(true)

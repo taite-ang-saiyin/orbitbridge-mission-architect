@@ -30,6 +30,7 @@ var storage_bar: ProgressBar
 var details: Label
 var timeline: ItemList
 var filter_select: OptionButton
+var event_header: BoxContainer
 var visible_events: Array = []
 var timeline_event = -1
 var next_events: Label
@@ -199,12 +200,21 @@ func build_telemetry(parent: Node) -> void:
 	telemetry = UI.label(box, "", 12)
 func build_events(parent: Node) -> void:
 	var box = section(parent, "RECENT EVENTS")
+	var original_header: Control=box.get_child(0)
+	var title: Label=original_header.get_child(0)
+	event_header=BoxContainer.new()
+	event_header.add_theme_constant_override("separation",8)
+	box.add_child(event_header)
+	box.move_child(event_header,0)
+	title.reparent(event_header)
+	title.autowrap_mode=TextServer.AUTOWRAP_OFF
+	original_header.queue_free()
 	filter_select = OptionButton.new()
 	for caption in ["All Events", "Observations", "Downlink", "Warnings"]:
 		filter_select.add_item(caption)
 	filter_select.add_theme_font_size_override("font_size", 11)
 	filter_select.item_selected.connect(func(_index): rebuild_timeline())
-	box.get_child(0).add_child(filter_select)
+	event_header.add_child(filter_select)
 	timeline = ItemList.new()
 	timeline.custom_minimum_size = Vector2(0, 114)
 	timeline.add_theme_font_size_override("font_size", 11)
@@ -292,7 +302,8 @@ func refresh() -> void:
 	total_label.text = "Captured %s / %s · Returned %.3f / %s MB" % [e[5], run_configuration.mission.required_observations, e[6], run_configuration.mission.required_returned_data_mb]
 	total_progress.value = 100.0 * e[5] / run_configuration.mission.required_observations
 	var presentation = preload("res://scripts/presentation/DebriefPresentation.gd")
-	telemetry.text = "Run %s | Step %s / %s\nCaptured %s · Returned %s MB\nBattery %s / %s Wh\nStored %s / %s MB\n%s · %s" % [presentation.text(snapshot.get("run_id")), presentation.text(snapshot.get("step_index")), presentation.text(snapshot.get("total_steps")), presentation.text(snapshot.get("observations_completed")), presentation.number(snapshot,"returned_data_mb"), presentation.number(snapshot,"energy_wh"), presentation.text(snapshot.get("battery_capacity_wh")), presentation.number(snapshot,"stored_data_mb"), presentation.text(snapshot.get("storage_capacity_mb")), e[8], e[10]]
+	telemetry.text = "Step %s / %s\nCaptured %s · Returned %s MB\nBattery %s / %s Wh\nStored %s / %s MB\n%s · %s" % [presentation.text(snapshot.get("step_index")), presentation.text(snapshot.get("total_steps")), presentation.text(snapshot.get("observations_completed")), presentation.number(snapshot,"returned_data_mb"), presentation.number(snapshot,"energy_wh"), presentation.text(snapshot.get("battery_capacity_wh")), presentation.number(snapshot,"stored_data_mb"), presentation.text(snapshot.get("storage_capacity_mb")), e[8], e[10]]
+	telemetry.tooltip_text = "Run " + presentation.text(snapshot.get("run_id")) + "\nMission " + presentation.text(snapshot.get("mission_id"))
 	battery_bar.value = e[3]
 	storage_bar.value = e[4]
 	details.text = "%s / T+ %s\n%s" % [e[0], DATA.time_label(e[1]), e[2]]
@@ -339,6 +350,7 @@ func expand_orbit() -> void:
 func responsive() -> void:
 	if not is_instance_valid(view_frame): return
 	fit_navigation()
+	if is_instance_valid(event_header): event_header.vertical=size.x<1000
 	view_frame.custom_minimum_size.y = clampf(size.y * 0.36, 230, 300)
 
 func return_to_readiness() -> void:
