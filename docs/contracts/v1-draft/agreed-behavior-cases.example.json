@@ -1,0 +1,130 @@
+{
+  "agreement_revision": "v1.0-agreed",
+  "note": "Policy expectation vectors and state excerpts, not outputs of a running engine or complete scenario definitions.",
+  "prelaunch_power_cases": [
+    {
+      "name": "positive_margin",
+      "battery_capacity_wh": 6,
+      "initial_energy_wh": 6,
+      "solar_generation_power_w": 3,
+      "baseline_power_w": 2,
+      "expected_pass": true
+    },
+    {
+      "name": "equality_allowed",
+      "battery_capacity_wh": 6,
+      "initial_energy_wh": 6,
+      "solar_generation_power_w": 2,
+      "baseline_power_w": 2,
+      "expected_pass": true
+    },
+    {
+      "name": "negative_margin",
+      "battery_capacity_wh": 6,
+      "initial_energy_wh": 6,
+      "solar_generation_power_w": 1.9,
+      "baseline_power_w": 2,
+      "expected_pass": false
+    },
+    {
+      "name": "empty_battery",
+      "battery_capacity_wh": 0,
+      "initial_energy_wh": 0,
+      "solar_generation_power_w": 3,
+      "baseline_power_w": 2,
+      "expected_pass": false
+    },
+    {
+      "name": "zero_initial_energy",
+      "battery_capacity_wh": 6,
+      "initial_energy_wh": 0,
+      "solar_generation_power_w": 3,
+      "baseline_power_w": 2,
+      "expected_pass": false
+    },
+    {
+      "name": "initial_above_capacity",
+      "battery_capacity_wh": 6,
+      "initial_energy_wh": 7,
+      "solar_generation_power_w": 3,
+      "baseline_power_w": 2,
+      "expected_pass": false
+    }
+  ],
+  "mass_cases": [
+    {
+      "total_mass_g": 1329,
+      "expected_pass": true
+    },
+    {
+      "total_mass_g": 1330,
+      "expected_pass": false
+    },
+    {
+      "total_mass_g": 1331,
+      "expected_pass": false
+    }
+  ],
+  "runtime_cases": [
+    {
+      "name": "rejected_transmit",
+      "action": "transmit",
+      "accepted": false,
+      "code": "NO_LINK_WINDOW",
+      "before": {
+        "step_index": 2,
+        "energy_wh": 18.5,
+        "stored_data_mb": 12,
+        "returned_data_mb": 0,
+        "observations_completed": 1
+      },
+      "after": {
+        "step_index": 2,
+        "energy_wh": 18.5,
+        "stored_data_mb": 12,
+        "returned_data_mb": 0,
+        "observations_completed": 1
+      }
+    },
+    {
+      "name": "accepted_power_save_at_zero_continues",
+      "action": "power_save",
+      "accepted": true,
+      "condition": "Baseline cannot be covered; accepted power_save clamps at zero.",
+      "before": {
+        "step_index": 2,
+        "total_steps": 12,
+        "energy_wh": 0,
+        "phase": "operating",
+        "run_status": null
+      },
+      "after": {
+        "step_index": 3,
+        "total_steps": 12,
+        "energy_wh": 0,
+        "phase": "operating",
+        "run_status": null
+      }
+    },
+    {
+      "name": "accepted_final_power_save_completes",
+      "action": "power_save",
+      "accepted": true,
+      "condition": "Baseline cannot be covered; final accepted step clamps at zero.",
+      "before": {
+        "step_index": 11,
+        "total_steps": 12,
+        "energy_wh": 0,
+        "phase": "operating",
+        "run_status": null
+      },
+      "after": {
+        "step_index": 12,
+        "total_steps": 12,
+        "energy_wh": 0,
+        "phase": "finished",
+        "run_status": "completed"
+      }
+    }
+  ]
+}

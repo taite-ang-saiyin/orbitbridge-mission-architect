@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "ready_to_launch": false,
+  "metrics": {
+    "total_mass_g": 1330,
+    "total_cost_credits": 82,
+    "baseline_power_w": 2,
+    "solar_generation_power_w": 3,
+    "battery_capacity_wh": 25.0,
+    "initial_energy_wh": 25.0,
+    "storage_capacity_mb": 64.0,
+    "data_per_observation_mb": 12.0,
+    "downlink_mb_per_hour": 48.0
+  },
+  "checks": {
+    "input_schema": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    },
+    "catalog_references": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    },
+    "profile_mass": {
+      "status": "fail",
+      "passed": false,
+      "message": "1330 g is not below the sample profile limit.",
+      "total_mass_g": 1330,
+      "threshold_g": 1330,
+      "comparator": "<",
+      "profile_id": "cubesat_1u_sample",
+      "source_id": "cubesat_101_1u_sample"
+    },
+    "launcher_capacity": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    },
+    "budget": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    },
+    "launch_orbit": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    },
+    "target_orbit": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    },
+    "essential_power": {
+      "status": "pass",
+      "passed": true,
+      "message": "Illustrative interface mock pass; not executed by a validator."
+    }
+  },
+  "errors": [
+    {
+      "code": "PROFILE_MASS_EXCEEDED",
+      "field_path": "design.launch_profile_id",
+      "message": "Total modeled spacecraft mass is 1330 g; the sample 1U profile requires mass below 1330 g.",
+      "suggested_fix": "Choose lighter components or a suitable alternative profile.",
+      "source_id": "cubesat_101_1u_sample"
+    }
+  ],
+  "warnings": []
+}

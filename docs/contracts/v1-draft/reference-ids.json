@@ -1,0 +1,118 @@
+{
+  "status": "agreed-interface-v1",
+  "schema_version": 1,
+  "godot_version": "4.7.2",
+  "component_ids": {
+    "bus": [
+      "bus_basic"
+    ],
+    "instrument": [
+      "instrument_basic",
+      "instrument_boundary_heavy"
+    ],
+    "solar": [
+      "solar_standard"
+    ],
+    "battery": [
+      "battery_standard"
+    ],
+    "radio": [
+      "radio_basic"
+    ],
+    "storage": [
+      "storage_standard"
+    ]
+  },
+  "launch_profile_ids": [
+    "cubesat_1u_sample",
+    "illustrative_alternative"
+  ],
+  "launcher_ids": [
+    "small",
+    "medium"
+  ],
+  "orbit_ids": [
+    "low_eq",
+    "high_inc"
+  ],
+  "target_region_ids": [
+    "equator"
+  ],
+  "objective_ids": [
+    "imaging"
+  ],
+  "check_ids": [
+    "input_schema",
+    "catalog_references",
+    "profile_mass",
+    "launcher_capacity",
+    "budget",
+    "launch_orbit",
+    "target_orbit",
+    "essential_power"
+  ],
+  "check_statuses": [
+    "pass",
+    "fail",
+    "not_evaluated"
+  ],
+  "blocking_error_codes": [
+    "INVALID_SCHEMA",
+    "INVALID_VALUE",
+    "MISSING_COMPONENT",
+    "UNKNOWN_COMPONENT",
+    "WRONG_COMPONENT_CATEGORY",
+    "UNKNOWN_PROFILE",
+    "UNKNOWN_LAUNCHER",
+    "UNKNOWN_ORBIT",
+    "PROFILE_MASS_EXCEEDED",
+    "LAUNCHER_CAPACITY_EXCEEDED",
+    "BUDGET_EXCEEDED",
+    "LAUNCH_ORBIT_INCOMPATIBLE",
+    "TARGET_ORBIT_INCOMPATIBLE",
+    "ESSENTIAL_POWER_INFEASIBLE"
+  ],
+  "advisory_codes": [
+    "LIMITED_BATTERY_RESERVE",
+    "LOW_DOWNLINK_CAPACITY",
+    "HIGH_STORAGE_DEMAND"
+  ],
+  "source_ids": [
+    "cubesat_101_1u_sample"
+  ],
+  "note": "Interface/status/unit/orbit/target vocabulary follows v1.0-agreed. Component, launcher and profile labels retained here are documentation fixture labels, not a production catalog or its physical values. The directory name is retained for existing links.",
+  "agreement_revision": "v1.0-agreed",
+  "action_ids": [
+    "observe",
+    "transmit",
+    "power_save"
+  ],
+  "phase_ids": [
+    "operating",
+    "finished"
+  ],
+  "terminal_run_statuses": [
+    "completed",
+    "aborted"
+  ],
+  "mission_statuses": [
+    "success",
+    "partial",
+    "failed"
+  ],
+  "blocked_event_codes": [
+    "NO_LINK_WINDOW",
+    "LOW_BATTERY",
+    "STORAGE_FULL",
+    "TARGET_NOT_VISIBLE"
+  ],
+  "evaluation_error_codes": [
+    "INVALID_EVALUATION_INPUT",
+    "NONTERMINAL_RUN_STATE"
+  ],
+  "downlink_rate_field": "downlink_mb_per_hour",
+  "energy_unit": "Wh",
+  "data_unit": "decimal MB",
+  "legacy_ws_per_wh": 3600,
+  "legacy_kb_per_mb": 1000
+}

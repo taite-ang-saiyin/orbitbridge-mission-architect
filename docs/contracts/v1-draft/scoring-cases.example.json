@@ -1,0 +1,96 @@
+{
+  "agreement_revision": "v1.0-agreed",
+  "note": "Documentation expectations, not evaluator execution results.",
+  "cases": [
+    {
+      "name": "agreed_completed_report",
+      "run_status": "completed",
+      "observations_completed": 3,
+      "required_observations": 4,
+      "returned_data_mb": 30,
+      "required_returned_data_mb": 30,
+      "expected_status": "partial",
+      "expected_score": 88
+    },
+    {
+      "name": "half_up_tie_not_bankers_rounding",
+      "run_status": "completed",
+      "observations_completed": 1,
+      "required_observations": 4,
+      "returned_data_mb": 30,
+      "required_returned_data_mb": 30,
+      "expected_status": "partial",
+      "expected_score": 63
+    },
+    {
+      "name": "rounded_100_does_not_mean_success",
+      "run_status": "completed",
+      "observations_completed": 4,
+      "required_observations": 4,
+      "returned_data_mb": 29.999,
+      "required_returned_data_mb": 30,
+      "expected_status": "partial",
+      "expected_score": 100
+    },
+    {
+      "name": "no_science",
+      "run_status": "completed",
+      "observations_completed": 0,
+      "required_observations": 4,
+      "returned_data_mb": 0,
+      "required_returned_data_mb": 30,
+      "expected_status": "failed",
+      "expected_score": 0
+    },
+    {
+      "name": "captures_only",
+      "run_status": "completed",
+      "observations_completed": 4,
+      "required_observations": 4,
+      "returned_data_mb": 0,
+      "required_returned_data_mb": 30,
+      "expected_status": "partial",
+      "expected_score": 50
+    },
+    {
+      "name": "data_only",
+      "run_status": "completed",
+      "observations_completed": 0,
+      "required_observations": 4,
+      "returned_data_mb": 30,
+      "required_returned_data_mb": 30,
+      "expected_status": "partial",
+      "expected_score": 50
+    },
+    {
+      "name": "above_targets_preserves_actuals",
+      "run_status": "completed",
+      "observations_completed": 5,
+      "required_observations": 4,
+      "returned_data_mb": 45,
+      "required_returned_data_mb": 30,
+      "expected_status": "success",
+      "expected_score": 100
+    },
+    {
+      "name": "abort_overrides_targets_met",
+      "run_status": "aborted",
+      "observations_completed": 4,
+      "required_observations": 4,
+      "returned_data_mb": 30,
+      "required_returned_data_mb": 30,
+      "expected_status": "failed",
+      "expected_score": null
+    },
+    {
+      "name": "abort_preserves_partial_actuals",
+      "run_status": "aborted",
+      "observations_completed": 1,
+      "required_observations": 4,
+      "returned_data_mb": 12,
+      "required_returned_data_mb": 30,
+      "expected_status": "failed",
+      "expected_score": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "event_id": "evt_007",
+    "step_index": 6,
+    "action": "observe",
+    "type": "action_blocked",
+    "code": "LOW_BATTERY",
+    "message": "Observation at step 6 blocked: battery energy is below the required action cost.",
+    "delta_energy_wh": 0.0,
+    "delta_stored_data_mb": 0.0,
+    "delta_returned_data_mb": 0.0,
+    "delta_observations": 0
+  }
+]

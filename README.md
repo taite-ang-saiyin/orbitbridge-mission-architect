@@ -66,3 +66,9 @@ Readiness 已按参考图实现六项可展开检查、交互式 3D 航天器/�
 ## Mission Operations
 
 已加入按参考图排布的 Operations 仪表盘、真实 3D 地球/卫星、播放时间轴、三种视图、遥测、事件过滤与地面轨迹。播放与结果均为本地 mock，最终结果与现有 Debrief 的 Run A 一致。操作、数据边界和学习说明见 [docs/MISSION_OPERATIONS.md](docs/MISSION_OPERATIONS.md)。
+
+## Current modular satellite UI
+
+The Builder now has three independent choices for Body, Solar Panels, and Radio, with 27 visual combinations, persistent mission selections, and matching Readiness/Operations models. The app uses a shared navy/cyan layout and textured 3D Earth. Run `tests/modular_reference_smoke.gd`, `tests/satellite_selection_smoke.gd`, and `tests/design_workflow_smoke.gd` with Godot headless for current validation.
+
+Engineering and simulation data remain development fixtures; the team contracts are preserved for integration. See [team agreement](docs/team-agreement.md), [contracts](docs/contracts.md), and [satellite integration details](docs/SATELLITE_BUILDER.md). Earlier prototype sections describe prior iterations.

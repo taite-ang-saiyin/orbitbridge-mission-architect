@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "error": {
+    "code": "INVALID_EVALUATION_INPUT",
+    "field_path": null,
+    "message": "Required evaluation input is missing or malformed.",
+    "suggested_fix": "Provide a valid config, terminal state and event array.",
+    "run_id": null
+  }
+}
