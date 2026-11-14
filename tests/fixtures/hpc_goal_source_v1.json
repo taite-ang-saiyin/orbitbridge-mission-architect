@@ -1,0 +1,18 @@
+{
+    "source_commit_sha":  "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+    "sha256":  {
+                   "core/MissionStepEngine.gd":  "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+                   "core/HPCContractAdapter.gd":  "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+                   "core/OrbitPlanner.gd":  "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+                   "scripts/core/catalog_loader.gd":  "36e1ecfbe8cdcccd0c0250618994a5628757172dd89c216c2172eb8ab76311ff",
+                   "scripts/core/mission_validator.gd":  "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+                   "scripts/core/validation_support.gd":  "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+                   "scripts/integration/mission_runtime.gd":  "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+                   "data/components.json":  "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+                   "data/launch_profiles.json":  "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+                   "data/launchers.json":  "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+                   "data/ke1_reference_ids.json":  "c805cdc843c1add3fc2af24975198f0a74f6a2dcfb2f764c5b011a0a3779c158",
+                   "data/orbits.json":  "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+                   "data/mission_scenarios.json":  "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70"
+               }
+}

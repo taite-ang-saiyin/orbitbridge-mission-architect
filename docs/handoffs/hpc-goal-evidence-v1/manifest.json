@@ -1,0 +1,699 @@
+{
+	"bundle_revision": "hpc-goal-evidence-v1.0.0",
+	"examples": [
+		{
+			"example_id": "estuary_watch_stock",
+			"file": "estuary_watch_stock.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"coastal_region": 5
+				},
+				"observations_completed": 5,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"coastal_region": [
+						"evt_002",
+						"evt_012",
+						"evt_022"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"coastal_region": [
+						0,
+						1,
+						2
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_010",
+					"evt_017",
+					"evt_020",
+					"evt_027",
+					"evt_030",
+					"evt_037",
+					"evt_040"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					10,
+					17,
+					20,
+					27,
+					30,
+					37,
+					40
+				],
+				"positive_transmit_steps": 8,
+				"returned_data_mb": 60.0,
+				"selected_target_revolution_visits": 3,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "imaging",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 32.5333333344,
+				"lowest_battery_percent": 63.911111113599745,
+				"lowest_battery_wh": 15.977777778399936,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 61
+			},
+			"run_id": "run_hpc_goals_v1_estuary_watch_stock",
+			"scenario_id": "high_inc",
+			"sha256": "aeffbb5d7d428235bbbf466eea33bd8eb7a8809a690529714b68e3583f77f010"
+		},
+		{
+			"example_id": "tropical_forest_watch_stock",
+			"file": "tropical_forest_watch_stock.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"tropical_forest": 3
+				},
+				"observations_completed": 5,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"tropical_forest": [
+						"evt_002",
+						"evt_012",
+						"evt_022",
+						"evt_032",
+						"evt_042"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"tropical_forest": [
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_008",
+					"evt_018",
+					"evt_028",
+					"evt_038",
+					"evt_048",
+					"evt_058"
+				],
+				"positive_transmit_step_indices": [
+					8,
+					18,
+					28,
+					38,
+					48,
+					58
+				],
+				"positive_transmit_steps": 6,
+				"returned_data_mb": 44.32000000320001,
+				"selected_target_revolution_visits": 5,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "imaging",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 30.4533333312,
+				"lowest_battery_percent": 67.99111110880045,
+				"lowest_battery_wh": 16.997777777200113,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 61
+			},
+			"run_id": "run_hpc_goals_v1_tropical_forest_watch_stock",
+			"scenario_id": "low_eq",
+			"sha256": "ebb5524a05b920a42bfbba86a85b03d096f8f85fbe80f5bf017cab8eb99e2835"
+		},
+		{
+			"example_id": "tropical_forest_watch_fast_radio",
+			"file": "tropical_forest_watch_fast_radio.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"tropical_forest": 5
+				},
+				"observations_completed": 5,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"tropical_forest": [
+						"evt_002",
+						"evt_012",
+						"evt_022",
+						"evt_032",
+						"evt_042"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"tropical_forest": [
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_008",
+					"evt_018",
+					"evt_028",
+					"evt_038",
+					"evt_048"
+				],
+				"positive_transmit_step_indices": [
+					8,
+					18,
+					28,
+					38,
+					48
+				],
+				"positive_transmit_steps": 5,
+				"returned_data_mb": 60.0,
+				"selected_target_revolution_visits": 5,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "imaging",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 12.0,
+				"lowest_battery_percent": 60.60444444160035,
+				"lowest_battery_wh": 15.15111111040009,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 61
+			},
+			"run_id": "run_hpc_goals_v1_tropical_forest_watch_fast_radio",
+			"scenario_id": "low_eq",
+			"sha256": "143593411c67ad10b5134d9f41f762335e42c6d9c48a01bc7ed83f61b19a8664"
+		},
+		{
+			"example_id": "polar_ice_survey_stock",
+			"file": "polar_ice_survey_stock.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"arctic_ice": 4
+				},
+				"observations_completed": 5,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"arctic_ice": [
+						"evt_000",
+						"evt_010",
+						"evt_020",
+						"evt_030",
+						"evt_040"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"arctic_ice": [
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_017",
+					"evt_027",
+					"evt_037",
+					"evt_047",
+					"evt_050",
+					"evt_057"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					17,
+					27,
+					37,
+					47,
+					50,
+					57
+				],
+				"positive_transmit_steps": 7,
+				"returned_data_mb": 54.133333329600006,
+				"selected_target_revolution_visits": 5,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "survey_delivery",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 29.066666668799996,
+				"lowest_battery_percent": 65.8444444467998,
+				"lowest_battery_wh": 16.46111111169995,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 61
+			},
+			"run_id": "run_hpc_goals_v1_polar_ice_survey_stock",
+			"scenario_id": "high_inc",
+			"sha256": "edaec78071c400ebe8ac593f2d370a27e53626d66f6806a1f4a236bc290b119d"
+		},
+		{
+			"example_id": "polar_ice_survey_fast_radio",
+			"file": "polar_ice_survey_fast_radio.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"arctic_ice": 5
+				},
+				"observations_completed": 5,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"arctic_ice": [
+						"evt_000",
+						"evt_010",
+						"evt_020",
+						"evt_030",
+						"evt_040"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"arctic_ice": [
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_017",
+					"evt_027",
+					"evt_037",
+					"evt_047"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					17,
+					27,
+					37,
+					47
+				],
+				"positive_transmit_steps": 5,
+				"returned_data_mb": 60.0,
+				"selected_target_revolution_visits": 5,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "survey_delivery",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 12.0,
+				"lowest_battery_percent": 60.04444444719975,
+				"lowest_battery_wh": 15.011111111799938,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 61
+			},
+			"run_id": "run_hpc_goals_v1_polar_ice_survey_fast_radio",
+			"scenario_id": "high_inc",
+			"sha256": "09ebfd55ab0f94677d4581d6109fc16c395d1efed5ee1adc5cd66102b557d794"
+		},
+		{
+			"example_id": "survey_two_targets_partial_packet",
+			"file": "survey_two_targets_partial_packet.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equatorial_ocean": 0,
+					"tropical_forest": 1
+				},
+				"observations_completed": 2,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equatorial_ocean": [
+						"evt_006"
+					],
+					"tropical_forest": [
+						"evt_001"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equatorial_ocean": [
+						0
+					],
+					"tropical_forest": [
+						0
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_010"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					10
+				],
+				"positive_transmit_steps": 2,
+				"returned_data_mb": 15.466666665600002,
+				"selected_target_revolution_visits": 1,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "survey_delivery",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 24.0,
+				"lowest_battery_percent": 87.11111111199988,
+				"lowest_battery_wh": 21.77777777799997,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_survey_two_targets_partial_packet",
+			"scenario_id": "high_inc",
+			"sha256": "b096233ddc7fba5e5abb111a4761d4a966426b45318d46129c4d5631e8b0468f"
+		},
+		{
+			"example_id": "survey_two_targets_complete",
+			"file": "survey_two_targets_complete.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equatorial_ocean": 1,
+					"tropical_forest": 1
+				},
+				"observations_completed": 2,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equatorial_ocean": [
+						"evt_006"
+					],
+					"tropical_forest": [
+						"evt_001"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equatorial_ocean": [
+						0
+					],
+					"tropical_forest": [
+						0
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_010",
+					"evt_017",
+					"evt_020"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					10,
+					17,
+					20
+				],
+				"positive_transmit_steps": 4,
+				"returned_data_mb": 24.0,
+				"selected_target_revolution_visits": 1,
+				"selected_targets_delivered": 2,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "survey_delivery",
+			"mechanics_proxy": false,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 24.0,
+				"lowest_battery_percent": 83.24444444559987,
+				"lowest_battery_wh": 20.81111111139997,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_survey_two_targets_complete",
+			"scenario_id": "high_inc",
+			"sha256": "ad0c9f5ecdac57c0cbb4b68a18913e33e40964c52ea44c6e6523483187519294"
+		},
+		{
+			"example_id": "communication_complete_proxy",
+			"file": "communication_complete_proxy.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equator": 2
+				},
+				"observations_completed": 2,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equator": [
+						"evt_001"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equator": [
+						0
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_011"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					10
+				],
+				"positive_transmit_steps": 2,
+				"returned_data_mb": 24.0,
+				"selected_target_revolution_visits": 1,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "communication_contacts",
+			"mechanics_proxy": true,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 24.0,
+				"lowest_battery_percent": 83.24444444559987,
+				"lowest_battery_wh": 20.81111111139997,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_communication_complete_proxy",
+			"scenario_id": "high_inc",
+			"sha256": "d097733f7ddee019b9ec9bf0b54bed8302f09a735ec0e2f984767a7fde482ae9"
+		},
+		{
+			"example_id": "communication_count_shortfall_proxy",
+			"file": "communication_count_shortfall_proxy.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equator": 1
+				},
+				"observations_completed": 1,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equator": [
+						"evt_001"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equator": [
+						0
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007"
+				],
+				"positive_transmit_step_indices": [
+					7
+				],
+				"positive_transmit_steps": 1,
+				"returned_data_mb": 12.0,
+				"selected_target_revolution_visits": 1,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "communication_contacts",
+			"mechanics_proxy": true,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 12.0,
+				"lowest_battery_percent": 89.68888888959988,
+				"lowest_battery_wh": 22.42222222239997,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_communication_count_shortfall_proxy",
+			"scenario_id": "high_inc",
+			"sha256": "9890549dd3c64dd46530a934dfb0ac8c7e097ffb4e2386555c794d785dec183d"
+		},
+		{
+			"example_id": "weather_two_orbits_proxy",
+			"file": "weather_two_orbits_proxy.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equator": 2
+				},
+				"observations_completed": 2,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equator": [
+						"evt_001",
+						"evt_011"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equator": [
+						0,
+						1
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_010",
+					"evt_017",
+					"evt_020"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					10,
+					17,
+					20
+				],
+				"positive_transmit_steps": 4,
+				"returned_data_mb": 24.0,
+				"selected_target_revolution_visits": 2,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "weather_revisit",
+			"mechanics_proxy": true,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 12.0,
+				"lowest_battery_percent": 83.24444444559987,
+				"lowest_battery_wh": 20.81111111139997,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_weather_two_orbits_proxy",
+			"scenario_id": "high_inc",
+			"sha256": "eadae31b36a7325b709ba8c7ebdac1542a9c72dffe85c87fec7eaa83682fe4b5"
+		},
+		{
+			"example_id": "weather_one_orbit_shortfall_proxy",
+			"file": "weather_one_orbit_shortfall_proxy.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equator": 2
+				},
+				"observations_completed": 2,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equator": [
+						"evt_001"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equator": [
+						0
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_007",
+					"evt_010",
+					"evt_017",
+					"evt_020"
+				],
+				"positive_transmit_step_indices": [
+					7,
+					10,
+					17,
+					20
+				],
+				"positive_transmit_steps": 4,
+				"returned_data_mb": 24.0,
+				"selected_target_revolution_visits": 1,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "weather_revisit",
+			"mechanics_proxy": true,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 24.0,
+				"lowest_battery_percent": 83.24444444559987,
+				"lowest_battery_wh": 20.81111111139997,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_weather_one_orbit_shortfall_proxy",
+			"scenario_id": "high_inc",
+			"sha256": "8be2a5c4f642b4ccea62df0d9f8f3ba2de7b2324152850ae7fb3c925f6f5ffc6"
+		},
+		{
+			"example_id": "communication_low_eq_basic_radio_proxy",
+			"file": "communication_low_eq_basic_radio_proxy.json",
+			"goal_measurements": {
+				"complete_deliveries_by_selected_target": {
+					"equator": 1
+				},
+				"observations_completed": 1,
+				"observed_orbit_evidence_event_ids_by_target": {
+					"equator": [
+						"evt_002"
+					]
+				},
+				"observed_orbit_indices_by_target": {
+					"equator": [
+						0
+					]
+				},
+				"positive_transmit_evidence_event_ids": [
+					"evt_008",
+					"evt_018"
+				],
+				"positive_transmit_step_indices": [
+					8,
+					18
+				],
+				"positive_transmit_steps": 2,
+				"returned_data_mb": 12.0,
+				"selected_target_revolution_visits": 1,
+				"selected_targets_delivered": 1,
+				"steps_per_orbit": 10
+			},
+			"goal_type": "communication_contacts",
+			"mechanics_proxy": true,
+			"resource_extrema": {
+				"highest_battery_wh": 25.0,
+				"highest_storage_mb": 12.0,
+				"lowest_battery_percent": 88.91999999920021,
+				"lowest_battery_wh": 22.22999999980005,
+				"lowest_storage_mb": 0.0,
+				"sample_count": 31
+			},
+			"run_id": "run_hpc_goals_v1_communication_low_eq_basic_radio_proxy",
+			"scenario_id": "low_eq",
+			"sha256": "f2286604ffd56bb1a6693e581d15e554653dec7d7f7ff1fb2c5f8ddee698cb6e"
+		}
+	],
+	"limits": [
+		"Communication/Weather use explicitly labeled schema-1 Imaging mechanics proxies; config-v2 production acceptance remains pending.",
+		"No expanded-objective report, score, execution-binding key or physical coverage claim is fabricated.",
+		"Preset labels describe source setup; edited radio/action variants are explicit in inputs and snapshots."
+	],
+	"resource_sampling_id": "initial_and_each_accepted_poststep_v1_proposal",
+	"source": {
+		"generator_path": "tests/run_hpc_goal_examples.gd",
+		"generator_revision": "hpc-goal-evidence-v1.0.0",
+		"generator_sha256": "d0cec1cb79c81a384238f9ab7e7aaa7b7825a40c232eda5d9a0ad2fe4f6d4645",
+		"inputs_sha256": "00ce94c256d309b233c09a22a64cb846f218604c45b38103f8c3e906bc4ffb51",
+		"native_source_sha256": {
+			"core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+			"core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+			"core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+			"data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+			"data/ke1_reference_ids.json": "c805cdc843c1add3fc2af24975198f0a74f6a2dcfb2f764c5b011a0a3779c158",
+			"data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+			"data/launchers.json": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+			"data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70",
+			"data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+			"scripts/core/catalog_loader.gd": "36e1ecfbe8cdcccd0c0250618994a5628757172dd89c216c2172eb8ab76311ff",
+			"scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+			"scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+			"scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0"
+		},
+		"repository": "taite-ang-saiyin/orbitbridge-mission-architect",
+		"source_commit_sha": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+		"source_manifest_sha256": "99b27164928cee304effee88e8764424a6e1b140ec5e80389ce6b164a79da336"
+	},
+	"verification": {
+		"checks_passed": 9822,
+		"engine_version": "4.7.2-stable (official)",
+		"failed": 0,
+		"generation_command": "godot --headless --path . --script tests/run_hpc_goal_examples.gd",
+		"native_replays": 12,
+		"verification_command": "godot --headless --path . --script tests/run_hpc_goal_examples.gd -- --verify-only"
+	}
+}

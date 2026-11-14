@@ -1,5 +1,7 @@
 # HPC integration handoff
 
+The [native goal-evidence v1.0.0 handoff](handoffs/hpc-goal-evidence-v1/README.md) pins current producer `dce75db` and supplies 12 reproducible goal examples, canonical native/derived counter meanings, packet/resource samples, extrema, source hashes, and replay checks. Communication/Weather records explicitly demonstrate Imaging mechanics pending production config-v2 adoption. Earlier trace and integration records below retain their original revision context.
+
 HPC owns `core/HPCContractAdapter.gd`, `core/MissionStepEngine.gd`, `core/OrbitPlanner.gd`, and `data/orbits.json`. The step engine accepts the agreed MissionConfig and a scenario snapshot. KE1's `CatalogLoader.load_catalogs()` bundle needs the HPC orbit data combined with it before starting a run.
 
 ```gdscript
