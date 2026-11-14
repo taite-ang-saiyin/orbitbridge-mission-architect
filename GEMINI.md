@@ -1,0 +1,5 @@
+# Antigravity entry point
+
+Read and follow the root AGENTS.md, then README.md and tasks.md. AGENTS.md is the single shared instruction source; do not maintain a separate copy here. Before validation work, read docs/contracts.md, docs/validation-plan.md, and docs/sources.md.
+
+Open the folder containing this file as the workspace. K01-K14 including K13a are complete locally: user-confirmed Windows demo, passing local acceptance checks and user-reported team demo approval. Read docs/k13a-k14-progress.md, docs/k14-team-review.md, docs/k12-k13-progress.md and docs/contracts.md. Source suites pass 1706 counted checks plus the legacy simulator suite; the standalone app passes 61 checks headlessly and graphically. K15 review/merge is next; no commit/push/message was made. Preserve the signed agreement, owner calculation code and source data. Optional comparison, browser export and another-machine testing remain separate. The historical K11 package is not a manifest for the current integrated build.
