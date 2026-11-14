@@ -47,39 +47,10 @@ The configured rendering method is Compatibility (`gl_compatibility`). Final Win
 
 The top navigation and Back/Continue controls let users explore the workflow. Check that controls remain accessible when resizing the window.
 
-## HPC mission operations
-
-The scene-independent simulator is implemented in `core/MissionStepEngine.gd`. It consumes the agreed MissionConfig and an immutable scenario snapshot.
-
-| API | Purpose |
-| --- | --- |
-| `init_validated_run(config, catalogs, run_id, mission_id)` | Run KE1 readiness validation and initialize only an approved configuration |
-| `init_run(config, scenario, run_id, mission_id)` | Initialize a run from an explicit scenario snapshot |
-| `get_available_actions(state)` | Return action eligibility and blocked reasons |
-| `predict_next_step(state, action)` | Preview energy, storage, data return, and lifecycle changes without modifying the run |
-| `request_action(state, action)` | Attempt one observation, transmission, or power-save step |
-| `abort_run(state, reason)` | Finish an operating run with a recorded operator-abort reason |
-
 Public energy values use **Wh**, data values use **decimal MB**, and step durations use **hours**. Radio capacity per step is `downlink_mb_per_hour * step_duration_hours`.
 
 Accepted actions advance one step. Blocked requests emit an event while preserving the step and resource counters. Battery energy and stored data stay within their bounds. Accepted `power_save` can clamp energy to zero and continue. A naturally completed run finishes at `step_index == total_steps`; an operator abort preserves the current step and counters.
 
-### Next-step prediction
-
-```gdscript
-const StepEngine = preload("res://core/MissionStepEngine.gd")
-
-# state is an initialized MissionState returned by the engine.
-var preview: Dictionary = StepEngine.predict_next_step(state, "observe")
-if preview.ok:
-    var prediction: Dictionary = preview.prediction
-    if prediction.allowed:
-        print("Energy after action: %.3f Wh" % prediction.energy_wh_after)
-        print("Stored data after action: %.3f MB" % prediction.stored_data_mb_after)
-        print("Free storage after action: %.3f MB" % prediction.storage_remaining_mb_after)
-    else:
-        print(prediction.blocked_code, ": ", prediction.reason)
-```
 
 Prediction and execution share the resource calculation. Preview calls preserve the input state, snapshots, event log, and event sequence. Recompute a preview when the authoritative state changes. UI adoption of this optional API requires coordination with SE and KE3.
 
@@ -93,13 +64,6 @@ Prediction and execution share the resource calculation. Preview calls preserve 
 Step indices are zero-based. A target window is an opportunity to observe the target during the orbit. Successful capture also requires the instrument's sunlight conditions, sufficient energy, and free storage. Observation windows and ground-contact windows serve different operations.
 
 These presets use authored, deterministic gameplay windows. The orbital illustrations and window counts are educational approximations rather than physical coverage predictions. Preset metadata is in `data/orbits.json`.
-
-### Legacy simulator compatibility
-
-`core/MissionSimulator.gd` preserves the original whole-run `RunInput -> RunTrace` API in watt-seconds and kilobytes. `core/LegacyTraceAdapter.gd` provides an explicit output conversion for summaries and telemetry:
-
-- `Wh = Ws / 3600`
-- `decimal MB = KB / 1000`
 
 Raw legacy events remain under `legacy_events` and retain their original schema and units. Use `MissionStepEngine` for v1 MissionState and Event payloads. See the [HPC integration handoff](docs/hpc-integration.md) for API details and trace bundles.
 
@@ -131,15 +95,6 @@ Many UI controls are built at runtime, so running a scene can show more than its
 
 Run commands from the repository root. In these examples, `godot` means your Godot 4.7.2 executable; replace it with the installed executable path if it is not on PATH.
 
-### HPC checks
-
-```sh
-godot --headless --path . --script tests/test_simulator.gd
-godot --headless --path . --script tests/test_hpc.gd
-godot --headless --path . --script tests/run_demo.gd
-```
-
-The HPC suite covers action accounting, resource bounds, blocked actions, run/event identity, terminal states, KE1 readiness integration, legacy conversion, and prediction parity with execution across both orbit presets.
 
 On Windows, the combined runner accepts an explicit Godot path. Replace the example path with your installation:
 
