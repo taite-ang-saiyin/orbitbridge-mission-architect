@@ -218,3 +218,15 @@ The signed agreement remains unchanged. The following additive implementation de
 - Launch revalidates the current draft. Editing, resetting, and showing results are blocked during an unfinished run. Retry creates a new run ID using saved configuration, draft, and catalog snapshots. An abort remains a distinct terminal outcome without a numeric score.
 
 Reproduction and verification: [SE merge record](se-main-merge.md).
+
+## 13. KE3 merge: Results binding and two retry intents
+
+The user selected both Results actions: `Retry same mission` repeats the frozen configuration/catalogs immediately; `Modify design` opens an owned Builder draft. `Cancel Retry` restores the original session, including the report and baseline. Launching a passing edited draft creates a new run and ends the edit transaction. Both paths retain prior reports, clear live counters, and respect unfinished-run guards. This UI choice does not change the signed score or physics rules.
+
+`MissionController.retry_mission()` remains the immediate saved-setup route. `modify_design()` and `cancel_retry()` implement the editable route. The Results screen emits `retry_requested` for the immediate route and `modify_requested` for editable redesign; repeated pending intents do not start duplicate runs.
+
+`mission_runtime.gd` combines main's immutable retry snapshots/manual-action path with KE3's namespaced run identity. A random session namespace prevents ID collisions; it never enters validation, action selection, or resource accounting.
+
+`mission_results.gd` binds a report to its configuration, terminal state, ordered events, and readiness snapshot. `DebriefPresentation.gd` displays the exact evaluator output, recorded evidence, per-target totals, and separately scoped source-credit metadata. A report with mismatched identity, goals, counters, or execution binding is rejected. Presentation does not calculate a new score or claim unsupported causes.
+
+The signed agreement, native orbit data, KE1 validation/catalog rules, and current KE2 evaluator/feedback code remain unchanged. Survey scoring and controlled A/B comparison remain unavailable. Source/verification details are in [the KE3 merge record](ke3-main-merge.md).

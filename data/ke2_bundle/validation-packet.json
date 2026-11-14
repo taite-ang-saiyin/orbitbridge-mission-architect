@@ -1,0 +1,387 @@
+{
+  "catalogs": {
+    "components": [
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "baseline_power_w": 2.0,
+        "category": "bus",
+        "cost_credits": 12.0,
+        "display_name": "Basic bus",
+        "id": "bus_basic",
+        "mass_g": 300.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "baseline_power_w": 1.2,
+        "category": "bus",
+        "cost_credits": 20.0,
+        "display_name": "Lightweight bus",
+        "id": "bus_light",
+        "mass_g": 220.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "instrument",
+        "cost_credits": 16.0,
+        "data_per_observation_mb": 12.0,
+        "display_name": "Basic imaging camera",
+        "id": "instrument_basic",
+        "mass_g": 180.0,
+        "observe_power_w": 4.0,
+        "supported_objectives": [
+          "imaging"
+        ]
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "instrument",
+        "cost_credits": 30.0,
+        "data_per_observation_mb": 24.0,
+        "display_name": "Advanced imaging camera",
+        "id": "instrument_advanced",
+        "mass_g": 500.0,
+        "observe_power_w": 8.0,
+        "supported_objectives": [
+          "imaging"
+        ]
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "solar",
+        "cost_credits": 10.0,
+        "display_name": "Standard solar panel",
+        "generation_power_w": 3.0,
+        "id": "solar_standard",
+        "mass_g": 160.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "solar",
+        "cost_credits": 17.0,
+        "display_name": "Large solar panel",
+        "generation_power_w": 6.0,
+        "id": "solar_large",
+        "mass_g": 280.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_wh": 25.0,
+        "category": "battery",
+        "cost_credits": 14.0,
+        "display_name": "Standard battery",
+        "id": "battery_standard",
+        "initial_charge_fraction": 1.0,
+        "mass_g": 250.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_wh": 50.0,
+        "category": "battery",
+        "cost_credits": 24.0,
+        "display_name": "Large battery",
+        "id": "battery_large",
+        "initial_charge_fraction": 1.0,
+        "mass_g": 450.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "radio",
+        "cost_credits": 8.0,
+        "display_name": "Basic radio",
+        "downlink_mb_per_hour": 48.0,
+        "id": "radio_basic",
+        "mass_g": 120.0,
+        "transmit_power_w": 3.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "radio",
+        "cost_credits": 15.0,
+        "display_name": "Fast radio",
+        "downlink_mb_per_hour": 120.0,
+        "id": "radio_fast",
+        "mass_g": 180.0,
+        "transmit_power_w": 6.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_mb": 64.0,
+        "category": "storage",
+        "cost_credits": 7.0,
+        "display_name": "Standard storage",
+        "id": "storage_standard",
+        "mass_g": 50.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_mb": 256.0,
+        "category": "storage",
+        "cost_credits": 12.0,
+        "display_name": "Large storage",
+        "id": "storage_large",
+        "mass_g": 100.0
+      }
+    ],
+    "contract_revision": "v1.0-agreed",
+    "launch_profiles": [
+      {
+        "assumption_id": "illustrative_profile_compatibility_v1",
+        "display_name": "CubeSat 101 sample 1U check",
+        "id": "cubesat_1u_sample",
+        "mass_rule": {
+          "comparator": "<",
+          "source_id": "cubesat_101_1u_sample",
+          "threshold_g": 1330.0,
+          "value_kind": "source_backed"
+        },
+        "source_locator": "CubeSat 101, Appendix C item 6, printed p.79 / PDF p.87. Only this mass check is adapted; this is not flight certification.",
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ]
+      },
+      {
+        "assumption_id": "illustrative_small_sat_profile_v1",
+        "display_name": "Illustrative small-satellite profile",
+        "id": "illustrative_alternative",
+        "mass_rule": {
+          "assumption_id": "illustrative_small_sat_mass_limit_v1",
+          "comparator": "<=",
+          "threshold_g": 5000.0,
+          "value_kind": "illustrative"
+        },
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ]
+      }
+    ],
+    "launchers": [
+      {
+        "assumption_id": "illustrative_small_launcher_v1",
+        "cost_credits": 15.0,
+        "display_name": "Small training launcher",
+        "id": "small",
+        "max_payload_g_by_orbit": {
+          "high_inc": 1500.0,
+          "low_eq": 2000.0
+        },
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ],
+        "supported_profile_ids": [
+          "cubesat_1u_sample"
+        ]
+      },
+      {
+        "assumption_id": "illustrative_medium_launcher_v1",
+        "cost_credits": 35.0,
+        "display_name": "Medium training launcher",
+        "id": "medium",
+        "max_payload_g_by_orbit": {
+          "high_inc": 5000.0,
+          "low_eq": 6000.0
+        },
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ],
+        "supported_profile_ids": [
+          "cubesat_1u_sample",
+          "illustrative_alternative"
+        ]
+      }
+    ],
+    "objective_ids": [
+      "imaging"
+    ],
+    "orbit_catalog": {
+      "orbits": [
+        {
+          "altitude_km": 400.0,
+          "ground_contact_windows": [
+            8.0
+          ],
+          "id": "low_eq",
+          "inclination_deg": 0.0,
+          "label": "Low equatorial",
+          "step_duration_hours": 0.1538888889,
+          "steps_per_orbit": 10.0,
+          "sunlight_windows": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0
+          ],
+          "target_windows": {
+            "equator": [
+              2.0,
+              5.0
+            ]
+          },
+          "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+        },
+        {
+          "altitude_km": 600.0,
+          "ground_contact_windows": [
+            0.0,
+            7.0
+          ],
+          "id": "high_inc",
+          "inclination_deg": 97.8,
+          "label": "High-inclination training orbit",
+          "step_duration_hours": 0.1611111111,
+          "steps_per_orbit": 10.0,
+          "sunlight_windows": [
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "target_windows": {
+            "equator": [
+              1.0,
+              6.0
+            ]
+          },
+          "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+        }
+      ],
+      "scenario_version": "orbit-presets-v1",
+      "schema_version": 1.0,
+      "targets": [
+        {
+          "description": "Fictional teaching target.",
+          "id": "equator",
+          "label": "Equatorial estuary"
+        }
+      ],
+      "unit_conventions": {
+        "data_unit": "decimal_mb",
+        "kilobytes_per_megabyte": 1000.0,
+        "step_duration": "hours"
+      }
+    },
+    "orbit_ids": [
+      "low_eq",
+      "high_inc"
+    ],
+    "schema_version": 1,
+    "target_region_ids": [
+      "equator"
+    ]
+  },
+  "config": {
+    "design": {
+      "battery_id": "battery_standard",
+      "bus_id": "bus_basic",
+      "instrument_id": "instrument_basic",
+      "launch_profile_id": "cubesat_1u_sample",
+      "launcher_id": "small",
+      "orbit_id": "high_inc",
+      "radio_id": "radio_basic",
+      "solar_id": "solar_standard",
+      "storage_id": "storage_standard"
+    },
+    "mission": {
+      "budget_credits": 100.0,
+      "duration_orbits": 6.0,
+      "objective": "imaging",
+      "required_observations": 4.0,
+      "required_returned_data_mb": 30.0,
+      "target_region": "equator",
+      "title": "Valid 1U feasible baseline"
+    },
+    "schema_version": 1.0
+  },
+  "config_path": "tests/fixtures/valid_1u_feasible.json",
+  "deterministic": true,
+  "expectation_mismatches": [],
+  "inputs_unchanged": true,
+  "ke1_sha": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+  "result": {
+    "checks": {
+      "budget": {
+        "message": "Design and launch costs fit the budget.",
+        "passed": true,
+        "status": "pass"
+      },
+      "catalog_references": {
+        "message": "All selected IDs were found in their proper categories.",
+        "passed": true,
+        "status": "pass"
+      },
+      "essential_power": {
+        "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+        "passed": true,
+        "status": "pass"
+      },
+      "input_schema": {
+        "message": "Mission fields are valid.",
+        "passed": true,
+        "status": "pass"
+      },
+      "launch_orbit": {
+        "message": "Profile, launcher and orbit are compatible.",
+        "passed": true,
+        "status": "pass"
+      },
+      "launcher_capacity": {
+        "message": "Spacecraft fits the launcher capacity for this orbit.",
+        "passed": true,
+        "status": "pass"
+      },
+      "profile_mass": {
+        "comparator": "<",
+        "message": "Spacecraft mass meets the selected profile rule.",
+        "passed": true,
+        "profile_id": "cubesat_1u_sample",
+        "source_id": "cubesat_101_1u_sample",
+        "status": "pass",
+        "threshold_g": 1330,
+        "total_mass_g": 1060
+      },
+      "target_orbit": {
+        "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+        "passed": true,
+        "status": "pass"
+      }
+    },
+    "errors": [],
+    "metrics": {
+      "baseline_power_w": 2.0,
+      "battery_capacity_wh": 25.0,
+      "data_per_observation_mb": 12.0,
+      "downlink_mb_per_hour": 48.0,
+      "initial_energy_wh": 25.0,
+      "solar_generation_power_w": 3.0,
+      "storage_capacity_mb": 64.0,
+      "total_cost_credits": 82,
+      "total_mass_g": 1060
+    },
+    "ready_to_launch": true,
+    "schema_version": 1,
+    "warnings": []
+  },
+  "selected_profile": {
+    "assumption_id": "illustrative_profile_compatibility_v1",
+    "display_name": "CubeSat 101 sample 1U check",
+    "id": "cubesat_1u_sample",
+    "mass_rule": {
+      "comparator": "<",
+      "source_id": "cubesat_101_1u_sample",
+      "threshold_g": 1330.0,
+      "value_kind": "source_backed"
+    },
+    "source_locator": "CubeSat 101, Appendix C item 6, printed p.79 / PDF p.87. Only this mass check is adapted; this is not flight certification.",
+    "supported_orbit_ids": [
+      "low_eq",
+      "high_inc"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "assumption_id": "illustrative_profile_compatibility_v1",
+  "display_name": "CubeSat 101 sample 1U check",
+  "id": "cubesat_1u_sample",
+  "mass_rule": {
+    "comparator": "<",
+    "source_id": "cubesat_101_1u_sample",
+    "threshold_g": 1330.0,
+    "value_kind": "source_backed"
+  },
+  "source_locator": "CubeSat 101, Appendix C item 6, printed p.79 / PDF p.87. Only this mass check is adapted; this is not flight certification.",
+  "supported_orbit_ids": [
+    "low_eq",
+    "high_inc"
+  ]
+}

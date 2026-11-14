@@ -4,12 +4,40 @@ func _initialize() -> void:
 func settle() -> void:
 	for frame in 8: await process_frame
 func check() -> void:
+	root.size = Vector2i(1440, 900)
 	var app = load("res://scenes/Main.tscn").instantiate()
 	root.add_child(app)
 	await settle()
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.show_screen(2)
 	await settle()
 	var builder = app.current
+	assert(not builder.preview.get_node("SubViewport/Stage/PreviewEarth").visible)
+	assert(builder.preview.get_node("SubViewport").transparent_bg)
+	assert(builder.preview.get_parent().get_child(0) is TextureRect)
+	assert(builder.preview.get_parent().get_child(0).texture.resource_path == "res://assets/ui/backgrounds/studio-space-v1.png")
+	var before_expand: Dictionary = app.state.duplicate(true)
+	builder.expand_button.pressed.emit()
+	await settle()
+	assert(builder.model_dialog.visible)
+	assert(builder.expanded_preview.satellite_ids == builder.preview.satellite_ids)
+	assert(builder.expanded_preview.size.y > builder.preview.size.y)
+	assert(builder.expanded_preview.get_node("SubViewport").transparent_bg)
+	var expanded = builder.expanded_preview
+	var bounds = Rect2(Vector2.ONE * 4, Vector2(expanded.get_node("SubViewport").size) - Vector2.ONE * 8)
+	for point in expanded.framing_points():
+		assert(bounds.has_point(expanded.camera.unproject_position(point)), "Expanded satellite clipped")
+	assert(Rect2(Vector2.ZERO, root.get_visible_rect().size).encloses(builder.model_dialog.get_global_rect()))
+	builder.expanded_preview.yaw += 0.5
+	builder.expanded_preview.zoom = 1.2
+	builder.model_dialog.hide()
+	assert(app.state == before_expand, "Expanded view changed mission selections")
+	builder.select_component("wings_id", "dev_wings_2")
+	builder.expand_model()
+	await settle()
+	assert(builder.expanded_preview.satellite_ids.wings_id == "dev_wings_2")
+	builder.model_dialog.hide()
+	builder.reset_design()
 	for key in builder.ADAPTER.GROUPS:
 		for option in builder.ADAPTER.catalog(key):
 			builder.select_component(key, option.id)
@@ -26,14 +54,17 @@ func check() -> void:
 	builder.select_component("wings_id", "dev_wings_3")
 	app.show_screen(1)
 	await settle()
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.show_screen(2)
 	await settle()
 	assert(app.state.wings_id == "dev_wings_3")
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	assert(app.current.screen_id == "FlightReadiness")
 	assert(app.current.preview.satellite_ids.wings_id == "dev_wings_3")
 	var reviewed = app.state.validated_design.duplicate(true)
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	assert(app.state.run_design == reviewed.validation.config)

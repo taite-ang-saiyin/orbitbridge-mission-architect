@@ -1,0 +1,22 @@
+{
+	"ok": true,
+	"report": {
+		"comparison": null,
+		"data_return_completion_ratio": 0.73866666672,
+		"explanation": "4.0/4.0 observations captured and 22.1600000016/30.0 MB received on Earth. 25.8399999984 MB remain onboard. Available events do not establish the cause of the shortfall.",
+		"mission_id": "mission_local",
+		"next_experiment": "Retry with one change to transmission timing and review the event timeline.",
+		"observation_completion_ratio": 1.0,
+		"observations_completed": 4.0,
+		"required_observations": 4.0,
+		"required_returned_data_mb": 30.0,
+		"returned_data_mb": 22.1600000016,
+		"root_causes": [],
+		"run_id": "run_001",
+		"run_status": "completed",
+		"schema_version": 1,
+		"score": 87,
+		"source_ids": [],
+		"status": "partial"
+	}
+}

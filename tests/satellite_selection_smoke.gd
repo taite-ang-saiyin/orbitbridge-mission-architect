@@ -17,6 +17,7 @@ func check():
 		await settle()
 		assert(app.state.body_id == id)
 		assert(app.current.option_buttons[id].button_pressed)
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
 		await settle()
 		assert(app.current.preview.model.selected_ids.body_id == id)
@@ -26,6 +27,7 @@ func check():
 			app.state.budget = 120
 			app.show_screen(3)
 			await settle()
+		assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 		app.current.next_button.pressed.emit()
 		await settle()
 		assert(app.current.run_configuration.design.bus_id == app.state.run_design.design.bus_id)

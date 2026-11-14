@@ -1,0 +1,169 @@
+[
+  {
+    "name": "import",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--editor",
+      "--import"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\import.log"
+  },
+  {
+    "name": "ke3_report_binding_check",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/ke3_report_binding_check.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\ke3_report_binding_check.log"
+  },
+  {
+    "name": "ke2_results_integration",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/ke2_results_integration.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\ke2_results_integration.log"
+  },
+  {
+    "name": "controller_evaluation_smoke",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/controller_evaluation_smoke.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\controller_evaluation_smoke.log"
+  },
+  {
+    "name": "a03_operations_check",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/a03_operations_check.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\a03_operations_check.log"
+  },
+  {
+    "name": "a05_debrief_check",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/a05_debrief_check.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\a05_debrief_check.log"
+  },
+  {
+    "name": "a06_retry_check",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/a06_retry_check.gd"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\a06_retry_check.log"
+  },
+  {
+    "name": "ke2_validated_debrief_check",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/ke2_validated_debrief_check.gd"
+    ],
+    "exit": 1,
+    "errors": [
+      "ERROR: Stale report cannot display scoped metadata credits"
+    ],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\ke2_validated_debrief_check.log"
+  },
+  {
+    "name": "team-headless",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--headless",
+      "--script",
+      "res://tests/ke3_team_integration_check.gd",
+      "--",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\headless"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\team-headless.log"
+  },
+  {
+    "name": "team-windowed",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--rendering-method",
+      "gl_compatibility",
+      "--script",
+      "res://tests/ke3_team_integration_check.gd",
+      "--",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\windowed"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\team-windowed.log"
+  },
+  {
+    "name": "a07-900",
+    "argv": [
+      "C:\\Workspace\\OrbitBridge\\Godot_v4.7.2-stable_win64\\Godot_v4.7.2-stable_win64_console.exe",
+      "--path",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\publish-worktree",
+      "--rendering-method",
+      "gl_compatibility",
+      "--script",
+      "res://tests/a07_local_qa_check.gd",
+      "--",
+      "--size",
+      "900x680",
+      "--output-dir",
+      "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\a07-900"
+    ],
+    "exit": 0,
+    "errors": [],
+    "log": "C:\\Workspace\\OrbitBridge\\Event\\ke3_release_verification\\evidence\\publish\\a07-900.log"
+  }
+]

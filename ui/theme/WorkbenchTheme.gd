@@ -1,5 +1,5 @@
 extends RefCounted
-static func box(color: Color, border: Color, padding: int = 11) -> StyleBoxFlat:
+static func box(color: Color, border: Color, padding: int = 9) -> StyleBoxFlat:
 	var s = StyleBoxFlat.new()
 	s.bg_color = color
 	s.border_color = border
@@ -12,12 +12,12 @@ static func box(color: Color, border: Color, padding: int = 11) -> StyleBoxFlat:
 	return s
 static func build() -> Theme:
 	var t = preload("res://ui/theme/PrototypeTheme.gd").build()
-	t.default_font_size = 14
+	t.default_font_size = 13
 	t.set_stylebox("panel", "PanelContainer", box(Color("031625ed"), Color("28627d")))
 	for kind in ["Button", "OptionButton", "LineEdit", "TextEdit"]:
 		for mode in ["normal", "hover", "pressed", "focus"]:
 			var selected = mode in ["pressed", "focus"]
-			var style = box(Color("07394d") if selected else (Color("102e43") if mode == "hover" else Color("0a2033")), Color("27e9ff") if selected else Color("345b76"), 9)
+			var style = box(Color("07394d") if selected else (Color("102e43") if mode == "hover" else Color("0a2033")), Color("27e9ff") if selected else Color("345b76"), 7)
 			if selected:
 				style.shadow_size = 8
 				style.shadow_color = Color(0, 0.8, 1, 0.2)

@@ -16,7 +16,7 @@ func configure(draft: Dictionary) -> void:
 			old.queue_free()
 		var slot = Node3D.new()
 		slot.name = key
-		slot.scale = Vector3.ONE * 35.0
+		slot.scale = Vector3.ONE if key == "radio_id" and id == "dev_radio_3" else Vector3.ONE * 35.0
 		add_child(slot)
 		var asset = ""
 		for option in ADAPTER.catalog(key):
@@ -61,12 +61,23 @@ func align_parts() -> void:
 	var radio = get_node_or_null("radio_id")
 	if not body or not radio: return
 	var top = -INF
+	var body_bounds = AABB()
+	var first = true
 	for part in body.find_children("*", "MeshInstance3D", true, false):
 		var box: AABB = global_transform.affine_inverse() * part.global_transform * part.get_aabb()
 		top = maxf(top, box.end.y)
+		body_bounds = box if first else body_bounds.merge(box)
+		first = false
+	if selected_ids.get("radio_id") == "dev_radio_3":
+		# Fit the compact assembly to each normalized bus, including narrow CubeSats.
+		var fit: float = minf(1.0, minf(body_bounds.size.x / 0.4, body_bounds.size.z / 0.32))
+		fit = minf(fit, body_bounds.size.y * 0.55 / 0.52)
+		radio.scale = Vector3.ONE * maxf(0.2, fit)
+		radio.position.x = body_bounds.get_center().x
+		radio.position.z = body_bounds.get_center().z
 	radio.position.y = 0
 	var bottom = INF
 	for part in radio.find_children("*", "MeshInstance3D", true, false):
 		var box: AABB = global_transform.affine_inverse() * part.global_transform * part.get_aabb()
 		bottom = minf(bottom, box.position.y)
-	if is_finite(top) and is_finite(bottom): radio.position.y = top - bottom - 0.04
+	if is_finite(top) and is_finite(bottom): radio.position.y = top - bottom - (0.008 if selected_ids.get("radio_id") == "dev_radio_3" else 0.04)

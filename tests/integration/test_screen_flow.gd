@@ -31,6 +31,8 @@ func _run() -> void:
 	app.show_screen(3)
 	await settle()
 	_check(app.current.validation.checks.profile_mass.threshold_g == 5000 and app.current.validation.checks.profile_mass.source_id == null, "Alternative profile keeps its own threshold and no NASA source claim")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	var operations = app.current
@@ -86,6 +88,8 @@ func _run() -> void:
 	app.show_screen(3)
 	await settle()
 	_check(not app.current.next_button.disabled and app.current.warning_label.text.contains("score will be unavailable"), "Survey is usable with an explicit scoring limitation")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	assert(preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state)))
 	app.current.next_button.pressed.emit()
 	await settle()
 	app.current.skip_to_end()
@@ -94,7 +98,7 @@ func _run() -> void:
 	_check(not app.state.evaluation_store.reports.has(final.run_id) and app.state.evaluation_store.errors.has(final.run_id), "Current KE2 guard prevents an invented Survey score")
 	app.show_screen(5)
 	await settle()
-	_check(app.current.results.text.contains("Evaluation unavailable"), "Results show the unsupported scoring state clearly")
+	_check(app.current.results.text.contains("Survey scoring is not available yet") and app.current.get_presentation_model().state == "evaluation_error", "Results explain unsupported Survey scoring in player language")
 	app.queue_free()
 	await settle()
 	print("Merged screen edge cases: %d checks passed; %d failed." % [passed, failed])

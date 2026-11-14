@@ -7,6 +7,8 @@ static func catalog(key: String) -> Array:
 	var options = []
 	for number in range(1, 4):
 		options.append({"id": "dev_%s_%s" % [GROUPS[key][2], number], "name": {"body_id": ["AcrimSAT-style Bus", "MiRaTa-style Bus", "ICECube-style Bus"], "wings_id": ["Twin Solar Wings", "Segmented Solar Wings", "Four-Panel Array"], "radio_id": ["Parabolic Dish", "Compact Dish", "Antenna Array"]}[key][number - 1], "description": "Reference-inspired modular part %s. Assigned gameplay preset; not specifications of the illustrated spacecraft." % number, "specifications": preset_text(key, number), "asset": "res://assets/3d/satellite/Satellite Kit %s %s.glb" % [GROUPS[key][2], number]})
+	if key == "radio_id":
+		options[2].asset = "res://scenes/3d/parts/CompactAntennaArray.tscn"
 	return options
 static func ensure(draft: Dictionary) -> void:
 	draft.satellite_id = "kit"

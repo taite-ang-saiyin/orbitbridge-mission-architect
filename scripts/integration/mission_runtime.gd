@@ -104,12 +104,15 @@ static func launch(draft: Dictionary, previous: Dictionary = {}) -> Dictionary:
 		config = config_for(draft)
 	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}, "errors": loaded.errors}
 	var sequence: int = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
-	if not draft.has("mission_id"):
-		next_mission_sequence += 1
-		draft.mission_id = "mission_%04d" % next_mission_sequence
-	var started: Dictionary = StepEngine.init_validated_run(config, loaded.catalogs, "run_%03d" % sequence, draft.mission_id)
+	# Run namespaces prevent collisions between sessions; identity does not enter physics.
+	var session: String = str(draft.get("run_session_id", ""))
+	if session.is_empty(): session = Crypto.new().generate_random_bytes(12).hex_encode()
+	var mission_id: String = str(draft.get("mission_id", "mission_" + session))
+	var started: Dictionary = StepEngine.init_validated_run(config, loaded.catalogs, "run_%s_%03d" % [session, sequence], mission_id)
 	if not started.ok: return started
 	next_run_sequence = sequence
+	draft.run_session_id = session
+	draft.mission_id = mission_id
 	var reviewed: Dictionary = started.validation_result.duplicate(true)
 	reviewed.config = config.duplicate(true)
 	var snapshots: Dictionary = {}

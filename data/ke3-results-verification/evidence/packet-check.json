@@ -1,0 +1,309 @@
+{
+  "returned_zip": "C:\\Users\\Asus\\Downloads\\Telegram Desktop\\ke3_validated_1u_55d4f33_9dfd942_20261114_01.zip",
+  "requested_parenthesized_copy_found": false,
+  "returned_zip_sha256": "fcad2cdac7bc901ac1f7e3638962d295b01a44e835097a239a636bb4b3fca37c",
+  "input_zip": "C:\\Workspace\\OrbitBridge\\Event\\ke3_validated_run_a07_fixes\\ke2_bundle.zip",
+  "input_zip_sha256": "dec55b6005b5791a7507f8f28c10f053ae8ae1b434dfe8101f32713f4d060817",
+  "report_sha256": "8cfeaea913d096b42d05e7b07bf619ceb434ff760bf28880a427e42f47ec1a50",
+  "run_id": "ke3_validated_1u_55d4f33_9dfd942_20261114_01",
+  "mission_id": "ke3_validated_1u_feasible_20261114",
+  "evaluator_sha_declared": "8c3ed816f5122a6645c0517aecd83880876a0cd7",
+  "checks": [
+    {
+      "check": "Report exact SHA256",
+      "passed": true,
+      "details": "8cfeaea913d096b42d05e7b07bf619ceb434ff760bf28880a427e42f47ec1a50"
+    },
+    {
+      "check": "KE2 original input hash actions.json",
+      "passed": true,
+      "details": {
+        "expected": "bbfd81841a487505bf4351a10cb90c3f4acf00bc080c6eedeabe4e39798ae6a9",
+        "actual": "bbfd81841a487505bf4351a10cb90c3f4acf00bc080c6eedeabe4e39798ae6a9"
+      }
+    },
+    {
+      "check": "KE2 original input hash adapter-result.json",
+      "passed": true,
+      "details": {
+        "expected": "2e8a5362785ba2db772ab30c36d7c1e4e548dedbee2853be57c0af7f347ae2c8",
+        "actual": "2e8a5362785ba2db772ab30c36d7c1e4e548dedbee2853be57c0af7f347ae2c8"
+      }
+    },
+    {
+      "check": "KE2 original input hash catalogs.json",
+      "passed": true,
+      "details": {
+        "expected": "5841cc95a7319cb696edd09a94a5e09e833c8c7b64d015c91d7eac0fd7e5cbd0",
+        "actual": "5841cc95a7319cb696edd09a94a5e09e833c8c7b64d015c91d7eac0fd7e5cbd0"
+      }
+    },
+    {
+      "check": "KE2 original input hash config-resolution.json",
+      "passed": true,
+      "details": {
+        "expected": "2a982f5b84ed6dd6476ff74535fa85ba01ab4eca8afe2d648e8147f527ab7b4e",
+        "actual": "2a982f5b84ed6dd6476ff74535fa85ba01ab4eca8afe2d648e8147f527ab7b4e"
+      }
+    },
+    {
+      "check": "KE2 original input hash events.json",
+      "passed": true,
+      "details": {
+        "expected": "207ed0f1dc16259f5cc9ca5664e19e5ad5293a065b49db58ba33cb6cdb55509c",
+        "actual": "207ed0f1dc16259f5cc9ca5664e19e5ad5293a065b49db58ba33cb6cdb55509c"
+      }
+    },
+    {
+      "check": "KE2 original input hash final-state.json",
+      "passed": true,
+      "details": {
+        "expected": "3b69be95ac758dee097417d99078b2c31309e5d3ea19278d1943185d6d1c7245",
+        "actual": "3b69be95ac758dee097417d99078b2c31309e5d3ea19278d1943185d6d1c7245"
+      }
+    },
+    {
+      "check": "KE2 original input hash initial-state.json",
+      "passed": true,
+      "details": {
+        "expected": "d866bd31a4a01ccf84ea2622f6de53db2e72f934e067a26108e6b02286a83c64",
+        "actual": "d866bd31a4a01ccf84ea2622f6de53db2e72f934e067a26108e6b02286a83c64"
+      }
+    },
+    {
+      "check": "KE2 original input hash orbit-source.json",
+      "passed": true,
+      "details": {
+        "expected": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "actual": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      }
+    },
+    {
+      "check": "KE2 original input hash original-config.json",
+      "passed": true,
+      "details": {
+        "expected": "8f37dc6af7b641a96b6947ba60e0e1d9040d92137dd4245ea34a55483ee2faac",
+        "actual": "8f37dc6af7b641a96b6947ba60e0e1d9040d92137dd4245ea34a55483ee2faac"
+      }
+    },
+    {
+      "check": "KE2 original input hash readiness.json",
+      "passed": true,
+      "details": {
+        "expected": "3b845c347258b15909eda273c96f2c965584acf1ed8f6ef42494021682e7ea50",
+        "actual": "3b845c347258b15909eda273c96f2c965584acf1ed8f6ef42494021682e7ea50"
+      }
+    },
+    {
+      "check": "KE2 original input hash README.md",
+      "passed": true,
+      "details": {
+        "expected": "275cc8372c355a1c1e7c00046b49851e9577eb79cd741ebe307aa1acbe5774b5",
+        "actual": "275cc8372c355a1c1e7c00046b49851e9577eb79cd741ebe307aa1acbe5774b5"
+      }
+    },
+    {
+      "check": "KE2 original input hash run-summary.json",
+      "passed": true,
+      "details": {
+        "expected": "b6f0778bc6199c27154f97634ddcdab7dd233c3ea9e6906c59bfdd0d7a42b5df",
+        "actual": "b6f0778bc6199c27154f97634ddcdab7dd233c3ea9e6906c59bfdd0d7a42b5df"
+      }
+    },
+    {
+      "check": "KE2 original input hash scenario.json",
+      "passed": true,
+      "details": {
+        "expected": "8ee6f071bf402a59e21c9a50f9a0b4af3caf475d2709a01f2a0afe4dc6fe0389",
+        "actual": "8ee6f071bf402a59e21c9a50f9a0b4af3caf475d2709a01f2a0afe4dc6fe0389"
+      }
+    },
+    {
+      "check": "KE2 original input hash selected-action-replies.json",
+      "passed": true,
+      "details": {
+        "expected": "0cabd9fb463ba3d43f250600e315787ecdd8ad0b3bbf651430eae865b4f53b3e",
+        "actual": "0cabd9fb463ba3d43f250600e315787ecdd8ad0b3bbf651430eae865b4f53b3e"
+      }
+    },
+    {
+      "check": "KE2 original input hash selected-launch-profile.json",
+      "passed": true,
+      "details": {
+        "expected": "49e8c97e1e49f2c663f3b2fe93cd02a803dc76c511df12aa95441cd0d2ac755e",
+        "actual": "49e8c97e1e49f2c663f3b2fe93cd02a803dc76c511df12aa95441cd0d2ac755e"
+      }
+    },
+    {
+      "check": "KE2 original input hash validation-packet.json",
+      "passed": true,
+      "details": {
+        "expected": "29a1d63685fb9fa3a51227af52ed947a18e7ad62e5a9c44d14dd2305c2edd30e",
+        "actual": "29a1d63685fb9fa3a51227af52ed947a18e7ad62e5a9c44d14dd2305c2edd30e"
+      }
+    },
+    {
+      "check": "Metadata runtime hashes match original provenance",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Metadata KE1/HPC pins match original",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "All archive members accounted for",
+      "passed": true,
+      "details": {
+        "original_members": 17,
+        "metadata_hash_entries": 16,
+        "unlisted": "provenance.json contains hashes; does not hash itself"
+      }
+    },
+    {
+      "check": "run_id and mission_id match",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Original config matches final config snapshot",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "62 unique ordered events and final event_log equality",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Chronology nondecreasing",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Report actual matches final observations_completed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Report actual matches final returned_data_mb",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Report actual matches final run_status",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Report target matches config required_observations",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Report target matches config required_returned_data_mb",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Expected exact report values",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Terminal completed full duration",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Event-counter reconciliation observations_completed",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Event-counter reconciliation returned_data_mb",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Event-counter reconciliation stored_data_mb",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Readiness actual all8 pass",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Readiness exact mass/cost/profile/source",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Metadata evidence pointer evt_001",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Metadata evidence pointer evt_007",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Metadata evidence pointer evt_008",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Metadata evidence pointer evt_061",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Cause references same-run recorded events",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "evt_008 step8 blocked no-contact",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Report source_ids and comparison untouched",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Two scoped credits",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Credit has supplied title/url/attribution/evidence readiness",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "CubeSat credit bound to passing actual rule",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Credit has supplied title/url/attribution/evidence feedback_vocabulary",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Feedback vocabulary bound to ground cause",
+      "passed": true,
+      "details": null
+    }
+  ],
+  "passed": 48,
+  "failed": 0,
+  "mismatches": [],
+  "scope": "Supplied report/hash/payload/credit-applicability check; independent NASA PDF/bibliography re-verification and evaluator source execution not performed"
+}

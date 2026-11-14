@@ -1,7 +1,6 @@
 extends "res://scripts/screens/Workbench.gd"
 const STATUS = preload("res://ui/components/ReadinessStatus.gd")
 const GAUGE = preload("res://ui/components/ResourceGauge.gd")
-const STRIP = preload("res://ui/components/CoverageStrip.gd")
 const PREVIEW = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 var validation: Dictionary = {}
 var check_buttons: Dictionary = {}
@@ -12,7 +11,7 @@ var specs: Label
 var orbit_label: Label
 var warning_label: Label
 var warning_details_button: Button
-var warning_dialog: AcceptDialog
+var warning_dialog: Control
 var readiness_label: Label
 var gauges: Dictionary = {}
 var main_columns: BoxContainer
@@ -51,25 +50,33 @@ func _ready() -> void:
 	for key in preload("res://data/mock/SatelliteAdapter.gd").STARTER:
 		for option in preload("res://data/mock/SatelliteAdapter.gd").catalog(key):
 			if option.id == state[key]: part_names.append(option.name)
-	specs.text = "\n".join(part_names) + "\n\n" + result.totals_text
+	specs.text = "\n".join(part_names) + "\n\n" + result.totals_text.replace("Baseline", "Standby power").replace("Capture", "Image size").replace("Radio", "Downlink")
 	readiness_label.text = "LAUNCH READY" if result.can_proceed else "DESIGN BLOCKED"
 	readiness_label.add_theme_color_override("font_color", Color("23ed82") if result.can_proceed else Color("ff7777"))
-	warning_label.text = "\n".join(result.warnings) + "\n" + "\n".join(result.blockers.values())
+	warning_label.text = "All checks passed. Your spacecraft is ready to launch." if result.blockers.is_empty() else UI.user_message("\n".join(result.blockers.values()))
 	next_button.disabled = not result.can_proceed
 	if state.objective == "Survey Target Regions": warning_label.text += "\nSurvey can fly, but its score will be unavailable."
 	for connection in next_button.pressed.get_connections():
 		next_button.pressed.disconnect(connection.callable)
 	next_button.pressed.connect(func():
+		var current_review: Dictionary = preload("res://scripts/integration/mission_runtime.gd").review(state)
+		if not current_review.ready_to_launch:
+			next_button.disabled = true
+			warning_label.text = UI.user_message("\n".join(current_review.errors.map(func(issue): return issue.message)))
+			return
+		if not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
+			navigate.emit(2)
+			return
 		var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 		if launched.ok: navigate.emit(4)
 		else:
 			next_button.disabled = true
-			warning_label.text = launched.error.message)
+			warning_label.text = UI.user_message(launched.error.message))
 
 func build_checklist() -> void:
 	for key in validation.checks:
 		var item: Dictionary = validation.checks[key]
-		var check: Array = [key, key.replace("_", " ").capitalize(), str(item.status).to_upper(), item.message, item.message]
+		var check: Array = [key, {"input_schema": "Mission details", "catalog_references": "Component selections", "profile_mass": "Spacecraft mass", "launcher_capacity": "Launcher capacity", "budget": "Mission budget", "launch_orbit": "Launch compatibility", "target_orbit": "Target access", "essential_power": "Power balance"}.get(key, key.capitalize()), str(item.status).to_upper(), UI.user_message(item.message), UI.user_message(item.message)]
 
 		var card = PanelContainer.new()
 		checklist.add_child(card)
@@ -84,8 +91,8 @@ func build_checklist() -> void:
 		header.add_child(status)
 		var text = column(header)
 		text.add_theme_constant_override("separation", 3)
-		UI.label(text, check[1], 15)
-		UI.label(text, check[2] + " / " + check[3], 12, "a9c0d1")
+		UI.label(text, check[1], 14)
+		UI.label(text, check[2].capitalize() + " · " + check[3], 12, "a9c0d1")
 		var detail = UI.label(box, check[4] + "\n" + issue_text(check[0]), 12, "b8d2df")
 		detail.hide()
 		check_details[check[0]] = detail
@@ -94,7 +101,7 @@ func build_checklist() -> void:
 		toggle.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		toggle.tooltip_text = "Expand " + check[1] + " details / " + check[2]
 		check_buttons[check[0]] = toggle
-	UI.label(checklist, "KE1 VALIDATION / EIGHT REQUIRED CHECKS", 10, "77a8c0")
+	UI.label(checklist, "Eight checks before launch", 16, "b4ccdc")
 func toggle_check(key: String) -> void:
 	var detail: Label = check_details[key]
 	detail.visible = not detail.visible
@@ -145,7 +152,7 @@ func build_preview(parent: Node) -> void:
 	values.add_theme_constant_override("separation", 8)
 	card.add_child(values)
 	UI.label(values, "Spacecraft / Selected", 14)
-	UI.label(values, str(validation.config.design.bus_id), 12, "86d5e5")
+	UI.label(values, "Selected configuration", 12, "86d5e5")
 	values.add_child(HSeparator.new())
 	specs = UI.label(values, "", 12)
 	var orbit_card = PanelContainer.new()
@@ -153,7 +160,7 @@ func build_preview(parent: Node) -> void:
 	var orbit_text = VBoxContainer.new()
 	orbit_card.add_child(orbit_text)
 	orbit_label = UI.label(orbit_text, state.orbit, 13)
-	UI.label(orbit_text, "Drag to rotate · scroll to zoom · click an orbit. HPC authored windows.", 11, "b4ccdc")
+	UI.label(orbit_text, "Drag to rotate · scroll to zoom · choose an orbit.", 14, "b4ccdc")
 func build_resources(parent: Node) -> void:
 	var box = section(parent, "RESOURCE SUMMARY")
 	var row_of_gauges = row(box)
@@ -169,11 +176,10 @@ func build_resources(parent: Node) -> void:
 		gauge.limit_text = entry[4]
 		row_of_gauges.add_child(gauge)
 		gauges[entry[0]] = gauge
-	UI.label(box, "NASA CubeSat 101, App. C item 6, p.79: sample 1U <1330 g. Other values illustrative.", 10, "7199ae")
 
 func build_coverage(parent: Node) -> void:
 	coverage = section(parent, "MISSION COVERAGE")
-	UI.label(coverage, "Target / authored access windows per orbit", 11, "b5cfdf")
+	UI.label(coverage, "Observation opportunities per target, per orbit", 11, "b5cfdf")
 	for target in state.targets:
 		var line = row(coverage)
 		UI.label(line, target, 12).custom_minimum_size.x = 112
@@ -187,29 +193,31 @@ func build_banners() -> void:
 	var ready_panel = PanelContainer.new()
 	ready_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ready_panel.size_flags_stretch_ratio = 1.1
-	ready_panel.add_theme_stylebox_override("panel", banner_style("042c24ee", "24ee81"))
+	ready_panel.add_theme_stylebox_override("panel", banner_style("042c24ee", "24a780") if validation.ready_to_launch else banner_style("302414ee", "bd8b43"))
 	banners.add_child(ready_panel)
 	var ready_box = VBoxContainer.new()
 	ready_box.add_theme_constant_override("separation", 4)
 	ready_panel.add_child(ready_box)
 	UI.label(ready_box, "Readiness Status", 16)
-	readiness_label = UI.label(ready_box, "LAUNCH READY", 28, "23ed82")
+	readiness_label = UI.label(ready_box, "LAUNCH READY", 25, "23ed82")
 	UI.label(ready_box, "Launch requires every readiness check to pass.", 12, "c5e1d4")
 	var warnings_panel = PanelContainer.new()
 	warnings_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	warnings_panel.add_theme_stylebox_override("panel", banner_style("292407ee", "ebc52a"))
+	warnings_panel.add_theme_stylebox_override("panel", banner_style("072438ee", "347b97"))
 	banners.add_child(warnings_panel)
 	var warnings = VBoxContainer.new()
 	warnings.add_theme_constant_override("separation", 5)
 	warnings_panel.add_child(warnings)
 	var header = row(warnings)
 	var status = STATUS.new()
-	status.warning = true
+	status.warning = not validation.ready_to_launch
 	header.add_child(status)
-	UI.label(header, "Readiness details", 17, "ffdf55").size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UI.label(header, "Readiness details", 15, "bce9f6").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	warning_details_button = UI.button(header, "View Details  >", show_warning_details)
 	warning_details_button.add_theme_font_size_override("font_size", 12)
 	warning_label = UI.label(warnings, "Review the returned validation messages.", 13)
+	if validation.checks.get("profile_mass", {}).get("source_id") != null:
+		UI.label(warnings, "Sample mass rule: NASA CubeSat 101. See readiness details.", 11, "b5cfdf")
 	UI.label(warnings, "Passing readiness does not guarantee mission success.", 11, "d5cfa9")
 func banner_style(background: String, border: String) -> StyleBoxFlat:
 	var box = preload("res://ui/theme/WorkbenchTheme.gd").box(Color(background), Color(border), 14)
@@ -219,14 +227,14 @@ func banner_style(background: String, border: String) -> StyleBoxFlat:
 	return box
 func show_warning_details() -> void:
 	if not is_instance_valid(warning_dialog):
-		warning_dialog = AcceptDialog.new()
-		warning_dialog.title = "Readiness details"
-		warning_dialog.get_ok_button().text = "Close"
-		add_child(warning_dialog)
-	warning_dialog.dialog_text = "\n".join(preload("res://data/mock/SatelliteAdapter.gd").refresh(state).blockers.values())
-	if warning_dialog.dialog_text.is_empty(): warning_dialog.dialog_text = "All required readiness checks pass. Component values and orbital windows are illustrative gameplay assumptions. Runtime power and data constraints still apply."
+		var layer = CanvasLayer.new()
+		layer.layer = 100
+		add_child(layer)
+		warning_dialog = preload("res://ui/components/ReadinessDetails.gd").new()
+		layer.add_child(warning_dialog)
+	var result: Dictionary = preload("res://data/mock/SatelliteAdapter.gd").refresh(state)
+	warning_dialog.show_review(validation, UI.user_message("\n".join(result.blockers.values())))
 
-	warning_dialog.popup_centered(Vector2i(550, 300))
 func flexible_row(parent: Node) -> BoxContainer:
 	var box = BoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
@@ -249,4 +257,4 @@ func issue_text(_check: String) -> String:
 	var messages: Array = []
 	for issue in validation.errors:
 		messages.append(issue.message + " " + issue.suggested_fix)
-	return "\n".join(messages)
+	return UI.user_message("\n".join(messages))

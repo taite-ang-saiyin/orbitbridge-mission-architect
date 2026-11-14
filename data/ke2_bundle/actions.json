@@ -1,0 +1,1650 @@
+[
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_DATA",
+        "reason": "There is no stored data to transmit."
+      }
+    },
+    "event_ids": [
+      "evt_000"
+    ],
+    "next_step": 1,
+    "request_index": 0,
+    "requested_step": 0
+  },
+  {
+    "action": "observe",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_001"
+    ],
+    "next_step": 2,
+    "request_index": 1,
+    "requested_step": 1
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_002"
+    ],
+    "next_step": 3,
+    "request_index": 2,
+    "requested_step": 2
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_003"
+    ],
+    "next_step": 4,
+    "request_index": 3,
+    "requested_step": 3
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_004"
+    ],
+    "next_step": 5,
+    "request_index": 4,
+    "requested_step": 4
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_005"
+    ],
+    "next_step": 6,
+    "request_index": 5,
+    "requested_step": 5
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_006"
+    ],
+    "next_step": 7,
+    "request_index": 6,
+    "requested_step": 6
+  },
+  {
+    "action": "transmit",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_007"
+    ],
+    "next_step": 8,
+    "request_index": 7,
+    "requested_step": 7
+  },
+  {
+    "action": "transmit",
+    "allowed": false,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_008"
+    ],
+    "next_step": 8,
+    "request_index": 8,
+    "requested_step": 8
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_009"
+    ],
+    "next_step": 9,
+    "request_index": 9,
+    "requested_step": 8
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_010"
+    ],
+    "next_step": 10,
+    "request_index": 10,
+    "requested_step": 9
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_011"
+    ],
+    "next_step": 11,
+    "request_index": 11,
+    "requested_step": 10
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_012"
+    ],
+    "next_step": 12,
+    "request_index": 12,
+    "requested_step": 11
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_013"
+    ],
+    "next_step": 13,
+    "request_index": 13,
+    "requested_step": 12
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_014"
+    ],
+    "next_step": 14,
+    "request_index": 14,
+    "requested_step": 13
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_015"
+    ],
+    "next_step": 15,
+    "request_index": 15,
+    "requested_step": 14
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_016"
+    ],
+    "next_step": 16,
+    "request_index": 16,
+    "requested_step": 15
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_017"
+    ],
+    "next_step": 17,
+    "request_index": 17,
+    "requested_step": 16
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_018"
+    ],
+    "next_step": 18,
+    "request_index": 18,
+    "requested_step": 17
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_019"
+    ],
+    "next_step": 19,
+    "request_index": 19,
+    "requested_step": 18
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_020"
+    ],
+    "next_step": 20,
+    "request_index": 20,
+    "requested_step": 19
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_021"
+    ],
+    "next_step": 21,
+    "request_index": 21,
+    "requested_step": 20
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_022"
+    ],
+    "next_step": 22,
+    "request_index": 22,
+    "requested_step": 21
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_023"
+    ],
+    "next_step": 23,
+    "request_index": 23,
+    "requested_step": 22
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_024"
+    ],
+    "next_step": 24,
+    "request_index": 24,
+    "requested_step": 23
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_025"
+    ],
+    "next_step": 25,
+    "request_index": 25,
+    "requested_step": 24
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_026"
+    ],
+    "next_step": 26,
+    "request_index": 26,
+    "requested_step": 25
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_027"
+    ],
+    "next_step": 27,
+    "request_index": 27,
+    "requested_step": 26
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_028"
+    ],
+    "next_step": 28,
+    "request_index": 28,
+    "requested_step": 27
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_029"
+    ],
+    "next_step": 29,
+    "request_index": 29,
+    "requested_step": 28
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_030"
+    ],
+    "next_step": 30,
+    "request_index": 30,
+    "requested_step": 29
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_031"
+    ],
+    "next_step": 31,
+    "request_index": 31,
+    "requested_step": 30
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_032"
+    ],
+    "next_step": 32,
+    "request_index": 32,
+    "requested_step": 31
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_033"
+    ],
+    "next_step": 33,
+    "request_index": 33,
+    "requested_step": 32
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_034"
+    ],
+    "next_step": 34,
+    "request_index": 34,
+    "requested_step": 33
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_035"
+    ],
+    "next_step": 35,
+    "request_index": 35,
+    "requested_step": 34
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_036"
+    ],
+    "next_step": 36,
+    "request_index": 36,
+    "requested_step": 35
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_037"
+    ],
+    "next_step": 37,
+    "request_index": 37,
+    "requested_step": 36
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_038"
+    ],
+    "next_step": 38,
+    "request_index": 38,
+    "requested_step": 37
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_039"
+    ],
+    "next_step": 39,
+    "request_index": 39,
+    "requested_step": 38
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_040"
+    ],
+    "next_step": 40,
+    "request_index": 40,
+    "requested_step": 39
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_041"
+    ],
+    "next_step": 41,
+    "request_index": 41,
+    "requested_step": 40
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_042"
+    ],
+    "next_step": 42,
+    "request_index": 42,
+    "requested_step": 41
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_043"
+    ],
+    "next_step": 43,
+    "request_index": 43,
+    "requested_step": 42
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_044"
+    ],
+    "next_step": 44,
+    "request_index": 44,
+    "requested_step": 43
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_045"
+    ],
+    "next_step": 45,
+    "request_index": 45,
+    "requested_step": 44
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_046"
+    ],
+    "next_step": 46,
+    "request_index": 46,
+    "requested_step": 45
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_047"
+    ],
+    "next_step": 47,
+    "request_index": 47,
+    "requested_step": 46
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_048"
+    ],
+    "next_step": 48,
+    "request_index": 48,
+    "requested_step": 47
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_049"
+    ],
+    "next_step": 49,
+    "request_index": 49,
+    "requested_step": 48
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_050"
+    ],
+    "next_step": 50,
+    "request_index": 50,
+    "requested_step": 49
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_051"
+    ],
+    "next_step": 51,
+    "request_index": 51,
+    "requested_step": 50
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_052"
+    ],
+    "next_step": 52,
+    "request_index": 52,
+    "requested_step": 51
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_053"
+    ],
+    "next_step": 53,
+    "request_index": 53,
+    "requested_step": 52
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_054"
+    ],
+    "next_step": 54,
+    "request_index": 54,
+    "requested_step": 53
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_055"
+    ],
+    "next_step": 55,
+    "request_index": 55,
+    "requested_step": 54
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_056"
+    ],
+    "next_step": 56,
+    "request_index": 56,
+    "requested_step": 55
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_057"
+    ],
+    "next_step": 57,
+    "request_index": 57,
+    "requested_step": 56
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      }
+    },
+    "event_ids": [
+      "evt_058"
+    ],
+    "next_step": 58,
+    "request_index": 58,
+    "requested_step": 57
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_059"
+    ],
+    "next_step": 59,
+    "request_index": 59,
+    "requested_step": 58
+  },
+  {
+    "action": "power_save",
+    "allowed": true,
+    "availability": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "TARGET_NOT_VISIBLE",
+        "reason": "The selected target is not visible during this step."
+      },
+      "power_save": {
+        "allowed": true,
+        "blocked_code": null,
+        "reason": null
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "NO_LINK_WINDOW",
+        "reason": "No ground station contact window is available during this step."
+      }
+    },
+    "event_ids": [
+      "evt_060",
+      "evt_061"
+    ],
+    "next_step": 60,
+    "request_index": 60,
+    "requested_step": 59
+  }
+]

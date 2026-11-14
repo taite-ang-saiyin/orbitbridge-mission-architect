@@ -1,0 +1,270 @@
+{
+  "main_base": "9a5f1743549e61bcacae5c5f59bf9a658018e8af",
+  "ke3_tip": "52a4d4aa39fe7e2fe9baf53bf43a00d1147c8dc0",
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "user_retry_decision": "Retry same mission repeats frozen setup immediately; Modify design opens Builder with Cancel restoring the original session",
+  "active_program_count": 36,
+  "counted_assertions": 3485,
+  "ke2_declared_pending_checks": 5,
+  "programs": [
+    {
+      "script": "tests/validation/test_mission_validator.gd",
+      "result": "passed",
+      "counted_assertions": 294,
+      "log_sha256": "581a31dd56ebe5db4a3e5cda302a1152740d85c8d65e4dbfcde62be378141ca3"
+    },
+    {
+      "script": "tests/validation/test_mission_readiness.gd",
+      "result": "passed",
+      "counted_assertions": 671,
+      "log_sha256": "b88fe7ea7c21a85bddd99842affae89df7e85fe2e8056b690e552d8944d78432"
+    },
+    {
+      "script": "tests/validation/test_mission_fixtures.gd",
+      "result": "passed",
+      "counted_assertions": 470,
+      "log_sha256": "33c5ed24b91b77f656d8e33087f218f815bc92911b862428ab125740680ea540"
+    },
+    {
+      "script": "tests/test_hpc.gd",
+      "result": "passed",
+      "counted_assertions": 48,
+      "log_sha256": "b8d0cd633f9a7d6120075822cbc9be396743a39769deb278cec4064ef7ecfb5d"
+    },
+    {
+      "script": "tests/test_simulator.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "554054a141b798078e4a93fc360a602b580addeb5324c47d43134694ac7c0de1"
+    },
+    {
+      "script": "tests/test_mission_evaluator.gd",
+      "result": "passed",
+      "counted_assertions": 207,
+      "log_sha256": "b234e0cee385ec8be28ce83bf222e7b5c581b4deb4990f87cec26de64212466c"
+    },
+    {
+      "script": "tests/integration/test_mission_flow.gd",
+      "result": "passed",
+      "counted_assertions": 32,
+      "log_sha256": "be98625bfc70fb8eb23742f318a7839904f4a49ffbd868b2d7da05381c58c23a"
+    },
+    {
+      "script": "tests/integration/test_screen_flow.gd",
+      "result": "passed",
+      "counted_assertions": 19,
+      "log_sha256": "ea23591eee8ca7613b0f954edcc6f11aad92e3297e3d800d1bd1804778c58cf6"
+    },
+    {
+      "script": "tests/acceptance/test_k14_acceptance.gd",
+      "result": "passed",
+      "counted_assertions": 48,
+      "log_sha256": "e77d496b7c614e279307b694e87bab4c8da45ee452a40f6e2c95524259e73c9f"
+    },
+    {
+      "script": "tests/home_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "6812515045feb3d632cf1a2d6089e31fa917eb454b0e19d0e5b26a53e433428c"
+    },
+    {
+      "script": "tests/responsive_layout_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "a3f7c2a5d7dae9ce0a89ae9726d44996102e022196d7b13a2b64550cb474dccd"
+    },
+    {
+      "script": "tests/3d/preview_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "14c4b52bb22bc3fbb9723d14c4871d2676f68162cad9a778393faeb6483d8e66"
+    },
+    {
+      "script": "tests/integration_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "2f257275d52ec73422cf71c48b6b623add0a988bfebb4aef47f081f439abfbf7"
+    },
+    {
+      "script": "tests/controller_evaluation_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "299bcb8d0f64d85e86dff85519435e033483efe6d2d1b6e564632b52cbc9618e"
+    },
+    {
+      "script": "tests/creator_builder_catalog_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "30f4049f49981252f7506428187b579a10c91584da8a08c00d6c4b2c1926a10d"
+    },
+    {
+      "script": "tests/expanded_missions_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "46257938f1a8f94819f2e370156d13c8abcd88f7722eb435902eac1157cf9dfd"
+    },
+    {
+      "script": "tests/mission_control_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "3845f395c7d2f53d677b5b222d74ed8520c3eec7d558d0d9648b9719bbc1c818"
+    },
+    {
+      "script": "tests/prediction_multitarget_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "6ab0f9fb37047152bd0c2b7ed014d2c27c62e61e710cb8826dedbf5b785fcda1"
+    },
+    {
+      "script": "tests/design_workflow_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "bc3b8904c02d201f8c4fbfae2a41755834c9211c53ddd9dcac9d62541d4800dc"
+    },
+    {
+      "script": "tests/modular_reference_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "9f87b0235dd9201c39f9c70fcae3ead79e868820b256822348f81d61f47e6b64"
+    },
+    {
+      "script": "tests/operations_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "44374974b6b19359dedd7fa1f162d4068b333fd5b6338c3af6ea15d255878277"
+    },
+    {
+      "script": "tests/prototype_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "ff3a337a50a7d54a3d8f38e3c1ed453051d660b522ecf7c3a815b7d235241030"
+    },
+    {
+      "script": "tests/readiness_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "cdc28e9f64f83711a3f2d89334ff07a0e21fd7f798a2cb36ab1e6c41c9a5da6f"
+    },
+    {
+      "script": "tests/satellite_builder_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "d0ef05afd4ec27d1752422ff5cbfd83e633f3396e6291989c4bc11e1b46e9776"
+    },
+    {
+      "script": "tests/satellite_selection_smoke.gd",
+      "result": "passed",
+      "counted_assertions": null,
+      "log_sha256": "62151dd787824d3be8d59b5fb44f59096fc951dfe7f1d751d6fd861d669bb5ec"
+    },
+    {
+      "script": "tests/ke2_results_integration.gd",
+      "result": "passed",
+      "counted_assertions": 17,
+      "log_sha256": "3eefb272f2764b09e4fba6de905c681d07056c1186b160f2e738bd1ec05c5f32"
+    },
+    {
+      "script": "tests/ke3_report_binding_check.gd",
+      "result": "passed",
+      "counted_assertions": 32,
+      "log_sha256": "fbf2156c01c8cd54559cc68d5c479adf7ef6968ad190173bfbb260899ef2d1b4"
+    },
+    {
+      "script": "tests/ke3_team_integration_check.gd",
+      "result": "passed",
+      "counted_assertions": 338,
+      "log_sha256": "8b5f954196ba4e2f2c05d74b9f9fa3e2663f91a4488ba077a04dbdc0391d0807"
+    },
+    {
+      "script": "tests/ke3_power_launcher_check.gd",
+      "result": "passed",
+      "counted_assertions": 425,
+      "log_sha256": "f57fd07e99a93e29ee359f91358558f89cf6f588e13bf07ad2ded5a8f6db6b75"
+    },
+    {
+      "script": "tests/a03_operations_check.gd",
+      "result": "passed",
+      "counted_assertions": 256,
+      "log_sha256": "eae6ed662ebc57d953627f6597907afd812dc584007bb8ccfd8c7216f1d462a6"
+    },
+    {
+      "script": "tests/a05_debrief_check.gd",
+      "result": "passed",
+      "counted_assertions": 139,
+      "log_sha256": "ad6bad98c0f478c93095d8eba890dd46af935486df4927374d9300f723061946"
+    },
+    {
+      "script": "tests/a06_retry_check.gd",
+      "result": "passed",
+      "counted_assertions": 100,
+      "log_sha256": "61ab95dd74a2dd4d49687a53cc22faa0ec3d9225066fa76f0ca2b8b5ea69c74f"
+    },
+    {
+      "script": "tests/mission_fixture_check.gd",
+      "result": "passed",
+      "counted_assertions": 254,
+      "log_sha256": "1cb9a0f2ec0f19d2ed6b2d7ee030de38f830bcb1c39dcff462cc0a48dd6b49e5"
+    },
+    {
+      "script": "tests/ke2_recorded_debrief_check.gd",
+      "result": "passed",
+      "counted_assertions": 49,
+      "log_sha256": "4d2f9eaeb026166137265ce07906a6cd19f0d95ca3491147ad459cd9de4886e3"
+    },
+    {
+      "script": "tests/ke2_validated_debrief_check.gd",
+      "result": "passed",
+      "counted_assertions": 63,
+      "log_sha256": "c9f75bf705914609ce2aad4cb7ea278bd2ea3f28423e8b6d9ee0cfd71b42fe2d"
+    },
+    {
+      "script": "tests/integration/test_ke3_merge.gd",
+      "result": "passed",
+      "counted_assertions": 23,
+      "log_sha256": "9a11059af19be8a581e56943cba16ce6a8db95708d208a1e897f63ac75052c98"
+    }
+  ],
+  "windows": {
+    "headless_passed": 70,
+    "graphical_passed": 70,
+    "failed": 0,
+    "export_error_diagnostics": 0,
+    "sha256": "941a204c3d8b92fcaa0613b39d1d7c32caad248bb122b4b1ca5365158cdbdcb3"
+  },
+  "protected_inputs_unchanged_from_main": [
+    "core",
+    "scripts/core",
+    "scripts/evaluation",
+    "data/components.json",
+    "data/launchers.json",
+    "data/launch_profiles.json",
+    "data/orbits.json",
+    "data/nasa_sources.json",
+    "docs/team-agreement.md",
+    "project.godot",
+    "export_presets.cfg"
+  ],
+  "protected_file_sha256": {
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/launchers.json": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+    "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "data/nasa_sources.json": "119c0a94e55a854082b44b2185ef14cd185ac66fadd69a38945459ca91cb9272",
+    "docs/team-agreement.md": "234087dbfe631de97b98e081f19daf73525446e47326193395d5ecdc573d4291",
+    "project.godot": "8a0b3d2e0b121bcbd13c420ff0721133fafc62c4f8f2b4a5a79d72a454ce13c4",
+    "export_presets.cfg": "99e9548937ef62ce48962e561890a8d8e9f42d7966d8e927d7b11e4a8b4404ff"
+  },
+  "visual_review": "GPU-rendered actual workflow, manual-action HUD, Results at 1440x900 and 900x680, editable Builder and Cancel; not a human playtest",
+  "external_packet_checks_not_rerun": [
+    "tests/ke3_checkpoint_cases.gd archive-sequence comparisons",
+    "tests/ke3_packet_reports_check.gd"
+  ],
+  "external_packet_reason": "Original external input/hash-manifest folders are not contained in the tracked summary handoffs; these assertions are not counted as passes",
+  "limits": [
+    "Survey scoring unavailable",
+    "Controlled A/B comparison unavailable",
+    "Browser and second-computer testing not performed",
+    "Human acceptance and submission are separate"
+  ],
+  "logs_location": "Ignored exports/check-logs and exports/windows-ke3 in the isolated integration checkout"
+}

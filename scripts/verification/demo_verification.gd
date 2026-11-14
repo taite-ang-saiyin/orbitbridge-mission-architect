@@ -63,12 +63,16 @@ func run(app: Control) -> Dictionary:
 	_check(not app.current.next_button.disabled, "Supported target restores readiness")
 	# A previously passing screen never authorizes a later invalid config.
 	app.state.budget = 1
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	_check(not app.state.has("run_trace"), "Launch click rechecks stale permissions")
 	app.state.budget = 100
 	app.show_screen(3)
 	await _settle(app)
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	_check(app.current.screen_id == "MissionOperations", "Validated launch opens Operations")
@@ -89,22 +93,31 @@ func run(app: Control) -> Dictionary:
 	_check(app.state.active_run_state.step_index == 60 and app.state.active_run_state.returned_data_mb == 48, "Real run completes 60 steps and returns 48 MB")
 	operations.next_button.pressed.emit()
 	await _settle(app)
-	_check(app.current.results.text.to_lower().contains("success") and app.current.results.text.contains("Score: 100"), "Real evaluation reaches Results")
+	_check(app.current.get_presentation_model().report.status == "success" and app.current.outcome_title.text == "All goals reached" and app.current.score_label.text == "100 / 100", "Real evaluation reaches understandable Results")
 	_record_run(app, "high_inc_completed")
 	app.show_screen(5)
 	await _settle(app)
 	_check(app.state.evaluation_store.history.size() == 1, "Repeated results are published only once")
+	_check(app.current.same_mission_button.text == "Retry same mission" and app.current.retry_button.text == "Modify design", "Both Retry choices are available in the packaged Results screen")
+	var completed_session: Dictionary = app.state.duplicate(true)
+	app.current.retry_button.pressed.emit()
+	await _settle(app)
+	_check(app.current.screen_id == "SpacecraftBuilder" and not app.retry_restore.is_empty(), "Modify design opens an editable copy")
+	app.cancel_retry()
+	await _settle(app)
+	_check(app.current.screen_id == "DebriefCompare", "Cancel returns to the completed result")
+	_check(app.state == completed_session, "Cancel restores the exact mission, report and baseline")
 	var frozen: Dictionary = app.state.run_trace.config.duplicate(true)
 	var old_id: String = app.state.run_trace.final_state.run_id
 	app.state.observations = 20
-	app.retry_mission()
+	app.current.same_mission_button.pressed.emit()
 	await _settle(app)
 	_check(app.state.run_trace.config == frozen and app.state.run_trace.final_state.run_id != old_id, "Retry restores exact original config and a new run ID")
 	_check(app.state.active_run_state.step_index == 0 and app.state.active_run_state.event_log.is_empty(), "Retry resets counters and events")
 	app.abort_current_run("Stopped by verification")
 	await _settle(app)
 	var aborted: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
-	_check(aborted.status == "failed" and aborted.score == null and app.current.results.text.contains("Not scored"), "Abort retains failed/null-score behavior")
+	_check(aborted.status == "failed" and aborted.score == null and app.current.score_label.text == "Not scored", "Abort retains failed/null-score behavior")
 	app.start_new_mission()
 	await _settle(app)
 	_check(not app.state.has("run_trace") and not app.state.has("evaluation_store"), "New Mission clears history")
@@ -113,9 +126,13 @@ func run(app: Control) -> Dictionary:
 	app.show_screen(3)
 	await _settle(app)
 	_check(not app.current.next_button.disabled, "Other native orbit remains suitable")
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	app.current.skip_to_end()
+	# Acknowledge fixture mission intent; engineering checks still run.
+	preload("res://scripts/integration/mission_review.gd").confirm(app.state, preload("res://scripts/integration/mission_review.gd").snapshot(app.state))
 	app.current.next_button.pressed.emit()
 	await _settle(app)
 	var report: Dictionary = app.state.evaluation_store.reports[app.state.active_run_state.run_id]
