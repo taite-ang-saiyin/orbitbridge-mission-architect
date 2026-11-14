@@ -155,6 +155,15 @@ func build_presets(parent: Node) -> void:
 		button.custom_minimum_size.y = 58
 		button.add_theme_font_size_override("font_size", 12)
 		presets[entry[0]] = button
+	# Reserved titles only: no KE1 configuration or provisional requirements applied.
+	for title in ["Communication", "Weather Monitoring"]:
+		var placeholder = UI.button(box, title + "\nUnavailable · mission setup pending", func(): pass)
+		placeholder.disabled = true
+		placeholder.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		placeholder.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		placeholder.custom_minimum_size.y = 58
+		placeholder.add_theme_font_size_override("font_size", 12)
+		presets[title] = placeholder
 
 func apply_preset(entry: Array) -> void:
 	if state.get("active_run_state", {}).get("phase") == "operating": return

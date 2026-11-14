@@ -37,6 +37,17 @@ var report_body: VBoxContainer
 var report_sections: Array = []
 var flight_name: Label
 const SUMMARY = preload("res://scripts/presentation/DebriefSummary.gd")
+const GOAL_PROGRESS = preload("res://scripts/presentation/GoalProgress.gd")
+var goal_labels: Array[Label] = []
+var goal_headings: Array[BoxContainer] = []
+var target_deliveries: VBoxContainer
+var missed_goals: Label
+var progress_evidence: Label
+var run_identity: Label
+var qa_notice: Label
+var _goal_progress: Dictionary = {}
+const DESIGN_LAB = preload("res://scripts/presentation/DesignLabView.gd")
+var design_lab: VBoxContainer
 var report_surface: PanelContainer
 var result_hero: BoxContainer
 var goal_verdicts: Array[Label] = []
@@ -53,6 +64,9 @@ func _ready():
 	var kicker = UI.label(self, titles[screen_id][0], 12, "6fd9eb")
 	if screen_id == "DebriefCompare": kicker.hide()
 	UI.label(self, titles[screen_id][1], 25)
+	if screen_id == "DebriefCompare":
+		qa_notice = UI.label(self, "", 14, "f4d38b")
+		qa_notice.hide()
 	var scroll = ScrollContainer.new()
 	report_scroll = scroll
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -185,6 +199,7 @@ func debrief():
 	hero_copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hero.add_child(hero_copy)
 	flight_name = UI.label(hero_copy, "", 16, "8ea9bb")
+	run_identity = UI.label(hero_copy, "", 11, "8ea9bb")
 	outcome_title = UI.label(hero_copy, "", 34, "b9f4e7")
 	outcome_badge = UI.label(hero_copy, "", 12, "f4d38b")
 	results = UI.label(hero_copy, "", 18, "c2d9e6")
@@ -215,10 +230,10 @@ func debrief():
 			tab_style.border_color = Color("76ddd8")
 			tab_style.border_width_bottom = 2
 		report_tabs.add_theme_stylebox_override(mode, tab_style)
-	for caption in ["Overview", "Flight log", "Sources"]: report_tabs.add_tab(caption)
+	for caption in ["Overview", "Flight log", "Sources", "Design Lab"]: report_tabs.add_tab(caption)
 	report_tabs.tab_changed.connect(select_report_tab)
 	report_body.add_child(report_tabs)
-	for i in 3:
+	for i in 4:
 		var section = VBoxContainer.new()
 		section.add_theme_constant_override("separation", 14)
 		report_body.add_child(section)
@@ -236,12 +251,15 @@ func debrief():
 		var goal = VBoxContainer.new()
 		goal.add_theme_constant_override("separation", 7)
 		results_row.add_child(goal)
-		var heading = HBoxContainer.new()
+		var heading = BoxContainer.new()
+		heading.add_theme_constant_override("separation", 10)
+		goal_headings.append(heading)
 		goal.add_child(heading)
 		var title = UI.label(heading, caption, 17, "c2d9e6")
+		goal_labels.append(title)
 		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var value = UI.label(heading, "", 23)
-		value.autowrap_mode = TextServer.AUTOWRAP_OFF
+		var value = UI.label(heading, "", 21)
+		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		goal_cards.append(value)
 		var bar = ProgressBar.new()
 		bar.step = 0.0
@@ -252,6 +270,11 @@ func debrief():
 		goal_verdicts.append(UI.label(goal, "", 14))
 	photo_goal_value = goal_cards[0]
 	data_goal_value = goal_cards[1]
+	target_deliveries = VBoxContainer.new()
+	target_deliveries.add_theme_constant_override("separation", 6)
+	results_row.add_child(target_deliveries)
+	missed_goals = UI.label(results_row, "", 14, "f4d38b")
+	progress_evidence = UI.label(results_row, "", 12, "8ea9bb")
 	experiment_panel = PanelContainer.new()
 	experiment_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	experiment_panel.size_flags_stretch_ratio = 1.0
@@ -302,6 +325,9 @@ func debrief():
 	source_links = VBoxContainer.new()
 	source_disclosure.add_child(source_links)
 	UI.label(source_disclosure, "An educational simulation. Orbit paths, contact windows and most hardware values are illustrative.", 14, "9cb7c9")
+	design_lab = DESIGN_LAB.new()
+	report_sections[3].add_child(design_lab)
+	design_lab.modify_current_requested.connect(_request_retry)
 	resized.connect(_fit_results)
 	report_scroll.resized.connect(_fit_results)
 	_fit_results.call_deferred()
@@ -322,12 +348,15 @@ func _fit_results() -> void:
 	if is_instance_valid(report_body): report_body.custom_minimum_size.x = minf(1000, maxf(280, report_scroll.size.x - 78))
 	if is_instance_valid(result_hero): result_hero.vertical = report_scroll.size.x < 600
 	if is_instance_valid(overview_layout): overview_layout.vertical = report_scroll.size.x < 960
+	for i in goal_headings.size(): goal_headings[i].vertical = report_scroll.size.x < 1050 or goal_labels[i].text.length() > 20
 	if is_instance_valid(score_gauge):
 		var compact: bool = get_viewport_rect().size.y < 800
 		score_gauge.custom_minimum_size = Vector2(112,112) if compact else Vector2(150,150)
 		report_body.add_theme_constant_override("separation", 10 if compact else 22)
 		outcome_title.add_theme_font_size_override("font_size", 30 if compact else 34)
 		report_surface.get_theme_stylebox("panel").set_content_margin_all(20 if compact else 26)
+		experiment_panel.get_theme_stylebox("panel").set_content_margin_all(12 if compact else 20)
+		hero_copy.add_theme_constant_override("separation", 4 if compact else 8)
 func _report_keys(event: InputEvent) -> void:
 	if not report_scroll.has_focus() or not event is InputEventKey or not event.pressed: return
 	if event.alt_pressed or event.ctrl_pressed or event.meta_pressed: return
@@ -363,6 +392,7 @@ func show_actual_run(index: int):
 		results.text = "Finish a flight to see how you did."
 		return
 	var trace: Dictionary = history[clampi(index, 0, history.size() - 1)]
+	design_lab.set_inputs(DESIGN_LAB.from_session(state,trace))
 	_presentation_model = PRESENTATION.build(trace, state.get("evaluation_store", {}))
 	var player: Dictionary = LANGUAGE.report(_presentation_model, trace)
 	outcome_title.text = player.headline
@@ -382,19 +412,9 @@ func show_actual_run(index: int):
 	var summary: Dictionary = SUMMARY.build(_presentation_model, trace)
 	results.text = summary.text if not summary.text.is_empty() else player.summary
 	full_explanation.text = player.summary
-	for i in 2:
-		var goal: Dictionary = summary.photos if i == 0 else summary.data
-		goal_verdicts[i].text = goal.label
-		var tint = Color("b9f4e7") if goal.reached else Color("f4d38b")
-		goal_verdicts[i].add_theme_color_override("font_color", tint)
-		goal_bars[i].value = goal.progress
-		goal_bars[i].visible = goal.progress_known
-		var fill = StyleBoxFlat.new()
-		fill.bg_color = tint
-		fill.set_corner_radius_all(3)
-		goal_bars[i].add_theme_stylebox_override("fill", fill)
+	render_goal_progress(trace, _presentation_model)
 	next_experiment.text = player.next
-	flight_facts.text = player.targets + "\nBattery remaining: %s Wh\nData still on the spacecraft: %s MB\n\nCollecting photos and sending them home are separate goals. Photos still on board have not yet reached Earth." % [player.battery, player.stored]
+	flight_facts.text = player.targets + "\nBattery remaining: %s Wh\nData still on the spacecraft: %s MB\n\nCaptured observations and returned data are separate measurements. A complete delivery is counted only after the whole observation reaches Earth." % [player.battery, player.stored]
 	flight_facts.tooltip_text = "Flight " + str(trace.final_state.run_id)
 	evidence.text = player.evidence if not player.evidence.is_empty() else "No specific cause was established by the recorded events."
 	var retry_allowed: bool = not _retry_pending and _presentation_model.state in ["report", "evaluation_error"]
@@ -425,6 +445,42 @@ func show_actual_run(index: int):
 		link.add_theme_font_size_override("font_size", 17)
 		link.pressed.connect(func(): OS.shell_open(url))
 		source_links.add_child(link)
+
+func render_goal_progress(trace: Dictionary, model: Dictionary, supplied_details: Dictionary = {}) -> void:
+	# Optional details are a view input only; runtime never creates pending-goal configs.
+	_goal_progress = GOAL_PROGRESS.build(model, trace, supplied_details)
+	run_identity.text = "Flight " + str(_goal_progress.get("run_id", "Unavailable"))
+	qa_notice.text = str(supplied_details.get("fixture_label", ""))
+	qa_notice.visible = not qa_notice.text.is_empty()
+	for i in 2:
+		var goal: Dictionary = _goal_progress.primary if i == 0 else _goal_progress.data
+		goal_labels[i].text = goal.label
+		goal_cards[i].text = goal.value
+		goal_verdicts[i].text = goal.verdict
+		var tint = Color("b9f4e7") if goal.known and goal.reached else Color("f4d38b")
+		goal_verdicts[i].add_theme_color_override("font_color", tint)
+		goal_bars[i].value = goal.progress
+		goal_bars[i].visible = goal.progress_known
+		var fill = StyleBoxFlat.new()
+		fill.bg_color = tint
+		fill.set_corner_radius_all(3)
+		goal_bars[i].add_theme_stylebox_override("fill", fill)
+	for child in target_deliveries.get_children():
+		target_deliveries.remove_child(child)
+		child.queue_free()
+	target_deliveries.visible = not _goal_progress.deliveries.is_empty()
+	if target_deliveries.visible:
+		UI.label(target_deliveries, "COMPLETE DELIVERIES BY TARGET", 12, "8ea9bb")
+		for delivery in _goal_progress.deliveries:
+			UI.label(target_deliveries, delivery.label + " · " + delivery.value, 16)
+			UI.label(target_deliveries, delivery.verdict, 13, "b9f4e7" if delivery.known and delivery.reached else "f4d38b")
+		UI.label(target_deliveries, "Captured-only and partial packets are not complete deliveries.", 12, "8ea9bb")
+	missed_goals.text = "Goal progress\n" + _goal_progress.missed_text
+	progress_evidence.text = "Same-run events\n" + _goal_progress.evidence_text
+	_fit_results.call_deferred()
+
+func get_goal_progress() -> Dictionary:
+	return _goal_progress.duplicate(true)
 
 func report_score_unavailable(model: Dictionary) -> bool:
 	return model.get("report", {}).get("score") == null
