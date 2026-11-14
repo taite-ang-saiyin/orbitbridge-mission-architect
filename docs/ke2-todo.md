@@ -3,7 +3,7 @@
 Owner: KE2  
 Planning basis: v1.0-agreed, updated 14 November 2026
 
-Current stage: KE3 recorded Results/credits preview evidence reviewed; SE-integrated lifecycle, independent mass-boundary rerun, and release verification pending
+Current stage: SE/KE3 candidate Results integration verified at 14c0f97; stability review ready; optional comparison, Survey scoring, independent mass-boundary/Builder checks, manual actions, and release acceptance pending
 
 Update this checklist after each KE2 task. Use the team's recorded decisions to update pending tasks and expected results. The API names and policies below follow the agreed v1 contract. Independent preparation and labeled fixtures can proceed while runtime handoffs are being implemented. Mark a task complete when its stated evidence is available. Record blocked tasks with the dependency owner and missing input.
 
@@ -191,17 +191,22 @@ KE1 reply reviewed, 14 November 2026. The supplied `message_to_ke2.md` identifie
   - [x] Add `MissionEvaluator.evaluate_hpc_state` to use `config_snapshot` and complete `event_log`; map the producer's `terminal_reason` in feedback.
   - [x] Verify returned MB originates from a real accepted contact-window transmission and stored MB remains explanatory.
   - [x] Execute a real readiness-approved completed run, recorded `NO_LINK_WINDOW` block, committed v0.2 trace, and actual `abort_run` result.
+  - [x] Receive and verify HPC's supplied operator-abort bundle for run `run_hpc_ke2_abort_3990d3c_01`. Match its SHA256, evaluate both APIs, and replay actual KE1 readiness, nine requests, and abort at pinned source `3990d3c`, with 71 checks passing.
+  - [x] Package the actual abort input/report, verification metadata, verifier, and log for SE/KE3 in `docs/handoffs/ke2-hpc-abort-v0.1.zip`. Verify ZIP CRC and payload hashes, report identity, current executed module bytes, and 85 documentation links/anchors. ZIP SHA256 is `4d7c47ed0d9b449926f2a34482004083798b0945ca4a8db97c30585634be21c7`.
   - [x] Verify repeated terminal evaluation is deterministic and preserves inputs and the launch snapshot.
 - [ ] Verify KE3's Results screen with SE/KE3.
   - [x] Review the supplied validated run `ke3_validated_1u_55d4f33_9dfd942_20261114_01` and prepare remaining owner requests for controller/Results wiring, KE1 mass boundaries, source-credit display, and a release-version abort bundle. Requests are prepared for the user to send.
   - [x] Draft separate copy-ready replies/requests for SE, KE3, KE1, and HPC in `docs/ke2/team-requests.md`, including the matching package, API/field requirements, owner tasks, and verification evidence. Link them from the KE2 documentation index.
   - [x] Review KE3's source snapshot, all 64 source/evidence hashes, all 16 named input hashes, 14 recorded zero-exit command results, copied payloads, and four supplied screenshots. Record owner preview checks as 63/67 focused and 24/29 additional headless/windowed, with zero failures.
-  - [ ] Wire the terminal adapter call into SE's controller and confirm repeated terminal notifications preserve one published report and baseline.
+  - [x] Verify the candidate terminal evaluation/publication path and duplicate publication in the SE/KE3 integration checkout at 14c0f97, with implementation b23de72.
+  - [x] Review SE's supplied controller handoff and cached base d60d224. Record its older KE2 f313e6f dependency, local uncommitted status, reported test coverage, different Results surface, and missing source/log packet.
+  - [x] Prepare the current KE2 offline source/trace handoff for SE and add a canonical input error for unsupported Survey scoring through both public entry points.
   - [x] Review actual/target values, completion ratios, status, score, source labels, and same-run event references in KE3's recorded Results preview against the matching report.
   - [x] Review owner preview evidence for exact contract-error fixtures, synthetic null abort scores, empty causes, missing-event fallback, and absent comparison.
-  - [ ] Verify the presentation-state mapping `event_log` -> `state.events`, scoped credit context, and error routing through SE's integrated controller.
-  - [ ] Verify a retry starts a new run and New Mission clears the old baseline.
-  - [ ] Verify reopening Results or navigating back preserves the intended run history with SE's integrated controller.
+  - [x] Verify the candidate presentation receives the complete ordered history, scoped readiness credit, and structured Survey error through the integrated Results route.
+  - [x] Verify candidate Retry starts a new run, resets the event sequence, and retains its completed baseline; verify New Mission resets baseline/history through the catalog reset entry point.
+  - [x] Verify reopening candidate Results preserves run history through the actual scene route.
+  - [ ] Complete manual acceptance of navigation, lifecycle controls, original partial/abort packets, and credits on the selected release revision.
 
 Completion evidence: real config, run ID, terminal trace, report, and displayed values agree. Route changes in another owner's files to that owner with the requested call/binding and verification steps.
 
@@ -211,7 +216,31 @@ Coordination review, 14 November 2026. The latest supplied bundle records KE1 `5
 
 KE3 reply reviewed, 14 November 2026. `data/ke3-results-verification/SOURCE_SHA256.json` has SHA256 `e1f86bc937c5b0dc87f0a33a07e60e1395156c593cc0a00940ab59fe421b1256`, and all 64 named file hashes match. All 16 named original-input hashes and the returned archive/report/metadata identities match. Reviewed owner logs reporting 63 headless/67 windowed focused checks, 24 headless/29 windowed additional checks, zero failures, and 14 zero-exit command records. Four supplied screenshots show the report, scoped credits, missing evidence, and synthetic aborted/null-score display. KE3's local reopening and synthetic Retry regressions are recorded in the packet. Its source changes remain uncommitted and are identified by the manifest. KE2 reviewed these artifacts without a new UI test execution. Updated the source ledger, consumer handoff, KE3 acknowledgement, and SE request. The remaining SE request includes a confirmed integration revision and the full-history projection from HPC `event_log` to presentation `state.events`. Controller-driven lifecycle/error routing, B02, official B10, source-link opening, and exports remain pending. [Consumer review](ke2/integration-handoff.md#reviewed-ke3-results-preview).
 
+SE reply reviewed, 14 November 2026. The supplied `SE_KE2_CONTROLLER_HANDOFF.md` reports uncommitted changes based on cached SE `d60d224` using KE2 `f313e6f`. It identifies `on_terminal_state`, `mission_results.publish/baseline_for`, retry/abort/New Mission, and prototype Results methods, with local headless test claims. Its current source, raw logs, and `controller-reference-reproduction.json` were absent from this message. The cached base was inspected, including the Survey target/delivery extension and its earlier `init_run` API. Latest controller behavior remains owner-reported pending a source/evidence snapshot and KE3 integration.
+
+- [x] Add explicit Survey input-error regression coverage through both evaluator APIs. Current v1 evaluation returns `INVALID_EVALUATION_INPUT` at `config.mission.objective` for Survey until its per-target scoring extension is agreed.
+- [x] Verify Godot 4.7.2, 167 standalone checks, 207 pinned combined checks, and exact original validated-report reproduction through both APIs with input preservation. Every final command exited 0, with the known certificate-store diagnostic recorded.
+- [x] Supply `--ke2-standalone` for testing current KE2 modules with producer revisions that lack the pinned runtime test's `init_validated_run` extension.
+- [x] Prepare and check the offline `docs/handoffs/ke2-se-controller-v0.1.zip`, with 56 hashed payload files, current source, full original input bundle/report, standalone verification project, and KE3 reference ZIP. ZIP SHA256 is `d179c318d2058519b6df47258a364b98ec6a387c3b80c92e7f820e2643949aa7`. The packaged project passes its 167-check runner and original-trace verifier. Package Git-base metadata is aligned to current checkout `79e249b`; the retained report preserves its earlier `8c3ed81` generator provenance.
+- [x] Update the SE reply with the current package, source-revision distinction, canonical Survey error, original-trace check, Results binding/history mapping, and required source/log/Survey examples. [Offline handoff](handoffs/ke2-se-controller-v0.1/README.md).
+
+HPC abort reply reviewed and executed, 14 November 2026. Input SHA256 matches `4283f1dc663736b46462cbbb452f5fd1c5ab91cf0caa892c3e7c21f55c60697b`. Cached source `3990d3c7aae3b69dcf367d9f0601fc40fd669262` is a descendant of `9dfd942`. Preserved the original local/uncommitted payload and generated a matching report for `run_hpc_ke2_abort_3990d3c_01`, mission `mission_hpc_ke2_abort_01`. It returns failed/aborted with null score, step 8/60, one capture, 7.7333333328 MB returned, 4.2666666672 MB stored, and its recorded operator reason. Event history includes the prior no-contact block `evt_008` and abort `evt_009`.
+
+Godot `4.7.2.stable.mono.official.ed1daf0bf` passed 71 checks, zero failed, exit 0. Verification loaded 13 byte-identical pinned producer/dependency files, recomputed actual readiness, replayed all nine recorded requests and the abort, compared response states/events with tolerance 1e-9, and checked the complete report, both APIs, deterministic output, and input preservation. A too-strict replay explanation-string comparison was corrected for JSON/native number formatting before the passing run. The replay explanation separately confirms the operator reason. The known certificate-store diagnostic was recorded. Full HPC regression counts remain attributed to the owner. SE/KE3 integrated display/lifecycle, B02, official B10, Survey, and exports remain pending. [Abort handoff and verification](handoffs/ke2-hpc-abort-v0.1/README.md).
+
+Status and prompt-readiness review, 14 November 2026. The newer isolated checkout `tmp/se-ke2-integration` is at `14c0f97`, with integration implementation `b23de72` on SE candidate `d60d224`. Its evaluator, feedback, and KE2 runner are byte-identical to the current KE2 working files. Independently reran Godot `4.7.2.stable.mono.official.ed1daf0bf`, the candidate Results suite (57 passed, zero failed), and the standalone evaluator (167 passed, zero failed, five pending labels). Both test commands exited 0. Logs are `tmp/ke2-status-results-integration.log` and `tmp/ke2-status-evaluator.log`. The Windows certificate-store diagnostic remains present. The packet evaluates `run_001` / `mission_local` as success/100, 4/4 observations and 48/30 MB returned. These candidate checks supersede the earlier missing-controller-evidence status for the covered paths. The root `memberKE2` checkout remains at `79e249b` with local changes, and the candidate has its own revision. Optional comparison, manual Observe/Transmit/Power Save wiring, Survey scoring, exact Builder boundaries, official B10 and exports remain pending.
+
+- [x] Reconcile prompt readiness against the latest candidate source and rerun its Results/evaluator suites. Prompt 8 now has candidate integration evidence. Prompt 10 can proceed as a focused stability review. Prompt 9 remains optional P1 work and uses `comparison: null` for absent/ineligible baselines under v1.0.
+
 ## 8. Optional P1 retry comparison
+
+The separate SE Survey extension also needs coordination. Its aggregate goals and per-target fully delivered observations require agreed verdict/score/report examples. The current evaluator returns `INVALID_EVALUATION_INPUT` for explicit Survey requests. Imaging integration can use the supplied offline package.
+
+- [ ] Agree and implement the Survey scoring extension with KE1/HPC/SE/KE3.
+  - [x] Inspect SE d60d224's documented target_regions and per-target delivered/data/capture fields.
+  - [ ] Obtain versioned Survey config/state/events and expected verdict/score examples.
+  - [ ] Align scoring weights, delivery semantics, report fields, and consumer displays.
+  - [ ] Implement and verify the agreed Survey extension in KE2-owned code.
 
 - [ ] Implement `scripts/evaluation/mission_comparison.gd` or keep comparison within the evaluator once the core loop is stable.
   - [ ] Compare immutable previous/current reports and their scenario, target, duration, design, and action metadata.
@@ -258,6 +287,6 @@ Update this table as owners provide decisions or samples. A pending producer map
 | --- | --- | --- |
 | Final KE2 error/feedback fields and examples | KE1 + KE2 + HPC + KE3 | Implemented and tested with real pinned modules; native terminal_reason mapping verified; space/ground segments used |
 | Shared contract and reference synchronization | KE1 | Complete in this checkout |
-| Scenario IDs, units, step/energy/abort rules, and real trace | HPC + KE1 | Real readiness-approved completion/block/abort and v0.2 trace verified at b9817c3; combined KE2 runner 205 passed, producer suite 31 passed; controller/UI lifecycle pending |
-| Controller migration and report/retry calls | SE + HPC + KE3 + KE2 | Responsibilities and API agreed; actual call sites and runtime integration pending |
-| Results/credits display and export verification | KE3 + SE + KE2 | KE3 manifest-pinned recorded preview reviewed, 63/67 focused and 24/29 edge checks recorded passing; integrated controller revision/lifecycle and exports pending |
+| Scenario IDs, units, step/energy/abort rules, and real trace | HPC + KE1 | Pinned completed/block/abort checks passed; current combined runner 207 passed and HPC 3990d3c abort replay 71 passed; selected-release manual-action integration pending |
+| Controller migration and report/retry calls | SE + HPC + KE3 + KE2 | Candidate 14c0f97/b23de72 independently passes 57 Results/lifecycle checks and 167 evaluator checks; selected-release merge and manual acceptance pending |
+| Results/credits display and export verification | KE3 + SE + KE2 | KE3 preview evidence reviewed and candidate actual scene binding/history/credit/error routing verified headlessly; original partial/abort packet release-path checks, manual controls and exports pending |

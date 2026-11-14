@@ -1,0 +1,454 @@
+{
+    "metadata_schema_version":  1,
+    "handoff_revision":  "se-d60d224-b04-b08-v0.1",
+    "case_id":  "low_eq_3orbits",
+    "run_id":  "run_001",
+    "mission_id":  "mission_local",
+    "execution_key":  "795a08a5a33218703c9153d68f26fe4dd01a7bbf85e9938577b48456c0268912",
+    "identity_scope":  "Case ID and original input SHA256 hashes identify this execution. Both independent packets retain run_001 / mission_local.",
+    "producer_commit_sha":  "d60d2242d72fda0e933cc99524c113e9ca0594d9",
+    "evaluator":  {
+                      "repository":  "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect",
+                      "branch":  "integration/ke2-se-results-d60d224",
+                      "commit_sha":  "b23de72dc251ee7cc1d4e3662aa0a8b3de0cfb6e",
+                      "file_path":  "scripts/evaluation/mission_evaluator.gd",
+                      "feedback_path":  "scripts/evaluation/mission_feedback.gd",
+                      "evaluated_checkout_sha":  "14c0f973c140e9644650e94e769b6b1b3dfb3951",
+                      "invocation":  "MissionEvaluator.evaluate_mission(config, final_state, events)"
+                  },
+    "report_file":  "evaluation-low_eq_3orbits.json",
+    "report_sha256":  "171f3e8667db5354d4cdbc9091ca18a4106a4929e944a473fd5f0ff8fd1499a6",
+    "input_sha256":  {
+                         "config.json":  "6de1d49359a977583f40f6509a8e5dc8ce5b3045dbf4fb60040792e1cf98425e",
+                         "final-state.json":  "3451b289b412716453f07922599883b70fb93cbdc219d80c0a772c59a6edb8bc",
+                         "events.json":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                         "readiness.json":  "289d63905603ac36d892c177aff5fe5878f808c2e8e5e1ff49f05d0562bf5361"
+                     },
+    "manifest_file":  "source-manifest.json",
+    "manifest_sha256":  "3d849f3f30d25750c5efbfa95debda1038749a9114e93452be17c934b289f2d2",
+    "all_ten_packet_hashes_verified":  true,
+    "root_cause_evidence_event_ids":  [
+
+                                      ],
+    "causal_scope":  "The supplied history contains accepted actions and natural completion. No recorded blocked-action event establishes a shortfall cause. The evaluator returns its neutral explanation and empty root_causes.",
+    "capture_evidence_event_ids":  [
+                                       "evt_002",
+                                       "evt_005",
+                                       "evt_012",
+                                       "evt_015"
+                                   ],
+    "returned_data_evidence_event_ids":  [
+                                             "evt_008",
+                                             "evt_018",
+                                             "evt_028"
+                                         ],
+    "completion_evidence_event_ids":  [
+                                          "evt_030"
+                                      ],
+    "supporting_event_links":  [
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/2",
+                                       "event_id":  "evt_002",
+                                       "event":  {
+                                                     "action":  "observe",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  12.0,
+                                                     "data_transmitted_mb":  0.0,
+                                                     "delta_energy_wh":  -0.461666666699998,
+                                                     "delta_observations":  1,
+                                                     "delta_returned_data_mb":  0.0,
+                                                     "delta_stored_data_mb":  12.0,
+                                                     "energy_change_wh":  -0.461666666699998,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.9233333334,
+                                                     "energy_generated_wh":  0.4616666667,
+                                                     "event_id":  "evt_002",
+                                                     "message":  "Observation captured; 12.000 MB stored.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  1,
+                                                     "returned_data_mb":  0.0,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  2,
+                                                     "stored_data_mb":  12.0,
+                                                     "target_id":  "equator",
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/5",
+                                       "event_id":  "evt_005",
+                                       "event":  {
+                                                     "action":  "observe",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  12.0,
+                                                     "data_transmitted_mb":  0.0,
+                                                     "delta_energy_wh":  -0.461666666699998,
+                                                     "delta_observations":  1,
+                                                     "delta_returned_data_mb":  0.0,
+                                                     "delta_stored_data_mb":  12.0,
+                                                     "energy_change_wh":  -0.461666666699998,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.9233333334,
+                                                     "energy_generated_wh":  0.4616666667,
+                                                     "event_id":  "evt_005",
+                                                     "message":  "Observation captured; 12.000 MB stored.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  2,
+                                                     "returned_data_mb":  0.0,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  5,
+                                                     "stored_data_mb":  24.0,
+                                                     "target_id":  "equator",
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/8",
+                                       "event_id":  "evt_008",
+                                       "event":  {
+                                                     "action":  "transmit",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  0.0,
+                                                     "data_transmitted_mb":  7.3866666672,
+                                                     "delta_energy_wh":  -0.769444444499999,
+                                                     "delta_observations":  0,
+                                                     "delta_returned_data_mb":  7.3866666672,
+                                                     "delta_stored_data_mb":  -7.3866666672,
+                                                     "energy_change_wh":  -0.769444444499999,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.7694444445,
+                                                     "energy_generated_wh":  0.0,
+                                                     "event_id":  "evt_008",
+                                                     "message":  "Ground station received 7.387 MB.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  2,
+                                                     "returned_data_mb":  7.3866666672,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  8,
+                                                     "stored_data_mb":  16.6133333328,
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/12",
+                                       "event_id":  "evt_012",
+                                       "event":  {
+                                                     "action":  "observe",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  12.0,
+                                                     "data_transmitted_mb":  0.0,
+                                                     "delta_energy_wh":  -0.461666666699998,
+                                                     "delta_observations":  1,
+                                                     "delta_returned_data_mb":  0.0,
+                                                     "delta_stored_data_mb":  12.0,
+                                                     "energy_change_wh":  -0.461666666699998,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.9233333334,
+                                                     "energy_generated_wh":  0.4616666667,
+                                                     "event_id":  "evt_012",
+                                                     "message":  "Observation captured; 12.000 MB stored.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  3,
+                                                     "returned_data_mb":  7.3866666672,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  12,
+                                                     "stored_data_mb":  28.6133333328,
+                                                     "target_id":  "equator",
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/15",
+                                       "event_id":  "evt_015",
+                                       "event":  {
+                                                     "action":  "observe",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  12.0,
+                                                     "data_transmitted_mb":  0.0,
+                                                     "delta_energy_wh":  -0.461666666699998,
+                                                     "delta_observations":  1,
+                                                     "delta_returned_data_mb":  0.0,
+                                                     "delta_stored_data_mb":  12.0,
+                                                     "energy_change_wh":  -0.461666666699998,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.9233333334,
+                                                     "energy_generated_wh":  0.4616666667,
+                                                     "event_id":  "evt_015",
+                                                     "message":  "Observation captured; 12.000 MB stored.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  4,
+                                                     "returned_data_mb":  7.3866666672,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  15,
+                                                     "stored_data_mb":  40.6133333328,
+                                                     "target_id":  "equator",
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/18",
+                                       "event_id":  "evt_018",
+                                       "event":  {
+                                                     "action":  "transmit",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  0.0,
+                                                     "data_transmitted_mb":  7.3866666672,
+                                                     "delta_energy_wh":  -0.769444444499999,
+                                                     "delta_observations":  0,
+                                                     "delta_returned_data_mb":  7.3866666672,
+                                                     "delta_stored_data_mb":  -7.3866666672,
+                                                     "energy_change_wh":  -0.769444444499999,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.7694444445,
+                                                     "energy_generated_wh":  0.0,
+                                                     "event_id":  "evt_018",
+                                                     "message":  "Ground station received 7.387 MB.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  4,
+                                                     "returned_data_mb":  14.7733333344,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  18,
+                                                     "stored_data_mb":  33.2266666656,
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/28",
+                                       "event_id":  "evt_028",
+                                       "event":  {
+                                                     "action":  "transmit",
+                                                     "code":  "ACTION_ACCEPTED",
+                                                     "data_added_mb":  0.0,
+                                                     "data_transmitted_mb":  7.3866666672,
+                                                     "delta_energy_wh":  -0.769444444499999,
+                                                     "delta_observations":  0,
+                                                     "delta_returned_data_mb":  7.3866666672,
+                                                     "delta_stored_data_mb":  -7.3866666672,
+                                                     "energy_change_wh":  -0.769444444499999,
+                                                     "energy_clamped":  false,
+                                                     "energy_consumed_wh":  0.7694444445,
+                                                     "energy_generated_wh":  0.0,
+                                                     "event_id":  "evt_028",
+                                                     "message":  "Ground station received 7.387 MB.",
+                                                     "mission_id":  "mission_local",
+                                                     "observations_completed":  4,
+                                                     "returned_data_mb":  22.1600000016,
+                                                     "run_id":  "run_001",
+                                                     "step_index":  28,
+                                                     "stored_data_mb":  25.8399999984,
+                                                     "type":  "action_accepted"
+                                                 }
+                                   },
+                                   {
+                                       "case_id":  "low_eq_3orbits",
+                                       "packet_file":  "events.json",
+                                       "packet_file_sha256":  "fc6e9e652bd253b20413860f4ddcdde17c5f3cfe46a3daa9e62fc336daae63af",
+                                       "json_pointer":  "/30",
+                                       "event_id":  "evt_030",
+                                       "event":  {
+                                                     "action":  "",
+                                                     "code":  "MISSION_FINISHED",
+                                                     "delta_energy_wh":  0.0,
+                                                     "delta_observations":  0,
+                                                     "delta_returned_data_mb":  0.0,
+                                                     "delta_stored_data_mb":  0.0,
+                                                     "event_id":  "evt_030",
+                                                     "message":  "The final mission step is complete.",
+                                                     "mission_id":  "mission_local",
+                                                     "run_id":  "run_001",
+                                                     "step_index":  30,
+                                                     "type":  "mission_finished"
+                                                 }
+                                   }
+                               ],
+    "actual_accounting":  {
+                              "captured_from_event_deltas":  4,
+                              "generated_data_mb_from_event_deltas":  48.0000000000,
+                              "returned_data_mb_from_event_deltas":  22.1600000016,
+                              "terminal_stored_data_mb":  25.8399999984
+                          },
+    "source_credit_metadata":  {
+                                   "report_source_ids":  [
+
+                                                         ],
+                                   "resolved_report_sources":  [
+
+                                                               ],
+                                   "unresolved_report_source_ids":  [
+
+                                                                    ],
+                                   "applicable_source_credits":  [
+                                                                     {
+                                                                         "actual_use":  "Recorded KE1 mass check: 1060.0 g \u003c 1330.0 g, profile cubesat_1u_sample.",
+                                                                         "alternate_url":  "https://www.nasa.gov/wp-content/uploads/2017/03/nasa_csli_CubeSat_101_508.pdf",
+                                                                         "applicable_profile":  {
+                                                                                                    "label":  "OrbitBridge sample 1U educational profile",
+                                                                                                    "profile_id":  "cubesat_1u_sample",
+                                                                                                    "scope":  "Apply only to this selected educational profile. Other profiles use their own rules. This historical example is not a universal satellite mass limit or flight certification."
+                                                                                                },
+                                                                         "attribution_text":  "NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge\u0027s sample 1U educational profile: modeled spacecraft mass \u003c 1.33 kg (\u003c 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.",
+                                                                         "credit_scope":  "readiness",
+                                                                         "criterion":  {
+                                                                                           "boundary_expectations":  [
+                                                                                                                         {
+                                                                                                                             "mass_check_passed":  true,
+                                                                                                                             "mass_g":  1329.0
+                                                                                                                         },
+                                                                                                                         {
+                                                                                                                             "mass_check_passed":  false,
+                                                                                                                             "mass_g":  1330.0
+                                                                                                                         },
+                                                                                                                         {
+                                                                                                                             "mass_check_passed":  false,
+                                                                                                                             "mass_g":  1331.0
+                                                                                                                         }
+                                                                                                                     ],
+                                                                                           "boundary_verification_scope":  "KE1 recorded actual validator boundary tests at commit 55d4f33. Independent KE2 execution and Builder cases T11/T12 remain pending. Passing this mass check does not establish overall launch readiness.",
+                                                                                           "conversion":  "1 kg = 1000 g; preserve the strict comparator.",
+                                                                                           "conversion_factor":  1000.0,
+                                                                                           "converted":  {
+                                                                                                             "comparator":  "\u003c",
+                                                                                                             "unit":  "g",
+                                                                                                             "value":  1330.0
+                                                                                                         },
+                                                                                           "input_representation":  "integer grams",
+                                                                                           "original":  {
+                                                                                                            "comparator":  "\u003c",
+                                                                                                            "unit":  "kg",
+                                                                                                            "value":  1.33
+                                                                                                        },
+                                                                                           "quantity":  "total modeled spacecraft mass",
+                                                                                           "source_text":  "Mass (\u003c 1.33 kg)"
+                                                                                       },
+                                                                         "document_revision":  "October 2017",
+                                                                         "implementation":  {
+                                                                                                "builder_display":  {
+                                                                                                                        "owner":  "SE",
+                                                                                                                        "required_display":  "Actual total mass in g, strict \u003c 1330 g threshold, mass-check result, sample-profile label, and source credit.",
+                                                                                                                        "status":  "pending_owner_handoff",
+                                                                                                                        "verified_path":  null
+                                                                                                                    },
+                                                                                                "contract_examples":  [
+                                                                                                                          "res://docs/contracts/v1-draft/validation-ready.example.json",
+                                                                                                                          "res://docs/contracts/v1-draft/validation-overmass.example.json"
+                                                                                                                      ],
+                                                                                                "credits_display":  {
+                                                                                                                        "binding":  "set_inputs(context, state, report)",
+                                                                                                                        "owner":  "KE3",
+                                                                                                                        "source_context":  "res://data/ke3-results-verification/preview-source/ke3/debrief_screen.gd",
+                                                                                                                        "status":  "verified_in_owner_recorded_preview",
+                                                                                                                        "verified_path":  "res://ke3/debrief_screen.gd"
+                                                                                                                    },
+                                                                                                "example_note":  "Examples establish the agreed source/profile IDs and expected fields; they are not executed validator evidence.",
+                                                                                                "profile_catalog":  {
+                                                                                                                        "intended_path":  "res://data/launch_profiles.json",
+                                                                                                                        "owner":  "KE1",
+                                                                                                                        "path_present_in_checkout":  false,
+                                                                                                                        "source_commit":  "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+                                                                                                                        "status":  "owner_handoff_reviewed"
+                                                                                                                    },
+                                                                                                "validator":  {
+                                                                                                                  "intended_path":  "res://scripts/core/mission_validator.gd",
+                                                                                                                  "owner":  "KE1",
+                                                                                                                  "path_present_in_checkout":  false,
+                                                                                                                  "source_commit":  "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+                                                                                                                  "status":  "owner_handoff_reviewed",
+                                                                                                                  "verified_entry_point":  "MissionValidator.validate(config, catalogs)"
+                                                                                                              }
+                                                                                            },
+                                                                         "local_reference":  "res://docs/references/NASA_CubeSat_101.pdf",
+                                                                         "local_reference_sha256":  "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592",
+                                                                         "locator":  {
+                                                                                         "appendix":  "C - Templates",
+                                                                                         "checklist_revision_date":  "2014-02-20",
+                                                                                         "item":  6.0,
+                                                                                         "locator_note":  "Item 6 is within Appendix C; Appendix 6 is not the document\u0027s appendix identifier.",
+                                                                                         "pdf_page":  87.0,
+                                                                                         "pdf_page_index":  86.0,
+                                                                                         "pdf_total_pages":  96.0,
+                                                                                         "printed_page":  79.0,
+                                                                                         "section":  "CubeSat Acceptance Checklists",
+                                                                                         "subsection":  "1U CubeSat Acceptance Checklist"
+                                                                                     },
+                                                                         "nasa_organization":  "NASA CubeSat Launch Initiative (CSLI)",
+                                                                         "source_id":  "cubesat_101_1u_sample",
+                                                                         "title":  "CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers",
+                                                                         "url":  "https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf",
+                                                                         "use_status":  "documented_rule_awaiting_gameplay_verification",
+                                                                         "verification":  {
+                                                                                              "access_note":  "The primary science.nasa.gov URL opened successfully during this review; docs/sources.md records an earlier timeout.",
+                                                                                              "export_status":  "not_verified",
+                                                                                              "gameplay_status":  "not_verified",
+                                                                                              "method":  "Opened both official NASA PDFs, checked the table of contents and checklist text, and visually inspected the complete local PDF page 87.",
+                                                                                              "pending_evidence":  "Independent KE2 boundary-suite rerun, SE Builder/profile-switch/Launch checks, integrated Results lifecycle, and source-credit display/link access in the selected export.",
+                                                                                              "report_linkage_status":  "not_integrated",
+                                                                                              "rule_conversion_status":  "verified",
+                                                                                              "scoped_credit_metadata_status":  "verified_in_owner_recorded_preview",
+                                                                                              "source_status":  "verified",
+                                                                                              "validator_evidence":  {
+                                                                                                                         "alternate_profile_scope":  "illustrative_alternative uses \u003c= 5000 g, source_id null, and assumption_id illustrative_small_sat_mass_limit_v1.",
+                                                                                                                         "case_count":  15.0,
+                                                                                                                         "case_manifest":  "tests/fixtures/ke1_readiness_cases.json",
+                                                                                                                         "catalog_loader":  "OrbitBridgeCatalogLoader.load_catalogs(base_path = res://data)",
+                                                                                                                         "owner":  "KE1",
+                                                                                                                         "owner_reported_exit_code":  0.0,
+                                                                                                                         "recorded_checks_failed":  0.0,
+                                                                                                                         "recorded_checks_passed":  470.0,
+                                                                                                                         "recorded_log":  "docs/handoff/validation-test-log.txt",
+                                                                                                                         "review_scope":  "KE2 inspected the pinned validator, case manifest, test runner, and recorded log. An independent KE2 boundary-suite rerun remains pending.",
+                                                                                                                         "reviewed_cases":  [
+                                                                                                                                                "strict_boundary_1329g",
+                                                                                                                                                "strict_boundary_1330g",
+                                                                                                                                                "strict_boundary_1331g",
+                                                                                                                                                "alternative_1380g",
+                                                                                                                                                "alternative_boundary_5000g",
+                                                                                                                                                "alternative_boundary_5001g"
+                                                                                                                                            ],
+                                                                                                                         "runner":  "tests/validation/test_mission_fixtures.gd",
+                                                                                                                         "source_commit":  "55d4f336e72a68ff31cf37e44f65a98c1cdcc193"
+                                                                                                                     },
+                                                                                              "validator_status":  "owner_test_evidence_reviewed",
+                                                                                              "verified_on":  "2026-11-14",
+                                                                                              "visible_credit_status":  "verified_in_owner_recorded_preview"
+                                                                                          }
+                                                                     }
+                                                                 ],
+                                   "source_ledger_path":  "data/nasa_sources.json",
+                                   "source_ledger_commit_sha":  "b23de72dc251ee7cc1d4e3662aa0a8b3de0cfb6e",
+                                   "source_ledger_sha256":  "a9cd8c568bf89775fc91a1cba871ca108938c90d667c7d348b9c43431e3dfd71",
+                                   "scope_note":  "The recorded passing mass check supplies the readiness-scoped CubeSat 101 credit. This report emits no mission-segment cause. Existing source verification records are carried forward from the committed ledger."
+                               },
+    "verification":  {
+                         "engine_version":  "4.7.2.stable.mono.official.ed1daf0bf",
+                         "per_case_checks_passed":  19,
+                         "per_case_checks_failed":  0,
+                         "shared_same_id_isolation_check_passed":  true,
+                         "combined_checks_passed":  39,
+                         "combined_checks_failed":  0,
+                         "command_exit_code":  0,
+                         "scope":  "Supplied SE packets evaluated through both public evaluator APIs and the existing integration adapter. Inputs, complete histories, exact raw counters, deterministic output, and independent case identities verified.",
+                         "environment_note":  "Godot emitted Failed to read the root certificate store; all local-input checks passed and execution exited 0.",
+                         "ui_and_export":  "No new UI/export execution for this report-only task."
+                     }
+}

@@ -56,6 +56,8 @@ Natural completion requires `step_index == total_steps`. An aborted state may te
 
 Whole-valued JSON numbers such as `3.0` are accepted for count fields. Strings, booleans, fractional counts, invalid ranges, negative actuals, and nonfinite numbers produce input errors. The GDScript signature requires dictionaries and an array at the call boundary. The evaluator checks the fields it consumes, while KE1 and HPC retain their schema, catalog, and simulation responsibilities.
 
+The SE scenario extension adds Survey per-target delivery goals. An explicit `objective: survey` currently returns `INVALID_EVALUATION_INPUT` at `config.mission.objective` through either evaluator entry point. Survey delivery weighting, verdict rules, and report fields await coordinated examples and agreement. Imaging evaluation retains its aggregate rules.
+
 ## Scoring
 
 ```text

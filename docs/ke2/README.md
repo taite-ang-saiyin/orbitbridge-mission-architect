@@ -14,20 +14,24 @@ KE2 owns mission evaluation, scoring, evidence-based explanations, corrective ex
 | [Testing](testing.md) | Headless commands, recorded results, acceptance cases, and pending integration checks |
 | [NASA sources and credits](nasa-sources.md) | Human-readable source records, strict sample mass criterion, attribution, and verification status |
 | [Member replies and requests](team-requests.md) | Copy-ready SE, KE3, KE1, and HPC messages with required handoff evidence |
+| [Offline SE controller handoff](../handoffs/ke2-se-controller-v0.1/README.md) | Current source/trace package, working-tree hashes, Survey guard, and standalone verification |
+| [Actual operator-abort handoff](../handoffs/ke2-hpc-abort-v0.1/README.md) | Verified input, report, 71 current-evaluator/pinned-replay checks, and SE/KE3 consumption |
 | [KE2 checklist](../ke2-todo.md) | Completed work, subtasks, dependencies, and remaining acceptance work |
 
 ## Implementation status
 
 | Area | Available evidence | Remaining work |
 | --- | --- | --- |
-| Evaluator | Scene-independent module, deterministic scoring, validation, abort handling | Integrated controller invocation |
-| Feedback | Four recognized blocked-action codes, event references, corrective templates, neutral fallback, verified `terminal_reason` mapping, reviewed KE3 preview display | SE-integrated Results lifecycle |
-| Automated checks | 165 standalone checks and 205 combined checks pass | Five pending comparison/readiness/UI lifecycle groups |
-| HPC integration | Native-state adapter, actual readiness-approved engine run, blocked event, operator abort, and committed-trace checks | SE controller publication and KE3 lifecycle integration |
-| NASA documentation | JSON ledger, source verification, conversion, KE1 recorded boundary evidence, KE3 scoped-credit preview | Independent boundary rerun, Builder checks, integrated/export credits |
+| Evaluator | Scene-independent module, deterministic scoring, validation, abort handling, candidate integrated invocation | Selected-release acceptance and Survey extension agreement |
+| Feedback | Four recognized blocked-action codes, event references, corrective templates, neutral fallback, verified `terminal_reason` mapping, reviewed KE3 preview display | Original partial/abort packets through the selected-release Results route |
+| Automated checks | 167 standalone, 207 pinned combined, 71 abort replay, and 57 candidate Results/lifecycle checks pass | Comparison/readiness cases and final release acceptance; standalone runner retains five pending labels |
+| HPC integration | Native-state adapter, actual readiness-approved run/block/abort, candidate Results publication and retry/reset checks | Manual action controls and selected-release verification |
+| NASA documentation | JSON ledger, source verification, conversion, KE1 recorded boundary evidence, preview and candidate scoped-credit binding | Independent boundary rerun, Builder checks and export credits |
 | Retry comparison | Reserved baseline parameter and `comparison: null` | Optional P1 implementation and eligibility tests |
 
 The detailed verification history is in the testing document and the existing report handoff. [Testing](testing.md), [recorded HPC report](../handoffs/ke2-hpc-report-v0.1.md).
+
+The latest Results evidence belongs to the isolated candidate `tmp/se-ke2-integration` at `14c0f97`, with implementation `b23de72`. Its KE2 module/test bytes match the current root working files. The root checkout remains at `79e249b` with local changes. Prompt 8 has candidate integration evidence, Prompt 10 is ready for a focused stability review, and Prompt 9 remains optional comparison work. Manual actions, Survey scoring, official B10 and exported-build acceptance remain pending.
 
 ## Owned implementation files
 

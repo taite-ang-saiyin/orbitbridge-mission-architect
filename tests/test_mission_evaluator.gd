@@ -103,7 +103,11 @@ func _initialize() -> void:
 	_test_invalid_inputs(config, state)
 	_test_feedback(config, state)
 	_test_hpc_adapter(config, state)
-	var hpc_runtime_checked: bool = _test_hpc_runtime()
+	var hpc_runtime_checked: bool = false
+	if "--ke2-standalone" in OS.get_cmdline_user_args():
+		print("HPC runtime checks deferred by --ke2-standalone.")
+	else:
+		hpc_runtime_checked = _test_hpc_runtime()
 	for pending: String in PENDING_CASES:
 		print("PENDING " + (pending.replace("real HPC trace, ", "") if hpc_runtime_checked else pending))
 	print("Evaluator checks: %d passed, %d failed, %d pending." % [_passed, _failed, PENDING_CASES.size()])
@@ -636,6 +640,20 @@ func _test_hpc_adapter(config: Dictionary, state: Dictionary) -> void:
 	aborted["terminal_reason"] = " "
 	_check("HPC empty terminal_reason preserves legacy fallback", str(Evaluator.evaluate_hpc_state(aborted).get("report", {}).get("explanation")).contains("Older alternate metadata."), true)
 	_check_error("HPC empty state uses nullable identity", Evaluator.evaluate_hpc_state({}), "final_state.config_snapshot", null)
+	var survey: Dictionary = native.duplicate(true)
+	survey["config_snapshot"]["mission"]["objective"] = "survey"
+	survey["observations_completed"] = 3
+	survey["returned_data_mb"] = 30.0
+	survey["observations_delivered_by_target"] = {}
+	_check_error(
+		"Survey aggregate thresholds require the delivery extension", Evaluator.evaluate_hpc_state(survey),
+		"config.mission.objective", survey["run_id"]
+	)
+	_check_error(
+		"Survey guard also applies to the public evaluator",
+		Evaluator.evaluate_mission(survey["config_snapshot"], survey, survey["event_log"]),
+		"config.mission.objective", survey["run_id"]
+	)
 
 
 ## Executes unchanged HPC/KE1 modules when the integrated checkout provides them.
