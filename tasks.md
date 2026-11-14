@@ -1,6 +1,6 @@
 # KE1 tasks
 
-Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `K01`–`K11` are complete locally; the SE/HPC/KE2 package is in docs/ke1-handoff.md with verified examples, source details and 1435 passing checks. Teammate receipt is not confirmed; no push or message was made. `K12` Builder integration with SE is next. Dates and milestones below come from the team proposal; times are Asia/Rangoon. A checked item means completed with evidence, not merely planned.
+Phase: IMPLEMENTATION - v1.0-agreed remains the authority. K01-K14 including K13a are complete locally: Windows first demo confirmed by the user, 1706 source checks plus the legacy simulator suite passed, 61 standalone checks passed in headless and graphical modes. The user confirmed the Windows demo is okay by team review; individual manual case signatures were not supplied. See docs/k13a-k14-progress.md and docs/k14-team-review.md. K15 review/merge is next. No commit, push or team message was made. Times below are Asia/Rangoon; checked items have recorded evidence.
 
 ## Before kickoff
 
@@ -37,10 +37,10 @@ Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `
 
 ## Integration: Saturday afternoon and evening
 
-- [ ] K12 - Integrate Builder metrics and launch blocking with SE; swap a component and verify the displayed totals and explanation.
-- [ ] K13 - By 16:30, pass a validated config into HPC's simulation and through KE2's evaluation to the result screen.
-- [ ] K13a - At the first working slice, choose the demo format with the team and run a small export test. Leave time to fix export issues before Sunday feature freeze.
-- [ ] K14 - Run heavy-camera/small-launcher, target-change, and passing-mass-but-failing-budget scenarios with the team.
+- [x] K12 - Connected actual SE Builder/readiness screens to KE1. Button swap displays 1060 g / 82 credits -> 1380 g / 96 credits and blocks launch with the strict-limit reason. Tested stale checks, profile/budget changes and all navigation gates. See docs/k12-k13-progress.md.
+- [x] K13 - Passed validated config/scenario snapshots through unchanged HPC and KE2 code into live Operations/Debrief screens. Starter: 60 steps, 4 captures, 48 MB returned, success/100. Verified retry/abort, one report per run and New Mission reset. Eight programs exit 0, 1666 counted checks plus legacy suite. Local integration complete; teammate review/export still separate.
+- [x] K13a - User chose Windows first demo. Matching 4.7.2 Windows templates installed; standalone x86_64 release built with embedded data. App passes 40 scenario + 21 packaging checks in headless and real graphics modes, exit 0; user confirmed team demo approval. See docs/k13a-k14-progress.md.
+- [x] K14 - Heavy camera/small launcher, unsupported/restored target and passing-mass/failing-budget scenarios passed 40 screen assertions in source and exported app. Team Windows-demo acceptance confirmed by user. Individual per-case manual signatures not claimed; see docs/k14-team-review.md.
 - [ ] K15 - By 22:00, merge stable validation work and record Sunday blockers. If the loop is incomplete, use the documented reduced scope.
 
 ## Sunday: 15 November
@@ -63,15 +63,17 @@ Phase: IMPLEMENTATION - `docs/team-agreement.md` (`v1.0-agreed`) is agreed and `
 
 | Task | Status/evidence | Next action |
 | --- | --- | --- |
-| Preparation docs | Agreed contract, implementation/test notes and K11 handoff available locally | K12 Builder integration with SE |
+| Preparation docs | Agreed contract, implementation/test notes and K11 handoff available locally | K15 review/merge |
 | Codex instructions | Root files read in this session; user confirms assistant checks successful | Complete |
 | Antigravity | User confirms assistant checks successful | Complete |
-| Exact editor version | User confirmed 4.7.2; docs updated | Match export templates and teammate versions |
-| Repository/project shell | Existing team project cloned; main branch; engine settings preserved; 09:00 kickoff confirmed by user | Confirm delivery target with SE |
-| Tool setup | Editor extracted; official checksum matches; direct version check passed; 4.7.2 confirmed | Graphical check and matching export templates |
+| Exact editor version | User confirmed 4.7.2; docs updated | Windows templates match 4.7.2; keep teammate versions aligned |
+| Repository/project shell | Existing team project cloned; main branch; engine settings preserved; 09:00 kickoff confirmed by user | Windows first demo confirmed; local export tested |
+| Tool setup | Editor extracted; official checksum matches; direct version check passed; 4.7.2 confirmed | Complete: graphics, Windows templates and export verified |
 | Primary mass source | Verified locally and visually: printed p.79 / PDF p.87 | KE2 confirms challenge-tab listing and exported credit |
 | K01-K04 | Complete per v1.0-agreed; supporting contract and examples verified | SE handles renderer branch sync |
 | K05-K06 | COMPLETE: fields/lookup and actual catalogs; updated regression suite passes 294 checks | Retained and integrated into completed readiness |
 | K07-K10 | COMPLETE: totals/readiness/source fields and saved examples; 671 readiness + 470 fixture checks passed | Covered by K11 handoff |
-| K11 | COMPLETE locally: docs/ke1-handoff.md, three real results, test logs, source credit and file hashes; guide example verified | Share through team workflow; receipt unconfirmed; K12 with SE |
-| Game code / tests / scenes | Complete KE1 readiness validation implemented; HPC orbit data imported unchanged; three suites pass 1435 checks total | K12 screen integration; runtime operations/screens not merged |
+| K11 | COMPLETE locally: docs/ke1-handoff.md, three real results, test logs, source credit and file hashes; guide example verified | Share through team workflow; receipt unconfirmed; integrated locally in K12/K13 |
+| K12/K13 | COMPLETE locally: real Builder/readiness and HPC -> KE2 -> Debrief; 32 flow + 30 screen checks; six rendered screen states reviewed | Windows demo accepted in K13a/K14; optional comparison remains pending |
+| K13a/K14 | COMPLETE locally: Windows export and 40 scenario/21 package checks; source 1706 plus legacy suite; team demo approval reported by user | K15 review/merge; no commit or push |
+| Game code / tests / scenes | Local integrated Windows demo passes all nine source programs and standalone checks; owner calculation code preserved | Optional comparison/browser work remains separate |

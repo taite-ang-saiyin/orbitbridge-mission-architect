@@ -4,7 +4,7 @@ An educational satellite mission simulator planned for Godot 4. Design spacecraf
 
 ## Project status
 
-Team agreement v1.0-agreed is approved by all five roles. K01-K11 are complete locally: KE1 now checks mission fields, loads actual training catalogs, calculates design totals and returns full launch readiness with source-linked mass results. HPC's orbit data was imported unchanged. Godot 4.7.2 passed 1435 checks across three suites, including 15 saved passing/failing examples. The local [KE1 handoff](docs/ke1-handoff.md) includes usage, real results, source credit and evidence; teammate receipt is not confirmed. Screens, operations and the full playable loop still need team integration.
+Team agreement v1.0-agreed is approved by all five roles. K01-K14, including K13a, are complete locally. The user confirmed Windows for the first demo and reported team demo approval. The standalone app passes 61 checks in headless and graphical modes; source suites pass 1706 counted checks plus the legacy simulator suite. Creator → Builder → Readiness → real HPC Operations → KE2 Debrief is working. See [Windows demo and acceptance evidence](docs/k13a-k14-progress.md). K15 review/merge is next. Optional comparison/browser work remains separate; no commit or push was made.
 
 ## Planned gameplay
 
@@ -12,14 +12,14 @@ Team agreement v1.0-agreed is approved by all five roles. K01-K11 are complete l
 2. Build a satellite by selecting its instrument, bus, battery, solar panels, storage, and radio, plus a launcher, orbit, and operations policy.
 3. Review readiness checks for cost, mass, power, compatibility, and coverage risks.
 4. Run the mission and track energy, observations, storage, and data returned to Earth.
-5. Compare two runs to understand how a design change affects mission results.
+5. Review run history and retry. Controlled A/B comparison is a future optional feature.
 
 ## Technology
 
 - Engine: Godot 4.7.2 (team version confirmed by the user)
 - Language: GDScript
 - Data: Versioned local JSON catalogs and fixtures
-- Delivery: final demo format pending; existing project setup targets Windows
+- Delivery: first demo is Windows x86_64, with embedded game data; user-confirmed and tested
 
 ## Learning focus
 
@@ -34,13 +34,13 @@ The proposed MVP uses fictional components, preset circular Earth orbits, and a 
 
 ## Getting started
 
-Import the existing project.godot from this repository into Godot 4.7.2. The existing project shell and KE1 field/catalog checks are present; the full gameplay loop and scenes are not integrated yet.
+Import the existing project.godot from this repository into Godot 4.7.2. Godot imports SE's assets and opens the integrated Home/Creator/Builder/Readiness/Operations/Debrief flow. The project uses the imported SE Compatibility-renderer settings.
 
 Open this repository root in Codex or Antigravity. Both assistants use the shared root guidance; take turns when editing the same files.
 
 ## KE1 implementation status
 
-Status: IMPLEMENTATION. [docs/team-agreement.md](docs/team-agreement.md) (`v1.0-agreed`) is agreed by all five roles and contract v1 is frozen; `K01`–`K11` are complete locally, including the prepared team handoff; `K12` Builder integration with SE is next.
+Status: IMPLEMENTATION. [docs/team-agreement.md](docs/team-agreement.md) (`v1.0-agreed`) is agreed by all five roles and contract v1 is frozen; `K01`–`K14`, including `K13a`, are complete locally. Windows demo/export and acceptance checks passed; user reported team demo approval. `K15` review/merge is next.
 
 - [Shared assistant instructions](AGENTS.md) and [Antigravity entry point](GEMINI.md).
 - [KE1 tasks and acceptance criteria](tasks.md).
@@ -58,9 +58,12 @@ Status: IMPLEMENTATION. [docs/team-agreement.md](docs/team-agreement.md) (`v1.0-
 - [K07/K08 totals, readiness, HPC data and test results](docs/k07-k08-progress.md).
 - [K09/K10 verification and saved examples](docs/k09-k10-progress.md).
 - [K11 handoff for SE, HPC and KE2](docs/ke1-handoff.md).
+- [K12/K13 integrated flow, branch provenance, checks and limitations](docs/k12-k13-progress.md).
 - [Runnable valid/overweight cases and expected results](tests/fixtures/README.md).
+- [K13a/K14 Windows build and acceptance results](docs/k13a-k14-progress.md).
+- [Team review record](docs/k14-team-review.md).
 
-The final demo may be Windows, browser, or both and can be selected after the first playable slice. Compatibility rendering is agreed; the signed agreement reports it on master while local main still has Forward Plus. SE owns the branch/settings sync and early Web export check. This contract/example synchronization preserves project.godot.
+The first demo is Windows, confirmed by the user. The built OrbitBridge.exe and README are in the sibling OrbitBridge-Windows-Demo folder outside Git. Matching templates are installed and the app has been tested with graphics. Rebuild with scripts/build_windows.ps1; see docs/tool-setup.md. Browser export has not been built or tested.
 
 ## License
 
