@@ -1,6 +1,7 @@
 extends VBoxContainer
 signal navigate(index: int)
 signal retry_requested
+signal modify_requested
 signal new_mission_requested
 const UI = preload("res://ui/components/UI.gd")
 const ORBIT = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
@@ -8,15 +9,34 @@ const ORBIT = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 var state: Dictionary
 var content: VBoxContainer
 var summary: Label
+const PRESENTATION = preload("res://scripts/presentation/DebriefPresentation.gd")
+var report_scroll: ScrollContainer
+var credits: Label
+var retry_button: Button
+var same_mission_button: Button
+var credits_button: Button
+var results_row: BoxContainer
+var _retry_pending: bool = false
+var _presentation_model: Dictionary = {}
 func _ready():
 	add_theme_constant_override("separation", 12)
 	var titles = {"MissionControl": ["MISSION CONTROL / LOCAL PROTOTYPE", "Choose your next mission"], "Start": ["YOUR MISSION STARTS HERE", "OrbitBridge – Mission Architect"], "MissionCreator": ["01 / DEFINE", "Give your mission a purpose"], "SpacecraftBuilder": ["02 / DESIGN", "Build for the mission"], "FlightReadiness": ["03 / REVIEW", "Ready for the next horizon"], "MissionOperations": ["04 / OPERATE", "Mission control"], "DebriefCompare": ["05 / LEARN", "Every mission tells a story"]}
 	UI.label(self, titles[screen_id][0], 12, "6fd9eb")
 	UI.label(self, titles[screen_id][1], 30)
 	var scroll = ScrollContainer.new()
+	report_scroll = scroll
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	add_child(scroll)
+	if screen_id == "DebriefCompare":
+		scroll.focus_mode = Control.FOCUS_ALL
+		scroll.follow_focus = true
+		scroll.gui_input.connect(_report_keys)
+		var focus = StyleBoxFlat.new()
+		focus.bg_color = Color(0,0,0,0)
+		focus.border_color = Color("27e9ff")
+		focus.set_border_width_all(3)
+		scroll.add_theme_stylebox_override("focus",focus)
 	content = VBoxContainer.new()
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 16)
@@ -94,8 +114,14 @@ func mission_name() -> String:
 	return state.name if not state.name.strip_edges().is_empty() else "Untitled Mission"
 var results: Label
 func debrief():
-	var row = columns()
+	var row = BoxContainer.new()
+	results_row = row
+	row.add_theme_constant_override("separation",18)
+	content.add_child(row)
+	resized.connect(_fit_results)
+	_fit_results.call_deferred()
 	var outcome = UI.panel(row, "MISSION RESULTS / KE2")
+	outcome.get_parent().size_flags_stretch_ratio = 1.6
 	var select = OptionButton.new()
 	var history: Array = result_history()
 	for trace in history: select.add_item(trace.final_state.run_id)
@@ -109,48 +135,73 @@ func debrief():
 	grid.name = "RunHistory"
 	grid.columns = 3
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("h_separation", 25)
 	grid.add_theme_constant_override("v_separation", 16)
 	compare.add_child(grid)
-	for cell in ["RUN", "CAPTURED", "RETURNED MB"]: UI.label(grid, cell, 14)
+	for cell in ["RUN", "CAPTURED", "RETURNED MB"]: _history_cell(grid,cell)
 	for trace in history:
-		for cell in [trace.final_state.run_id, str(trace.final_state.observations_completed), "%.3f" % trace.final_state.returned_data_mb]: UI.label(grid, cell, 14)
-	for cell in grid.get_children():
-		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		for cell in [PRESENTATION.text(trace.final_state.get("run_id")), PRESENTATION.text(trace.final_state.get("observations_completed")), PRESENTATION.number(trace.final_state,"returned_data_mb")]: _history_cell(grid,cell)
 	var explanation = UI.panel(content, "WHAT CAN WE LEARN?")
 	UI.label(explanation, "These totals come from the HPC simulation using your selected policy. Captured observations and returned MB are independent goals. KE2 reports and feedback are published once per run. Survey-specific scoring requires the current KE2 handoff. Orbital graphics are illustrative.", 16, "9cb0c8")
 	var buttons = HBoxContainer.new()
 	content.add_child(buttons)
-	UI.button(buttons, "Retry Mission", func(): retry_requested.emit())
-	UI.button(buttons, "Modify Design", func(): navigate.emit(2))
+	credits_button = UI.button(buttons,"Show credits",func(): report_scroll.ensure_control_visible(credits))
+	same_mission_button = UI.button(buttons, "Retry same mission", _request_same_retry)
+	retry_button = UI.button(buttons, "Modify design", _request_retry)
 	UI.button(buttons, "Start New Mission", new_mission)
+	var credit_panel = UI.panel(content,"SOURCE CREDITS / SUPPLIED SCOPES")
+	credits = UI.label(credit_panel,"",14)
+	show_actual_run(maxi(0,history.size()-1))
 	actions(4, 0, "Return Home")
+func _history_cell(parent: Node,value: String) -> void:
+	var label: Label = UI.label(parent,value,14)
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+func _fit_results() -> void:
+	if is_instance_valid(results_row): results_row.vertical = size.x < 1000
+func _report_keys(event: InputEvent) -> void:
+	if not report_scroll.has_focus() or not event is InputEventKey or not event.pressed: return
+	if event.alt_pressed or event.ctrl_pressed or event.meta_pressed: return
+	var distance: int = 0
+	match event.keycode:
+		KEY_DOWN: distance = 32
+		KEY_UP: distance = -32
+		KEY_PAGEDOWN: distance = maxi(32,int(report_scroll.size.y)-32)
+		KEY_PAGEUP: distance = -maxi(32,int(report_scroll.size.y)-32)
+		_: return
+	var maximum: int = maxi(0,floori(report_scroll.get_v_scroll_bar().max_value-report_scroll.get_v_scroll_bar().page))
+	if maximum == 0: return
+	report_scroll.scroll_vertical = clampi(report_scroll.scroll_vertical+distance,0,maximum)
+	report_scroll.accept_event()
+func _request_retry() -> void:
+	if _retry_pending or _presentation_model.get("state") not in ["report", "evaluation_error"]: return
+	_retry_pending = true
+	retry_button.disabled = true
+	same_mission_button.disabled = true
+	modify_requested.emit()
+func _request_same_retry() -> void:
+	if _retry_pending or _presentation_model.get("state") not in ["report", "evaluation_error"]: return
+	_retry_pending = true
+	retry_button.disabled = true
+	same_mission_button.disabled = true
+	retry_requested.emit()
+func get_presentation_model() -> Dictionary:
+	return _presentation_model.duplicate(true)
 func show_actual_run(index: int):
 	var history: Array = result_history()
 	if history.is_empty():
 		results.text = "Launch a validated mission to view actual totals."
 		return
-	var trace: Dictionary = history[index]
-	var final: Dictionary = trace.final_state
-	var store: Dictionary = state.get("evaluation_store", {})
-	var reports: Dictionary = store.get("reports", {})
-	if reports.has(final.run_id):
-		var report: Dictionary = reports[final.run_id]
-		results.text = "%s / %s\nScore: %s\n%s\n\n%s\n\nNext experiment: %s" % [report.run_id, report.status, str(report.score) if report.score != null else "Not scored (aborted)", trace.config.mission.title, report.explanation, report.next_experiment]
-	else:
-		var error: Dictionary = store.get("errors", {}).get(final.run_id, {"message": "Finish or abort playback before requesting evaluation.", "suggested_fix": "Return to Operations and finish or abort the run."})
-		results.text = "Evaluation unavailable\n%s\n%s" % [error.message, error.suggested_fix]
-	var mass: Dictionary = trace.validation.get("checks", {}).get("profile_mass", {})
-	if mass.get("source_id") == "cubesat_101_1u_sample":
-		results.text += "\n\nLaunch source: NASA CubeSat 101, App. C item 6, p.79: sample 1U mass <1330 g."
-
-	var captures_met: bool = final.observations_completed >= trace.config.mission.required_observations
-	var data_met: bool = final.returned_data_mb + 0.00000001 >= trace.config.mission.required_returned_data_mb
-	results.text += "\n\nCapture goal: " + ("met" if captures_met else "not met") + "\nReturned-data goal: " + ("met" if data_met else "not met")
-	for target_id in trace.config.mission.get("target_regions", [trace.config.mission.target_region]):
-		var count: int = int(final.get("observations_by_target", {}).get(target_id, 0))
-		results.text += "\n%s: %s captures, %.3f MB returned" % [str(target_id).replace("_", " ").capitalize(), count, final.get("returned_data_by_target_mb", {}).get(target_id, 0.0)]
-		if trace.config.mission.objective == "survey": results.text += " / " + ("survey delivery met" if int(final.get("observations_delivered_by_target", {}).get(target_id, 0)) > 0 else "survey delivery not met")
+	var trace: Dictionary = history[clampi(index,0,history.size()-1)]
+	_presentation_model = PRESENTATION.build(trace,state.get("evaluation_store",{}))
+	results.text = _presentation_model.text
+	var retry_allowed: bool = not _retry_pending and _presentation_model.state in ["report", "evaluation_error"]
+	if is_instance_valid(retry_button): retry_button.disabled = not retry_allowed
+	if is_instance_valid(same_mission_button): same_mission_button.disabled = not retry_allowed
+	if is_instance_valid(credits): credits.text = _presentation_model.credits
+	# Keep the existing readiness attribution visible beside the report as well.
+	if "NASA CubeSat 101" in _presentation_model.credits:
+		results.text += "\n\nLaunch source: NASA CubeSat 101 (readiness; details under Show credits)."
 
 func show_run(_key: String):
 	show_actual_run(maxi(0, result_history().size() - 1))
@@ -182,7 +233,7 @@ func result_history() -> Array:
 	var history: Array = []
 	var ids: Array = []
 	for record in state.get("evaluation_store", {}).get("history", []):
-		history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation})
+		history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation, "events": record.state.event_log.duplicate(true)})
 		ids.append(record.state.run_id)
 	for trace in state.get("run_history", []):
 		if ids.has(trace.final_state.run_id): continue

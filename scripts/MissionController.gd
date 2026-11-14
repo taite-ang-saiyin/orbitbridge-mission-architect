@@ -10,6 +10,7 @@ var nav: HBoxContainer
 var shell_footer: Label
 var sidebar: VBoxContainer
 var flow_error: AcceptDialog
+var retry_restore: Dictionary = {}
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -155,6 +156,7 @@ func show_screen(index: int):
 				show_flow_error(launched.error.message)
 				return
 	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
+	if index == 4: retry_restore.clear()
 	if index == 5:
 		if not state.has("active_run_state") or state.active_run_state.phase != "finished":
 			show_flow_error("Finish the mission before viewing a result.")
@@ -170,6 +172,7 @@ func show_screen(index: int):
 	if current.has_signal("terminal_state"): current.terminal_state.connect(on_terminal_state)
 	if current.has_signal("abort_requested"): current.abort_requested.connect(abort_current_run)
 	if current.has_signal("retry_requested"): current.retry_requested.connect(retry_mission)
+	if current.has_signal("modify_requested"): current.modify_requested.connect(modify_design)
 	if current.has_signal("new_mission_requested"): current.new_mission_requested.connect(start_new_mission)
 	nav.visible = false
 	for i in sidebar.get_child_count():
@@ -177,6 +180,11 @@ func show_screen(index: int):
 		if link is Button: link.disabled = [-1, 1, 0, 2, 3, 4, 5][i] == index
 	shell_footer.visible = index not in [1, 2, 3, 4]
 	host.add_child(current)
+	if not retry_restore.is_empty() and index in [2, 3]:
+		var cancel = Button.new()
+		cancel.text = "Cancel Retry"
+		cancel.pressed.connect(cancel_retry)
+		current.previous.get_parent().add_child(cancel)
 	for i in nav.get_child_count(): nav.get_child(i).disabled = i == index
 
 func _input(event: InputEvent) -> void:
@@ -188,6 +196,7 @@ func on_terminal_state(native_state: Dictionary) -> Dictionary:
 	return preload("res://scripts/integration/mission_results.gd").publish(state, native_state)
 
 func retry_mission() -> void:
+	if not retry_restore.is_empty(): return
 	if is_operating():
 		show_flow_error("Finish or stop the current mission before retrying.")
 		return
@@ -197,10 +206,27 @@ func retry_mission() -> void:
 	if launched.ok: show_screen(4)
 	else: show_flow_error(launched.error.message)
 
+func modify_design() -> void:
+	if is_operating():
+		show_flow_error("Finish or stop the current mission before modifying its design.")
+		return
+	if not retry_restore.is_empty() or not state.has("run_trace"): return
+	retry_restore = state.duplicate(true)
+	state = state.duplicate(true)
+	preload("res://scripts/integration/mission_results.gd").retry(state)
+	show_screen(2)
+
+func cancel_retry() -> void:
+	if retry_restore.is_empty() or is_operating(): return
+	state = retry_restore.duplicate(true)
+	retry_restore.clear()
+	show_screen(5)
+
 func start_new_mission() -> void:
 	if is_operating():
 		show_flow_error("Finish or stop the current mission before starting a new one.")
 		return
+	retry_restore.clear()
 	preload("res://data/mock/DesignCatalog.gd").reset(state)
 	state.name = "Untitled Mission"
 	show_screen(1)

@@ -1,0 +1,31 @@
+{
+	"ok": true,
+	"report": {
+		"comparison": null,
+		"data_return_completion_ratio": 0.25777777776,
+		"explanation": "1.0/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. At step 8.0, a transmission was blocked because no ground-contact window was available.",
+		"mission_id": "mission_ke2_handoff_v01",
+		"next_experiment": "Retry and transmit during an available ground-contact window.",
+		"observation_completion_ratio": 0.25,
+		"observations_completed": 1.0,
+		"required_observations": 4.0,
+		"required_returned_data_mb": 30.0,
+		"returned_data_mb": 7.7333333328,
+		"root_causes": [
+			{
+				"code": "NO_LINK_WINDOW",
+				"evidence_event_ids": [
+					"evt_008"
+				],
+				"explanation": "At step 8.0, a transmission was blocked because no ground-contact window was available. Retry and transmit during an available ground-contact window.",
+				"segment": "ground"
+			}
+		],
+		"run_id": "run_ke2_handoff_v01",
+		"run_status": "completed",
+		"schema_version": 1,
+		"score": 25,
+		"source_ids": [],
+		"status": "partial"
+	}
+}

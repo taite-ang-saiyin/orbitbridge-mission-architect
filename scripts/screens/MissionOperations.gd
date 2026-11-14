@@ -43,6 +43,7 @@ var step_button: Button
 var skip_button: Button
 var enlarged: AcceptDialog
 var expanded_orbit: SubViewportContainer
+var event_header: BoxContainer
 var action_buttons: Dictionary = {}
 var prediction_text: Label
 func _ready() -> void:
@@ -65,6 +66,9 @@ func _ready() -> void:
 	build_telemetry(right)
 	build_events(right)
 	build_lower_panels()
+	scroll.focus_mode = Control.FOCUS_ALL
+	scroll.follow_focus = true
+	_connect_control_focus(self)
 	resized.connect(responsive)
 	call_deferred("responsive")
 	var resume: Dictionary = state.get("active_run_state", {})
@@ -205,12 +209,21 @@ func build_telemetry(parent: Node) -> void:
 	telemetry = UI.label(box, "", 12)
 func build_events(parent: Node) -> void:
 	var box = section(parent, "RECENT EVENTS")
+	var original_header: Control=box.get_child(0)
+	var title: Label=original_header.get_child(0)
+	event_header=BoxContainer.new()
+	event_header.add_theme_constant_override("separation",8)
+	box.add_child(event_header)
+	box.move_child(event_header,0)
+	title.reparent(event_header)
+	title.autowrap_mode=TextServer.AUTOWRAP_OFF
+	original_header.queue_free()
 	filter_select = OptionButton.new()
 	for caption in ["All Events", "Observations", "Downlink", "Warnings"]:
 		filter_select.add_item(caption)
 	filter_select.add_theme_font_size_override("font_size", 11)
 	filter_select.item_selected.connect(func(_index): rebuild_timeline())
-	box.get_child(0).add_child(filter_select)
+	event_header.add_child(filter_select)
 	timeline = ItemList.new()
 	timeline.custom_minimum_size = Vector2(0, 114)
 	timeline.add_theme_font_size_override("font_size", 11)
@@ -297,10 +310,14 @@ func refresh() -> void:
 		target_rows[i][1].value = float(count) / state.observations * 100
 	total_label.text = "Captured %s / %s · Returned %.3f / %s MB" % [e[5], run_configuration.mission.required_observations, e[6], run_configuration.mission.required_returned_data_mb]
 	total_progress.value = 100.0 * e[5] / run_configuration.mission.required_observations
-	telemetry.text = "Captured %s · Returned %.3f MB\nBattery %.3f / %s Wh\nStored %.3f / %s MB\n%s · %s" % [snapshot.observations_completed, snapshot.returned_data_mb, snapshot.energy_wh, snapshot.battery_capacity_wh, snapshot.stored_data_mb, snapshot.storage_capacity_mb, e[8], e[10]]
+	var presentation = preload("res://scripts/presentation/DebriefPresentation.gd")
+	telemetry.text = "Step %s / %s\nCaptured %s · Returned %s MB\nBattery %s / %s Wh\nStored %s / %s MB\n%s · %s" % [presentation.text(snapshot.get("step_index")), presentation.text(snapshot.get("total_steps")), presentation.text(snapshot.get("observations_completed")), presentation.number(snapshot,"returned_data_mb"), presentation.number(snapshot,"energy_wh"), presentation.text(snapshot.get("battery_capacity_wh")), presentation.number(snapshot,"stored_data_mb"), presentation.text(snapshot.get("storage_capacity_mb")), e[8], e[10]]
+	telemetry.tooltip_text = "Run " + presentation.text(snapshot.get("run_id")) + "\nMission " + presentation.text(snapshot.get("mission_id"))
 	battery_bar.value = e[3]
 	storage_bar.value = e[4]
 	details.text = "%s / T+ %s\n%s" % [e[0], DATA.time_label(e[1]), e[2]]
+	for event in DATA.frames[event_index].get("events", []):
+		details.text += "\n%s | Step %s | %s" % [presentation.text(event.get("event_id")), presentation.text(event.get("step_index")), presentation.text(event.get("code"))]
 	orbit_badge.text = "Orbit %s / %s\nT+ %s" % [orbit_number, state.duration, DATA.time_label(playhead)]
 	craft_badge.text = "SPACECRAFT\n%s\n%s" % [state.get("body_id", "NASA Satellite Kit").trim_prefix("dev_").replace("_", " ").capitalize(), e[8]]
 	if state.get("satellite_id", "") in preload("res://data/mock/SatelliteAdapter.gd").SATELLITES:
@@ -356,10 +373,24 @@ func expand_orbit() -> void:
 func responsive() -> void:
 	if not is_instance_valid(view_frame): return
 	fit_navigation()
+	if is_instance_valid(event_header): event_header.vertical = size.x < 1000
 	view_frame.custom_minimum_size.y = clampf(size.y * 0.36, 230, 290)
 
 func return_to_readiness() -> void:
 	navigate.emit(3)
+
+func _connect_control_focus(node: Node) -> void:
+	if node is BaseButton:
+		node.focus_entered.connect(func(): _reveal_focused.call_deferred(node))
+	for child in node.get_children(): _connect_control_focus(child)
+
+func _reveal_focused(control: Control) -> void:
+	if not is_instance_valid(control) or not scroll.is_ancestor_of(control): return
+	scroll.ensure_control_visible(control)
+	var clip: Rect2 = scroll.get_global_rect()
+	var rect: Rect2 = control.get_global_rect().grow(4)
+	if rect.end.y > clip.end.y: scroll.scroll_vertical += ceili(rect.end.y - clip.end.y)
+	elif rect.position.y < clip.position.y: scroll.scroll_vertical -= ceili(clip.position.y - rect.position.y)
 
 func playback_end() -> float:
 	return float(DATA.EVENTS[-1][1]) if not DATA.EVENTS.is_empty() else DATA.TOTAL_SECONDS

@@ -23,6 +23,10 @@ F11 switches between fullscreen and a window.
 Observe, Send data and Save power each use one mission step when allowed.
 Play follows the selected policy trace. Skip to End finishes playback.
 Stop mission ends the run with no numeric score. Retry same mission starts with clean counters.
+Modify design opens Builder with a copy of the completed mission. Cancel Retry restores
+the original run and result. A valid changed design starts a new run when launched.
+Show credits opens the source details. Focus the report and use arrow/Page Up/Page Down
+keys to scroll; Tab moves to the next control.
 Use Home, then Quit to close the app.
 
 Model and source

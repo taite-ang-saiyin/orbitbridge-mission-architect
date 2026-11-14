@@ -1,0 +1,116 @@
+extends "res://tests/ke2_recorded_debrief_check.gd"
+## Reuse the recorded Debrief test helpers and production presentation/session.
+const VALIDATED_DATA := "res://preview/recorded_ke2_validated/"
+const VALIDATED_RUN := "ke3_validated_1u_55d4f33_9dfd942_20261114_01"
+
+func _run() -> void:
+	var args := OS.get_cmdline_user_args()
+	for i in range(args.size()):
+		if args[i] == "--output-dir" and i+1 < args.size(): output_dir = args[i+1]
+	capture_enabled = "--capture" in args
+	DirAccess.make_dir_recursive_absolute(output_dir)
+	root.size = Vector2i(1280,960)
+	var wrapper: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(VALIDATED_DATA+"evaluation-v0.1.json"))
+	var metadata: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(VALIDATED_DATA+"metadata-v0.1.json"))
+	var trace: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(VALIDATED_DATA+"display-trace.json"))
+	var readiness: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(VALIDATED_DATA+"readiness.json"))
+	var report: Dictionary = wrapper.report.duplicate(true)
+	var report_before: Dictionary = report.duplicate(true)
+	var trace_before: Dictionary = trace.duplicate(true)
+	same("Returned report byte hash",metadata.report_sha256,FileAccess.get_sha256(VALIDATED_DATA+"evaluation-v0.1.json"))
+	same("Requested same-run identity",[VALIDATED_RUN,metadata.mission_id],[report.run_id,report.mission_id])
+	same("Actual passing readiness",[true,1060.0,82.0,"cubesat_101_1u_sample"],[readiness.ready_to_launch,readiness.metrics.total_mass_g,readiness.metrics.total_cost_credits,readiness.checks.profile_mass.source_id])
+	entry = load("res://preview/ke2_validated_preview.tscn").instantiate()
+	root.add_child(entry)
+	await process_frame
+	await process_frame
+	same("Same existing Results scene","res://ke3/results_control.tscn",entry.results.scene_file_path)
+	same("Same recorded provider script","res://preview/ke2_recorded_provider.gd",entry.provider.get_script().resource_path)
+	assert_metrics("Validated returned report")
+	same("Entire report accepted unchanged",report,entry.results.get_input_snapshot().report)
+	same("Original config accepted unchanged",trace.config,entry.results.get_input_snapshot().context.config)
+	same("All62 ordered same-run events unchanged",trace.events,entry.results.get_input_snapshot().state.events)
+	var state: Dictionary = entry.results.get_input_snapshot().state
+	state.erase("events")
+	same("Original final state otherwise unchanged",trace.final_state,state)
+	same("History exactly62",62,entry.results.get_input_snapshot().state.events.size())
+	var index: Dictionary = entry.results._event_index()
+	same("No-contact exact recorded event",[8.0,"transmit","action_blocked","NO_LINK_WINDOW"],[index.evt_008.step_index,index.evt_008.action,index.evt_008.type,index.evt_008.code])
+	same("Contact event remains accepted",[7.0,"action_accepted",7.7333333328],[index.evt_007.step_index,index.evt_007.type,index.evt_007.data_transmitted_mb])
+	same("Zero blocked deltas",[0.0,0.0,0.0,0.0],[index.evt_008.delta_energy_wh,index.evt_008.delta_stored_data_mb,index.evt_008.delta_returned_data_mb,index.evt_008.delta_observations])
+	var labels: Dictionary = entry.results.get_visible_labels()
+	expect(labels.causes.contains("Evidence: evt_008 | Step 8 | No ground station contact window is available during this step."),"Visible evidence resolves requested run step8 no-contact message")
+	expect(not labels.causes.contains("LOW_BATTERY") and not labels.causes.contains("Evidence: evt_007"),"No old documentation cause substituted")
+	same("Exactly one supplied cause",1,labels.causes.count("Cause code:"))
+	same("Supplied explanation preserved",report.explanation,entry.results.get_debrief_model().summary)
+	same("No report source IDs added",[],entry.results.get_input_snapshot().report.source_ids)
+	same("No comparison manufactured",null,entry.results.get_input_snapshot().report.comparison)
+	same("Exactly two scoped metadata credits",2,labels.credits.count("Applicable credit scope:"))
+	for credit in metadata.source_credit_metadata.applicable_source_credits:
+		expect(labels.credits.contains("Applicable credit scope: "+credit.credit_scope+" (metadata; not report source_ids)"),"Visible explicit scope "+credit.credit_scope)
+		expect(labels.credits.contains(credit.title) and labels.credits.contains(credit.attribution_text) and labels.credits.contains(credit.url) and labels.credits.contains(credit.actual_use),"Full supplied attribution/url/actual-use "+credit.credit_scope)
+	expect(labels.credits.contains("1060 g") and labels.credits.contains("< 1330 g") and labels.credits.contains("printed p. 79 (PDF p. 87)"),"Readiness credit preserves strict sample rule locator")
+	expect(labels.credits.contains("slide 8") and labels.credits.contains("feedback_vocabulary") and labels.credits.contains("educational adaptations"),"Feedback vocabulary credit has its own scope/locator")
+	expect(not labels.credits.contains("Preview visual-cue attribution:"),"Scoped credits not mislabeled as visual-cue adaptation")
+	records.append({"stage":"Full validated report","visible_labels":labels,"input":entry.results.get_input_snapshot()})
+	await capture("validated-report-top")
+	entry.results._scroll.ensure_control_visible(entry.results._fields.causes.get_parent().get_parent().get_parent())
+	await capture("validated-report-cause")
+	entry.results._credits_button.grab_focus()
+	var key := InputEventKey.new()
+	key.keycode = KEY_ENTER
+	key.pressed = true
+	root.push_input(key)
+	key = key.duplicate()
+	key.pressed = false
+	root.push_input(key)
+	await process_frame
+	expect(entry.results._scroll.scroll_vertical > 0,"Keyboard credits shortcut reaches scoped credits")
+	await capture("validated-report-credits")
+	same("Missing evidence case accepted",true,entry.show_case(true).accepted)
+	assert_metrics("Missing evidence validated report")
+	same("Missing event retains full original report",report,entry.results.get_input_snapshot().report)
+	same("Missing event retains supplied summary",report.explanation,entry.results.get_debrief_model().summary)
+	expect(entry.results.get_debrief_model().causes.contains("Evidence Unavailable: evt_008 (not in active run)"),"Missing event explicitly Unavailable")
+	same("Exactly linked event removed only",61,entry.results.get_input_snapshot().state.events.size())
+	same("Credit metadata survives missing event",labels.credits,entry.results.get_visible_labels().credits)
+	records.append({"stage":"Missing evt_008","visible_labels":entry.results.get_visible_labels()})
+	entry.results._scroll.ensure_control_visible(entry.results._fields.causes.get_parent().get_parent().get_parent())
+	await capture("validated-report-missing-evidence")
+	entry.show_case(false)
+	var original_labels: Dictionary = entry.results.get_visible_labels()
+	for i in range(3):
+		entry.session.leave_screen()
+		entry.session.enter_screen()
+		same("Repeat/re-entry has identical labels "+str(i),original_labels,entry.results.get_visible_labels())
+		same("Repeat keeps62 events "+str(i),62,entry.results.get_input_snapshot().state.events.size())
+	var external: Dictionary = entry.results.get_input_snapshot()
+	external.context.applicable_source_credits.clear()
+	external.report.source_ids.append("MUTATED")
+	same("Copy getter cannot alter credits/report",original_labels,entry.results.get_visible_labels())
+	same("Report still original after getter mutation",report,entry.results.get_input_snapshot().report)
+	# Current state with a stale report must not display scoped credit metadata.
+	var stale: Dictionary = entry.results.get_input_snapshot()
+	stale.report.run_id = "foreign-run"
+	entry.results.set_inputs(stale.context,stale.state,stale.report)
+	expect(not entry.results.get_visible_labels().credits.contains("Applicable credit scope:"),"Stale report cannot display scoped metadata credits")
+	entry.show_case(false)
+	same("Render/credits/re-entry send no intents",{"action":0,"route":0,"retry":0},entry.intent_counts)
+	same("Recorded provider never runs HPC actions",0,entry.provider.action_calls)
+	var opens: int = entry.provider.open_calls
+	entry.session.bind_provider(FailedProvider.new())
+	same("Provider error remains error","RECORDED_CHECK_PROVIDER_ERROR",entry.session.open_run(VALIDATED_RUN).error)
+	same("Error cannot activate old/new sample fallback",opens,entry.provider.open_calls)
+	expect(entry.results.get_input_snapshot().report.is_empty(),"Provider failure clears report")
+	var unmounted = preload("res://preview/ke2_recorded_provider.gd").new()
+	same("Unmounted fixture source stays gated","preview_entry_required",unmounted.open_run(VALIDATED_RUN).error)
+	same("Original input objects not mutated",[report_before,trace_before],[report,trace])
+	same("Returned report bytes still hash-identical",metadata.report_sha256,FileAccess.get_sha256(VALIDATED_DATA+"evaluation-v0.1.json"))
+	var f := FileAccess.open(output_dir.path_join("validated-results.json"),FileAccess.WRITE)
+	f.store_string(JSON.stringify({"checks":checks,"failures":failures,"records":records,"run_id":VALIDATED_RUN,"report_sha256":metadata.report_sha256,"renderer":RenderingServer.get_current_rendering_method(),"scope":"Preview check of returned KE2 report for validated component run; B02/official B10 NOT TESTED"},"  "))
+	f.close()
+	print("VALIDATED KE2 DEBRIEF: ",checks," checks; ",failures.size()," failures")
+	print("FIXTURE PASS" if failures.is_empty() else "FAIL")
+	entry.queue_free()
+	await process_frame
+	quit(0 if failures.is_empty() else 1)

@@ -51,10 +51,10 @@ The learning loop is to change a design or an operating decision, run another ex
 
 - Follow the spacecraft in an illustrative 3D Earth and orbit view.
 - Observe the target, send data to Earth, or save power through explicit action controls.
-- Use automatic stepping or run to the end of the mission.
+- Play, pause, step through, or finish the policy playback; manual actions use the same engine.
 - Track battery energy, onboard storage, captured observations, received data, and ordered events from the simulation.
 - End a run through an operator abort with a recorded reason.
-- Preview an action's energy and storage outcome through the simulation API; a dedicated UI prediction panel remains to be connected.
+- Preview an action's energy and storage outcome in its button tooltip.
 
 ### Mission results and iteration
 
@@ -62,6 +62,8 @@ The learning loop is to change a design or an operating decision, run another ex
 - Review feedback and recorded evidence to understand unmet goals.
 - Keep run history and retry the same mission, modify the design, or start a new mission.
 - Preserve a single report per run across repeated terminal notifications.
+- Choose **Retry same mission** to repeat the saved setup immediately, or **Modify design** to edit a copy in Builder. **Cancel Retry** restores the original run and result exactly.
+- Inspect event references and scoped source credits; mismatched reports are rejected.
 
 ### Presentation and usability
 
@@ -75,6 +77,8 @@ The learning loop is to change a design or an operating decision, run another ex
 The active application connects mission creation and spacecraft design to calculated readiness, live mission operations, and evaluated results. Earlier prototype fixtures remain as historical or presentation resources; they do not approve launch or calculate active mission reports.
 
 The SE update adds Mission Control presets, catalog-backed spacecraft controls, expanded target choices, and real simulation playback with manual actions and next-step predictions. Survey missions can track deliveries to two targets, but their scores are unavailable until KE2 supplies Survey evaluation. Imaging retains its existing evaluation rules. See [the SE merge record](docs/se-main-merge.md) for checks and limits.
+
+The KE3 merge adds execution-bound Results, readable evidence and credits, keyboard navigation, and editable redesign with Cancel, while preserving manual actions, saved-setup Retry, launch checks, and the Windows verification mode. See [the KE3 merge record](docs/ke3-main-merge.md).
 
 The stable integration and Windows build have recorded verification evidence in [the integration report](docs/k15-integration.md). Windows x86_64 is the first demo target. Final player-journey review, testing on another Windows computer, and submission checks remain tracked in [the open-work record](docs/sunday-blockers.md). Browser export and controlled A/B comparison are not yet verified or complete.
 

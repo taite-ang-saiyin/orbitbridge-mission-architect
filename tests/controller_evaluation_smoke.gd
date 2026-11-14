@@ -52,7 +52,7 @@ func check() -> void:
 	assert(not app.on_terminal_state(bad).ok)
 	assert(app.state.evaluation_store.history == original.history)
 	assert(app.state.evaluation_store.baseline == original.baseline)
-	assert(press(app.current, "Retry Mission"))
+	assert(press(app.current, "Retry same mission"))
 	await settle()
 	assert(app.state.run_trace.final_state.run_id != id)
 	assert(app.state.active_run_state.step_index == 0 and app.state.active_run_state.observations_completed == 0)
@@ -66,7 +66,7 @@ func check() -> void:
 	assert(app.state.evaluation_store.history.size() == 2)
 	assert(app.state.evaluation_store.baseline == original.baseline)
 	app.state.objective = "Survey Target Regions"
-	assert(press(app.current, "Retry Mission"))
+	assert(press(app.current, "Retry same mission"))
 	await settle()
 	app.current.skip_to_end()
 	app.show_screen(5)
