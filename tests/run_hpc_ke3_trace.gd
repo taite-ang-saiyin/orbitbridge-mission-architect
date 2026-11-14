@@ -2,32 +2,35 @@ extends SceneTree
 
 const StepEngine = preload("res://core/MissionStepEngine.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
-const HPC_BASE_SHA: String = "ce478f94a918047c0449fe30bfffe18f368315fd"
-const KE1_SHA: String = "15385a442c0dfeebd4752a8a648e306624327098"
-const TRACE_REVISION: String = "hpc-ke3-ops-trace-v0.1"
+const CatalogLoader = preload("res://scripts/core/catalog_loader.gd")
+const HPC_BASE_SHA: String = "a9a65c94142348f9951533155dbb0ea9fd70c8f1"
+const KE1_SHA: String = "55d4f336e72a68ff31cf37e44f65a98c1cdcc193"
+const TRACE_REVISION: String = "hpc-ke3-ops-trace-v0.2"
 const RUN_ID: String = "run_ke3_handoff_v01"
 const MISSION_ID: String = "mission_ke3_handoff_v01"
 
 func _initialize() -> void:
-	var config_file: FileAccess = FileAccess.open("res://docs/contracts/v1-draft/mission-config.example.json", FileAccess.READ)
+	var config_file: FileAccess = FileAccess.open("res://tests/fixtures/valid_1u_feasible.json", FileAccess.READ)
 	if config_file == null:
 		_fail("Could not open KE1 mission config fixture")
 		return
 	var config: Dictionary = JSON.parse_string(config_file.get_as_text())
-	var orbit_file: FileAccess = FileAccess.open("res://data/orbits.json", FileAccess.READ)
-	if orbit_file == null:
-		_fail("Could not open HPC orbit presets")
+	var ke1_result: Dictionary = CatalogLoader.load_catalogs()
+	if not ke1_result.get("ok", false):
+		_fail("KE1 catalogs failed to load: %s" % ke1_result.get("errors", []))
 		return
-	var orbit_data: Dictionary = JSON.parse_string(orbit_file.get_as_text())
-	var built: Dictionary = Adapter.build_scenario(_ke1_catalog_sample(), orbit_data)
-	if not built.get("ok", false):
-		_fail("Scenario adapter failed: %s" % built)
-		return
-	var started: Dictionary = StepEngine.init_run(config, built.scenario, RUN_ID, MISSION_ID)
+	var catalogs: Dictionary = ke1_result.catalogs
+	var orbit_data: Dictionary = catalogs.get("orbit_catalog", {})
+	var started: Dictionary = StepEngine.init_validated_run(config, catalogs, RUN_ID, MISSION_ID)
 	if not started.get("ok", false):
-		_fail("HPC initialization failed: %s" % started)
+		_fail("KE1 readiness or HPC initialization failed: %s" % started)
 		return
 	var state: Dictionary = started.state
+	var validation_result: Dictionary = started.validation_result
+	var scenario_result: Dictionary = Adapter.build_scenario(catalogs, orbit_data)
+	if not scenario_result.get("ok", false):
+		_fail("Scenario adapter failed: %s" % scenario_result)
+		return
 	var ordered_events: Array[Dictionary] = []
 	var selected_replies: Array[Dictionary] = []
 	var action_count: int = 0
@@ -66,34 +69,34 @@ func _initialize() -> void:
 				"events": action_result.events.duplicate(true)
 			})
 	var selected_orbit: Dictionary = {}
-	for orbit in built.scenario.orbits:
+	for orbit in scenario_result.scenario.orbits:
 		if str(orbit.id) == str(state.scenario_id):
 			selected_orbit = orbit
 			break
 	var trace: Dictionary = {
 		"trace_revision": TRACE_REVISION,
-		"trace_status": "HPC sample; KE1 launch readiness is not yet implemented",
+		"trace_status": "HPC run initialized from a config approved by KE1 readiness",
 		"source": {
 			"repository": "taite-ang-saiyin/orbitbridge-mission-architect",
 			"hpc_branch": "feature/hpc-simulator",
-			"hpc_implementation_commit_sha": HPC_BASE_SHA,
-			"hpc_working_tree_revision": TRACE_REVISION,
-			"hpc_changes_committed": true,
+			"hpc_base_commit_sha": HPC_BASE_SHA,
+			"hpc_working_tree_revision": "hpc-ke1-readiness-integration-v0.1",
+			"hpc_changes_committed": false,
 			"ke1_branch": "ke1",
 			"ke1_commit_sha": KE1_SHA,
-			"config_fixture": "origin/ke1:tests/fixtures/ke1_config.json (same payload as docs/contracts/v1-draft/mission-config.example.json)",
-			"ke1_status": "K05-K06 schema and reference validation implemented; K07-K09 launch-readiness checks pending"
+			"config_fixture": "tests/fixtures/valid_1u_feasible.json",
+			"ke1_status": "KE1 readiness implementation from the recorded commit"
 		},
 		"validation": {
-			"mission_config_schema_and_references": "KE1 fixture from the K05-K06 branch; KE1 reports ready_to_launch=false until K07-K09 are implemented",
-			"launch_approved": false,
+			"launch_approved": bool(validation_result.ready_to_launch),
+			"result": validation_result,
 			"hpc_scenario_adapter": "passed"
 		},
 		"run_id": RUN_ID,
 		"mission_id": MISSION_ID,
 		"config": config,
 		"scenario_id": state.scenario_id,
-		"scenario_version": str(built.scenario.scenario_version),
+		"scenario_version": str(scenario_result.scenario.scenario_version),
 		"target_id": str(config.mission.target_region),
 		"total_steps": state.total_steps,
 		"step_duration_hours": float(selected_orbit.step_duration_hours),
@@ -112,7 +115,7 @@ func _initialize() -> void:
 		"final_state": _terminal_state_payload(state),
 		"events": ordered_events
 	}
-	var output: FileAccess = FileAccess.open("res://docs/hpc-ke3-ops-trace-v0.1.json", FileAccess.WRITE)
+	var output: FileAccess = FileAccess.open("res://docs/hpc-ke3-ops-trace-v0.2.json", FileAccess.WRITE)
 	if output == null:
 		_fail("Could not write trace payload")
 		return
@@ -120,25 +123,6 @@ func _initialize() -> void:
 	output.close()
 	print("Wrote KE3 operations trace revision %s (%d events, %s)." % [TRACE_REVISION, ordered_events.size(), state.run_status])
 	quit(0)
-
-func _ke1_catalog_sample() -> Dictionary:
-	return {
-		"schema_version": 1,
-		"contract_revision": "v1.0-agreed",
-		"components": [
-			{"id": "bus_basic", "category": "bus", "baseline_power_w": 2},
-			{"id": "instrument_basic", "category": "instrument", "observe_power_w": 4, "data_per_observation_mb": 12, "supported_objectives": ["imaging"]},
-			{"id": "solar_standard", "category": "solar", "generation_power_w": 3},
-			{"id": "battery_standard", "category": "battery", "capacity_wh": 25, "initial_charge_fraction": 1},
-			{"id": "radio_basic", "category": "radio", "transmit_power_w": 3, "downlink_mb_per_hour": 48},
-			{"id": "storage_standard", "category": "storage", "capacity_mb": 64}
-		],
-		"launch_profiles": [{"id": "cubesat_1u_sample"}],
-		"launchers": [{"id": "small"}],
-		"objective_ids": ["imaging"],
-		"orbit_ids": ["low_eq", "high_inc"],
-		"target_region_ids": ["equator"]
-	}
 
 func _fail(message: String) -> void:
 	push_error(message)

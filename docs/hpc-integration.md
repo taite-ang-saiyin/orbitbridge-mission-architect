@@ -5,28 +5,30 @@ HPC owns `core/HPCContractAdapter.gd`, `core/MissionStepEngine.gd`, `core/OrbitP
 ```gdscript
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const StepEngine = preload("res://core/MissionStepEngine.gd")
+const CatalogLoader = preload("res://scripts/core/catalog_loader.gd")
 
 var ke1_result: Dictionary = CatalogLoader.load_catalogs()
 if not ke1_result.ok:
     # Show KE1 catalog errors.
     return
-var orbit_file := FileAccess.open("res://data/orbits.json", FileAccess.READ)
-var orbit_data: Dictionary = JSON.parse_string(orbit_file.get_as_text())
-var built: Dictionary = Adapter.build_scenario(ke1_result.catalogs, orbit_data)
-if not built.ok:
-    # Show built.error_code and built.error_message.
+# This re-runs KE1 readiness against this exact config/catalog snapshot,
+# combines KE1's orbit_catalog with the component catalogs, then starts HPC.
+var started: Dictionary = StepEngine.init_validated_run(
+    config, ke1_result.catalogs, run_id, mission_id)
+if not started.ok:
+    # Show started.error and, when present, started.validation_result.
     return
-# Start only after KE1 validates this config with ready_to_launch == true.
-var started: Dictionary = StepEngine.init_run(config, built.scenario, run_id, mission_id)
 ```
 
-`build_scenario` maps KE1's component `category` and power/data names to HPC's internal snapshot, and checks that HPC orbit and target IDs appear in KE1's reference ID lists. It does not alter KE1 files. The snapshot retains KE1's launch profiles and launchers and HPC's authored windows. `init_run` uses `battery.initial_charge_fraction`, defaulting to 1 for legacy fixtures. Its returned state and events follow Team Contract v1. Call `get_available_actions(state)` and `request_action(state, action)` for each step. For an operator abort, call `MissionStepEngine.abort_run(state, reason)`: it returns a finished state with `run_status: "aborted"`, preserves the current step and resource totals, records `terminal_reason`, and emits a `mission_aborted` event for downstream evaluation and UI display.
+`init_validated_run` invokes KE1's actual `MissionValidator.validate` and refuses to start unless `ready_to_launch` is true. It reads HPC's unchanged orbit metadata from `ke1_result.catalogs.orbit_catalog`, maps KE1 component categories and field names into an immutable HPC snapshot, and carries the complete ValidationResult in the success response. `init_run` remains the lower-level v1 API for explicit scenario snapshots and isolated tests. KE1's catalog files and validator are dependencies; this checkout includes their current `origin/ke1` versions unchanged for a runnable integration.
+
+The step engine uses `battery.initial_charge_fraction`, defaults to 1 only for legacy catalogs, and exposes state and events in Team Contract v1 units. Call `get_available_actions(state)` and `request_action(state, action)` for each step. For an operator abort, call `MissionStepEngine.abort_run(state, reason)`: it returns a finished state with `run_status: "aborted"`, preserves the current step and resource totals, records `terminal_reason`, and emits a `mission_aborted` event for downstream evaluation and UI display.
 
 | Orbit ID | Target ID | Local observation steps per orbit | Local contact steps per orbit | Step hours |
 | --- | --- | --- | --- | ---: |
 | `low_eq` | `equator` | 2, 5 | 8 | 0.1538888889 |
 | `high_inc` | `equator` | 1, 6 | 0, 7 | 0.1611111111 |
 
-The windows are deterministic gameplay presets, not physical coverage predictions. KE1 should mark the `equator` target suitable for both orbit IDs if its readiness validator checks orbit-to-target suitability. SE should pass the selected orbit ID and config unchanged. KE3 should render `available_actions`, state, and emitted events without recomputing windows.
+The windows are deterministic gameplay presets, not physical coverage predictions. KE1's readiness check uses these HPC `target_windows` to determine target/orbit suitability; current integration tests pass for `equator` with both orbit IDs and block a target whose window is removed. SE should pass the selected orbit ID and config unchanged. KE3 should render `available_actions`, state, and emitted events without recomputing windows.
 
-Current HPC tests use selected KE1 catalog rows and IDs from KE1 commit `15385a4` because KE1's catalog files are not yet in this local branch. They do not prove compatibility with the full current KE1 files or KE1's final readiness result. Run an end-to-end check with those files after they are integrated. At K05-K06, KE1's validator still reports `ready_to_launch=false` with metrics unavailable; KE1 must complete launch readiness before SE can launch through the gate.
+The HPC suite now tests the full current KE1 catalog loader and readiness validator against the agreed ready, overweight and target-window cases. KE1 source commit: `55d4f336e72a68ff31cf37e44f65a98c1cdcc193`. The actual ready-config trace is [hpc-ke3-ops-trace-v0.2.json](hpc-ke3-ops-trace-v0.2.json); v0.1 is retained as the earlier provisional sample. SE/KE3 controller and screen integration still needs a runtime walkthrough with the actual Launch and Operations UI path.

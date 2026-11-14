@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "contract_revision": "v1.0-agreed",
+  "assumption_id": "orbitbridge_training_launchers_v1",
+  "notice": "All launcher capacities, compatible profiles and costs are invented gameplay parameters; launcher mass is not spacecraft mass.",
+  "launchers": [
+    {
+      "id": "small",
+      "display_name": "Small training launcher",
+      "assumption_id": "illustrative_small_launcher_v1",
+      "cost_credits": 15,
+      "supported_profile_ids": [
+        "cubesat_1u_sample"
+      ],
+      "supported_orbit_ids": [
+        "low_eq",
+        "high_inc"
+      ],
+      "max_payload_g_by_orbit": {
+        "low_eq": 2000,
+        "high_inc": 1500
+      }
+    },
+    {
+      "id": "medium",
+      "display_name": "Medium training launcher",
+      "assumption_id": "illustrative_medium_launcher_v1",
+      "cost_credits": 35,
+      "supported_profile_ids": [
+        "cubesat_1u_sample",
+        "illustrative_alternative"
+      ],
+      "supported_orbit_ids": [
+        "low_eq",
+        "high_inc"
+      ],
+      "max_payload_g_by_orbit": {
+        "low_eq": 6000,
+        "high_inc": 5000
+      }
+    }
+  ]
+}

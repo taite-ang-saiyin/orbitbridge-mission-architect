@@ -6,6 +6,7 @@ class_name MissionStepEngine
 ## component rows, targets, objectives, and unit_conventions.
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const Planner = preload("res://core/OrbitPlanner.gd")
+const MissionValidator = preload("res://scripts/core/mission_validator.gd")
 const ACTIONS: Array[String] = ["observe", "transmit", "power_save"]
 
 static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, mission_id: String) -> Dictionary:
@@ -52,6 +53,27 @@ static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, m
 	_refresh_step_context(state, plan)
 	state.available_actions = _available_actions(state)
 	return {"ok": true, "state": state, "events": []}
+
+## KE1 integration entry point: evaluate readiness against the current catalog bundle,
+## combine its HPC orbit_catalog, and only initialize a passing configuration.
+static func init_validated_run(config: Dictionary, ke1_catalogs: Dictionary, run_id: String, mission_id: String) -> Dictionary:
+	var validation_result: Dictionary = MissionValidator.validate(config, ke1_catalogs)
+	if not bool(validation_result.get("ready_to_launch", false)):
+		return {
+			"ok": false,
+			"error": {"code": "MISSION_NOT_READY", "message": "KE1 readiness checks did not approve this configuration."},
+			"validation_result": validation_result
+		}
+	var orbit_data: Variant = ke1_catalogs.get("orbit_catalog", null)
+	if not orbit_data is Dictionary:
+		return _error("INVALID_ORBIT_CATALOG", "KE1 catalogs must include HPC orbit_catalog metadata")
+	var scenario_result: Dictionary = Adapter.build_scenario(ke1_catalogs, orbit_data)
+	if not scenario_result.get("ok", false):
+		return _adapter_error(scenario_result)
+	var started: Dictionary = init_run(config, scenario_result.scenario, run_id, mission_id)
+	if started.get("ok", false):
+		started["validation_result"] = validation_result
+	return started
 
 static func get_available_actions(state: Dictionary) -> Dictionary:
 	var context_result: Dictionary = _context(state)

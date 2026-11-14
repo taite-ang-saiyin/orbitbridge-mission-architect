@@ -3,6 +3,8 @@ extends SceneTree
 const StepEngine = preload("res://core/MissionStepEngine.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const LegacySimulator = preload("res://core/MissionSimulator.gd")
+const Ke1CatalogLoader = preload("res://scripts/core/catalog_loader.gd")
+const Ke1MissionValidator = preload("res://scripts/core/mission_validator.gd")
 var _passed: int = 0
 var _failed: int = 0
 
@@ -28,6 +30,7 @@ func _initialize() -> void:
 	_test_power_save_clamps_and_continues(catalog)
 	_test_ke1_catalog_bridge()
 	_test_abort_run(catalog)
+	_test_ke1_readiness_integration()
 	if _failed > 0:
 		push_error("HPC Team Contract v1 suite failed: %d passed, %d failed" % [_passed, _failed])
 		quit(1)
@@ -249,6 +252,43 @@ func _test_abort_run(catalog: Dictionary) -> void:
 	_case("abort requires a reason", not blank.get("ok", false) and blank.error.code == "MISSING_ABORT_REASON")
 	var repeated: Dictionary = StepEngine.abort_run(state, "Again")
 	_case("terminal run cannot be aborted twice", not repeated.get("ok", false) and repeated.error.code == "MISSION_FINISHED")
+
+func _test_ke1_readiness_integration() -> void:
+	var loaded: Dictionary = Ke1CatalogLoader.load_catalogs()
+	if not loaded.get("ok", false):
+		_case("real KE1 catalogs load with HPC orbit metadata", false)
+		return
+	_case("real KE1 catalogs load with HPC orbit metadata", loaded.catalogs.has("orbit_catalog"))
+	var valid_config: Dictionary = _read_json("res://tests/fixtures/valid_1u_feasible.json")
+	var validation: Dictionary = Ke1MissionValidator.validate(valid_config, loaded.catalogs)
+	var started: Dictionary = StepEngine.init_validated_run(valid_config, loaded.catalogs, "run_ke1_ready", "mission_ke1_ready")
+	_case("KE1 ready result starts HPC run", validation.get("ready_to_launch", false) and started.get("ok", false) and started.validation_result.ready_to_launch and started.state.scenario_id == "high_inc" and is_equal_approx(float(started.state.energy_wh), float(validation.metrics.initial_energy_wh)))
+	var overweight: Dictionary = _read_json("res://tests/fixtures/overweight_1u_1380g.json")
+	var rejected: Dictionary = StepEngine.init_validated_run(overweight, loaded.catalogs, "run_ke1_rejected", "mission_ke1_rejected")
+	_case("KE1 failed readiness cannot start HPC run", not rejected.get("ok", false) and rejected.error.code == "MISSION_NOT_READY" and not rejected.validation_result.ready_to_launch and not rejected.has("state"))
+	var no_target_bundle: Dictionary = loaded.catalogs.duplicate(true)
+	for orbit in no_target_bundle.orbit_catalog.orbits:
+		if str(orbit.id) == "high_inc":
+			orbit.target_windows.erase("equator")
+	var unsuitable: Dictionary = Ke1MissionValidator.validate(valid_config, no_target_bundle)
+	var blocked: Dictionary = StepEngine.init_validated_run(valid_config, no_target_bundle, "run_ke1_unsuitable", "mission_ke1_unsuitable")
+	_case("KE1 readiness uses HPC target windows", not unsuitable.ready_to_launch and unsuitable.checks.target_orbit.status == "fail" and not blocked.get("ok", false) and blocked.validation_result.checks.target_orbit.status == "fail")
+	var low_eq_config: Dictionary = _read_json("res://tests/fixtures/valid_low_eq.json")
+	var low_eq: Dictionary = StepEngine.init_validated_run(low_eq_config, loaded.catalogs, "run_ke1_low_eq", "mission_ke1_low_eq")
+	_case("KE1 readiness and HPC start support low_eq", low_eq.get("ok", false) and low_eq.state.scenario_id == "low_eq")
+
+func _read_json(path: String) -> Dictionary:
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		push_error("TEST SETUP FAILURE: could not read %s" % path)
+		_failed += 1
+		return {}
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if not parsed is Dictionary:
+		push_error("TEST SETUP FAILURE: %s must contain a JSON object" % path)
+		_failed += 1
+		return {}
+	return parsed
 
 func _catalog() -> Dictionary:
 	var file := FileAccess.open("res://data/fixtures/hpc_catalog.json", FileAccess.READ)
