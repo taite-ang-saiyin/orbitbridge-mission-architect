@@ -67,11 +67,17 @@ static func config_for(draft: Dictionary) -> Dictionary:
 		"required_observations": draft.get("observations", 5),
 		"required_returned_data_mb": draft.get("required_returned_data_mb", float(draft.get("observations", 5)) * 12.0),
 		"duration_orbits": draft.get("duration", 6), "budget_credits": draft.get("budget", 100)},
-		"design": {"bus_id": body[0], "instrument_id": body[1], "battery_id": body[2], "storage_id": body[3],
+		"design": _engineering_design(draft, {"bus_id": body[0], "instrument_id": body[1], "battery_id": body[2], "storage_id": body[3],
 		"solar_id": SOLAR.get(draft.get("wings_id", "dev_wings_1"), ""),
 		"radio_id": RADIOS.get(draft.get("radio_id", "dev_radio_1"), ""),
 		"launch_profile_id": draft.get("launch_profile_id", "cubesat_1u_sample"),
-		"launcher_id": draft.get("launcher_id", "small"), "orbit_id": ORBITS.get(draft.get("orbit"), "unsupported")}}
+		"launcher_id": draft.get("launcher_id", "small"), "orbit_id": ORBITS.get(draft.get("orbit"), "unsupported")})}
+
+static func _engineering_design(draft: Dictionary, design: Dictionary) -> Dictionary:
+	var selected: Dictionary = draft.get("engineering_parts", {})
+	for category in ["bus", "instrument", "solar", "battery", "radio", "storage"]:
+		if selected.has(category): design[category + "_id"] = selected[category]
+	return design
 
 static func review(draft: Dictionary) -> Dictionary:
 	var loaded: Dictionary = load_game_catalogs()
@@ -83,17 +89,15 @@ static func review(draft: Dictionary) -> Dictionary:
 	return result
 
 static func launch(draft: Dictionary) -> Dictionary:
-	var reviewed: Dictionary = review(draft)
-	if not reviewed.ready_to_launch:
-		return {"ok": false, "error": {"message": "Resolve readiness errors before launch."}, "validation": reviewed}
 	var loaded: Dictionary = load_game_catalogs()
-	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}}
-	var built: Dictionary = Adapter.build_scenario(loaded.catalogs, loaded.catalogs.orbit_catalog)
-	if not built.ok: return {"ok": false, "error": {"message": built.error_message}}
-	next_run_sequence = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
-	var sequence: int = next_run_sequence
-	var started: Dictionary = StepEngine.init_run(reviewed.config, built.scenario, "run_%03d" % sequence, "mission_local")
+	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}, "errors": loaded.errors}
+	var config: Dictionary = config_for(draft)
+	var sequence: int = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
+	var started: Dictionary = StepEngine.init_validated_run(config, loaded.catalogs, "run_%03d" % sequence, "mission_local")
 	if not started.ok: return started
+	next_run_sequence = sequence
+	var reviewed: Dictionary = started.validation_result.duplicate(true)
+	reviewed.config = config.duplicate(true)
 	var current: Dictionary = started.state
 	var frames: Array = [{"state": current.duplicate(true), "events": []}]
 	var events: Array = []

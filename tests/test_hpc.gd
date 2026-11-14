@@ -3,6 +3,9 @@ extends SceneTree
 const StepEngine = preload("res://core/MissionStepEngine.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const LegacySimulator = preload("res://core/MissionSimulator.gd")
+const LegacyTraceAdapter = preload("res://core/LegacyTraceAdapter.gd")
+const Ke1CatalogLoader = preload("res://scripts/core/catalog_loader.gd")
+const Ke1MissionValidator = preload("res://scripts/core/mission_validator.gd")
 var _passed: int = 0
 var _failed: int = 0
 
@@ -12,6 +15,7 @@ func _initialize() -> void:
 	_test_observe_outside_window(catalog)
 	_test_observe_storage_full(catalog)
 	_test_observe_low_energy(catalog)
+	_test_observe_fractional_energy_deficit(catalog)
 	_test_successful_transmit(catalog)
 	_test_transmit_outside_contact(catalog)
 	_test_transmit_no_data(catalog)
@@ -25,9 +29,12 @@ func _initialize() -> void:
 	_test_invalid_config(catalog)
 	_test_legacy_golden_compatibility(catalog)
 	_test_v1_run_identity_and_event_contract(catalog)
+	_test_inconsistent_terminal_indices(catalog)
+	_test_storage_float_boundary(catalog)
 	_test_power_save_clamps_and_continues(catalog)
 	_test_ke1_catalog_bridge()
 	_test_abort_run(catalog)
+	_test_ke1_readiness_integration()
 	if _failed > 0:
 		push_error("HPC Team Contract v1 suite failed: %d passed, %d failed" % [_passed, _failed])
 		quit(1)
@@ -62,12 +69,22 @@ func _test_observe_low_energy(source_catalog: Dictionary) -> void:
 	var result: Dictionary = StepEngine.execute_step(state, "observe", catalog)
 	_case("blocked observe with insufficient energy", not result.allowed and result.reason_code == "LOW_BATTERY")
 
+func _test_observe_fractional_energy_deficit(source_catalog: Dictionary) -> void:
+	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [0], [])
+	_set_part(catalog, "solar40", "output_w", 0.0)
+	var state: Dictionary = _initialized(_config(), catalog)
+	var step_hours: float = float(_orbit(catalog, "low_eq").step_duration_hours)
+	state.energy_wh = 30.0 * step_hours - 0.00000005
+	var result: Dictionary = StepEngine.request_action(state, "observe")
+	_case("tiny real action-energy deficit is blocked", result.get("ok", false) and not result.get("allowed", true) and result.events[0].code == "LOW_BATTERY" and result.state.step_index == state.step_index and result.state.observations_completed == state.observations_completed and is_equal_approx(float(result.state.energy_wh), float(state.energy_wh)))
+
 func _test_successful_transmit(source_catalog: Dictionary) -> void:
 	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [], [0])
 	var state: Dictionary = _initialized(_config(), catalog)
 	state.stored_data_mb = 8.0
 	var result: Dictionary = StepEngine.execute_step(state, "transmit", catalog)
-	_case("successful transmit", result.allowed and float(result.state.returned_data_mb) > 0.0 and float(result.state.stored_data_mb) < 8.0 and float(result.event.data_transmitted_mb) > 0.0)
+	var expected_mb: float = minf(8.0, float(_part(catalog, "radio_base").downlink_mb_per_hour) * float(_orbit(catalog, "low_eq").step_duration_hours))
+	_case("successful transmit uses decimal MB per step", result.allowed and is_equal_approx(float(result.state.returned_data_mb), expected_mb) and is_equal_approx(float(result.event.data_transmitted_mb), expected_mb) and is_equal_approx(float(result.event.delta_returned_data_mb), expected_mb) and is_equal_approx(float(result.state.stored_data_mb), 8.0 - expected_mb))
 
 func _test_transmit_outside_contact(source_catalog: Dictionary) -> void:
 	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [], [8])
@@ -93,7 +110,7 @@ func _test_battery_bound(source_catalog: Dictionary) -> void:
 	var state: Dictionary = _initialized(_config(), catalog)
 	state.energy_wh = float(state.battery_capacity_wh) - 0.001
 	var result: Dictionary = StepEngine.execute_step(state, "power_save", catalog)
-	_case("battery remains within capacity", result.allowed and float(result.state.energy_wh) <= float(result.state.battery_capacity_wh) and float(result.state.energy_wh) >= 0.0)
+	_case("battery remains within capacity", result.allowed and float(result.state.energy_wh) <= float(result.state.battery_capacity_wh) and float(result.state.energy_wh) >= 0.0 and result.event.energy_clamped)
 
 func _test_storage_bound(source_catalog: Dictionary) -> void:
 	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [0], [])
@@ -135,7 +152,9 @@ func _test_mission_finish(source_catalog: Dictionary) -> void:
 			success = false
 			break
 		state = result.state
-	_case("mission finishes at total_steps", success and int(state.step_index) == int(state.total_steps) and state.event_log.back().code == "MISSION_FINISHED")
+	var accepted_event: Dictionary = state.event_log[state.event_log.size() - 2] if state.event_log.size() >= 2 else {}
+	var terminal_event: Dictionary = state.event_log.back() if not state.event_log.is_empty() else {}
+	_case("mission finishes at total_steps", success and int(state.step_index) == int(state.total_steps) and state.phase == "finished" and state.run_status == "completed" and accepted_event.type == "action_accepted" and accepted_event.step_index == state.total_steps - 1 and terminal_event.type == "mission_finished" and terminal_event.step_index == state.total_steps)
 
 func _test_invalid_config(source_catalog: Dictionary) -> void:
 	var missing: Dictionary = _config()
@@ -163,17 +182,49 @@ func _test_legacy_golden_compatibility(catalog: Dictionary) -> void:
 	var a: Dictionary = LegacySimulator.simulate(a_input, catalog)
 	var b: Dictionary = LegacySimulator.simulate(b_input, catalog)
 	_case("legacy whole-run golden API compatibility", a.get("ok", false) and b.get("ok", false) and a.metrics.captured == 5 and a.metrics.delivered == 2 and a.metrics.returned_kb == 16620 and a.metrics.buffer_kb == 23380 and b.metrics.captured == 5 and b.metrics.delivered == 5 and b.metrics.returned_kb == 40000 and b.metrics.buffer_kb == 0)
+	var adapted: Dictionary = LegacyTraceAdapter.to_v1_units(b)
+	var last_telemetry: Dictionary = adapted.telemetry.back() if adapted.get("telemetry", []).size() > 0 else {}
+	var unit_conversion_ok: bool = adapted.get("ok", false) and adapted.compatibility_kind == "legacy_trace_summary" and is_equal_approx(float(adapted.metrics.energy_wh), float(b.metrics.final_battery_ws) / 3600.0) and is_equal_approx(float(adapted.metrics.returned_data_mb), 40.0) and is_equal_approx(float(adapted.metrics.stored_data_mb), 0.0) and is_equal_approx(float(adapted.summary.minimum_energy_wh), float(b.state.minimum_battery_ws) / 3600.0) and is_equal_approx(float(last_telemetry.energy_wh), float(b.telemetry.back().battery_ws) / 3600.0) and adapted.legacy_events.size() == b.events.size() and adapted.legacy_event_schema == "seq_slot_t_s_code_params"
+	_case("legacy trace adapter exposes Wh and decimal MB", unit_conversion_ok)
+	var invalid_adapted: Dictionary = LegacyTraceAdapter.to_v1_units({"ok": true})
+	_case("legacy trace adapter rejects malformed traces", not invalid_adapted.get("ok", false) and invalid_adapted.error.code == "INVALID_LEGACY_TRACE")
 
 func _test_v1_run_identity_and_event_contract(catalog: Dictionary) -> void:
 	var initialized: Dictionary = StepEngine.init_run(_config(), catalog, "run_v1_01", "mission_v1_01")
 	var state: Dictionary = initialized.state
 	var blocked: Dictionary = StepEngine.request_action(state, "observe")
 	var blocked_event: Dictionary = blocked.events[0]
+	var blocked_again: Dictionary = StepEngine.request_action(blocked.state, "observe")
+	var blocked_again_event: Dictionary = blocked_again.events[0]
 	var identity_ok: bool = state.run_id == "run_v1_01" and state.mission_id == "mission_v1_01"
-	var event_ok: bool = blocked_event.event_id == "evt_000" and blocked_event.run_id == state.run_id and blocked_event.mission_id == state.mission_id and blocked_event.type == "action_blocked" and blocked_event.has("delta_energy_wh") and blocked_event.has("delta_stored_data_mb") and blocked_event.has("delta_returned_data_mb") and blocked_event.has("delta_observations")
-	_case("v1 run identity and event schema", initialized.ok and identity_ok and event_ok and blocked.state.step_index == state.step_index)
+	var event_ok: bool = blocked_event.event_id == "evt_000" and blocked_event.run_id == state.run_id and blocked_event.mission_id == state.mission_id and blocked_event.type == "action_blocked" and blocked_event.delta_energy_wh == 0.0 and blocked_event.delta_stored_data_mb == 0.0 and blocked_event.delta_returned_data_mb == 0.0 and blocked_event.delta_observations == 0
+	var repeated_event_ok: bool = blocked_again_event.event_id == "evt_001" and blocked_again_event.event_id != blocked_event.event_id and blocked_again_event.step_index == blocked_event.step_index and blocked_again.state.step_index == state.step_index
+	_case("v1 run identity, blocked deltas and unique repeated events", initialized.ok and identity_ok and event_ok and repeated_event_ok and blocked.state.step_index == state.step_index)
 	var actions: Dictionary = StepEngine.get_available_actions(state)
 	_case("v1 action availability map", actions.ok and actions.available_actions.has("observe") and actions.available_actions.has("transmit") and actions.available_actions.has("power_save"))
+
+func _test_inconsistent_terminal_indices(catalog: Dictionary) -> void:
+	var initialized: Dictionary = StepEngine.init_run(_config(), catalog, "run_bad_terminal", "mission_bad_terminal")
+	var operating_at_end: Dictionary = initialized.state.duplicate(true)
+	operating_at_end.step_index = operating_at_end.total_steps
+	var actions: Dictionary = StepEngine.get_available_actions(operating_at_end)
+	var action_result: Dictionary = StepEngine.request_action(operating_at_end, "power_save")
+	var aborted_at_end: Dictionary = initialized.state.duplicate(true)
+	aborted_at_end.step_index = aborted_at_end.total_steps
+	aborted_at_end.phase = "finished"
+	aborted_at_end.run_status = "aborted"
+	aborted_at_end.terminal_reason = "Malformed terminal test"
+	var abort_result: Dictionary = StepEngine.get_available_actions(aborted_at_end)
+	_case("inconsistent terminal indices return errors", not actions.get("ok", false) and actions.error.code == "INVALID_MISSION_STATE" and not action_result.get("ok", false) and action_result.error.code == "INVALID_MISSION_STATE" and not abort_result.get("ok", false) and abort_result.error.code == "INVALID_MISSION_STATE")
+
+func _test_storage_float_boundary(source_catalog: Dictionary) -> void:
+	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [0], [])
+	var state: Dictionary = _initialized(_config(), catalog)
+	var packet_mb: float = 8.0
+	state.stored_data_mb = float(state.storage_capacity_mb) - packet_mb + 0.00000005
+	var result: Dictionary = StepEngine.request_action(state, "observe")
+	var event: Dictionary = result.events[0] if result.get("events", []).size() == 1 else {}
+	_case("storage float boundary cannot exceed capacity", result.get("ok", false) and not result.get("allowed", true) and event.get("code") == "STORAGE_FULL" and is_equal_approx(float(result.state.stored_data_mb), float(state.stored_data_mb)) and float(result.state.stored_data_mb) <= float(result.state.storage_capacity_mb))
 
 func _test_power_save_clamps_and_continues(source_catalog: Dictionary) -> void:
 	var catalog: Dictionary = _catalog_with_windows(source_catalog, "low_eq", [], [])
@@ -250,6 +301,43 @@ func _test_abort_run(catalog: Dictionary) -> void:
 	var repeated: Dictionary = StepEngine.abort_run(state, "Again")
 	_case("terminal run cannot be aborted twice", not repeated.get("ok", false) and repeated.error.code == "MISSION_FINISHED")
 
+func _test_ke1_readiness_integration() -> void:
+	var loaded: Dictionary = Ke1CatalogLoader.load_catalogs()
+	if not loaded.get("ok", false):
+		_case("real KE1 catalogs load with HPC orbit metadata", false)
+		return
+	_case("real KE1 catalogs load with HPC orbit metadata", loaded.catalogs.has("orbit_catalog"))
+	var valid_config: Dictionary = _read_json("res://tests/fixtures/valid_1u_feasible.json")
+	var validation: Dictionary = Ke1MissionValidator.validate(valid_config, loaded.catalogs)
+	var started: Dictionary = StepEngine.init_validated_run(valid_config, loaded.catalogs, "run_ke1_ready", "mission_ke1_ready")
+	_case("KE1 ready result starts HPC run", validation.get("ready_to_launch", false) and started.get("ok", false) and started.validation_result.ready_to_launch and started.state.scenario_id == "high_inc" and is_equal_approx(float(started.state.energy_wh), float(validation.metrics.initial_energy_wh)))
+	var overweight: Dictionary = _read_json("res://tests/fixtures/overweight_1u_1380g.json")
+	var rejected: Dictionary = StepEngine.init_validated_run(overweight, loaded.catalogs, "run_ke1_rejected", "mission_ke1_rejected")
+	_case("KE1 failed readiness cannot start HPC run", not rejected.get("ok", false) and rejected.error.code == "MISSION_NOT_READY" and not rejected.validation_result.ready_to_launch and not rejected.has("state"))
+	var no_target_bundle: Dictionary = loaded.catalogs.duplicate(true)
+	for orbit in no_target_bundle.orbit_catalog.orbits:
+		if str(orbit.id) == "high_inc":
+			orbit.target_windows.erase("equator")
+	var unsuitable: Dictionary = Ke1MissionValidator.validate(valid_config, no_target_bundle)
+	var blocked: Dictionary = StepEngine.init_validated_run(valid_config, no_target_bundle, "run_ke1_unsuitable", "mission_ke1_unsuitable")
+	_case("KE1 readiness uses HPC target windows", not unsuitable.ready_to_launch and unsuitable.checks.target_orbit.status == "fail" and not blocked.get("ok", false) and blocked.validation_result.checks.target_orbit.status == "fail")
+	var low_eq_config: Dictionary = _read_json("res://tests/fixtures/valid_low_eq.json")
+	var low_eq: Dictionary = StepEngine.init_validated_run(low_eq_config, loaded.catalogs, "run_ke1_low_eq", "mission_ke1_low_eq")
+	_case("KE1 readiness and HPC start support low_eq", low_eq.get("ok", false) and low_eq.state.scenario_id == "low_eq")
+
+func _read_json(path: String) -> Dictionary:
+	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		push_error("TEST SETUP FAILURE: could not read %s" % path)
+		_failed += 1
+		return {}
+	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	if not parsed is Dictionary:
+		push_error("TEST SETUP FAILURE: %s must contain a JSON object" % path)
+		_failed += 1
+		return {}
+	return parsed
+
 func _catalog() -> Dictionary:
 	var file := FileAccess.open("res://data/fixtures/hpc_catalog.json", FileAccess.READ)
 	return JSON.parse_string(file.get_as_text())
@@ -285,6 +373,18 @@ func _set_part(catalog: Dictionary, part_id: String, key: String, value: float) 
 		if str(part.id) == part_id:
 			part[key] = value
 			return
+
+func _part(catalog: Dictionary, part_id: String) -> Dictionary:
+	for part in catalog.parts:
+		if str(part.id) == part_id:
+			return part
+	return {}
+
+func _orbit(catalog: Dictionary, orbit_id: String) -> Dictionary:
+	for orbit in catalog.orbits:
+		if str(orbit.id) == orbit_id:
+			return orbit
+	return {}
 
 func _planner() -> GDScript:
 	return load("res://core/OrbitPlanner.gd")

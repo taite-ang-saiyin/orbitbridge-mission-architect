@@ -4,6 +4,7 @@ var name_input: LineEdit
 var description_input: TextEdit
 var description_count: Label
 var observation_input: SpinBox
+var returned_data_input: SpinBox
 var budget_input: HSlider
 var budget_label: Label
 var success_label: Label
@@ -176,6 +177,18 @@ func build_requirements(parent: Node) -> void:
 		state.observations = int(value)
 		refresh())
 	UI.label(box, "Range: 1–8", 11, "a5bed0")
+	UI.label(box, "Required data returned to Earth (MB)", 12, "a5bed0")
+	if not state.has("required_returned_data_mb"): state.required_returned_data_mb = float(state.observations) * 12.0
+	returned_data_input = SpinBox.new()
+	returned_data_input.min_value = 0.1
+	returned_data_input.max_value = 10000
+	returned_data_input.step = 0.1
+	returned_data_input.value = state.required_returned_data_mb
+	returned_data_input.custom_minimum_size.y = 40
+	box.add_child(returned_data_input)
+	returned_data_input.value_changed.connect(func(value):
+		state.required_returned_data_mb = value
+		refresh())
 	box = section(requirements, "06   MISSION DURATION")
 	UI.label(box, "Select the mission length.", 12, "a5bed0")
 	var durations = row(box)
@@ -219,7 +232,7 @@ func build_summary() -> void:
 	box.add_child(HSeparator.new())
 	UI.label(box, "SUCCESS CONDITION", 13, "4ceaa9")
 	success_label = UI.label(box, "", 14, "b4e6d5")
-	UI.label(box, "Returned-data goal: 12 MB per requested capture. Readiness uses KE1; flight uses HPC.", 11, "7d9daf")
+	UI.label(box, "Captures and returned MB are independent goals. Readiness uses KE1; flight uses HPC.", 11, "7d9daf")
 func set_target_limit(limit: int) -> void:
 	target_limit = limit
 	state.target_limit = limit
@@ -247,7 +260,7 @@ func refresh() -> void:
 	if not is_instance_valid(summary):
 		return
 	state.target = ", ".join(state.targets)
-	summary.text = "%s\n\nObjective    %s\n\nTargets\n%s\n\nObservations    %s\n\nDuration    %s Orbits\n\nBudget    %s Credits" % [state.name if not state.name.strip_edges().is_empty() else "Untitled Mission", state.objective, "\n".join(state.targets), state.observations, state.duration, state.budget]
+	summary.text = "%s\n\nObjective    %s\n\nTargets\n%s\n\nObservations    %s\n\nReturned data    %s MB\n\nDuration    %s Orbits\n\nBudget    %s Credits" % [state.name if not state.name.strip_edges().is_empty() else "Untitled Mission", state.objective, "\n".join(state.targets), state.observations, state.required_returned_data_mb, state.duration, state.budget]
 	success_label.text = CATALOG.success(state)
 	description_count.text = "%s / 200" % state.description.length()
 	budget_label.text = "%s Credits" % state.budget

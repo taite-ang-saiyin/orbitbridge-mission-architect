@@ -6,7 +6,9 @@ class_name MissionStepEngine
 ## component rows, targets, objectives, and unit_conventions.
 const Adapter = preload("res://core/HPCContractAdapter.gd")
 const Planner = preload("res://core/OrbitPlanner.gd")
+const MissionValidator = preload("res://scripts/core/mission_validator.gd")
 const ACTIONS: Array[String] = ["observe", "transmit", "power_save"]
+const ENERGY_EPSILON_WH: float = 0.000000001
 
 static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, mission_id: String) -> Dictionary:
 	if run_id.strip_edges().is_empty() or mission_id.strip_edges().is_empty():
@@ -56,6 +58,27 @@ static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, m
 	_refresh_step_context(state, plan)
 	state.available_actions = _available_actions(state)
 	return {"ok": true, "state": state, "events": []}
+
+## KE1 integration entry point: evaluate readiness against the current catalog bundle,
+## combine its HPC orbit_catalog, and only initialize a passing configuration.
+static func init_validated_run(config: Dictionary, ke1_catalogs: Dictionary, run_id: String, mission_id: String) -> Dictionary:
+	var validation_result: Dictionary = MissionValidator.validate(config, ke1_catalogs)
+	if not bool(validation_result.get("ready_to_launch", false)):
+		return {
+			"ok": false,
+			"error": {"code": "MISSION_NOT_READY", "message": "KE1 readiness checks did not approve this configuration."},
+			"validation_result": validation_result
+		}
+	var orbit_data: Variant = ke1_catalogs.get("orbit_catalog", null)
+	if not orbit_data is Dictionary:
+		return _error("INVALID_ORBIT_CATALOG", "KE1 catalogs must include HPC orbit_catalog metadata")
+	var scenario_result: Dictionary = Adapter.build_scenario(ke1_catalogs, orbit_data)
+	if not scenario_result.get("ok", false):
+		return _adapter_error(scenario_result)
+	var started: Dictionary = init_run(config, scenario_result.scenario, run_id, mission_id)
+	if started.get("ok", false):
+		started["validation_result"] = validation_result
+	return started
 
 static func get_available_actions(state: Dictionary) -> Dictionary:
 	var context_result: Dictionary = _context(state)
@@ -163,7 +186,7 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 		"delta_observations": int(next_state.observations_completed) - before_observations,
 		"energy_generated_wh": generated_wh,
 		"energy_consumed_wh": consumed_wh,
-		"energy_clamped": raw_energy < 0.0,
+		"energy_clamped": raw_energy < 0.0 or raw_energy > float(state.battery_capacity_wh),
 		"data_added_mb": data_added_mb,
 		"data_transmitted_mb": data_transmitted_mb,
 		"stored_data_mb": float(next_state.stored_data_mb),
@@ -239,8 +262,12 @@ static func _context(state: Dictionary) -> Dictionary:
 	var expected_phase: String = "operating" if state.run_status == null else "finished"
 	if str(state.phase) != expected_phase:
 		return _error("INVALID_MISSION_STATE", "phase or run_status is inconsistent with step_index")
+	if expected_phase == "operating" and index >= int(state.total_steps):
+		return _error("INVALID_MISSION_STATE", "An operating run must have a step_index below total_steps")
 	if status == "completed" and index != int(state.total_steps):
 		return _error("INVALID_MISSION_STATE", "A completed run must be at total_steps")
+	if status == "aborted" and index >= int(state.total_steps):
+		return _error("INVALID_MISSION_STATE", "An aborted run must preserve a step below total_steps")
 	if status == "aborted" and (not state.get("terminal_reason", null) is String or str(state.terminal_reason).strip_edges().is_empty()):
 		return _error("INVALID_MISSION_STATE", "An aborted run must include terminal_reason")
 	if expected_phase == "finished" and not ["completed", "aborted"].has(status):
@@ -267,7 +294,7 @@ static func _evaluate(action: String, state: Dictionary, resolved: Dictionary, p
 		if bool(parts.instrument.get("requires_sunlight", false)) and not bool(step.sunlight):
 			return _blocked("NO_SUNLIGHT", "The selected instrument requires sunlight during this step.")
 		var packet_mb: float = float(parts.instrument.packet_mb)
-		if float(state.stored_data_mb) + packet_mb > float(state.storage_capacity_mb) + 0.0000001:
+		if float(state.stored_data_mb) + packet_mb > float(state.storage_capacity_mb):
 			return _blocked("STORAGE_FULL", "The observation packet will not fit in remaining storage.")
 	elif action == "transmit":
 		if not bool(step.contact):
@@ -282,7 +309,7 @@ static func _evaluate(action: String, state: Dictionary, resolved: Dictionary, p
 	var load_w: float = float(parts.bus.idle_w) + action_load_w
 	var solar_w: float = float(parts.solar.output_w) if bool(step.sunlight) else 0.0
 	var after_energy: float = float(state.energy_wh) + (solar_w - load_w) * float(step.step_duration_hours)
-	if action != "power_save" and after_energy < -0.0000001:
+	if action != "power_save" and after_energy < -ENERGY_EPSILON_WH:
 		return _blocked("LOW_BATTERY", "Battery energy is insufficient to complete this action and step.")
 	# power_save is always available while operating; accepted action clamps at 0 Wh.
 	return {"allowed": true, "code": "OK", "message": "Action is available."}
