@@ -26,6 +26,8 @@ func _initialize() -> void:
 	_test_legacy_golden_compatibility(catalog)
 	_test_v1_run_identity_and_event_contract(catalog)
 	_test_power_save_clamps_and_continues(catalog)
+	_test_ke1_catalog_bridge()
+	_test_abort_run(catalog)
 	if _failed > 0:
 		push_error("HPC Team Contract v1 suite failed: %d passed, %d failed" % [_passed, _failed])
 		quit(1)
@@ -183,6 +185,70 @@ func _test_power_save_clamps_and_continues(source_catalog: Dictionary) -> void:
 	state.energy_wh = 0.01
 	var result: Dictionary = StepEngine.request_action(state, "power_save")
 	_case("power_save clamps at zero and advances", result.ok and result.state.energy_wh == 0.0 and result.state.step_index == state.step_index + 1 and result.state.run_status == null)
+
+func _test_ke1_catalog_bridge() -> void:
+	var orbit_file := FileAccess.open("res://data/orbits.json", FileAccess.READ)
+	var config_file := FileAccess.open("res://docs/contracts/v1-draft/mission-config.example.json", FileAccess.READ)
+	var orbit_data: Dictionary = JSON.parse_string(orbit_file.get_as_text())
+	var config: Dictionary = JSON.parse_string(config_file.get_as_text())
+	# Selected production KE1 rows and IDs at ke1 commit 15385a4; the shape is CatalogLoader's bundle.
+	var ke1: Dictionary = {
+		"schema_version": 1,
+		"contract_revision": "v1.0-agreed",
+		"components": [
+			{"id": "bus_basic", "category": "bus", "baseline_power_w": 2},
+			{"id": "instrument_basic", "category": "instrument", "observe_power_w": 4, "data_per_observation_mb": 12, "supported_objectives": ["imaging"]},
+			{"id": "solar_standard", "category": "solar", "generation_power_w": 3},
+			{"id": "battery_standard", "category": "battery", "capacity_wh": 25, "initial_charge_fraction": 1},
+			{"id": "radio_basic", "category": "radio", "transmit_power_w": 3, "downlink_mb_per_hour": 48},
+			{"id": "storage_standard", "category": "storage", "capacity_mb": 64}
+		],
+		"launch_profiles": [{"id": "cubesat_1u_sample", "supported_orbit_ids": ["low_eq", "high_inc"]}],
+		"launchers": [{"id": "small", "supported_orbit_ids": ["low_eq", "high_inc"]}],
+		"objective_ids": ["imaging"],
+		"orbit_ids": ["low_eq", "high_inc"],
+		"target_region_ids": ["equator"]
+	}
+	var built: Dictionary = Adapter.build_scenario(ke1, orbit_data)
+	if not built.get("ok", false):
+		_case("KE1 catalog bridge", false)
+		return
+	var initialized: Dictionary = StepEngine.init_run(config, built.scenario, "run_ke1", "mission_ke1")
+	var good: bool = initialized.get("ok", false)
+	if good:
+		var state: Dictionary = initialized.state
+		good = state.total_steps == 60 and is_equal_approx(float(state.energy_wh), 25.0) and state.scenario_id == "high_inc"
+		var saved: Dictionary = StepEngine.request_action(state, "power_save")
+		good = good and saved.ok and saved.allowed and saved.state.step_index == 1
+	_case("KE1 catalog bridge and initial charge", good)
+	var partial_charge_catalog: Dictionary = ke1.duplicate(true)
+	partial_charge_catalog.components[3].initial_charge_fraction = 0.5
+	var partial_built: Dictionary = Adapter.build_scenario(partial_charge_catalog, orbit_data)
+	var partial_run: Dictionary = StepEngine.init_run(config, partial_built.scenario, "run_ke1_partial", "mission_ke1_partial") if partial_built.ok else {}
+	_case("KE1 initial charge fraction is applied", partial_run.get("ok", false) and is_equal_approx(float(partial_run.state.energy_wh), 12.5))
+	var mismatch: Dictionary = ke1.duplicate(true)
+	mismatch.target_region_ids = ["other"]
+	var rejected: Dictionary = Adapter.build_scenario(mismatch, orbit_data)
+	_case("KE1 and HPC target IDs must align", not rejected.ok and rejected.error_code == "CATALOG_ID_MISMATCH")
+	var wrong_contract: Dictionary = ke1.duplicate(true)
+	wrong_contract.contract_revision = "draft"
+	var contract_rejected: Dictionary = Adapter.build_scenario(wrong_contract, orbit_data)
+	_case("KE1 contract revision is checked", not contract_rejected.ok and contract_rejected.error_code == "UNSUPPORTED_KE1_CONTRACT")
+
+func _test_abort_run(catalog: Dictionary) -> void:
+	var initialized: Dictionary = StepEngine.init_run(_config(), catalog, "run_abort", "mission_abort")
+	var starting: Dictionary = initialized.state
+	starting.step_index = 2
+	starting.observations_completed = 1
+	starting.stored_data_mb = 8.0
+	var result: Dictionary = StepEngine.abort_run(starting, "Operator ended the run")
+	var state: Dictionary = result.get("state", {})
+	var event: Dictionary = result.events[0] if result.get("events", []).size() == 1 else {}
+	_case("abort preserves progress and emits terminal event", result.get("ok", false) and state.phase == "finished" and state.run_status == "aborted" and state.step_index == 2 and state.observations_completed == 1 and is_equal_approx(float(state.stored_data_mb), 8.0) and state.terminal_reason == "Operator ended the run" and event.get("type") == "mission_aborted" and event.get("event_id") == "evt_000")
+	var blank: Dictionary = StepEngine.abort_run(starting, "  ")
+	_case("abort requires a reason", not blank.get("ok", false) and blank.error.code == "MISSING_ABORT_REASON")
+	var repeated: Dictionary = StepEngine.abort_run(state, "Again")
+	_case("terminal run cannot be aborted twice", not repeated.get("ok", false) and repeated.error.code == "MISSION_FINISHED")
 
 func _catalog() -> Dictionary:
 	var file := FileAccess.open("res://data/fixtures/hpc_catalog.json", FileAccess.READ)

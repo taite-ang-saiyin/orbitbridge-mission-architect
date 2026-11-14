@@ -33,10 +33,11 @@ static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, m
 		"total_steps": int(resolved.total_steps),
 		"phase": "operating",
 		"run_status": null,
+		"terminal_reason": null,
 		"is_sunlit": false,
 		"in_target_access": false,
 		"in_ground_contact": false,
-		"energy_wh": battery_capacity_wh,
+		"energy_wh": battery_capacity_wh * float(parts.battery.initial_charge_fraction),
 		"battery_capacity_wh": battery_capacity_wh,
 		"stored_data_mb": 0.0,
 		"storage_capacity_mb": storage_capacity_mb,
@@ -57,6 +58,28 @@ static func get_available_actions(state: Dictionary) -> Dictionary:
 	if not context_result.ok:
 		return context_result
 	return {"ok": true, "available_actions": _available_actions(state)}
+
+## Explicitly end an operating run while preserving its current step and resources.
+static func abort_run(state: Dictionary, reason: String) -> Dictionary:
+	var context_result: Dictionary = _context(state)
+	if not context_result.ok:
+		return context_result
+	if str(state.phase) == "finished":
+		return _error("MISSION_FINISHED", "A finished mission cannot be aborted again.")
+	if reason.strip_edges().is_empty():
+		return _error("MISSING_ABORT_REASON", "An abort reason must be a non-empty string.")
+	var next_state: Dictionary = state.duplicate(true)
+	var log: Array = next_state.get("event_log", []).duplicate(true)
+	var sequence: int = int(next_state.get("next_event_sequence", log.size()))
+	next_state.phase = "finished"
+	next_state.run_status = "aborted"
+	next_state.terminal_reason = reason.strip_edges()
+	var event: Dictionary = _make_event(next_state, sequence, int(state.step_index), "", "mission_aborted", "MISSION_ABORTED", next_state.terminal_reason, {"terminal_reason": next_state.terminal_reason})
+	log.append(event)
+	next_state.event_log = log
+	next_state.next_event_sequence = sequence + 1
+	next_state.available_actions = _available_actions(next_state)
+	return {"ok": true, "state": next_state, "events": [event]}
 
 static func request_action(state: Dictionary, action: String) -> Dictionary:
 	var context_result: Dictionary = _context(state)
@@ -190,9 +213,18 @@ static func _context(state: Dictionary) -> Dictionary:
 	var index: int = int(state.step_index)
 	if index < 0 or index > int(state.total_steps) or int(state.total_steps) != int(resolved.total_steps) or str(state.scenario_id) != str(config.design.orbit_id):
 		return _error("INVALID_MISSION_STATE", "step_index, total_steps, or scenario_id is inconsistent with the run snapshot")
-	var expected_phase: String = "finished" if index == int(state.total_steps) else "operating"
-	if str(state.phase) != expected_phase or (expected_phase == "finished" and str(state.run_status) != "completed") or (expected_phase == "operating" and state.run_status != null):
+	var status: String = str(state.run_status) if state.run_status != null else ""
+	var expected_phase: String = "operating" if state.run_status == null else "finished"
+	if str(state.phase) != expected_phase:
 		return _error("INVALID_MISSION_STATE", "phase or run_status is inconsistent with step_index")
+	if status == "completed" and index != int(state.total_steps):
+		return _error("INVALID_MISSION_STATE", "A completed run must be at total_steps")
+	if status == "aborted" and (not state.get("terminal_reason", null) is String or str(state.terminal_reason).strip_edges().is_empty()):
+		return _error("INVALID_MISSION_STATE", "An aborted run must include terminal_reason")
+	if expected_phase == "finished" and not ["completed", "aborted"].has(status):
+		return _error("INVALID_MISSION_STATE", "Finished run_status must be completed or aborted")
+	if expected_phase == "operating" and state.run_status != null:
+		return _error("INVALID_MISSION_STATE", "Operating run_status must be null")
 	var plan: Dictionary = Planner.build_step_plan(str(config.design.orbit_id), [str(config.mission.target_region)], int(state.total_steps), catalog)
 	if not plan.ok:
 		return _error(str(plan.get("error_code", "INVALID_SCENARIO")), str(plan.get("error_message", "Could not rebuild the step plan.")))

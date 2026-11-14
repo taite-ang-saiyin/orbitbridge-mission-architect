@@ -6,6 +6,63 @@ const SCHEMA_VERSION: int = 1
 const CONTRACT_VERSION: String = "team-v1"
 const KB_PER_MB: float = 1000.0
 
+## Combine KE1 CatalogLoader's v1 bundle with HPC's authored orbit presets.
+## The returned scenario is a snapshot suitable for MissionStepEngine.init_run.
+static func build_scenario(ke1_catalogs: Dictionary, orbit_data: Dictionary) -> Dictionary:
+	if int(ke1_catalogs.get("schema_version", 0)) != SCHEMA_VERSION or str(ke1_catalogs.get("contract_revision", "")) != "v1.0-agreed":
+		return _error("UNSUPPORTED_KE1_CONTRACT", "KE1 catalogs must use schema_version 1 and contract_revision v1.0-agreed")
+	for key in ["components", "launch_profiles", "launchers", "objective_ids", "orbit_ids", "target_region_ids"]:
+		if not ke1_catalogs.get(key, null) is Array:
+			return _error("INVALID_KE1_CATALOG", "KE1 catalog field %s must be an array" % key)
+	for key in ["orbits", "targets"]:
+		if not orbit_data.get(key, null) is Array:
+			return _error("INVALID_ORBIT_CATALOG", "HPC orbit field %s must be an array" % key)
+	if not orbit_data.get("unit_conventions", null) is Dictionary:
+		return _error("UNSUPPORTED_DATA_UNITS", "HPC orbit data must define unit_conventions")
+	if int(orbit_data.get("schema_version", 0)) != SCHEMA_VERSION:
+		return _error("UNSUPPORTED_ORBIT_SCHEMA", "HPC orbit data schema_version must be 1")
+	var parts: Array = []
+	for component in ke1_catalogs.components:
+		if not component is Dictionary:
+			return _error("INVALID_KE1_CATALOG", "KE1 components must contain objects")
+		var part: Dictionary = component.duplicate(true)
+		part.kind = str(part.get("category", ""))
+		match part.kind:
+			"bus": part.idle_w = part.get("baseline_power_w", null)
+			"instrument":
+				part.observe_w = part.get("observe_power_w", null)
+				part.packet_mb = part.get("data_per_observation_mb", null)
+			"solar": part.output_w = part.get("generation_power_w", null)
+			"radio": part.transmit_w = part.get("transmit_power_w", null)
+			"battery", "storage": pass
+			_: return _error("INVALID_KE1_CATALOG", "Unknown KE1 component category '%s'" % part.kind)
+		parts.append(part)
+	var orbits: Array = []
+	for orbit in orbit_data.orbits:
+		if not orbit is Dictionary or not ke1_catalogs.orbit_ids.has(orbit.get("id", null)):
+			return _error("CATALOG_ID_MISMATCH", "HPC orbit is absent from KE1 orbit_ids")
+		orbits.append(orbit.duplicate(true))
+	var targets: Array = []
+	for target in orbit_data.targets:
+		if not target is Dictionary or not ke1_catalogs.target_region_ids.has(target.get("id", null)):
+			return _error("CATALOG_ID_MISMATCH", "HPC target is absent from KE1 target_region_ids")
+		targets.append(target.duplicate(true))
+	var objectives: Array = []
+	for objective_id in ke1_catalogs.objective_ids:
+		objectives.append({"id": objective_id})
+	return {"ok": true, "scenario": {
+		"schema_version": SCHEMA_VERSION,
+		"scenario_version": str(orbit_data.get("scenario_version", "")),
+		"contract_revision": str(ke1_catalogs.get("contract_revision", "")),
+		"unit_conventions": orbit_data.unit_conventions.duplicate(true),
+		"parts": parts,
+		"orbits": orbits,
+		"targets": targets,
+		"objectives": objectives,
+		"launch_profiles": ke1_catalogs.launch_profiles.duplicate(true),
+		"launchers": ke1_catalogs.launchers.duplicate(true)
+	}}
+
 static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictionary:
 	if not config.has("schema_version"):
 		return _error("MISSING_FIELD", "schema_version is required")
@@ -86,6 +143,10 @@ static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictiona
 	for kind in parts:
 		normalized_parts[kind] = parts[kind].duplicate(true)
 	var battery: Dictionary = normalized_parts.battery
+	var initial_charge_fraction: Variant = battery.get("initial_charge_fraction", 1.0)
+	if not _is_number(initial_charge_fraction) or float(initial_charge_fraction) <= 0.0 or float(initial_charge_fraction) > 1.0:
+		return _error("INVALID_CATALOG_VALUE", "battery.initial_charge_fraction must be finite and within (0, 1]")
+	battery.initial_charge_fraction = float(initial_charge_fraction)
 	if battery.has("capacity_wh"):
 		if not _is_number(battery.capacity_wh):
 			return _error("INVALID_CATALOG_VALUE", "battery.capacity_wh must be finite")
