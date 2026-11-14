@@ -206,6 +206,8 @@ KE1 reply reviewed, 14 November 2026. The supplied `message_to_ke2.md` identifie
   - [x] Verify the candidate presentation receives the complete ordered history, scoped readiness credit, and structured Survey error through the integrated Results route.
   - [x] Verify candidate Retry starts a new run, resets the event sequence, and retains its completed baseline; verify New Mission resets baseline/history through the catalog reset entry point.
   - [x] Verify reopening candidate Results preserves run history through the actual scene route.
+  - [x] Complete Prompt 8's current KE3 handoff. Inspect the actual `set_inputs(context, state, report)` scene and SE presentation adapter, document all 17 report fields/types, exact original example, null/error/comparison handling and stale-result resets. Existing report output satisfies the consumer contract.
+  - [x] Rerun the candidate Results/lifecycle suite with Godot 4.7.2 (57 passed) and verify the original partial plus actual operator-abort reports through the actual adapter/scene using the local KE2 harness (50 passed). Both commands exited 0, zero failed. Logs are `tmp/ke2-prompt8-results-integration.log` and `tmp/ke2-prompt8-report-binding.log`. The probe checks percentages, code/evt_008 resolution, exact text, null score/comparison, scoped credits, missing evidence, input preservation and clearing the old view. See [the KE3 handoff](ke2/ke3-results-handoff.md).
   - [ ] Complete manual acceptance of navigation, lifecycle controls, original partial/abort packets, and credits on the selected release revision.
 
 Completion evidence: real config, run ID, terminal trace, report, and displayed values agree. Route changes in another owner's files to that owner with the requested call/binding and verification steps.
@@ -235,6 +237,9 @@ Status and prompt-readiness review, 14 November 2026. The newer isolated checkou
 ## 8. Optional P1 retry comparison
 
 The separate SE Survey extension also needs coordination. Its aggregate goals and per-target fully delivered observations require agreed verdict/score/report examples. The current evaluator returns `INVALID_EVALUATION_INPUT` for explicit Survey requests. Imaging integration can use the supplied offline package.
+
+- [x] Review KE3's Survey release-scope question and prepare the KE2 reply to KE3/SE. Confirm current imaging support, cite the Survey guard at c1ce6de, propose imaging-only scope, and request SE/team confirmation plus Creator/Launch alignment. [Prepared reply](ke2/team-requests.md#reply-to-ke3-and-se-on-survey-release-scope).
+- [ ] Record SE/team's final Survey release-scope decision and corresponding Creator/Launch behavior. The drafted imaging-only recommendation awaits confirmation.
 
 - [ ] Agree and implement the Survey scoring extension with KE1/HPC/SE/KE3.
   - [x] Inspect SE d60d224's documented target_regions and per-target delivered/data/capture fields.

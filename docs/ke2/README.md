@@ -10,6 +10,7 @@ KE2 owns mission evaluation, scoring, evidence-based explanations, corrective ex
 | --- | --- |
 | [Evaluation and feedback](evaluation-and-feedback.md) | Public methods, input requirements, scoring, aborts, reason codes, and evidence selection |
 | [Integration handoff](integration-handoff.md) | KE1/HPC/SE/KE3 responsibilities, invocation, every report/error field, display guidance, and a recorded report |
+| [KE3 Results handoff](ke3-results-handoff.md) | Complete original report, field/type/null contract, actual Results binding, comparison/reset guidance and 57/50 passing integration checks |
 | [HPC runtime integration](hpc-integration.md) | Native-state adapter, actual field mapping, pinned producer revision, completed/blocked/aborted checks, and reproduction commands |
 | [Testing](testing.md) | Headless commands, recorded results, acceptance cases, and pending integration checks |
 | [NASA sources and credits](nasa-sources.md) | Human-readable source records, strict sample mass criterion, attribution, and verification status |

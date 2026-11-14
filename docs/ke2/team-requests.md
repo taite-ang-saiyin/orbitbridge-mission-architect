@@ -2,6 +2,18 @@
 
 Prepared 14 November 2026 against `v1.0-agreed` and the validated KE1/HPC bundle. These messages are ready for the user to send. Attach the matching KE2 handoff ZIP when sending the SE and KE3 messages. [Handoff ZIP](../handoffs/ke3_validated_1u_55d4f33_9dfd942_20261114_01.zip), [report and evidence](../handoffs/ke3_validated_1u_55d4f33_9dfd942_20261114_01/README.md).
 
+## Reply to KE3 and SE on Survey release scope
+
+Prepared after KE3's scope question. The following reply proposes imaging-only release scope for SE/team confirmation.
+
+Hi KE3 + SE — KE2 currently supports imaging evaluation under `v1.0-agreed`. The agreement starts with `mission.objective: imaging` and requires working evaluation support for an expansion.
+
+I recommend an imaging-only release. At KE2 commit `c1ce6de39ee331300464ca9391dc73ee5dc786df`, `scripts/evaluation/mission_evaluator.gd` returns `INVALID_EVALUATION_INPUT` at `config.mission.objective` for Survey. Per-target Survey scoring remains pending.
+
+SE, please confirm imaging-only release scope and align Creator/Launch accordingly, including loaded Survey drafts. KE3 can then present the imaging reports through the verified Results binding.
+
+If the release requires Survey, we need agreed per-target delivery semantics, score weights, report fields and versioned examples for all goals met, a missing region, partial delivery and abort. KE2 can implement that extension once these are aligned with KE1/HPC/SE/KE3. Please record the final release-scope decision in the shared agreement or release note.
+
 ## Message to SE
 
 Hi SE, thanks for the controller handoff. I recorded your local implementation based on `d60d224`, including publication, Retry, Abort, New Mission, error handling, and validation retention. Your tests used cached KE2 `f313e6f`.

@@ -2,15 +2,17 @@
 
 Owner KE2. Prepared 14 November 2026 for KE1, HPC, SE, and KE3 against `v1.0-agreed`.
 
+The current KE3 handoff includes a complete original MissionReport, every field/type, nullability, the actual scene binding, error routing, comparison display, reset guidance and candidate verification. The reviewed candidate is `14c0f97`, with integration implementation `b23de72`. [KE3 Results handoff](ke3-results-handoff.md).
+
 ## Team boundaries
 
 | Owner | Handoff to or from KE2 | Current evidence |
 | --- | --- | --- |
-| KE1 | Validated config, positive goals, selected profile, readiness result, and sourced mass-check fields | Real readiness-approved launch verified with HPC at b9817c3, mass boundary cases pending |
+| KE1 | Validated config, positive goals, selected profile, readiness result, and sourced mass-check fields | Real readiness-approved launch and 470 independently rerun fixture checks verified; Builder boundaries pending |
 | HPC | Terminal state, run/mission identity, ordered events, received/stored MB, successful capture count | Native engine completion, blocked transmission, and operator abort verified at b9817c3 |
-| SE | Immutable launch config, terminal evaluation call, error handling, one report per run, retry/reset state | Controller call sites and complete lifecycle verification pending |
+| SE | Immutable launch config, terminal evaluation call, error handling, one report per run, retry/reset state | Candidate actual route and 57 Results/lifecycle checks verified; selected-release manual acceptance pending |
 | KE2 | Structured evaluation wrapper with score, status, evidence, and next experiment | Evaluator, feedback, tests, ledger, and recorded report available |
-| KE3 | Rendered report, event references, retry interaction, and source credits | Recorded-preview source/hashes/logs/screenshots reviewed; integrated controller lifecycle pending |
+| KE3 | Rendered report, event references, retry interaction, and source credits | Candidate scene verified through the actual adapter, including original partial/abort reports, evidence, credits and clearing stale display |
 
 ## Invocation
 
@@ -32,9 +34,9 @@ func preview_terminal_report(
         print(error["suggested_fix"])
 ```
 
-This preview illustrates the existing API. SE binds the returned dictionaries to the actual navigation and Results methods when those call sites are available. The fourth argument accepts a comparison baseline and is reserved for optional comparison.
+This preview illustrates the evaluator API. The actual candidate calls `mission_results.presentation(trace)` then `report_view.set_inputs(payload.context, payload.state, payload.report)` in `Screen.show_actual_run`. The fourth evaluator argument accepts a comparison baseline and is reserved for optional comparison.
 
-For a native `MissionStepEngine` terminal state, call `Evaluator.evaluate_hpc_state(state)`. This uses the retained launch config and cumulative event log. HPC's `terminal_reason` is supported for abort feedback. The combined KE1/HPC/KE2 suite passed 205 checks in the isolated pinned project. [Mapping and runtime checks](hpc-integration.md).
+For a native `MissionStepEngine` terminal state, call `Evaluator.evaluate_hpc_state(state)`. This uses the retained launch config and cumulative event log. HPC's `terminal_reason` is supported for abort feedback. The current combined KE1/HPC/KE2 suite passed 207 checks in the isolated pinned project. [Mapping and runtime checks](hpc-integration.md).
 
 ## MissionReport fields
 
@@ -102,7 +104,7 @@ The sample carries `launch_approved: false`. Its verification covers the recorde
 5. Retry starts a fresh run with fresh counters/events and preserves an eligible baseline. New Mission clears the baseline.
 6. KE3 renders the report and resolves event/source references from the same attempt.
 
-Actual controller wiring and export behavior await SE's integration revision. KE1's recorded mass-boundary evidence and KE3's Results/credit-preview evidence have been reviewed. Native producer abort metadata is verified as the `terminal_reason` string at b9817c3. The older `abort_reason` string/dictionary boundary remains supported. The existing recorded sample uses empty source IDs. [NASA integration evidence](nasa-sources.md), [HPC runtime verification](hpc-integration.md).
+Candidate controller wiring and lifecycle checks now have execution evidence at `14c0f97`. Original partial/abort reports also pass the adapter-to-scene binding checks. Manual selected-release and export acceptance remain pending. Native producer abort metadata is verified as the `terminal_reason` string at b9817c3. The older `abort_reason` string/dictionary boundary remains supported. The existing recorded sample uses empty source IDs. [Current KE3 binding](ke3-results-handoff.md), [NASA integration evidence](nasa-sources.md), [HPC runtime verification](hpc-integration.md).
 
 Optional controlled retry comparison remains P1. The agreement requires completed eligible attempts with matching scenario, goals, and duration, plus preserved design/action metadata for changed-choice explanations. Current output is `comparison: null`. [Lifecycle and comparison contract](../contracts.md#9-controller-migration-lifecycle-and-comparison).
 
@@ -128,14 +130,16 @@ KE3 supplied `data/ke3-results-verification` for run `ke3_validated_1u_55d4f33_9
 
 KE2's review used the supplied source, hashes, logs, and screenshots. It preserves the execution attribution to KE3. Report payload correction is unnecessary for this reviewed presentation path.
 
-SE needs to coordinate a presentation-state projection from HPC's native cumulative `event_log` to KE3's `state.events`, with original order and run identity retained. Evaluation consumes the native state. Results consumes the unwrapped report together with context and presentation state. This mapping is verified in the recorded provider and awaits the integrated controller binding. [Reviewed provider](../../data/ke3-results-verification/preview-source/preview/ke2_recorded_provider.gd), [reviewed Results source](../../data/ke3-results-verification/preview-source/ke3/debrief_screen.gd).
+The candidate's `mission_results.presentation(trace)` implements the projection from native cumulative `event_log` to KE3's `state.events`, retaining the original order and identity. The Results method receives the unwrapped report together with context and presentation state. This mapping is now verified through both the candidate route and original partial/abort binding checks. [Current handoff](ke3-results-handoff.md), [reviewed provider](../../data/ke3-results-verification/preview-source/preview/ke2_recorded_provider.gd), [reviewed Results source](../../data/ke3-results-verification/preview-source/ke3/debrief_screen.gd).
 
-Controller-driven reopening, Retry, New Mission, duplicate publication, and error routing remain pending. B02, official B10, export checks, and source-link opening remain pending. The supplied preview identifies its local source bytes independently of the reported clean team checkout at `main@1a82ebd93a019b751947965aa760e8e759d8f45b`.
+Candidate checks cover reopening, Retry, New Mission catalog reset, duplicate publication and error routing. Manual selected-release acceptance, B02, official B10, exports and source-link opening remain pending. The earlier supplied preview identifies its local source bytes independently of the reported clean team checkout at `main@1a82ebd93a019b751947965aa760e8e759d8f45b`.
 
-## SE controller reply
+## Earlier SE controller reply
 
 SE's received handoff reports uncommitted controller/results changes based on `d60d224`, using cached KE2 `f313e6f` and a locally added native-state shim. It identifies `MissionController.on_terminal_state`, `mission_results.publish/baseline_for`, retry/abort/New Mission, and `scripts/prototype/Screen.gd` Results methods. Its latest source, raw logs, and saved reproduction JSON await delivery. The cached SE base is available for inspection. Acceptance of the latest controller execution remains pending that evidence and the shared KE3 walkthrough.
 
+The subsequent candidate `14c0f97` supplies the implementation and passing execution evidence described in the current KE3 handoff. Its KE2 modules match root `dbf65ad`.
+
 The KE2 offline package supplies the current native adapter and original validated packet. The new explicit Survey guard uses the existing `INVALID_EVALUATION_INPUT` envelope. The current code passes 167 standalone and 207 pinned combined assertions and reproduces the original report exactly. Its source snapshot extends Git base `79e249b` with uncommitted guard/test changes, identified by package hashes. SE's earlier runtime API can run the standalone suite with `-- --ke2-standalone`. [Package and commands](../handoffs/ke2-se-controller-v0.1/README.md).
 
-The Survey extension needs versioned config/state/event examples, expected results, delivery semantics, scoring weights, and consumer fields aligned across the affected owners. Current imaging evaluation remains available. SE also needs to confirm how its prototype Results methods connect to KE3's reviewed `set_inputs` binding and complete the original-trace and integrated lifecycle checks.
+The Survey extension needs versioned config/state/event examples, expected results, delivery semantics, scoring weights, and consumer fields aligned across the affected owners. The candidate's prototype Results methods now connect to KE3's `set_inputs` binding. Manual acceptance on the selected release and exported-build verification remain open.
