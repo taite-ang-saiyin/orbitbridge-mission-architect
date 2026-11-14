@@ -1,0 +1,11 @@
+SE / release coordinator:
+Please confirm whether integration/ke2-se-results-d60d224@14c0f973c140e9644650e94e769b6b1b3dfb3951 is the shared/release target, or give its replacement full SHA. Confirm the Operations policy-playback scope and Survey scope, and explicit kickoff confirmation if separately recorded. I verified Creator→KE1→HPC→KE2 locally; one Results identity/credit presentation fix remains local in KE3_PRESENTATION.diff. Please review/adopt it and supply the exact replacement build SHA plus served Compatibility Web URL/build ID and the approved demo cases. This candidate's Retry immediately relaunches the same design; it is not the later editable Retry route.
+
+KE2 (only if Survey is included in the agreed release):
+At the pinned target, actual Survey execution returns INVALID_EVALUATION_INPUT at config.mission.objective: per-target delivery scoring requires agreement. Please confirm imaging-only release scope with SE, or provide the agreed Survey evaluator revision and a same-run report/evidence sample. Imaging reports and NO_LINK_WINDOW event evidence are already verified; please do not resend the old imaging packet.
+
+Teammate playtester / KE3 observer (after SE provides the build):
+Please reserve an uncoached roughly five-minute playtest of SE's exact served Web build: goal→design→Readiness→Launch→Operations→credits→explain Debrief→name one change→Retry. We need actual elapsed time, browser/version, run ID/trace, and any hesitation; no human timing has been collected yet.
+
+Designated submitter / release capture owner:
+Please supply the approved playable/repository/demo/source URLs and the submission receipt or equivalent confirmation. Confirm approved shortfall/power case and share labelled full-loop, success, shortfall and Retry footage from that build. If a desktop or recorded-demo fallback is proposed, include organizer acceptance. For closeout, give the exact correction/replacement build to retest, or explicitly confirm no correction is needed.

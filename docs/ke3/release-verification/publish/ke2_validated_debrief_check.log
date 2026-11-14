@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+VALIDATED KE2 DEBRIEF: 63 checks; 1 failures
+FAIL
+ERROR: Stale report cannot display scoped metadata credits
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] expect (res://tests/ke2_recorded_debrief_check.gd:28)
+       [1] _run (res://tests/ke2_validated_debrief_check.gd:96)

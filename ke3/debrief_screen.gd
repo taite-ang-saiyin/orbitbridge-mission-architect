@@ -190,7 +190,7 @@ func _credits_text() -> String:
 	var profile := _profile()
 	var lines: Array[String] = [_text(_context.get("attribution_notice", "SYNTHETIC metadata / preview attribution; production ledger unverified.")), "Profile source: " + _text(profile.get("source_label")), "Profile credit: " + _text(profile.get("credit"))]
 	var metadata: Variant = _context.get("source_metadata", {})
-	var source_ids: Variant = _report.get("source_ids", []) if not _matching_run_id().is_empty() else []
+	var source_ids: Variant = _report.get("source_ids", []) if _report_matches_context() else []
 	if not source_ids is Array:
 		source_ids = []
 	for source_id in source_ids:
@@ -200,10 +200,17 @@ func _credits_text() -> String:
 		lines.append("Source ID: %s\nTitle: %s\nCredit: %s\nURL: %s" % [source_id, _text(source.get("title")), _text(source.get("credit")), _text(source.get("url"))])
 	# Credits scoped to executed readiness or feedback vocabulary arrive as
 	# display metadata. Preserve the evaluator's independent source_ids verbatim.
-	var scoped_credits: Variant = _context.get("applicable_source_credits", []) if not _matching_run_id().is_empty() else []
+	var has_context_run: bool = _context.get("run_id") is String and not String(_context.run_id).is_empty() and _state.get("run_id") == _context.run_id
+	# A foreign-run report invalidates its entire scoped metadata binding.
+	if not _report.is_empty() and _report.get("run_id") != _context.get("run_id"):
+		has_context_run = false
+	var scoped_credits: Variant = _context.get("applicable_source_credits", []) if has_context_run else []
 	if scoped_credits is Array:
 		for credit in scoped_credits:
 			if credit is Dictionary:
+				# Readiness is independently executed; feedback needs this run's report.
+				if credit.get("credit_scope") != "readiness" and not _report_matches_context():
+					continue
 				lines.append("Applicable credit scope: %s (metadata; not report source_ids)\nMetadata source ID: %s\nTitle: %s\nCredit: %s\nURL: %s\nActual use: %s" % [_text(credit.get("credit_scope")), _text(credit.get("source_id")), _text(credit.get("title")), _text(credit.get("attribution_text")), _text(credit.get("url")), _text(credit.get("actual_use"))])
 	var attributions: Variant = _context.get("visual_attributions", [])
 	if not attributions is Array:
@@ -212,6 +219,23 @@ func _credits_text() -> String:
 		if attribution is Dictionary:
 			lines.append("Preview visual-cue attribution: %s\n%s\n%s" % [_text(attribution.get("title")), _text(attribution.get("url")), _text(attribution.get("credit"))])
 	return "\n\n".join(lines)
+
+
+func _report_matches_context() -> bool:
+	if _matching_run_id().is_empty() or _report.is_empty():
+		return false
+	if _state.has("mission_id") and _report.get("mission_id") != _state.mission_id:
+		return false
+	if _context.has("mission_id") and _report.get("mission_id") != _context.mission_id:
+		return false
+	var mission: Dictionary = _selected_mission()
+	for field in ["required_observations", "required_returned_data_mb"]:
+		if _report.has(field) and mission.has(field) and _report[field] != mission[field]:
+			return false
+	for field in ["observations_completed", "returned_data_mb", "run_status"]:
+		if _report.has(field) and _state.has(field) and _report[field] != _state[field]:
+			return false
+	return true
 
 
 func get_debrief_model() -> Dictionary:
@@ -252,6 +276,10 @@ func get_debrief_model() -> Dictionary:
 			model.returned = "%s/%s MB" % [_text(_state.get("returned_data_mb", _state.get("returned_mb"))), _text(goal_mb)]
 		return model
 	if _report.get("run_id") != _context.get("run_id"):
+		return model
+	if not _report_matches_context():
+		model.presentation_state = "stale_report"
+		model.summary = "Report identity, goals or counters do not match this execution."
 		return model
 	model.presentation_state = "report"
 	model.status = _text(_report.get("status"))
