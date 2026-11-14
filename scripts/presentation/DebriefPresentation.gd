@@ -17,10 +17,11 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 	var mission: Dictionary = config.get("mission", {})
 	var id: String = str(final.get("run_id", ""))
 	var report: Dictionary = store.get("reports", {}).get(id, {})
-	var model: Dictionary = {"state":"pending", "text":"", "credits":"", "report":{}}
+	var model: Dictionary = {"state":"pending", "text":"", "credits":"", "report":{}, "execution_key":preload("res://scripts/integration/mission_results.gd").input_key(trace)}
 	var heading: String = "%s / %s\n%s" % [text(final.get("run_id")), text(final.get("run_status")), text(mission.get("title"))]
 	if not report.is_empty():
 		var matches: bool = report.get("run_id") == final.get("run_id") and report.get("mission_id") == final.get("mission_id")
+		if report.has("objective") and report.objective != mission.get("objective"): matches = false
 		var expected_key: Variant = store.get("bindings",{}).get(id)
 		if expected_key != null and expected_key != preload("res://scripts/integration/mission_results.gd").input_key(trace): matches = false
 		for key in ["required_observations", "required_returned_data_mb"]:
@@ -30,6 +31,11 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 		if not matches:
 			model.state = "stale_report"
 			model.text = heading + "\n\nReport unavailable: run/mission, goals or counters do not match this run."
+		elif mission.get("objective") in ["communication", "weather_monitoring"] and (not report.get("goal_progress") is Array or report.goal_progress.is_empty()):
+			# A v1 aggregate Imaging score cannot certify an expanded objective.
+			# The goal_progress extension is still a draft; mapping awaits KE2 handoff.
+			model.state = "unsupported_report"
+			model.text = heading + "\n\nObjective-specific report Unavailable. The supplied aggregate report has no qualifying contact/orbit progress."
 		else:
 			model.state = "report"
 			model.report = report.duplicate(true)
@@ -57,15 +63,16 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 								model.text += "\nEvidence: %s | Step %s | %s" % [event_id, text(event.get("step_index")), text(event.get("message"))]
 	if model.state == "pending":
 		var error: Dictionary = store.get("errors", {}).get(id, {})
+		model.evaluation_error = error.duplicate(true)
 		model.state = "evaluation_error" if not error.is_empty() else "pending"
 		model.text = heading + "\n\nEvaluation unavailable\n%s\n%s" % [text(error.get("message", "Finish or abort playback before requesting evaluation.")), text(error.get("suggested_fix", "Return to Operations and finish or abort the run."))]
 	for target_id in mission.get("target_regions", [mission.get("target_region", "")]):
 		if str(target_id).is_empty(): continue
-		var captured: Variant = final.get("observations_by_target", {}).get(target_id, 0) if final.has("observations_by_target") else null
-		var returned: Variant = final.get("returned_data_by_target_mb", {}).get(target_id, 0.0) if final.has("returned_data_by_target_mb") else null
+		var captured: Variant = final.get("observations_by_target", {}).get(target_id) if final.has("observations_by_target") else null
+		var returned: Variant = final.get("returned_data_by_target_mb", {}).get(target_id) if final.has("returned_data_by_target_mb") else null
 		model.text += "\n%s: %s captures, %s MB returned" % [str(target_id).replace("_", " ").capitalize(), text(captured), text(returned)]
 		if mission.get("objective") == "survey":
-			var delivered: Variant = final.get("observations_delivered_by_target", {}).get(target_id, 0) if final.has("observations_delivered_by_target") else null
+			var delivered: Variant = final.get("observations_delivered_by_target", {}).get(target_id) if final.has("observations_delivered_by_target") else null
 			model.text += " / %s complete observations delivered" % text(delivered)
 	model.text += "\n\nHPC battery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
 	# Launch credit is bound to the executed validation, independent of report source_ids.
