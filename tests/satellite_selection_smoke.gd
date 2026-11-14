@@ -20,9 +20,15 @@ func check():
 		app.current.next_button.pressed.emit()
 		await settle()
 		assert(app.current.preview.model.selected_ids.body_id == id)
+		if number == 3:
+			app.state.launch_profile_id = "illustrative_alternative"
+			app.state.launcher_id = "medium"
+			app.state.budget = 120
+			app.show_screen(3)
+			await settle()
 		app.current.next_button.pressed.emit()
 		await settle()
-		assert(app.current.run_configuration.selected_ids.body_id == id)
+		assert(app.current.run_configuration.design.bus_id == app.state.run_design.design.bus_id)
 		assert(app.current.orbit_view.stage.craft.get_node("ModelSlot").selected_ids.body_id == id)
 	app.show_screen(2)
 	await settle()

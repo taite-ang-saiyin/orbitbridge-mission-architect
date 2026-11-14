@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "catalog_version": "demo-1",
+  "model_version": "slots-1",
+  "description": "Proposal page 9 controlled radio experiment; both runs share the same brief and differ only by radio_id.",
+  "brief": {
+    "name": "Estuary Watch",
+    "description": "",
+    "objective_id": "capture",
+    "target_ids": ["equator"],
+    "required_obs": 5,
+    "duration_orbits": 3,
+    "budget_cr": 100
+  },
+  "design": {
+    "instrument_id": "cam",
+    "bus_id": "core_bus",
+    "battery_id": "bat60",
+    "solar_id": "solar40",
+    "storage_id": "store50",
+    "launcher_id": "small_launch",
+    "orbit_id": "low_eq",
+    "policy": "observe_first"
+  },
+  "expected": {
+    "run_a": {"radio_id": "radio_base", "captured": 5, "delivered": 2, "returned_kb": 16620, "buffer_kb": 23380, "min_battery_ws": 190516, "cost_cr": 85, "mass_kg": 24},
+    "run_b": {"radio_id": "radio_upgraded", "captured": 5, "delivered": 5, "returned_kb": 40000, "buffer_kb": 0, "min_battery_ws": 183868, "cost_cr": 96, "mass_kg": 25}
+  }
+}

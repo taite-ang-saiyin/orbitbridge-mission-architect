@@ -199,3 +199,19 @@ Remaining implementation work includes KE1's actual catalogs/validator, HPC's re
 Compatibility rendering is agreed, but the inspected local main project still declares Forward Plus/d3d12 while the agreement reports Compatibility on master. SE owns that sync and the early Web export check. This documentation/example synchronization does not modify project.godot or merge branches. Final Windows/Web packaging can be chosen at the first playable slice.
 
 Change record for this synchronization: aligned with `v1.0-agreed`; replaced old example orbit/target IDs, replaced the public radio metric with MB/hour, added the four signed state/event/report payloads verbatim, documented agreed APIs and error wrappers, and added unit/rounding/abort/action-timing example checks. No production game behavior is implemented by these documentation fixtures.
+
+
+## Local implementation extension: selectable missions and regions
+
+Added at the user's request on 14 November 2026. This implementation addendum does not change the preserved signed team agreement or imply new teammate signoffs.
+
+- `MissionConfig.mission.target_regions` is optional: an array of one or two unique registered IDs. When present, its first entry must equal `target_region`; every region must pass readiness. Omitted means the original single `target_region`.
+- The integrated game scenario additionally registers `survey` as an imaging-instrument objective, plus `tropical_forest`, `equatorial_ocean`, `coastal_region`, `temperate_land`, `arctic_ice`, `antarctic_region`. The native IDs remain supported. New windows are explicitly illustrative and stored separately in `data/mission_scenarios.json`; the source HPC orbit file is unchanged.
+- `imaging` retains aggregate captured-observation and returned-MB goals. `survey` additionally requires one fully delivered observation from every selected region. Required capture count must be at least the selected target count.
+- HPC state additionally exposes `observations_by_target`, `returned_data_by_target_mb`, `observations_delivered_by_target` and `data_packets` (FIFO remaining-MB records). These fields extend the existing state without replacing aggregate counters. Observation events identify the chosen `target_id`; only actual transmitted MB increments returned totals and only exhausted packets count as complete deliveries.
+- The step API, resource units, original profile mass rules and action/time semantics remain unchanged. The original single-target fixture suites remain the backward-compatibility baseline. KE2's scoring interface is not replaced by the UI's factual goal-progress summary.
+
+
+### HPC validated initialization (refreshed owner implementation)
+
+`MissionStepEngine.init_validated_run(config: Dictionary, ke1_catalogs: Dictionary, run_id: String, mission_id: String) -> Dictionary` validates the supplied config with KE1, constructs the scenario from that same catalog bundle and initializes only when readiness passes. Success retains the existing `ok/state/events` wrapper plus `validation_result`. Readiness failure returns `ok: false`, a `MISSION_NOT_READY` error and the actual `validation_result`. The lower-level `init_run` remains available for isolated tests. Active game Launch uses the validated entry point. This additive owner API does not change numeric catalog values or the preserved signed agreement.

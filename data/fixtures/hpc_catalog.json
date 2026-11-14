@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "catalog_version": "demo-1",
+  "unit_conventions": {"data_unit": "decimal_mb", "legacy_data_unit": "decimal_kb", "kilobytes_per_megabyte": 1000},
+  "objectives": [
+    {"id": "capture", "label": "Capture imagery (legacy simulator fixture)", "capability": "camera", "per_target_min": 0},
+    {"id": "imaging", "label": "Capture imagery", "capability": "camera", "per_target_min": 0}
+  ],
+  "targets": [
+    {"id": "equator", "label": "Equatorial estuary", "context_text": "Fictional teaching target."}
+  ],
+  "orbits": [
+    {
+      "id": "low_eq", "label": "Low equatorial", "altitude_km": 400,
+      "inclination_deg": 0, "slot_seconds": 554,
+      "step_duration_hours": 0.1538888889, "steps_per_orbit": 10,
+      "sunlight_slots": [0, 1, 2, 3, 4, 5],
+      "sunlight_windows": [0, 1, 2, 3, 4, 5],
+      "contact_slots": [8],
+      "ground_contact_windows": [8],
+      "target_windows": {"equator": [2, 5]}
+    },
+    {
+      "id": "high_inc", "label": "High-inclination training orbit", "altitude_km": 600,
+      "inclination_deg": 97.8, "slot_seconds": 580,
+      "step_duration_hours": 0.1611111111, "steps_per_orbit": 10,
+      "sunlight_slots": [1, 2, 3, 4, 5, 6],
+      "sunlight_windows": [1, 2, 3, 4, 5, 6],
+      "contact_slots": [0, 7],
+      "ground_contact_windows": [0, 7],
+      "target_windows": {"equator": [1, 6]}
+    }
+  ],
+  "launchers": [
+    {"id": "small_launch", "label": "Small launcher", "cost_cr": 20, "payload_cap_kg_by_orbit": {"low_eq": 30}}
+  ],
+  "launch_profiles": [
+    {"id": "cubesat_101_1u_sample", "label": "CubeSat 101 sample profile"}
+  ],
+  "parts": [
+    {"id": "core_bus", "label": "Bus", "kind": "bus", "mass_kg": 12, "cost_cr": 20, "max_payload_kg": 5, "max_load_w": 35, "idle_w": 10},
+    {"id": "cam", "label": "Camera", "kind": "instrument", "mass_kg": 3, "cost_cr": 11, "capability": "camera", "observe_w": 20, "packet_mb": 8, "packet_kb": 8000, "requires_sunlight": true},
+    {"id": "bat60", "label": "60 Wh battery", "kind": "battery", "mass_kg": 4, "cost_cr": 10, "capacity_wh": 60, "capacity_ws": 216000},
+    {"id": "solar40", "label": "40 W solar", "kind": "solar", "mass_kg": 3, "cost_cr": 12, "output_w": 40},
+    {"id": "store50", "label": "50 MB storage", "kind": "storage", "mass_kg": 1, "cost_cr": 6, "capacity_mb": 50, "capacity_kb": 50000},
+    {"id": "radio_base", "label": "Basic radio", "kind": "radio", "mass_kg": 1, "cost_cr": 6, "transmit_w": 6, "downlink_mb_per_hour": 36, "rate_kb_s": 10},
+    {"id": "radio_upgraded", "label": "Upgraded radio", "kind": "radio", "mass_kg": 2, "cost_cr": 17, "transmit_w": 18, "downlink_mb_per_hour": 90, "rate_kb_s": 25}
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "mission": {
+    "title": "Valid 1U feasible baseline",
+    "objective": "imaging",
+    "target_region": "equator",
+    "required_observations": 4,
+    "required_returned_data_mb": 30,
+    "duration_orbits": 6,
+    "budget_credits": 100
+  },
+  "design": {
+    "bus_id": "bus_basic",
+    "instrument_id": "instrument_not_in_catalog",
+    "solar_id": "solar_standard",
+    "battery_id": "battery_standard",
+    "radio_id": "radio_basic",
+    "storage_id": "storage_standard",
+    "launch_profile_id": "cubesat_1u_sample",
+    "launcher_id": "small",
+    "orbit_id": "high_inc"
+  }
+}

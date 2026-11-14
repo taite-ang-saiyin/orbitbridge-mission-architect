@@ -1,9 +1,11 @@
 extends "res://scripts/screens/Workbench.gd"
-const DATA = preload("res://data/mock/OperationsFixture.gd")
+signal terminal_state(native_state: Dictionary)
+signal abort_requested(reason: String)
+var DATA = preload("res://scripts/integration/mission_playback.gd").new()
 const ORBIT_VIEW = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 const TRACK = preload("res://ui/components/GroundTrack.gd")
 const THUMB = preload("res://ui/components/TargetThumbnail.gd")
-## Immutable handoff seam for HPC; current playback remains a fixture.
+## Independent validated config used by this HPC policy playback.
 var run_configuration: Dictionary = {}
 var event_index = 0
 var playing = false
@@ -43,8 +45,14 @@ var enlarged: AcceptDialog
 var expanded_orbit: SubViewportContainer
 func _ready() -> void:
 	screen_id = "MissionOperations"
-	run_configuration = state.get("run_design", {}).duplicate(true)
-	setup("05 / MISSION PLAYBACK", "Mission Operations", "Monitor the spacecraft and explore an accelerated mock mission timeline.", 3, 5, "View Debrief")
+	if not state.has("run_trace"):
+		var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+		if not launched.ok:
+			call_deferred("return_to_readiness")
+			return
+	DATA.configure(state.run_trace)
+	run_configuration = state.run_trace.config.duplicate(true)
+	setup("05 / MISSION PLAYBACK", "Mission Operations", "Explore the HPC simulation generated from your validated design and operating policy.", 3, 5, "View Debrief")
 	workspace = row(content)
 	var left = column(workspace, 0.9)
 	var center = column(workspace, 2.2)
@@ -55,6 +63,8 @@ func _ready() -> void:
 	build_telemetry(right)
 	build_events(right)
 	build_lower_panels()
+	scroll.follow_focus = true
+	_connect_control_focus(self)
 	resized.connect(responsive)
 	call_deferred("responsive")
 	seek(0)
@@ -62,7 +72,7 @@ func build_status(parent: Node) -> void:
 	var box = section(parent, "MISSION STATUS")
 	status = UI.label(box, "", 15, "58e4b5")
 	mission_details = UI.label(box, "", 12, "c2d9e6")
-	UI.label(box, "REFERENCE PLAYBACK / 90 MINUTES", 10, "78a6bf")
+	UI.label(box, "HPC SIMULATION / POLICY PLAYBACK", 10, "78a6bf")
 func build_progress(parent: Node) -> void:
 	var box = section(parent, "MISSION PROGRESS")
 	for target in state.targets:
@@ -85,7 +95,7 @@ func build_progress(parent: Node) -> void:
 	total_progress.show_percentage = false
 	total_progress.custom_minimum_size.y = 12
 	box.add_child(total_progress)
-	UI.label(box, "Fixed reference: 5 observations", 10, "789eb4")
+	UI.label(box, "Captured observations and returned MB are separate goals.", 10, "789eb4")
 func build_visualization(parent: Node) -> void:
 	var panel = PanelContainer.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -108,6 +118,7 @@ func build_visualization(parent: Node) -> void:
 	view_frame.add_child(orbit_view)
 	orbit_view.configure(state)
 	track_view = TRACK.new()
+	track_view.configure(state)
 	track_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	view_frame.add_child(track_view)
 	data_view = ScrollContainer.new()
@@ -120,7 +131,7 @@ func build_visualization(parent: Node) -> void:
 	table.add_theme_constant_override("h_separation", 10)
 	table.add_theme_constant_override("v_separation", 12)
 	data_view.add_child(table)
-	for caption in ["TIME", "EVENT", "BATTERY", "CAPTURED", "DELIVERED"]:
+	for caption in ["TIME", "EVENT", "BATTERY", "CAPTURED", "RETURNED MB"]:
 		UI.label(table, caption, 10, "64d9ed").size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for e in DATA.EVENTS:
 		var cells = []
@@ -154,6 +165,7 @@ func build_visualization(parent: Node) -> void:
 		speed_buttons[multiplier] = button
 	skip_button = UI.button(controls, "Skip to End", skip_to_end)
 	UI.button(controls, "Expand", expand_orbit)
+	UI.button(controls, "Abort Mission", func(): abort_requested.emit("Operator requested abort"))
 	for button in controls.get_children():
 		button.add_theme_font_size_override("font_size", 11)
 		button.custom_minimum_size.y = 34
@@ -169,10 +181,10 @@ func build_visualization(parent: Node) -> void:
 	scrub.add_child(seek_slider)
 	time_display = UI.label(scrub, "", 11)
 	time_display.custom_minimum_size.x = 148
-	UI.label(box, "ILLUSTRATIVE VIEW / ACCELERATED MOCK PLAYBACK", 10, "79a5bc")
+	UI.label(box, "ILLUSTRATIVE VIEW / HPC SIMULATION PLAYBACK", 10, "79a5bc")
 	show_view("Earth & Orbit")
 func build_telemetry(parent: Node) -> void:
-	var box = section(parent, "SPACECRAFT TELEMETRY / MOCK")
+	var box = section(parent, "SPACECRAFT TELEMETRY")
 	box.add_theme_constant_override("separation", 5)
 	for entry in [["Battery", "battery"], ["Storage buffer", "storage"]]:
 		var line = row(box)
@@ -206,6 +218,7 @@ func build_lower_panels() -> void:
 	var map_box = section(lower, "LIVE GROUND TRACK / ILLUSTRATIVE")
 	map_box.get_parent().size_flags_stretch_ratio = 1.1
 	live_track = TRACK.new()
+	live_track.configure(state)
 	live_track.custom_minimum_size.y = 88
 	map_box.add_child(live_track)
 	UI.label(map_box, "GREEN  Current position   CYAN / PURPLE  Targets   GOLD  Ground station", 10, "7db4c7")
@@ -233,16 +246,16 @@ func rebuild_timeline() -> void:
 			timeline.add_item(DATA.time_label(e[1]) + "  " + e[0])
 			if i == event_index: timeline.select(timeline.item_count - 1)
 func seek(seconds: float) -> void:
-	playhead = clampf(seconds, 0, DATA.TOTAL_SECONDS)
+	playhead = clampf(seconds, 0, playback_end())
 	event_index = DATA.index_at(playhead)
-	if playhead >= DATA.TOTAL_SECONDS: playing = false
+	if playhead >= playback_end(): playing = false
 	refresh()
 func select_event(index: int) -> void:
 	playing = false
 	seek(DATA.EVENTS[clampi(index, 0, DATA.EVENTS.size() - 1)][1])
 func play() -> void:
 	playing = true
-	if playhead >= DATA.TOTAL_SECONDS:
+	if playhead >= playback_end():
 		seek(0)
 	else:
 		refresh()
@@ -256,29 +269,35 @@ func set_speed(multiplier: int) -> void:
 	refresh()
 func skip_to_end() -> void:
 	playing = false
-	seek(DATA.TOTAL_SECONDS)
+	seek(playback_end())
 func _process(delta: float) -> void:
 	if playing:
 		seek(playhead + delta * DATA.PLAYBACK_RATE * speed)
 func refresh() -> void:
 	if not is_instance_valid(telemetry): return
 	var e = DATA.EVENTS[event_index]
+	var snapshot: Dictionary = DATA.frames[event_index].state
 	var progress = playhead / DATA.TOTAL_SECONDS
-	var orbit_number = mini(state.duration, 1 + int(progress * state.duration))
-	var mission_status = "PLAYING" if playing else ("COMPLETE" if progress >= 1 else "PAUSED")
+	var orbit_number = mini(run_configuration.mission.duration_orbits, 1 + int(progress * run_configuration.mission.duration_orbits))
+	var mission_status = str(snapshot.run_status).to_upper() if snapshot.phase == "finished" else ("PLAYING" if playing else "PAUSED")
 	status.text = (state.name if not state.name.strip_edges().is_empty() else "Untitled Mission") + "\n" + mission_status
 	mission_details.text = "%s\n%s\nOrbit %s / %s  ·  %s\nRemaining   %s" % [state.objective, state.orbit, orbit_number, state.duration, DATA.time_label(playhead), DATA.time_label(DATA.TOTAL_SECONDS - playhead)]
 	for i in target_rows.size():
-		var count = e[5] if target_rows.size() == 1 else DATA.TARGET_CAPTURE[event_index][i]
-		var delivered = e[6] if target_rows.size() == 1 else DATA.TARGET_DELIVERY[event_index][i]
-		target_rows[i][0].text = "%s\n%s captured / %s delivered" % [target_rows[i][2], count, delivered]
-		target_rows[i][1].value = float(count) / (5 if target_rows.size() == 1 else [3, 2][i]) * 100
-	total_label.text = "Captured %s / 5   ·   Delivered %s / 5" % [e[5], e[6]]
-	total_progress.value = e[5] * 20
-	telemetry.text = "Captured   %s    Delivered   %s\nReturned data   %s\nDownlink   %s   /   %s\nAttitude   0.12° / -0.08° / 0.03°" % [e[5], e[6], e[7], e[10], e[9]]
+		var count = DATA.TARGET_CAPTURE[event_index][i]
+		var delivered = DATA.TARGET_DELIVERY[event_index][i]
+		var target_id: String = run_configuration.mission.get("target_regions", [run_configuration.mission.target_region])[i]
+		var fully_delivered: int = int(DATA.frames[event_index].state.get("observations_delivered_by_target", {}).get(target_id, 0))
+		target_rows[i][0].text = "%s\n%s captured / %s delivered\n%.3f MB returned" % [target_rows[i][2], count, fully_delivered, delivered]
+		target_rows[i][1].value = float(count) / state.observations * 100
+	total_label.text = "Captured %s / %s · Returned %.3f / %s MB" % [e[5], run_configuration.mission.required_observations, e[6], run_configuration.mission.required_returned_data_mb]
+	total_progress.value = 100.0 * e[5] / run_configuration.mission.required_observations
+	var presentation = preload("res://scripts/presentation/DebriefPresentation.gd")
+	telemetry.text = "Run %s | Step %s / %s\nCaptured %s · Returned %s MB\nBattery %s / %s Wh\nStored %s / %s MB\n%s · %s" % [presentation.text(snapshot.get("run_id")), presentation.text(snapshot.get("step_index")), presentation.text(snapshot.get("total_steps")), presentation.text(snapshot.get("observations_completed")), presentation.number(snapshot,"returned_data_mb"), presentation.number(snapshot,"energy_wh"), presentation.text(snapshot.get("battery_capacity_wh")), presentation.number(snapshot,"stored_data_mb"), presentation.text(snapshot.get("storage_capacity_mb")), e[8], e[10]]
 	battery_bar.value = e[3]
 	storage_bar.value = e[4]
 	details.text = "%s / T+ %s\n%s" % [e[0], DATA.time_label(e[1]), e[2]]
+	for event in DATA.frames[event_index].get("events", []):
+		details.text += "\n%s | Step %s | %s: %s" % [presentation.text(event.get("event_id")),presentation.text(event.get("step_index")),presentation.text(event.get("code")),presentation.text(event.get("message"))]
 	orbit_badge.text = "Orbit %s / %s\nT+ %s" % [orbit_number, state.duration, DATA.time_label(playhead)]
 	craft_badge.text = "SPACECRAFT\n%s\n%s" % [state.get("body_id", "NASA Satellite Kit").trim_prefix("dev_").replace("_", " ").capitalize(), e[8]]
 	if state.get("satellite_id", "") in preload("res://data/mock/SatelliteAdapter.gd").SATELLITES:
@@ -293,19 +312,22 @@ func refresh() -> void:
 			cell.add_theme_color_override("font_color", Color("62e7ee") if i == event_index else Color("8caabd"))
 	for multiplier in speed_buttons:
 		speed_buttons[multiplier].set_pressed_no_signal(float(multiplier) == speed)
-	play_button.text = "Replay" if progress >= 1 else "Play"
+	play_button.text = "Replay" if snapshot.phase == "finished" else "Play"
 	play_button.disabled = playing
 	pause_button.disabled = not playing
+	state.active_run_state = snapshot.duplicate(true)
+	next_button.disabled = snapshot.phase != "finished"
+	if snapshot.phase == "finished": terminal_state.emit(snapshot.duplicate(true))
 	if timeline_event != event_index: rebuild_timeline()
 	var upcoming = []
 	for i in range(event_index + 1, mini(event_index + 4, DATA.EVENTS.size())):
 		upcoming.append("T+ %s   %s  /  %s" % [DATA.time_label(DATA.EVENTS[i][1]), DATA.EVENTS[i][0], DATA.EVENTS[i][8]])
-	next_events.text = "\n".join(upcoming) if not upcoming.is_empty() else "Reference playback complete.\nOpen Debrief to compare Run A and Run B."
+	next_events.text = "\n".join(upcoming) if not upcoming.is_empty() else "Simulation playback complete.\nOpen Debrief for actual run totals."
 	if is_instance_valid(expanded_orbit): expanded_orbit.set_frame(progress, e[0])
 func expand_orbit() -> void:
 	if is_instance_valid(enlarged): enlarged.queue_free()
 	enlarged = AcceptDialog.new()
-	enlarged.title = "Earth & Orbit / Mock Playback"
+	enlarged.title = "Earth & Orbit / HPC Playback"
 	add_child(enlarged)
 	expanded_orbit = ORBIT_VIEW.instantiate()
 	expanded_orbit.custom_minimum_size = Vector2(420, 300)
@@ -318,3 +340,22 @@ func responsive() -> void:
 	if not is_instance_valid(view_frame): return
 	fit_navigation()
 	view_frame.custom_minimum_size.y = clampf(size.y * 0.36, 230, 300)
+
+func return_to_readiness() -> void:
+	navigate.emit(3)
+
+func _connect_control_focus(node: Node) -> void:
+	if node is BaseButton:
+		node.focus_entered.connect(func(): _reveal_focused.call_deferred(node))
+	for child in node.get_children(): _connect_control_focus(child)
+
+func _reveal_focused(control: Control) -> void:
+	if not is_instance_valid(control) or not scroll.is_ancestor_of(control): return
+	scroll.ensure_control_visible(control)
+	var clip: Rect2 = scroll.get_global_rect()
+	var rect: Rect2 = control.get_global_rect().grow(4)
+	if rect.end.y > clip.end.y: scroll.scroll_vertical += ceili(rect.end.y - clip.end.y)
+	elif rect.position.y < clip.position.y: scroll.scroll_vertical -= ceili(clip.position.y - rect.position.y)
+
+func playback_end() -> float:
+	return float(DATA.EVENTS[-1][1]) if not DATA.EVENTS.is_empty() else DATA.TOTAL_SECONDS
