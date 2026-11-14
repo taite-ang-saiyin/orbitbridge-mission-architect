@@ -31,6 +31,38 @@ The step engine uses `battery.initial_charge_fraction`, defaults to 1 only for l
 
 The windows are deterministic gameplay presets, not physical coverage predictions. KE1's readiness check uses these HPC `target_windows` to determine target/orbit suitability; current integration tests pass for `equator` with both orbit IDs and block a target whose window is removed. SE should pass the selected orbit ID and config unchanged. KE3 should render `available_actions`, state, and emitted events without recomputing windows.
 
+## Next-step energy and storage prediction (optional HPC API)
+
+`MissionStepEngine.predict_next_step(state, action)` previews attempting `observe`, `transmit`, or `power_save` at the state's current `step_index`. It uses the immutable launch/scenario snapshots and the same resource calculation as `request_action`. It returns `{"ok": true, "prediction": {...}}` for valid states, including blocked actions, and the usual `ok: false` error wrapper for invalid states. The method leaves the input state, snapshots, cumulative event log, and event sequence unchanged. It emits no events. Existing v1 state/event payloads are unchanged; UI adoption of this optional API should be coordinated with SE/KE3.
+
+```gdscript
+var preview: Dictionary = StepEngine.predict_next_step(state, "observe")
+if preview.ok:
+    var prediction: Dictionary = preview.prediction
+    if prediction.allowed:
+        print("After observation: %.3f Wh, %.3f MB stored" % [
+            prediction.energy_wh_after, prediction.stored_data_mb_after])
+    else:
+        print(prediction.blocked_code, ": ", prediction.reason)
+```
+
+The preview describes the result of the next requested action using the current step's sunlight, target access, contact window, and explicit hours per step. It does not predict a second action or advance past a blocked request. Recompute it whenever the authoritative state changes; only `request_action` commits a simulated step. Predictions are exact for the deterministic gameplay model, whose access windows are illustrative assumptions.
+
+| Prediction fields | Meaning |
+| --- | --- |
+| `run_id`, `mission_id`, `scenario_id`, `step_index`, `action` | Identifies the source state and requested action |
+| `allowed`, `blocked_code`, `reason` | Same eligibility decision as execution; blocked code/reason are null when allowed |
+| `next_step_index`, `phase_after`, `run_status_after`, `will_finish` | Resulting lifecycle values; `will_finish` is true only for an accepted final step |
+| `step_duration_hours`, `elapsed_step_hours` | Current step duration and predicted time advancement; blocked requests advance zero hours |
+| `energy_wh_before`, `energy_wh_after`, `delta_energy_wh`, `battery_capacity_wh` | Energy in Wh, including the battery's lower/upper clamps |
+| `energy_generated_wh`, `energy_consumed_wh`, `energy_clamped` | Step energy accounting before the clamp; zero/false for blocked actions |
+| `stored_data_mb_before`, `stored_data_mb_after`, `delta_stored_data_mb` | Onboard data in decimal MB |
+| `storage_capacity_mb`, `storage_remaining_mb_after` | Storage capacity and space remaining after the action |
+| `returned_data_mb_after`, `delta_returned_data_mb`, `data_added_mb`, `data_transmitted_mb` | Received-data total and action data accounting in decimal MB |
+| `observations_completed_after`, `delta_observations` | Successful capture count and its change |
+
+Observation adds a complete packet only when access, sunlight requirements, energy, storage, and observation-limit checks pass. Transmission removes at most the currently stored data, bounded by `downlink_mb_per_hour * step_duration_hours`. Energy uses `current_wh + generation_w * hours - load_w * hours`, clamped to `[0, battery_capacity_wh]`. Accepted `power_save` can clamp at zero and continue. Blocked actions retain all counters and report zero deltas. Completed/aborted runs return blocked `MISSION_FINISHED` previews with unchanged terminal status and zero step duration/advancement.
+
 ## Legacy whole-run trace boundary
 
 `MissionSimulator.simulate()` remains the legacy fixed-slot API and continues to report its native `RunTrace` values in watt-seconds (`battery_ws`) and kilobytes (`*_kb`). For consumers that need a normalized summary, call the explicit `LegacyTraceAdapter` after the legacy run:

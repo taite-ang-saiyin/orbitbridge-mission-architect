@@ -82,6 +82,61 @@ static func get_available_actions(state: Dictionary) -> Dictionary:
 		return context_result
 	return {"ok": true, "available_actions": _available_actions(state)}
 
+## Optional HPC preview API. Predict attempting action at the current step using
+## the run snapshot. Does not advance time, mutate state, or allocate event IDs.
+static func predict_next_step(state: Dictionary, action: String) -> Dictionary:
+	var context_result: Dictionary = _context(state)
+	if not context_result.ok:
+		return context_result
+	var decision: Dictionary = _evaluate(action, state, context_result.resolved, context_result.plan)
+	var allowed: bool = bool(decision.allowed)
+	var resources: Dictionary = {
+		"energy_wh": float(state.energy_wh),
+		"stored_data_mb": float(state.stored_data_mb),
+		"returned_data_mb": float(state.returned_data_mb),
+		"observations_completed": int(state.observations_completed),
+		"energy_generated_wh": 0.0, "energy_consumed_wh": 0.0,
+		"energy_clamped": false, "data_added_mb": 0.0, "data_transmitted_mb": 0.0
+	}
+	if allowed:
+		resources = _project_resources(state, action, context_result.resolved, context_result.plan)
+	var step_hours: float = 0.0
+	if str(state.phase) != "finished":
+		step_hours = float(context_result.plan.steps[int(state.step_index)].step_duration_hours)
+	var next_index: int = int(state.step_index) + (1 if allowed else 0)
+	var will_finish: bool = allowed and next_index == int(state.total_steps)
+	return {"ok": true, "prediction": {
+		"run_id": str(state.run_id), "mission_id": str(state.mission_id),
+		"scenario_id": str(state.scenario_id),
+		"step_index": int(state.step_index), "next_step_index": next_index,
+		"action": action, "allowed": allowed,
+		"blocked_code": null if allowed else str(decision.code),
+		"reason": null if allowed else str(decision.message),
+		"step_duration_hours": step_hours,
+		"elapsed_step_hours": step_hours if allowed else 0.0,
+		"phase_after": "finished" if will_finish else str(state.phase),
+		"run_status_after": "completed" if will_finish else state.run_status,
+		"will_finish": will_finish,
+		"energy_wh_before": float(state.energy_wh),
+		"energy_wh_after": float(resources.energy_wh),
+		"delta_energy_wh": float(resources.energy_wh) - float(state.energy_wh),
+		"battery_capacity_wh": float(state.battery_capacity_wh),
+		"energy_generated_wh": float(resources.energy_generated_wh),
+		"energy_consumed_wh": float(resources.energy_consumed_wh),
+		"energy_clamped": bool(resources.energy_clamped),
+		"stored_data_mb_before": float(state.stored_data_mb),
+		"stored_data_mb_after": float(resources.stored_data_mb),
+		"delta_stored_data_mb": float(resources.stored_data_mb) - float(state.stored_data_mb),
+		"storage_capacity_mb": float(state.storage_capacity_mb),
+		"storage_remaining_mb_after": float(state.storage_capacity_mb) - float(resources.stored_data_mb),
+		"returned_data_mb_after": float(resources.returned_data_mb),
+		"delta_returned_data_mb": float(resources.returned_data_mb) - float(state.returned_data_mb),
+		"data_added_mb": float(resources.data_added_mb),
+		"data_transmitted_mb": float(resources.data_transmitted_mb),
+		"observations_completed_after": int(resources.observations_completed),
+		"delta_observations": int(resources.observations_completed) - int(state.observations_completed)
+	}}
+
 ## Explicitly end an operating run while preserving its current step and resources.
 static func abort_run(state: Dictionary, reason: String) -> Dictionary:
 	var context_result: Dictionary = _context(state)
@@ -120,36 +175,16 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 		next_state.next_event_sequence = event_sequence + 1
 		return {"ok": true, "allowed": false, "state": next_state, "events": [blocked]}
 
-	var step: Dictionary = context_result.plan.steps[current_index]
-	var parts: Dictionary = context_result.resolved.parts
-	var step_hours: float = float(step.step_duration_hours)
-	var solar_w: float = float(parts.solar.output_w) if bool(step.sunlight) else 0.0
-	var load_w: float = float(parts.bus.idle_w)
+	var resources: Dictionary = _project_resources(state, action, context_result.resolved, context_result.plan)
 	var before_energy: float = float(state.energy_wh)
 	var before_stored: float = float(state.stored_data_mb)
 	var before_returned: float = float(state.returned_data_mb)
 	var before_observations: int = int(state.observations_completed)
-	var data_added_mb: float = 0.0
-	var data_transmitted_mb: float = 0.0
-	if action == "observe":
-		load_w += float(parts.instrument.observe_w)
-		data_added_mb = float(parts.instrument.packet_mb)
-	elif action == "transmit":
-		load_w += float(parts.radio.transmit_w)
-		var downlink_mb_per_hour: float = _downlink_rate_mb_per_hour(parts.radio)
-		data_transmitted_mb = minf(before_stored, downlink_mb_per_hour * step_hours)
-	# Accepted power_save uses baseline bus load. Its energy may clamp to zero by contract.
-	var generated_wh: float = solar_w * step_hours
-	var consumed_wh: float = load_w * step_hours
-	var raw_energy: float = before_energy + generated_wh - consumed_wh
-	var after_energy: float = clampf(raw_energy, 0.0, float(state.battery_capacity_wh))
-	next_state.energy_wh = after_energy
-	if action == "observe":
-		next_state.stored_data_mb = before_stored + data_added_mb
-		next_state.observations_completed = before_observations + 1
-	elif action == "transmit":
-		next_state.stored_data_mb = maxf(0.0, before_stored - data_transmitted_mb)
-		next_state.returned_data_mb = before_returned + data_transmitted_mb
+	var data_added_mb: float = float(resources.data_added_mb)
+	var data_transmitted_mb: float = float(resources.data_transmitted_mb)
+	var after_energy: float = float(resources.energy_wh)
+	for key in ["energy_wh", "stored_data_mb", "returned_data_mb", "observations_completed"]:
+		next_state[key] = resources[key]
 	next_state.step_index = current_index + 1
 	if int(next_state.step_index) >= int(next_state.total_steps):
 		next_state.step_index = int(next_state.total_steps)
@@ -162,9 +197,9 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 		"delta_stored_data_mb": float(next_state.stored_data_mb) - before_stored,
 		"delta_returned_data_mb": float(next_state.returned_data_mb) - before_returned,
 		"delta_observations": int(next_state.observations_completed) - before_observations,
-		"energy_generated_wh": generated_wh,
-		"energy_consumed_wh": consumed_wh,
-		"energy_clamped": raw_energy < 0.0 or raw_energy > float(state.battery_capacity_wh),
+		"energy_generated_wh": float(resources.energy_generated_wh),
+		"energy_consumed_wh": float(resources.energy_consumed_wh),
+		"energy_clamped": bool(resources.energy_clamped),
 		"data_added_mb": data_added_mb,
 		"data_transmitted_mb": data_transmitted_mb,
 		"stored_data_mb": float(next_state.stored_data_mb),
@@ -279,18 +314,41 @@ static func _evaluate(action: String, state: Dictionary, resolved: Dictionary, p
 			return _blocked("NO_LINK_WINDOW", "No ground station contact window is available during this step.")
 		if float(state.stored_data_mb) <= 0.0:
 			return _blocked("NO_DATA", "There is no stored data to transmit.")
-	var action_load_w: float = 0.0
-	if action == "observe":
-		action_load_w = float(parts.instrument.observe_w)
-	elif action == "transmit":
-		action_load_w = float(parts.radio.transmit_w)
-	var load_w: float = float(parts.bus.idle_w) + action_load_w
-	var solar_w: float = float(parts.solar.output_w) if bool(step.sunlight) else 0.0
-	var after_energy: float = float(state.energy_wh) + (solar_w - load_w) * float(step.step_duration_hours)
-	if action != "power_save" and after_energy < -ENERGY_EPSILON_WH:
+	var resources: Dictionary = _project_resources(state, action, resolved, plan)
+	if action != "power_save" and float(resources.raw_energy_wh) < -ENERGY_EPSILON_WH:
 		return _blocked("LOW_BATTERY", "Battery energy is insufficient to complete this action and step.")
 	# power_save is always available while operating; accepted action clamps at 0 Wh.
 	return {"allowed": true, "code": "OK", "message": "Action is available."}
+
+## Shared deterministic accounting for a candidate accepted action. Callers check
+## action eligibility first; this function never changes state or produces events.
+static func _project_resources(state: Dictionary, action: String, resolved: Dictionary, plan: Dictionary) -> Dictionary:
+	var step: Dictionary = plan.steps[int(state.step_index)]
+	var parts: Dictionary = resolved.parts
+	var step_hours: float = float(step.step_duration_hours)
+	var solar_w: float = float(parts.solar.output_w) if bool(step.sunlight) else 0.0
+	var load_w: float = float(parts.bus.idle_w)
+	var data_added_mb: float = 0.0
+	var data_transmitted_mb: float = 0.0
+	if action == "observe":
+		load_w += float(parts.instrument.observe_w)
+		data_added_mb = float(parts.instrument.packet_mb)
+	elif action == "transmit":
+		load_w += float(parts.radio.transmit_w)
+		data_transmitted_mb = minf(float(state.stored_data_mb), _downlink_rate_mb_per_hour(parts.radio) * step_hours)
+	var generated_wh: float = solar_w * step_hours
+	var consumed_wh: float = load_w * step_hours
+	var raw_energy: float = float(state.energy_wh) + generated_wh - consumed_wh
+	return {
+		"energy_wh": clampf(raw_energy, 0.0, float(state.battery_capacity_wh)),
+		"raw_energy_wh": raw_energy,
+		"energy_generated_wh": generated_wh, "energy_consumed_wh": consumed_wh,
+		"energy_clamped": raw_energy < 0.0 or raw_energy > float(state.battery_capacity_wh),
+		"stored_data_mb": maxf(0.0, float(state.stored_data_mb) + data_added_mb - data_transmitted_mb),
+		"returned_data_mb": float(state.returned_data_mb) + data_transmitted_mb,
+		"observations_completed": int(state.observations_completed) + (1 if action == "observe" else 0),
+		"data_added_mb": data_added_mb, "data_transmitted_mb": data_transmitted_mb
+	}
 
 static func _available_actions(state: Dictionary) -> Dictionary:
 	var result: Dictionary = {}
