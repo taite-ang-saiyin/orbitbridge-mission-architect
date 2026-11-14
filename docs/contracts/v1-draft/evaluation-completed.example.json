@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "report": {
+    "schema_version": 1,
+    "run_id": "run_001",
+    "mission_id": "mission_001",
+    "run_status": "completed",
+    "status": "partial",
+    "observations_completed": 3,
+    "required_observations": 4,
+    "returned_data_mb": 30.0,
+    "required_returned_data_mb": 30.0,
+    "observation_completion_ratio": 0.75,
+    "data_return_completion_ratio": 1.0,
+    "score": 88,
+    "explanation": "Returned data target was met, but 1 of 4 required observations was missed; the recorded event shows 1 observation blocked by low battery.",
+    "root_causes": [
+      {
+        "code": "LOW_BATTERY",
+        "segment": "operations",
+        "evidence_event_ids": [
+          "evt_007"
+        ],
+        "explanation": "Observation at step 6 was blocked because battery energy was below the required action cost."
+      }
+    ],
+    "next_experiment": "Try a higher-capacity battery or use power_save before the target access window.",
+    "source_ids": [
+      "cubesat_101_1u_sample"
+    ],
+    "comparison": null
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "error": {
+    "code": "NONTERMINAL_RUN_STATE",
+    "field_path": "final_state.phase",
+    "message": "The run is still operating and cannot be evaluated as a terminal mission.",
+    "suggested_fix": "Finish or explicitly abort the run before requesting evaluation.",
+    "run_id": "run_001"
+  }
+}

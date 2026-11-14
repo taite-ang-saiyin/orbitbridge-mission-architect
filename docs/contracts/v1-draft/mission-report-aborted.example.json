@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "run_id": "run_002",
+  "mission_id": "mission_001",
+  "run_status": "aborted",
+  "status": "failed",
+  "observations_completed": 4,
+  "required_observations": 4,
+  "returned_data_mb": 30.0,
+  "required_returned_data_mb": 30.0,
+  "observation_completion_ratio": 1.0,
+  "data_return_completion_ratio": 1.0,
+  "score": null,
+  "explanation": "Mission aborted before completion.",
+  "root_causes": [],
+  "next_experiment": "Review the run configuration and retry.",
+  "source_ids": [],
+  "comparison": null
+}

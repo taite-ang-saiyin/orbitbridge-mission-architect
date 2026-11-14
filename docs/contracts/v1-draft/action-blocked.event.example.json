@@ -1,0 +1,12 @@
+{
+  "event_id": "evt_003",
+  "step_index": 2,
+  "action": "transmit",
+  "type": "action_blocked",
+  "code": "NO_LINK_WINDOW",
+  "message": "Transmit blocked: no ground station contact window at step 2.",
+  "delta_energy_wh": 0.0,
+  "delta_stored_data_mb": 0.0,
+  "delta_returned_data_mb": 0.0,
+  "delta_observations": 0
+}

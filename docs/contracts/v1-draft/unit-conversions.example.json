@@ -1,0 +1,13 @@
+{
+  "agreement_revision": "v1.0-agreed",
+  "legacy_energy_ws": 66600,
+  "expected_energy_wh": 18.5,
+  "legacy_stored_kb": 12000,
+  "expected_stored_data_mb": 12,
+  "legacy_returned_kb": 30000,
+  "expected_returned_data_mb": 30,
+  "downlink_mb_per_hour": 48,
+  "illustrative_step_duration_hours": 0.25,
+  "expected_step_capacity_mb": 12,
+  "note": "Decimal KB/MB and Ws/Wh adapter examples. The quarter-hour step is illustrative, not an approved preset duration or a relabeling of the old per-step rate."
+}

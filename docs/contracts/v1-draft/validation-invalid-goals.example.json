@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "ready_to_launch": false,
+  "metrics": null,
+  "checks": {
+    "input_schema": {
+      "status": "fail",
+      "passed": false,
+      "message": "Observation and returned-data targets must be strictly positive."
+    },
+    "catalog_references": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid."
+    },
+    "profile_mass": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid.",
+      "total_mass_g": null,
+      "threshold_g": 1330,
+      "comparator": "<",
+      "profile_id": "cubesat_1u_sample",
+      "source_id": "cubesat_101_1u_sample"
+    },
+    "launcher_capacity": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid."
+    },
+    "budget": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid."
+    },
+    "launch_orbit": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid."
+    },
+    "target_orbit": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid."
+    },
+    "essential_power": {
+      "status": "not_evaluated",
+      "passed": null,
+      "message": "Not evaluated because required goals are invalid."
+    }
+  },
+  "errors": [
+    {
+      "code": "INVALID_VALUE",
+      "field_path": "mission.required_observations",
+      "message": "Observation target must be strictly positive.",
+      "suggested_fix": "Choose an observation target between 1 and 20."
+    },
+    {
+      "code": "INVALID_VALUE",
+      "field_path": "mission.required_returned_data_mb",
+      "message": "Returned-data target must be strictly positive.",
+      "suggested_fix": "Choose a positive returned-data target in MB."
+    }
+  ],
+  "warnings": []
+}
