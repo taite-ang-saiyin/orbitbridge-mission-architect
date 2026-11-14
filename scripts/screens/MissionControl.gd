@@ -42,8 +42,8 @@ func _ready() -> void:
 	hero_row = flex(hero)
 	var intro = column(hero_row, 0.95)
 	hero_title = UI.label(intro, "OrbitBridge", 34, "f0fbff")
-	UI.label(intro, "Mission Architect", 23, "45dff4")
-	UI.label(intro, "Design, launch and operate a satellite mission in Earth orbit. Explore how engineering decisions affect mission success.", 14, "bfd3e1")
+	UI.label(intro, "Mission Architect", 21, "45dff4")
+	UI.label(intro, "Design, launch and operate a satellite mission in Earth orbit. Explore how engineering decisions affect mission success.", 13, "bfd3e1")
 	intro.add_child(HSeparator.new())
 	UI.label(intro, "Design   •   Plan   •   Execute", 15, "4ce9f6")
 	build_flow(intro)
@@ -95,7 +95,7 @@ func column(parent: Node, ratio: float = 1.0) -> VBoxContainer:
 func panel(parent: Node, title: String) -> VBoxContainer:
 	var card = PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.add_theme_stylebox_override("panel", STYLE.box(Color("041c2eea"), Color("37758e"), 12))
+	card.add_theme_stylebox_override("panel", STYLE.box(Color("041c2eea"), Color("37758e"), 9))
 	parent.add_child(card)
 	var body = column(card)
 	UI.label(body, title, 13, "e2f7ff")
@@ -104,7 +104,7 @@ func panel(parent: Node, title: String) -> VBoxContainer:
 
 func accent(button: Button) -> void:
 	button.custom_minimum_size.y = 54
-	var style = STYLE.box(Color("043e55"), Color("32eaff"), 12)
+	var style = STYLE.box(Color("043e55"), Color("32eaff"), 9)
 	style.shadow_size = 7
 	style.shadow_color = Color(0.05, 0.85, 1.0, 0.22)
 	button.add_theme_stylebox_override("normal", style)
@@ -202,4 +202,4 @@ func fit_dashboard() -> void:
 	hero_row.vertical = size.x < 720
 	lower_row.vertical = size.x < 900
 	earth.custom_minimum_size.y = clampf(size.y * 0.50, 280, 450)
-	hero_title.add_theme_font_size_override("font_size", 34 if size.x >= 1000 else 29)
+	hero_title.add_theme_font_size_override("font_size", 31 if size.x >= 1000 else 27)

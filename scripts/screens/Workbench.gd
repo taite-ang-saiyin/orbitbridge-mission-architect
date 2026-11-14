@@ -26,7 +26,7 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 	titles.size_flags_stretch_ratio = 1.0
 	heading.add_child(titles)
 	
-	UI.label(titles, title, 25)
+	UI.label(titles, title, 23)
 	UI.label(titles, subtitle, 12, "9ab5c8")
 	progress_nav = HBoxContainer.new()
 	progress_nav.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -75,10 +75,10 @@ func setup(_kicker: String, title: String, subtitle: String, back: int, next: in
 func section(parent: Node, title: String) -> VBoxContainer:
 	var shell = PanelContainer.new()
 	shell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	shell.add_theme_stylebox_override("panel", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("031a2bed"), Color("377a9d"), 12))
+	shell.add_theme_stylebox_override("panel", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("031a2bed"), Color("377a9d"), 9))
 	parent.add_child(shell)
 	var panel = VBoxContainer.new()
-	panel.add_theme_constant_override("separation", 8)
+	panel.add_theme_constant_override("separation", 6)
 	shell.add_child(panel)
 	var line = HBoxContainer.new()
 	line.add_theme_constant_override("separation", 8)
@@ -88,7 +88,7 @@ func section(parent: Node, title: String) -> VBoxContainer:
 		var number = preload("res://scripts/ui/SectionNumber.gd").new()
 		number.number = int(parts[0])
 		line.add_child(number)
-	UI.label(line, parts[-1].capitalize(), 17).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	UI.label(line, parts[-1].capitalize(), 16).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return panel
 func column(parent: Node, ratio: float = 1.0) -> VBoxContainer:
 	var box = VBoxContainer.new()
@@ -156,12 +156,12 @@ func choice_card(parent: Node, title: String, detail: String, action: Callable, 
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for side in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 10)
+		margin.add_theme_constant_override("margin_" + side, 8)
 	button.add_child(margin)
 	var layout = VBoxContainer.new()
 	layout.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layout.add_theme_constant_override("separation", 8)
 	margin.add_child(layout)
-	UI.label(layout, title, 14).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UI.label(layout, title, 13).mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UI.label(layout, detail, 12, "b4c9d9").mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return button

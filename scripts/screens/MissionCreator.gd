@@ -228,10 +228,10 @@ func build_summary() -> void:
 	art.terrain = "coast"
 	art.custom_minimum_size.y = 98
 	box.add_child(art)
-	summary = UI.label(box, "", 14)
+	summary = UI.label(box, "", 13)
 	box.add_child(HSeparator.new())
 	UI.label(box, "SUCCESS CONDITION", 13, "4ceaa9")
-	success_label = UI.label(box, "", 14, "b4e6d5")
+	success_label = UI.label(box, "", 13, "b4e6d5")
 	UI.label(box, "Captures and returned MB are independent goals.", 11, "7d9daf")
 func set_target_limit(limit: int) -> void:
 	target_limit = limit

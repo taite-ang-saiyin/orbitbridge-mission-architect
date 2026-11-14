@@ -192,7 +192,7 @@ func build_banners() -> void:
 	ready_box.add_theme_constant_override("separation", 4)
 	ready_panel.add_child(ready_box)
 	UI.label(ready_box, "Readiness Status", 16)
-	readiness_label = UI.label(ready_box, "LAUNCH READY", 28, "23ed82")
+	readiness_label = UI.label(ready_box, "LAUNCH READY", 25, "23ed82")
 	UI.label(ready_box, "Launch requires every readiness check to pass.", 12, "c5e1d4")
 	var warnings_panel = PanelContainer.new()
 	warnings_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
