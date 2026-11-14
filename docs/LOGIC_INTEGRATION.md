@@ -1,6 +1,16 @@
 # KE1 / HPC game integration
 
-Current follow-up: both mission types and all displayed target buttons are enabled. See the expanded mission section at the end; it supersedes the initial single-target scope below.
+Current follow-up includes KE2 Results binding described below. Creator's two mission types and displayed target buttons remain enabled. KE2 evaluates imaging and returns its structured input correction for Survey while the per-target scoring extension awaits agreement.
+
+## KE2 Results binding
+
+`scripts/integration/mission_results.gd` calls the current evaluator using each trace's original config, terminal state and full ordered events. `mission_runtime.gd` publishes the evaluated trace once, and `MissionController.gd` reuses that result when Results is reopened. The publication key hashes all consumed snapshots and readiness evidence, supporting legacy packets whose run IDs repeat. Newly launched runs use a random session identifier plus a sequence number.
+
+Results uses KE3's `ke3/results_control.tscn` and `set_inputs(context, state, report)` binding. It receives the unwrapped report, complete history as `state.events`, and `context.applicable_source_credits`. Credits derive from executed readiness source records and emitted feedback segments. The evaluator's report source IDs retain their own scope. Recent Runs uses fixed numeric column widths and an expanding run-name column.
+
+Retry starts a newly validated run with a new ID and retains the completed baseline. New Mission clears history and the baseline. Evaluation errors display the evaluator's message and suggested fix while retaining valid history. Policy playback is the current interaction. The signed step-based API supports manual Observe, Transmit and Power Save requests; manual UI wiring and the corresponding B02 interaction check remain open SE/KE3 work.
+
+The [candidate handoff](handoffs/se-d60d224-run001/README.md) records the exact `d60d224` packet, success report, scoped source credit, input hashes, test commands and 1280×720 captures. Earlier pending-evaluator statements below describe the initial integration revision.
 
 Integrated 14 November 2026. No `.tscn`, theme, model, visual asset or project setting was changed. Screen scripts keep the existing panel layout and feed it actual validation and simulation results. Existing Builder controls now also expose launch profile and launcher choices.
 

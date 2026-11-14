@@ -1,0 +1,22 @@
+{
+	"ok": true,
+	"report": {
+		"comparison": null,
+		"data_return_completion_ratio": 1.0,
+		"explanation": "Both mission requirements were met. 4.0/4.0 observations captured and 48.0/30.0 MB received on Earth. 0.0 MB remain onboard.",
+		"mission_id": "mission_local",
+		"next_experiment": "Keep the scenario and targets fixed and change one operation on the next attempt.",
+		"observation_completion_ratio": 1.0,
+		"observations_completed": 4.0,
+		"required_observations": 4.0,
+		"required_returned_data_mb": 30.0,
+		"returned_data_mb": 48.0,
+		"root_causes": [],
+		"run_id": "run_001",
+		"run_status": "completed",
+		"schema_version": 1,
+		"score": 100,
+		"source_ids": [],
+		"status": "success"
+	}
+}
