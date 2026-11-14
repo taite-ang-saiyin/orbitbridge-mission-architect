@@ -14,6 +14,12 @@ func check() -> void:
 		app.show_screen(1)
 		await settle()
 		var creator = app.current
+		assert(creator.progress_nav.get_parent() == (creator if creator.size.x < 1180 else creator.heading))
+		assert(creator.progress_nav.get_child(1).button_pressed)
+		assert(creator.progress_nav.get_child(0).complete)
+		for step in creator.progress_nav.get_children():
+			assert(step.size.y >= 50)
+			assert(not step.caption.is_empty())
 		assert(creator.scroll.get_child(0).size.x <= creator.scroll.size.x + 1)
 		creator.name_input.text = ""
 		creator.name_input.text_changed.emit("")
@@ -36,6 +42,9 @@ func check() -> void:
 		await settle()
 		var builder = app.current
 		assert(builder.screen_id == "SpacecraftBuilder")
+		assert(builder.progress_nav.get_child(2).button_pressed)
+		assert(builder.progress_nav.get_child(0).complete and builder.progress_nav.get_child(1).complete)
+		assert(not builder.progress_nav.get_child(3).complete)
 		assert("Coastal Science" in builder.summary.text)
 		assert(builder.scroll.get_child(0).size.x <= builder.scroll.size.x + 1)
 		for key in builder.ADAPTER.GROUPS:
