@@ -1,74 +1,188 @@
-# OrbitBridge – Mission Architect
+# OrbitBridge - Mission Architect
 
-Godot 4 clickable desktop UI prototype. Mission workflow UI is English; Home and Settings also support Simplified Chinese. No network, simulator, backend, evaluator, or external asset dependency is used.
+OrbitBridge is an educational satellite mission design and operations project being developed for the NASA Space Apps Challenge 2026. Players define a mission, assemble a spacecraft, review launch readiness, operate the satellite, and use the results to improve their next design.
 
-## 运行
+The project uses Godot 4.7.2 and GDScript. It includes an interactive desktop UI, 3D spacecraft and Earth previews, KE1 readiness validation, and a deterministic HPC mission simulator. The application runs locally without a backend service.
 
-使用 Godot 4（已在 4.7.2 验证）导入本目录的 `project.godot`，按 **F6** 运行 Main 或 **F5** 运行项目。入口为 `scenes/Main.tscn`，默认进入新 Home 标题页；Start Mission 进入 Mission Control 过渡页。
+## Current development status
 
-默认全屏启动并适配当前显示器。按 F11 切换全屏与可调整桌面窗口；窗口模式使用 1440×900，并自动适配屏幕可用区域。保留 1280×720 与 1024×768 布局支持。页面内容可纵向滚动，Back / Continue 在独立底部区域。任务流程顶部六个导航按钮允许探索流程页面，Home 按钮返回标题页。键盘 Tab 可切换焦点。
+The repository contains both the visual prototype and the engineering modules. The main application still uses mock fixtures for parts of its readiness, operations, and debrief workflow. The KE1 validator and HPC simulator can be exercised independently through their APIs and tests. A complete UI-to-simulator-to-evaluator walkthrough remains an integration task.
 
-## 手动测试
+| Area | Available in this checkout |
+| --- | --- |
+| Application shell | Home, Settings, Mission Control, screen navigation, and responsive desktop layout |
+| Mission Creator | Mission name, description, objectives, target selection, observation goal, duration, budget, and illustrative coverage preview |
+| Spacecraft Builder | Component selection, interactive 3D preview, and modular Body/Solar Panels/Radio choices with 27 visual combinations |
+| Flight Readiness UI | Expandable checks, spacecraft/orbit preview, resource gauges, and prototype readiness displays |
+| Operations UI | 3D orbital view, telemetry panels, event filtering, playback controls, and ground-track display driven by mock fixtures |
+| Debrief UI | Prototype Run A/Run B displays and navigation back to spacecraft design |
+| KE1 engineering module | Component and launcher catalogs, mission configuration validation, and readiness results |
+| HPC engineering module | Validated run initialization, step actions, resource accounting, ordered events, operator abort, and next-step predictions |
+| KE2 evaluation handoff | Agreed report contracts and HPC evidence bundles; the KE2 evaluator is maintained on its own team branch and is not present in this checkout |
 
-1. Home → Start Mission 进入 Mission Control；Settings 修改首页语言/配色；Quit 退出。Mission Control 的 Create New Mission 或预设按钮进入 Creator。
-2. Mission Creator 修改名称、描述、两种 objective、1–2 个目标、观测次数、时长和预算，确认摘要和成功条件即时更新。
-3. Builder 分别选择 Payload / Bus / Battery / Solar / Storage / Radio，查看 3D 模型与摘要；切换拆解和子系统视图，修改轨道、发射器和策略。
-4. Readiness 查看固定 PASS / WARNING / BLOCKED 示例；Launch Mission 进入本地 mock 运营页。BLOCKED 指真实集成未连接，不阻止原型启动。
-5. Operations 使用 Play、Pause、Step、1x/2x/4x/8x、Skip to End；点击六种事件，确认时间、遥测、说明、卫星位置与高亮更新。完成后 Play 显示 Replay。
-6. Debrief 切换 Run A / Run B，确认结果变化；Modify Design 返回 Builder；Start New Mission 重置选择。
-7. 测试各页 Back / Continue 与顶部导航，分别调整窗口到两个目标分辨率。
+Prototype UI fields and fixture values can differ from the agreed v1 engineering contract. Use the [shared contracts](docs/contracts.md) when connecting modules.
 
-自动检查：
+## Run the project
 
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path . --script tests/prototype_smoke.gd
+1. Install Godot 4.7.2. The Standard or .NET editor can run the project's GDScript code.
+2. Import the existing `project.godot` from this repository's root folder.
+3. Open the project and press **F5** to launch the application.
+4. To run an individual scene, open it and press **F6**.
+
+The main scene is `scenes/Main.tscn`. It starts at the Home screen. For the standalone 3D preview, open `scenes/3d/PreviewDemo.tscn`.
+
+The application starts in fullscreen mode. Press **F11** to switch between fullscreen and a resizable window. The design canvas is 1440 x 900, with responsive layouts for smaller windows. Use **Tab** to move keyboard focus between controls.
+
+The configured rendering method is Compatibility (`gl_compatibility`). Final Windows/Web packaging and export verification are coordinated by SE.
+
+## Explore the application
+
+1. **Home and Settings:** Start a mission, adjust the theme or available language settings, or quit. The mission workflow is in English; Home and Settings also offer Simplified Chinese.
+2. **Mission Control:** Create a mission or explore the available presets.
+3. **Mission Creator:** Define the mission and inspect the target/orbit coverage preview. Confirm that the summary updates when selections change.
+4. **Spacecraft Builder:** Choose components and inspect the spacecraft using rotation, zoom, exploded view, and subsystem highlighting. Body, Solar Panels, and Radio selections carry through to the Readiness and Operations models.
+5. **Flight Readiness:** Explore the checks and resource displays. The prototype screen's launch behavior should not be treated as proof that the engineering validator approved a mission.
+6. **Mission Operations:** Use Play, Pause, Step, playback speeds, and Skip to End. Select events to inspect the corresponding telemetry and visual state. Current UI playback uses mock mission data.
+7. **Debrief:** Explore the prototype comparison, modify the design, or start a new mission.
+
+The top navigation and Back/Continue controls let users explore the workflow. Check that controls remain accessible when resizing the window.
+
+## HPC mission operations
+
+The scene-independent simulator is implemented in `core/MissionStepEngine.gd`. It consumes the agreed MissionConfig and an immutable scenario snapshot.
+
+| API | Purpose |
+| --- | --- |
+| `init_validated_run(config, catalogs, run_id, mission_id)` | Run KE1 readiness validation and initialize only an approved configuration |
+| `init_run(config, scenario, run_id, mission_id)` | Initialize a run from an explicit scenario snapshot |
+| `get_available_actions(state)` | Return action eligibility and blocked reasons |
+| `predict_next_step(state, action)` | Preview energy, storage, data return, and lifecycle changes without modifying the run |
+| `request_action(state, action)` | Attempt one observation, transmission, or power-save step |
+| `abort_run(state, reason)` | Finish an operating run with a recorded operator-abort reason |
+
+Public energy values use **Wh**, data values use **decimal MB**, and step durations use **hours**. Radio capacity per step is `downlink_mb_per_hour * step_duration_hours`.
+
+Accepted actions advance one step. Blocked requests emit an event while preserving the step and resource counters. Battery energy and stored data stay within their bounds. Accepted `power_save` can clamp energy to zero and continue. A naturally completed run finishes at `step_index == total_steps`; an operator abort preserves the current step and counters.
+
+### Next-step prediction
+
+```gdscript
+const StepEngine = preload("res://core/MissionStepEngine.gd")
+
+# state is an initialized MissionState returned by the engine.
+var preview: Dictionary = StepEngine.predict_next_step(state, "observe")
+if preview.ok:
+    var prediction: Dictionary = preview.prediction
+    if prediction.allowed:
+        print("Energy after action: %.3f Wh" % prediction.energy_wh_after)
+        print("Stored data after action: %.3f MB" % prediction.stored_data_mb_after)
+        print("Free storage after action: %.3f MB" % prediction.storage_remaining_mb_after)
+    else:
+        print(prediction.blocked_code, ": ", prediction.reason)
 ```
 
-检查覆盖六个 PackedScene、单一 ScreenHost 实例、两种尺寸的水平边界、名称摘要、组件状态、播放/暂停/单步/跳结尾、Run B 结果和 Back / Continue 信号。
+Prediction and execution share the resource calculation. Preview calls preserve the input state, snapshots, event log, and event sequence. Recompute a preview when the authoritative state changes. UI adoption of this optional API requires coordination with SE and KE3.
 
-## 结构与学习重点
+### Orbit presets and observation windows
 
-- `scenes/Main.tscn` + `scripts/MissionController.gd`：共享页眉、导航、ScreenHost、页脚。Controller 加载 PackedScene，只保留一个页面；普通 Dictionary 保存本次会话选择。
-- `scenes/screens/*.tscn`：六个独立可导航场景。运行时使用容器构建 UI，编辑器中场景只显示根节点；实际界面请运行查看。
-- `scripts/prototype/Screen.gd`：六页的轻量 UI 行为。页面发出 `navigate(index)` 信号，由 Main 执行切换；无 autoload 或复杂状态框架。
-- `ui/components/UI.gd`：Label、Button、PanelContainer 的小型创建工具。
-- `ui/components/OrbitIllustration.gd`：Control `_draw()` 原生绘图；位置来自事件索引，无轨道计算。
-- `ui/theme/PrototypeTheme.gd`：Theme + StyleBoxFlat 统一颜色、边框、间距和圆角。
-- `data/mock/PrototypeData.gd`：独立固定组件规格、事件、Run A / B 数据。它不是生产 RunTrace schema。
-- `tests/prototype_smoke.gd`：可独立运行的 UI 行为与布局检查。
+| Orbit ID | Target ID | Observation steps per orbit | Ground-contact steps per orbit |
+| --- | --- | --- | --- |
+| `low_eq` | `equator` | 2, 5 | 8 |
+| `high_inc` | `equator` | 1, 6 | 0, 7 |
 
-实现顺序对应 A 导航 → B 主题 → C 开始/任务 → D 设计/检查 → E 运营 → F 对比 → G 验证。学习时优先阅读 Controller 的 `show_screen()`，然后 Screen 的 `choice()`、`select_event()`：分别展示场景替换、控件信号更新状态、固定数据驱动多个 UI 元素。
+Step indices are zero-based. A target window is an opportunity to observe the target during the orbit. Successful capture also requires the instrument's sunlight conditions, sufficient energy, and free storage. Observation windows and ground-contact windows serve different operations.
 
-## 后续真实集成边界
+These presets use authored, deterministic gameplay windows. The orbital illustrations and window counts are educational approximations rather than physical coverage predictions. Preset metadata is in `data/orbits.json`.
 
-以下均为 mock，需要未来团队按确认后的接口替换：组件与任务目录、质量/成本/功率/存储规格、可行性与 readiness 检查、轨道与光照、事件时间和遥测、观测捕获与下传、Run A/B 对比和任务评价。
+### Legacy simulator compatibility
 
-当前策略和轨道选择仅保存并展示；不会改变固定事件或生成新的结果。HPC / KE2 / KE3 数据适配、MissionEvaluator、生产 RunTrace、持久化均未实现。
+`core/MissionSimulator.gd` preserves the original whole-run `RunInput -> RunTrace` API in watt-seconds and kilobytes. `core/LegacyTraceAdapter.gd` provides an explicit output conversion for summaries and telemetry:
 
-## 3D-ready structure
+- `Wh = Ws / 3600`
+- `decimal MB = KB / 1000`
 
-新增可嵌入 UI 的独立 3D 视口、地球/卫星占位模型、固定环绕动画与播放演示。打开 `scenes/3d/PreviewDemo.tscn` 按 F6 运行；原项目 F5 入口保留。详细目录与模型导入约定见 [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)。七屏新设计及 Language / Theme 设置目前仅预留目录。
+Raw legacy events remain under `legacy_events` and retain their original schema and units. Use `MissionStepEngine` for v1 MissionState and Event payloads. See the [HPC integration handoff](docs/hpc-integration.md) for API details and trace bundles.
 
-## New Home screen
+## Repository layout
 
-已制作独立 Home 标题页及 Language / Theme 设置弹层。完整使用和学习说明见 [docs/HOME.md](docs/HOME.md)。Mission Control 目前为过渡入口；Creator、Builder、Readiness 和 Operations 已按参考图逐步实现，Debrief 暂保留原布局。
+```text
+project.godot                 Godot project settings and main-scene configuration
+scenes/Main.tscn               Application entry point
+scenes/screens/               Workflow scenes
+scenes/3d/                    Spacecraft, Earth, stages, and preview scenes
+scenes/ui/                    Embedded viewports and UI scenes
+scripts/MissionController.gd   Application shell, navigation, and session selections
+scripts/screens/              Screen behavior
+scripts/core/                 KE1 catalog loading and readiness validation
+scripts/visualization/        3D presentation and animation
+scripts/settings/             UI preferences
+core/                         HPC engine, planner, and adapters
+data/                         Engineering catalogs, orbit presets, and test fixtures
+data/mock/                    Prototype UI fixtures and adapters
+ui/                           Shared components and themes
+assets/                       UI artwork, textures, and 3D resources
+tests/                        Engineering checks, UI smoke checks, and trace generators
+docs/                         Contracts, integration notes, sources, and screen guides
+```
 
-## Mission Creator + 3D Spacecraft Builder
+Many UI controls are built at runtime, so running a scene can show more than its editor preview. Visual animation is a presentation layer; simulator state and events define the engineering behavior.
 
-任务定义与航天器设计页已更新，Creator 支持两种目标模板、1–2 个目标、1–8 次观测、3/6/9 轨道和 60–150 credits；Builder 提供六类独立组件选择和原生 3D 卫星预览（旋转、缩放、拆解、高亮）。按 F5 从 Home 进入。使用、学习及模型替换说明见 [docs/DESIGN_WORKBENCH.md](docs/DESIGN_WORKBENCH.md)。
+## Run checks
 
-Fullscreen 使用 1440×900 桌面设计画布，按屏幕等比例缩放，避免 Retina 显示器上控件过小；较小的窗口仍按可用空间重排。F11 切换窗口模式。
+Run commands from the repository root. In these examples, `godot` means your Godot 4.7.2 executable; replace it with the installed executable path if it is not on PATH.
 
-## Flight Readiness
+### HPC checks
 
-Readiness 已按参考图实现六项可展开检查、交互式 3D 航天器/轨道预览、半圆资源仪表、目标覆盖条、Launch Ready 与警告面板。所有检查仍为固定 mock。操作、文件结构与集成边界见 [docs/FLIGHT_READINESS.md](docs/FLIGHT_READINESS.md)。
+```sh
+godot --headless --path . --script tests/test_simulator.gd
+godot --headless --path . --script tests/test_hpc.gd
+godot --headless --path . --script tests/run_demo.gd
+```
 
-## Mission Operations
+The HPC suite covers action accounting, resource bounds, blocked actions, run/event identity, terminal states, KE1 readiness integration, legacy conversion, and prediction parity with execution across both orbit presets.
 
-已加入按参考图排布的 Operations 仪表盘、真实 3D 地球/卫星、播放时间轴、三种视图、遥测、事件过滤与地面轨迹。播放与结果均为本地 mock，最终结果与现有 Debrief 的 Run A 一致。操作、数据边界和学习说明见 [docs/MISSION_OPERATIONS.md](docs/MISSION_OPERATIONS.md)。
+On Windows, the combined runner accepts an explicit Godot path. Replace the example path with your installation:
 
-## Current modular satellite UI
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tests/run_hpc_checks.ps1 -Godot 'C:\Tools\Godot\Godot.exe'
+```
 
-The Builder now has three independent choices for Body, Solar Panels, and Radio, with 27 visual combinations, persistent mission selections, and matching Readiness/Operations models. The app uses a shared navy/cyan layout and textured 3D Earth. Run `tests/modular_reference_smoke.gd`, `tests/satellite_selection_smoke.gd`, and `tests/design_workflow_smoke.gd` with Godot headless for current validation.
+### UI and 3D checks
 
-Engineering and simulation data remain development fixtures; the team contracts are preserved for integration. See [team agreement](docs/team-agreement.md), [contracts](docs/contracts.md), and [satellite integration details](docs/SATELLITE_BUILDER.md). Earlier prototype sections describe prior iterations.
+```sh
+godot --headless --path . --script tests/prototype_smoke.gd
+godot --headless --path . --script tests/modular_reference_smoke.gd
+godot --headless --path . --script tests/satellite_selection_smoke.gd
+godot --headless --path . --script tests/design_workflow_smoke.gd
+godot --headless --path . --script tests/3d/preview_smoke.gd
+```
+
+Additional screen-specific checks are in `tests/`. Headless checks do not establish visual quality or exported-build behavior; inspect the application and the selected export target separately.
+
+## Team ownership and collaboration
+
+| Role | Primary responsibility |
+| --- | --- |
+| KE1 | Mission/config schema, component and launcher catalogs, design metrics, and readiness validation |
+| HPC | Orbit presets, observation/contact windows, simulation steps, energy/storage accounting, actions, events, and predictions |
+| KE2 | Mission evaluation, scoring, evidence-based explanations, and learning feedback |
+| SE | Application shell, Creator/Builder/Readiness screens, controller, routing, and export coordination |
+| KE3 | Operations HUD, orbital presentation, debrief, and retry interaction |
+
+Follow the [team agreement](docs/team-agreement.md) and [implementation contracts](docs/contracts.md). Coordinate edits to another member's primary files. Changes to shared fields, units, methods, or rules must be agreed with the affected producers and consumers and reflected in documentation and checks. Preserve existing assets, fixtures, and legacy simulator behavior when integrating work.
+
+## Further documentation
+
+- [HPC integration and evidence bundles](docs/hpc-integration.md)
+- [Team agreement](docs/team-agreement.md)
+- [Shared implementation contracts](docs/contracts.md)
+- [Validation and integration plan](docs/validation-plan.md)
+- [Sources and engineering references](docs/sources.md)
+- [Home and Settings](docs/HOME.md)
+- [Mission Creator and spacecraft design](docs/DESIGN_WORKBENCH.md)
+- [Modular satellite integration](docs/SATELLITE_BUILDER.md)
+- [Flight Readiness screen](docs/FLIGHT_READINESS.md)
+- [Mission Operations screen](docs/MISSION_OPERATIONS.md)
+- [3D structure and asset conventions](docs/PROJECT_STRUCTURE.md)
+
+Some linked design and setup documents describe earlier prototype stages. Use the agreed contracts and current implementation when resolving differences. Keep source and license information with imported assets.
