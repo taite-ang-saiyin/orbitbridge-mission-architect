@@ -547,9 +547,7 @@ func _lab_compare() -> void:
 		_lab_response = reply.get("comparison", {}).duplicate(true)
 		# The provider's pair keys are checked by SE. Add display context only.
 		if not _lab_response.has("mode"): _lab_response.mode = reply.get("mode")
-		var a: Dictionary = design_lab.inputs.get("a", {})
-		if not _lab_response.has("a_run_id"): _lab_response.a_run_id = a.get("run_id")
-		if not _lab_response.has("b_run_id"): _lab_response.b_run_id = _presentation_model.report.get("run_id")
+		# Run and mission identities must come from the provider, never the selected page.
 	_lab_result(reply)
 
 func _lab_open(key: String) -> void:

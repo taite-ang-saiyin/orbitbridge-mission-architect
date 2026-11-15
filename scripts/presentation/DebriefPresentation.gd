@@ -66,13 +66,15 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 		model.evaluation_error = error.duplicate(true)
 		model.state = "evaluation_error" if not error.is_empty() else "pending"
 		model.text = heading + "\n\nEvaluation unavailable\n%s\n%s" % [text(error.get("message", "Finish or abort playback before requesting evaluation.")), text(error.get("suggested_fix", "Return to Operations and finish or abort the run."))]
+	var progress = preload("res://scripts/presentation/GoalProgress.gd")
+	var native_verified: bool = model.state != "stale_report" and progress.verified_native_trace(trace)
 	for target_id in mission.get("target_regions", [mission.get("target_region", "")]):
 		if str(target_id).is_empty(): continue
-		var captured: Variant = final.get("observations_by_target", {}).get(target_id) if final.has("observations_by_target") else null
-		var returned: Variant = final.get("returned_data_by_target_mb", {}).get(target_id) if final.has("returned_data_by_target_mb") else null
+		var captured: Variant = null if model.state == "stale_report" else progress.target_measurement(final, "observations_by_target", target_id, native_verified)
+		var returned: Variant = null if model.state == "stale_report" else progress.target_measurement(final, "returned_data_by_target_mb", target_id, native_verified)
 		model.text += "\n%s: %s captures, %s MB returned" % [str(target_id).replace("_", " ").capitalize(), text(captured), text(returned)]
 		if mission.get("objective") == "survey":
-			var delivered: Variant = final.get("observations_delivered_by_target", {}).get(target_id) if final.has("observations_delivered_by_target") else null
+			var delivered: Variant = null if model.state == "stale_report" else progress.target_measurement(final, "observations_delivered_by_target", target_id, native_verified)
 			model.text += " / %s complete observations delivered" % text(delivered)
 	model.text += "\n\nHPC battery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
 	# Launch credit is bound to the executed validation, independent of report source_ids.

@@ -141,6 +141,10 @@ func refresh() -> void:
 	var cb: Dictionary = dictionary(comparison.get("b"))
 	var ready: bool = completed(a) and completed(b) and a.run_id != b.run_id
 	var binding: bool = comparison.get("a_run_id", ca.get("run_id")) == a.get("run_id") and comparison.get("b_run_id", cb.get("run_id")) == b.get("run_id") and comparison.get("a_execution_key", ca.get("execution_key")) == a.get("execution_key") and comparison.get("b_execution_key", cb.get("execution_key")) == b.get("execution_key")
+	for side in [["a", a, ca], ["b", b, cb]]:
+		var mission: Variant = comparison.get(side[0] + "_mission_id", side[2].get("mission_id"))
+		# Older labeled packet previews lack these fields. Live replies must supply both.
+		if not (preview and mission == null) and mission != side[1].get("mission_id"): binding = false
 	# KE2 owns policy/goal/scenario eligibility. Do not compare accepted action lists.
 	var eligible: bool = saved and ready and binding and provider_eligible == true
 	var example: bool = preview and ready and binding and provider_eligible == null
@@ -150,11 +154,16 @@ func refresh() -> void:
 	elif example: state = "example"
 	status_label.text = "Live comparison pending"
 	if state == "comparison":
-		status_label.text = {"design":"Controlled design comparison", "controlled_design":"Controlled design comparison", "design_operations":"Design + operations comparison", "design_and_operations":"Design + operations comparison"}.get(comparison.get("mode"), "Comparison scope Unavailable")
+		var classification: Variant = comparison.get("classification") if comparison.has("classification") else comparison.get("mode")
+		status_label.text = {"Design":"Controlled design comparison", "Design + operations":"Design + operations comparison", "design":"Controlled design comparison", "controlled_design":"Controlled design comparison", "design_operations":"Design + operations comparison", "design_and_operations":"Design + operations comparison"}.get(classification, "Comparison scope Unavailable")
 	elif state == "blocked": status_label.text = "Controlled comparison blocked"
 	elif state == "example": status_label.text = "Measured example · eligibility pending"
-	var interpretation: Variant = comparison.get("interpretation", comparison.get("explanation"))
+	var interpretation: Variant = comparison.get("interpretation", comparison.get("explanation")) if binding else null
 	explanation.text = interpretation if interpretation is String and not interpretation.is_empty() else "Save a completed flight as A, then continue with one design change. Both Debriefs remain available."
+	if state == "comparison" and not (interpretation is String and not interpretation.is_empty()): explanation.text = "Interpretation: Unavailable"
+	if state == "comparison" and comparison.get("limitations") is Array:
+		for limitation in comparison.limitations:
+			if limitation is String and not limitation.is_empty(): explanation.text += "\n" + limitation
 	if inputs.get("storage_available") != true: explanation.text = "Saved-design services are unavailable on this build. Completed run measurements remain readable."
 	if saved and state == "pending": status_label.text = "Design A saved · ready for your next experiment"
 	if inputs.get("feedback") is String and not inputs.feedback.is_empty(): explanation.text = inputs.feedback
@@ -173,7 +182,7 @@ func refresh() -> void:
 	fixture_notice.text = str(inputs.get("fixture_label", "")) if preview else ""
 	fixture_notice.visible = preview
 	identities.text = "A%s: %s\nB: %s" % [" (saved)" if saved else " candidate (not saved)", a.get("run_id", "Unavailable"), b.get("run_id", "Unavailable")]
-	identities.tooltip_text = "A execution: %s\nB execution: %s" % [a.get("execution_key", "Unavailable"), b.get("execution_key", "Unavailable")]
+	identities.tooltip_text = "A mission: %s\nA execution: %s\nB mission: %s\nB execution: %s" % [a.get("mission_id", "Unavailable"), a.get("execution_key", "Unavailable"), b.get("mission_id", "Unavailable"), b.get("execution_key", "Unavailable")]
 	var show_supplied: bool = eligible or example
 	for definition in METRICS:
 		var name: String = definition[0]
