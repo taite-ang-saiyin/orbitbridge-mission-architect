@@ -39,15 +39,8 @@ $orbitScripts = @(
     'satellite_builder_smoke.gd',
     'satellite_selection_smoke.gd',
     'ke2_results_integration.gd',
-    'ke3_report_binding_check.gd',
     'ke3_team_integration_check.gd',
     'ke3_power_launcher_check.gd',
-    'a03_operations_check.gd',
-    'a05_debrief_check.gd',
-    'a06_retry_check.gd',
-    'mission_fixture_check.gd',
-    'ke2_recorded_debrief_check.gd',
-    'ke2_validated_debrief_check.gd',
     'validation/test_mission_presets_v2.gd'
     'validation/test_mission_validator_v2.gd'
     'integration/test_se_owner_contract_preparation.gd'

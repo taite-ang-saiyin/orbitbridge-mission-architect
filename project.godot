@@ -34,7 +34,7 @@ project/assembly_name="OrbitBridge"
 [gui]
 
 theme/custom_font="res://assets/fonts/app_font.tres"
-theme/custom_font_size=18
+theme/custom_font_size=16
 
 [physics]
 
