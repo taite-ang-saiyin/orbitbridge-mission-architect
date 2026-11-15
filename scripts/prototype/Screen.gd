@@ -385,6 +385,7 @@ func select_report_tab(index: int) -> void:
 	if is_instance_valid(result_hero): result_hero.visible = index != 3
 	for i in report_sections.size(): report_sections[i].visible = i == index
 	report_scroll.scroll_vertical = 0
+	if index == 3 and is_instance_valid(design_lab) and _lab_response.is_empty() and design_lab.inputs.get("a_saved") and not design_lab.inputs.get("b", {}).is_empty(): _lab_compare()
 
 func _history_cell(parent: Node,value: String) -> void:
 	var label: Label = UI.label(parent,value,16)
@@ -542,7 +543,13 @@ func refresh_design_lab() -> void:
 	var selected: Dictionary = controller.get_execution(key)
 	if selected.get("ok") and _presentation_model.get("state") in ["report", "evaluation_error"]:
 		candidate = DESIGN_LAB.record(selected.execution.trace, _presentation_model.report)
-	var b: Dictionary = candidate if candidate.get("execution_key") != a.get("execution_key") else {}
+	var b: Dictionary = {}
+	var selection: Dictionary = state.get("design_lab", {})
+	if not a.is_empty() and selection.get("selected_b_a") == a.get("execution_key"):
+		var paired: Dictionary = controller.get_execution(str(selection.get("selected_b", "")))
+		if paired.get("ok"):
+			b = DESIGN_LAB.record(paired.execution.trace, paired.execution.evaluation.get("report", {}))
+	if b.is_empty() and candidate.get("execution_key") != a.get("execution_key"): b = candidate
 	if _lab_response.get("a_execution_key") != a.get("execution_key") or _lab_response.get("b_execution_key") != b.get("execution_key"): _lab_response.clear()
 	var error: Dictionary = _lab_error.duplicate(true)
 	if not saved.get("ok", false): error = saved.get("error", {}).duplicate(true)
@@ -585,10 +592,10 @@ func _lab_clear() -> void:
 	var controller: Node = _lab_controller()
 	if controller != null: _lab_result(controller.clear_design_a(design_lab.confirmed_expected_a_key), "Saved A cleared. Your flight history is preserved.")
 
-func _lab_compare() -> void:
+func _lab_compare(requested_b_key: String = "") -> void:
 	var controller: Node = _lab_controller()
 	if controller == null: return
-	var key: String = str(_presentation_model.get("execution_key", ""))
+	var key: String = requested_b_key if not requested_b_key.is_empty() else str(design_lab.inputs.get("b", {}).get("execution_key", ""))
 	var reply: Dictionary = controller.compare_executions(key)
 	_lab_response.clear()
 	if reply.get("ok", false):
@@ -709,5 +716,5 @@ func _open_pair_after_flight(trace: Dictionary) -> void:
 	if controller == null: return
 	var saved: Dictionary = controller.get_saved_design_a()
 	if saved.get("execution") == null or saved.execution.execution_key != origin.get("saved_a"): return
-	_lab_compare()
+	_lab_compare(preload("res://scripts/integration/mission_results.gd").input_key(trace))
 	open_design_lab()
