@@ -2,11 +2,11 @@
 
 **Design a spacecraft. Plan its mission. Operate it in Earth orbit. Learn from the outcome.**
 
-OrbitBridge is an educational satellite mission design and operations sandbox being developed for the NASA Space Apps Challenge 2026. It brings mission planning, spacecraft assembly, launch readiness, orbital operations, and mission review into one interactive experience.
+OrbitBridge is an educational satellite mission design and operations sandbox built for the NASA Space Apps Challenge 2026. It brings mission planning, spacecraft assembly, launch readiness, orbital operations, and mission review into one interactive experience.
 
 Players set a mission objective, work within a budget, choose spacecraft components, and investigate how their decisions affect the mission. Success depends on capturing useful observations and returning data to Earth while managing limited energy, storage, and communication opportunities.
 
-Built with **Godot 4.7.2** and **GDScript**, the project combines an interactive desktop interface, 3D spacecraft and Earth visualization, engineering validation, deterministic simulation, and mission evaluation. It runs locally without a backend service.
+Built with **Godot 4.7.2** and **GDScript**, the project combines an interactive UI, 3D spacecraft and Earth visualization, engineering validation, deterministic simulation, and mission evaluation. It runs as both a **Windows Desktop** application and a **Web (WebAssembly)** browser build without requiring a backend service.
 
 ## The mission experience
 
@@ -17,19 +17,20 @@ Home -> Mission Control -> Mission Creator -> Spacecraft Builder
 
 | Stage | What the player does |
 | --- | --- |
-| Mission Control | Start a mission or resume the current run |
+| Mission Control | Start a custom mission, pick one of five mission presets, or resume the current run |
 | Mission Creator | Define the mission name, objective, target, observation goals, duration, and budget |
 | Spacecraft Builder | Choose spacecraft components, launcher, launch profile, and orbit; inspect the design in 3D |
 | Flight Readiness | Review calculated totals and resolve blocking readiness checks before launching |
 | Mission Operations | Capture observations, manage energy and storage, and transmit data during ground contact |
-| Debrief and Redesign | Review the actual score and explanations, inspect run history, retry, or modify the design |
+| Debrief and Redesign | Review the actual score and explanations, inspect run history, retry, or compare A/B designs |
 
-The learning loop is to change a design or an operating decision, run another experiment, and understand the outcome. Controlled side-by-side A/B comparison remains an optional feature in development.
+The learning loop is to change a design or an operating decision, run another experiment, and understand the outcome using **controlled side-by-side A/B design comparison** (**Save A and create B**, **Modify current design**, and side-by-side debriefs).
 
 ## Features
 
 ### Mission planning
 
+- Start from five prepared mission presets (**Estuary Watch**, **Tropical Forest Watch**, **Polar Ice Survey**, **Communication**, and **Weather Monitoring**) or design a custom mission.
 - Define mission details, observation and returned-data goals, duration, and a credit-based budget.
 - Explore target and orbit choices with an illustrative coverage preview.
 - Review a mission summary before moving into spacecraft design.
@@ -67,20 +68,18 @@ The learning loop is to change a design or an operating decision, run another ex
 
 ### Presentation and usability
 
-- Shared navy/cyan styling, sidebar navigation, and responsive desktop layouts.
-- Fullscreen and resizable-window modes.
-- Session-based theme and language settings. The mission workflow is in English; Home and Settings also support Simplified Chinese.
+- Shared navy/cyan styling, sidebar navigation, and responsive desktop and browser layouts.
+- Fullscreen and resizable-window modes on Desktop, plus WebAssembly browser support.
+- Session-based language switching supporting **English** and **Burmese (Myanmar)** with bundled Unicode, symbol, and Myanmar fonts (`Noto Sans`, `Noto Sans Myanmar`, `Noto Sans Symbols`, `Noto Sans Math`) so mixed-script text and UI icons render consistently across Desktop and Web.
 - Local assets and data support an offline experience.
 
-## Current development status
+## Current status & branches
 
-The active application connects mission creation and spacecraft design to calculated readiness, live mission operations, and evaluated results. Earlier prototype fixtures remain as historical or presentation resources; they do not approve launch or calculate active mission reports.
-
-The SE update adds Mission Control presets, catalog-backed spacecraft controls, expanded target choices, and real simulation playback with manual actions and next-step predictions. Survey missions can track deliveries to two targets, but their scores are unavailable until KE2 supplies Survey evaluation. Imaging retains its existing evaluation rules. See [the SE merge record](docs/se-main-merge.md) for checks and limits.
-
-The KE3 merge adds execution-bound Results, readable evidence and credits, keyboard navigation, and editable redesign with Cancel, while preserving manual actions, saved-setup Retry, launch checks, and the Windows verification mode. See [the KE3 merge record](docs/ke3-main-merge.md).
-
-The stable integration and Windows build have recorded verification evidence in [the integration report](docs/k15-integration.md). Windows x86_64 is the first demo target. Final player-journey review, testing on another Windows computer, and submission checks remain tracked in [the open-work record](docs/sunday-blockers.md). Browser export and controlled A/B comparison are not yet verified or complete.
+- **Full mission loop:** Connects Mission Control, Mission Creator, Spacecraft Builder, Flight Readiness, Mission Operations, and Debrief & Design Lab A/B comparison to deterministic simulation and calculated goal evaluation.
+- **5 mission presets:** Imaging missions (`Estuary Watch`, `Tropical Forest Watch`), `Polar Ice Survey`, `Communication`, and `Weather Monitoring`.
+- **Repository branches:**
+  - `main`: Latest submission game source (includes the `se` merge: v2 Communication & Weather scoring, Design Lab A/B comparison, and bundled English/Burmese/symbol fonts).
+  - `deploy`: Static Web export (`web/`) deployed to Netlify with custom OrbitBridge splash screen, loading progress bar, and favicon.
 
 Orbits, access windows, and many component values are simplified educational assumptions. The animated orbit and coverage illustrations are not physical coverage forecasts. Public simulation values use Wh for energy and decimal MB for data; observation and transmission depend on the selected scenario's time steps and access windows.
 
