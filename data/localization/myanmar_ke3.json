@@ -260,5 +260,10 @@
   "Cancel the current draft first.": "လက်ရှိ မူကြမ်းကို အရင် ပယ်ဖျက်ပါ။",
   "Replace A deliberately to change the baseline.": "အခြေခံရလဒ်ကို ပြောင်းရန် A ကို အတိအလင်း အစားထိုးပါ။",
   "Review mission requirements before launch.": "မလွှတ်တင်မီ မစ်ရှင် လိုအပ်ချက်များကို ပြန်စစ်ပါ။",
-  "Execution unavailable": "ပျံသန်းမှု မှတ်တမ်း မရရှိနိုင်ပါ"
+  "Execution unavailable": "ပျံသန်းမှု မှတ်တမ်း မရရှိနိုင်ပါ",
+  "Start page": "စတင်စာမျက်နှာ",
+  "Resume mission": "မစ်ရှင် ဆက်လုပ်မည်",
+  "Compare / try Design B": "နှိုင်းယှဉ်မည် / B စမ်းမည်",
+  "Another mission": "အခြားမစ်ရှင် ရွေးမည်",
+  "Choose the game language. Some mission explanations may remain in English.": "ဂိမ်း၏ ဘာသာစကားကို ရွေးပါ။ မစ်ရှင်ရှင်းလင်းချက်အချို့သည် အင်္ဂလိပ်လို ကျန်နိုင်ပါသည်။"
 }

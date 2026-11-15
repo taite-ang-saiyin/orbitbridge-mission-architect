@@ -63,12 +63,13 @@ var outcome_badge: Label
 var overview_layout: BoxContainer
 var experiment_panel: PanelContainer
 var hero_copy: VBoxContainer
+var design_lab_shortcut: Button
 func _ready():
 	add_theme_constant_override("separation", 12)
 	var titles = {"MissionControl": ["MISSION CONTROL / LOCAL PROTOTYPE", "Choose your next mission"], "Start": ["YOUR MISSION STARTS HERE", "OrbitBridge – Mission Architect"], "MissionCreator": ["01 / DEFINE", "Give your mission a purpose"], "SpacecraftBuilder": ["02 / DESIGN", "Build for the mission"], "FlightReadiness": ["03 / REVIEW", "Ready for the next horizon"], "MissionOperations": ["04 / OPERATE", "Mission control"], "DebriefCompare": ["", "Mission debrief"]}
 	var kicker = UI.label(self, titles[screen_id][0], 12, "6fd9eb")
 	if screen_id == "DebriefCompare": kicker.hide()
-	UI.label(self, titles[screen_id][1], 25)
+	UI.label(self, titles[screen_id][1], 20 if screen_id == "DebriefCompare" else 25)
 	if screen_id == "DebriefCompare":
 		qa_notice = UI.label(self, "", 14, "f4d38b")
 		qa_notice.hide()
@@ -109,10 +110,16 @@ func actions(back: int, next: int, text: String = "Continue"):
 	add_child(row)
 	if back >= 0:
 		UI.button(row, "Back", func(): navigate.emit(back))
+	if screen_id == "DebriefCompare":
+		design_lab_shortcut = UI.button(row, "Compare / try Design B", open_design_lab)
+		design_lab_shortcut.name = "OpenDesignLab"
+		design_lab_shortcut.custom_minimum_size.y = 44
+		design_lab_shortcut.add_theme_stylebox_override("normal", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("1b555d"), Color("399fa9")))
 	var spacer = Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
-	UI.button(row, text + "  >", func(): navigate.emit(next))
+	var forward = UI.button(row, text + "  >", func(): navigate.emit(next))
+	if screen_id == "DebriefCompare": forward.name = "AnotherMission"
 func choice(parent: Node, title: String, key: String, options: Array):
 	UI.label(parent, title, 13, "9cb0c8")
 	var select = OptionButton.new()
@@ -196,7 +203,7 @@ func debrief():
 
 	var hero = BoxContainer.new()
 	result_hero = hero
-	hero.add_theme_constant_override("separation", 36)
+	hero.add_theme_constant_override("separation", 18)
 	report_body.add_child(hero)
 	hero_copy = VBoxContainer.new()
 	hero_copy.add_theme_constant_override("separation", 8)
@@ -205,7 +212,7 @@ func debrief():
 	hero.add_child(hero_copy)
 	flight_name = UI.label(hero_copy, "", 16, "8ea9bb")
 	run_identity = UI.label(hero_copy, "", 11, "8ea9bb")
-	outcome_title = UI.label(hero_copy, "", 34, "b9f4e7")
+	outcome_title = UI.label(hero_copy, "", 24, "b9f4e7")
 	outcome_badge = UI.label(hero_copy, "", 12, "f4d38b")
 	results = UI.label(hero_copy, "", 18, "c2d9e6")
 	var score_group = VBoxContainer.new()
@@ -223,7 +230,7 @@ func debrief():
 	score_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	report_tabs = TabBar.new()
-	report_tabs.add_theme_font_size_override("font_size", 16)
+	report_tabs.add_theme_font_size_override("font_size", 14)
 	for mode in ["tab_selected", "tab_unselected", "tab_hovered", "tab_focus"]:
 		var tab_style = StyleBoxFlat.new()
 		tab_style.bg_color = Color(0,0,0,0)
@@ -244,12 +251,12 @@ func debrief():
 		report_body.add_child(section)
 		report_sections.append(section)
 	overview_layout = BoxContainer.new()
-	overview_layout.add_theme_constant_override("separation", 30)
+	overview_layout.add_theme_constant_override("separation", 18)
 	report_sections[0].add_child(overview_layout)
 	results_row = VBoxContainer.new()
 	results_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	results_row.size_flags_stretch_ratio = 1.65
-	results_row.add_theme_constant_override("separation", 20)
+	results_row.add_theme_constant_override("separation", 12)
 	overview_layout.add_child(results_row)
 	UI.label(results_row, "MISSION GOALS", 12, "8ea9bb")
 	for caption in ["Photos taken", "Data sent to Earth"]:
@@ -260,10 +267,10 @@ func debrief():
 		heading.add_theme_constant_override("separation", 10)
 		goal_headings.append(heading)
 		goal.add_child(heading)
-		var title = UI.label(heading, caption, 17, "c2d9e6")
+		var title = UI.label(heading, caption, 14, "c2d9e6")
 		goal_labels.append(title)
 		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var value = UI.label(heading, "", 21)
+		var value = UI.label(heading, "", 14)
 		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		goal_cards.append(value)
 		var bar = ProgressBar.new()
@@ -295,8 +302,8 @@ func debrief():
 	next_box.add_theme_constant_override("separation", 12)
 	experiment_panel.add_child(next_box)
 	UI.label(next_box, "YOUR NEXT FLIGHT", 12, "8ea9bb")
-	UI.label(next_box, "Try one change", 22, "b9f4e7")
-	next_experiment = UI.label(next_box, "", 17)
+	UI.label(next_box, "Try one change", 18, "b9f4e7")
+	next_experiment = UI.label(next_box, "", 14)
 	var buttons = HFlowContainer.new()
 	buttons.add_theme_constant_override("h_separation", 14)
 	buttons.add_theme_constant_override("v_separation", 8)
@@ -305,15 +312,15 @@ func debrief():
 	same_mission_button = UI.button(buttons, "Retry same mission", _request_same_retry)
 	for button in buttons.get_children():
 		button.custom_minimum_size.y = 44
-		button.add_theme_font_size_override("font_size", 16)
+		button.add_theme_font_size_override("font_size", 14)
 	var primary = preload("res://ui/theme/WorkbenchTheme.gd").box(Color("1b555d"), Color("1b555d"), 12)
 	retry_button.add_theme_stylebox_override("normal", primary)
 	same_mission_button.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
 	flight_details = report_sections[1]
-	full_explanation = UI.label(flight_details, "", 17)
-	flight_facts = UI.label(flight_details, "", 17)
+	full_explanation = UI.label(flight_details, "", 14)
+	flight_facts = UI.label(flight_details, "", 14)
 	UI.label(flight_details, "LINKED EVIDENCE", 14, "8ea9bb")
-	evidence = UI.label(flight_details, "", 17)
+	evidence = UI.label(flight_details, "", 14)
 	previous_flights = VBoxContainer.new()
 	flight_details.add_child(previous_flights)
 	var grid = GridContainer.new()
@@ -328,7 +335,7 @@ func debrief():
 	source_disclosure = report_sections[2]
 	credits_button = report_tabs
 	UI.label(source_disclosure, "SOURCE CREDITS", 14, "8ea9bb")
-	credits = UI.label(source_disclosure, "", 17)
+	credits = UI.label(source_disclosure, "", 14)
 	source_links = VBoxContainer.new()
 	source_disclosure.add_child(source_links)
 	UI.label(source_disclosure, "An educational simulation. Orbit paths, contact windows and most hardware values are illustrative.", 14, "9cb7c9")
@@ -345,7 +352,17 @@ func debrief():
 	_fit_results.call_deferred()
 	show_actual_run(maxi(0, history.size() - 1))
 	select_report_tab(0)
-	actions(4, 0, "Return Home")
+	actions(4, 0, "Another mission")
+
+func open_design_lab() -> void:
+	select_report_tab(3)
+	_reveal_design_lab.call_deferred()
+
+func _reveal_design_lab() -> void:
+	if not is_instance_valid(design_lab): return
+	report_scroll.ensure_control_visible(design_lab.modify_button.get_parent())
+	var primary: Button = design_lab.modify_button if not design_lab.modify_button.disabled else design_lab.save_button
+	if not primary.disabled: primary.grab_focus()
 
 func select_report_tab(index: int) -> void:
 	report_tabs.current_tab = index
@@ -361,14 +378,14 @@ func _fit_results() -> void:
 	if is_instance_valid(report_body): report_body.custom_minimum_size.x = minf(1000, maxf(280, report_scroll.size.x - 78))
 	if is_instance_valid(result_hero): result_hero.vertical = report_scroll.size.x < 600
 	if is_instance_valid(overview_layout): overview_layout.vertical = report_scroll.size.x < 960
-	for i in goal_headings.size(): goal_headings[i].vertical = report_scroll.size.x < 1050 or goal_labels[i].text.length() > 20
+	for i in goal_headings.size(): goal_headings[i].vertical = report_scroll.size.x < 600 or goal_labels[i].text.length() > 32
 	if is_instance_valid(score_gauge):
 		var compact: bool = get_viewport_rect().size.y < 800
-		score_gauge.custom_minimum_size = Vector2(112,112) if compact else Vector2(150,150)
-		report_body.add_theme_constant_override("separation", 10 if compact else 22)
-		outcome_title.add_theme_font_size_override("font_size", 30 if compact else 34)
-		report_surface.get_theme_stylebox("panel").set_content_margin_all(20 if compact else 26)
-		experiment_panel.get_theme_stylebox("panel").set_content_margin_all(12 if compact else 20)
+		score_gauge.custom_minimum_size = Vector2(104,104) if compact else Vector2(118,118)
+		report_body.add_theme_constant_override("separation", 10 if compact else 14)
+		outcome_title.add_theme_font_size_override("font_size", 22 if compact else 24)
+		report_surface.get_theme_stylebox("panel").set_content_margin_all(14 if compact else 18)
+		experiment_panel.get_theme_stylebox("panel").set_content_margin_all(12)
 		hero_copy.add_theme_constant_override("separation", 4 if compact else 8)
 func _report_keys(event: InputEvent) -> void:
 	if not report_scroll.has_focus() or not event is InputEventKey or not event.pressed: return
@@ -424,7 +441,7 @@ func show_execution(trace: Dictionary) -> void:
 	data_goal_value.text = "%s / %s MB" % [player.data, player.data_goal]
 	COPY.raw(flight_name, "text", str(trace.config.mission.get("title", "Your flight")))
 	score_label.text = player.score
-	score_label.add_theme_font_size_override("font_size", 17 if report_score_unavailable(_presentation_model) else 20)
+	score_label.add_theme_font_size_override("font_size", 13 if report_score_unavailable(_presentation_model) else 16)
 	score_label.tooltip_text = "Mission score"
 	score_gauge.set_score(_presentation_model.get("report", {}).get("score"), Color(outcome_color))
 	var report: Dictionary = _presentation_model.get("report", {})

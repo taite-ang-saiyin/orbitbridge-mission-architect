@@ -47,11 +47,11 @@ var _confirmation_focus: Control
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 12)
-	UI.label(self, "A / B DESIGN LAB", 17, "b9f4e7")
-	notice = UI.label(self, session_notice(OS.has_feature("web")), 14, "f4d38b")
+	UI.label(self, "A / B DESIGN LAB", 15, "b9f4e7")
+	notice = UI.label(self, session_notice(OS.has_feature("web")), 12, "f4d38b")
 	fixture_notice = UI.label(self, "", 14, "f4d38b")
-	status_label = UI.label(self, "", 22, "b9f4e7")
-	explanation = UI.label(self, "", 15)
+	status_label = UI.label(self, "", 17, "b9f4e7")
+	explanation = UI.label(self, "", 13)
 	identities = UI.label(self, "", 12, "8ea9bb")
 	grid = GridContainer.new()
 	grid.name = "DesignComparison"
@@ -80,6 +80,8 @@ func _ready() -> void:
 	view_a_button = UI.button(actions, "Open A's Debrief", func(): _view("a"))
 	view_b_button = UI.button(actions, "Open B's Debrief", func(): _view("b"))
 	for button in actions.get_children(): button.custom_minimum_size.y = 44
+	# Keep Save / Continue / Compare reachable before the long measurement table.
+	move_child(actions, 4)
 	confirmation = ConfirmationDialog.new()
 	confirmation.title = "Saved reference"
 	confirmation.confirmed.connect(_confirmed)

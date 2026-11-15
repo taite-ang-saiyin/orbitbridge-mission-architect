@@ -27,7 +27,7 @@ func run() -> void:
 		root.add_child(app)
 		app.preferences.language = "my"
 		app.show_screen(0)
-		assert(not app.find_child("LanguageSettings", true, false).visible)
+		assert(not app.find_child("SettingsMenu", true, false).visible)
 		for frame in 5: await process_frame
 		app.current.presets[draft.objective].pressed.emit()
 		for frame in 5: await process_frame
@@ -41,7 +41,7 @@ func run() -> void:
 		app.show_screen(4)
 		for frame in 8: await process_frame
 		assert(app.current.screen_id == "MissionOperations")
-		assert(app.find_child("LanguageSettings", true, false).visible)
+		assert(app.find_child("SettingsMenu", true, false).visible)
 		check_copy(app.current)
 		app.state.active_run_state = app.state.run_trace.final_state.duplicate(true)
 		app.show_screen(5)

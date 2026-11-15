@@ -7,6 +7,7 @@ const SETTINGS = preload("res://scenes/ui/settings/SettingsPanel.tscn")
 var preferences: Dictionary = {"language": "en", "theme": "midnight"}
 var screen_id = "Home"
 var settings_panel: Control
+var resume_available: bool = false
 @onready var start: Button = $SafeArea/Composition/Hero/Actions/StartMission
 @onready var settings: Button = $SafeArea/Composition/Hero/Actions/Secondary/Settings
 @onready var quit: Button = $SafeArea/Composition/Hero/Actions/Secondary/Quit
@@ -66,7 +67,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		close_settings()
 		get_viewport().set_input_as_handled()
 func refresh_preferences() -> void:
-	start.text = PREFS.word(preferences, "start")
+	start.text = PREFS.word(preferences, "resume" if resume_available else "start")
 	settings.text = PREFS.word(preferences, "settings")
 	quit.text = PREFS.word(preferences, "quit")
 	$SafeArea/Composition/Hero/Tagline.text = PREFS.word(preferences, "tagline")
