@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-		<title>OrbitBridge</title>
+		<title>OrbitBridge: Mission Architect</title>
 		<style>
 html, body, #canvas {
 	margin: 0;
@@ -180,6 +180,16 @@ const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
 (function () {
+	const APP_TITLE = 'OrbitBridge: Mission Architect';
+	document.title = APP_TITLE;
+	const titleEl = document.querySelector('title');
+	if (titleEl && typeof MutationObserver !== 'undefined') {
+		new MutationObserver(() => {
+			if (document.title !== APP_TITLE) {
+				document.title = APP_TITLE;
+			}
+		}).observe(titleEl, { childList: true, characterData: true, subtree: true });
+	}
 	const statusOverlay = document.getElementById('status');
 	const statusFooter = document.getElementById('status-footer');
 	const statusLabel = document.getElementById('status-label');
