@@ -27,6 +27,7 @@ func run() -> void:
 		root.add_child(app)
 		app.preferences.language = "my"
 		app.show_screen(0)
+		assert(not app.find_child("LanguageSettings", true, false).visible)
 		for frame in 5: await process_frame
 		app.current.presets[draft.objective].pressed.emit()
 		for frame in 5: await process_frame
@@ -40,11 +41,15 @@ func run() -> void:
 		app.show_screen(4)
 		for frame in 8: await process_frame
 		assert(app.current.screen_id == "MissionOperations")
+		assert(app.find_child("LanguageSettings", true, false).visible)
 		check_copy(app.current)
 		app.state.active_run_state = app.state.run_trace.final_state.duplicate(true)
 		app.show_screen(5)
 		for frame in 8: await process_frame
 		assert(app.current.screen_id == "DebriefCompare")
+		var progress: Dictionary = app.current.get_goal_progress()
+		assert(progress.primary.known and progress.primary.actual == app.state.run_trace.final_state.goal_progress.actual_count)
+		assert(progress.primary.required == 2)
 		check_copy(app.current)
 		app.queue_free()
 		for frame in 3: await process_frame

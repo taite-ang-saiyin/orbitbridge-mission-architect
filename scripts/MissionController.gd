@@ -55,6 +55,13 @@ func _ready():
 	status.text = "ORBITBRIDGE     •     MISSION LAB"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
+	var language_button = Button.new()
+	language_button.name = "LanguageSettings"
+	language_button.text = "Language"
+	language_button.hide()
+	language_button.custom_minimum_size = Vector2(76, 44)
+	language_button.pressed.connect(open_language_settings.bind(language_button))
+	header.add_child(language_button)
 	var home_button = Button.new()
 	home_button.text = "Home"
 	home_button.pressed.connect(request_screen.bind(0))
@@ -184,6 +191,8 @@ func show_screen(index: int):
 			return
 		on_terminal_state(state.active_run_state)
 	clear_screen()
+	var language_button = find_child("LanguageSettings", true, false)
+	if language_button != null: language_button.visible = index in [4, 5]
 	shell.show()
 	landing_host.hide()
 	var path = "res://scenes/screens/mission_control/MissionControl.tscn" if index == 0 else "res://scenes/screens/" + SCREENS[index] + ".tscn"
@@ -393,3 +402,22 @@ func offer_design_b(execution_key: String) -> Dictionary:
 
 func export_saved_design_a() -> Dictionary:
 	return preload("res://scripts/integration/design_lab.gd").export_saved_a(state)
+
+# Reuse SE's existing language selector without leaving or recreating the page.
+func open_language_settings(origin: Control) -> void:
+	if get_node_or_null("LanguageSettingsDialog") != null: return
+	var dialog = AcceptDialog.new()
+	dialog.name = "LanguageSettingsDialog"
+	dialog.title = "Settings"
+	var panel = preload("res://scenes/ui/settings/SettingsPanel.tscn").instantiate()
+	panel.values = preferences
+	panel.settings_changed.connect(func(): scoped_language.refresh())
+	panel.closed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	dialog.add_child(panel)
+	dialog.tree_exited.connect(func():
+		if is_instance_valid(origin): origin.grab_focus())
+	add_child(dialog)
+	dialog.get_ok_button().hide()
+	dialog.popup_centered(Vector2i(mini(520, int(size.x) - 40), mini(620, int(size.y) - 60)))
+	panel.language.grab_focus()

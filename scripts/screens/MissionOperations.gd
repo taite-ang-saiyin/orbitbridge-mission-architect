@@ -44,6 +44,7 @@ var enlarged: AcceptDialog
 var event_header: BoxContainer
 var action_buttons: Dictionary = {}
 var prediction_text: Label
+const COPY = preload("res://scripts/settings/MyanmarText.gd")
 const LANGUAGE = preload("res://scripts/presentation/PlayerLanguage.gd")
 var photo_value: Label
 var return_value: Label
@@ -183,7 +184,7 @@ func build_player(parent: Node) -> void:
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	view_frame.add_child(overlay)
 	status = UI.label(overlay, "", 16)
-	status.autowrap_mode = TextServer.AUTOWRAP_OFF
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	orbit_badge = UI.label(overlay, "", 13, "a0bacc")
 	craft_badge = UI.label(overlay, "", 13, "84b9ae")
 	mission_details = UI.label(overlay, "", 14)
@@ -382,14 +383,14 @@ func refresh() -> void:
 	var progress = playhead / DATA.TOTAL_SECONDS
 	var orbit_number = mini(run_configuration.mission.duration_orbits, 1 + int(progress * run_configuration.mission.duration_orbits))
 	var mission_status = str(snapshot.run_status).to_upper() if snapshot.phase == "finished" else ("PLAYING" if playing else "PAUSED")
-	status.text = (state.name if not state.name.strip_edges().is_empty() else "Untitled Mission") + "  ·  " + LANGUAGE.event_name(mission_status)
+	COPY.bind(status, "text", "{0}  ·  {1}", [state.name if not state.name.strip_edges().is_empty() else {"copy":"Untitled Mission"}, {"copy":LANGUAGE.event_name(mission_status)}])
 	mission_details.text = "%s\n%s\nOrbit %s / %s  ·  %s\nRemaining   %s" % [state.objective, state.orbit, orbit_number, state.duration, DATA.time_label(playhead), DATA.time_label(DATA.TOTAL_SECONDS - playhead)]
 	for i in target_rows.size():
 		var count = DATA.TARGET_CAPTURE[event_index][i]
 		var delivered = DATA.TARGET_DELIVERY[event_index][i]
 		var target_id: String = run_configuration.mission.get("target_regions", [run_configuration.mission.target_region])[i]
 		var fully_delivered: int = int(DATA.frames[event_index].state.get("observations_delivered_by_target", {}).get(target_id, 0))
-		target_rows[i][0].text = "%s\n%s captured / %s delivered\n%.3f MB returned" % [target_rows[i][2], count, fully_delivered, delivered]
+		COPY.bind(target_rows[i][0], "text", "{0}\n{1} captured / {2} delivered\n{3} MB returned", [target_rows[i][2], count, fully_delivered, "%.3f" % delivered])
 		target_rows[i][1].value = float(count) / state.observations * 100
 	total_label.text = "Captured %s / %s · Returned %.3f / %s MB" % [e[5], run_configuration.mission.required_observations, e[6], run_configuration.mission.required_returned_data_mb]
 	total_progress.value = 100.0 * e[5] / run_configuration.mission.required_observations
@@ -400,13 +401,14 @@ func refresh() -> void:
 	storage_value.text = "%s / %s MB" % [LANGUAGE.amount(snapshot.get("stored_data_mb")), LANGUAGE.amount(snapshot.get("storage_capacity_mb"))]
 	var presentation = preload("res://scripts/presentation/DebriefPresentation.gd")
 	telemetry.text = "Step %s / %s\nCaptured %s · Returned %s MB\nBattery %s / %s Wh\nStored %s / %s MB\n%s · %s" % [presentation.text(snapshot.get("step_index")), presentation.text(snapshot.get("total_steps")), presentation.text(snapshot.get("observations_completed")), presentation.number(snapshot,"returned_data_mb"), presentation.number(snapshot,"energy_wh"), presentation.text(snapshot.get("battery_capacity_wh")), presentation.number(snapshot,"stored_data_mb"), presentation.text(snapshot.get("storage_capacity_mb")), e[8], e[10]]
-	telemetry.tooltip_text = "Run " + presentation.text(snapshot.get("run_id")) + "\nMission " + presentation.text(snapshot.get("mission_id"))
+	COPY.bind(telemetry, "tooltip_text", "Run {0}\nMission {1}", [presentation.text(snapshot.get("run_id")), presentation.text(snapshot.get("mission_id"))])
 	battery_bar.value = e[3]
 	storage_bar.value = e[4]
-	details.text = "%s (%s) / T+ %s\n%s" % [_frame_event_name(event_index), e[0], DATA.time_label(e[1]), LANGUAGE.sentence(e[2])]
+	var detail_parts: Array = [{"copy":_frame_event_name(event_index)}, " (", {"raw":e[0]}, ") / T+ ", {"raw":DATA.time_label(e[1])}, "\n", {"raw":str(e[2])}]
 	for event in DATA.frames[event_index].get("events", []):
-		details.text += "\n%s | Step %s | %s" % [presentation.text(event.get("event_id")), presentation.text(event.get("step_index")), presentation.text(event.get("code"))]
-	orbit_badge.text = "Orbit %s of %s" % [orbit_number, state.duration]
+		detail_parts.append_array(["\n", {"raw":presentation.text(event.get("event_id"))}, " | Step ", {"raw":presentation.text(event.get("step_index"))}, " | ", {"raw":presentation.text(event.get("code"))}])
+	COPY.pieces(details, "text", detail_parts)
+	COPY.bind(orbit_badge, "text", "Orbit {0} of {1}", [orbit_number, state.duration])
 	craft_badge.text = "Sunlight" if snapshot.is_sunlit else "Earth's shadow"
 	seek_slider.set_value_no_signal(playhead)
 	time_display.text = DATA.time_label(playhead) + " / " + DATA.time_label(DATA.TOTAL_SECONDS)
@@ -434,14 +436,14 @@ func refresh() -> void:
 		action_buttons[action].disabled = playing or published or snapshot.phase != "operating" or not available.get("allowed", false)
 		var predicted: Dictionary = preload("res://core/MissionStepEngine.gd").predict_next_step(snapshot, action)
 		if predicted.get("ok", false) and predicted.prediction.allowed:
-			projections.append("%s: %.2f Wh battery, %.2f MB stored" % [action_buttons[action].text, predicted.prediction.energy_wh_after, predicted.prediction.stored_data_mb_after])
-		action_buttons[action].tooltip_text = str(available.get("reason", "")) if available.get("reason") != null else ""
+			projections.append("%s: %.2f Wh battery, %.2f MB stored" % [{"observe":"Observe", "transmit":"Transmit", "power_save":"Wait"}[action], predicted.prediction.energy_wh_after, predicted.prediction.stored_data_mb_after])
+		COPY.bind(action_buttons[action], "tooltip_text", "{0}\n{1}" if available.get("reason") != null else "{0}", [{"copy":COPY.code_label(str(available.get("blocked_code", "OK")))} if available.get("reason") != null else "", str(available.get("reason", ""))])
 		if predicted.get("ok", false) and predicted.prediction.allowed:
-			action_buttons[action].tooltip_text = "After this step: %.2f Wh battery, %.2f MB stored." % [predicted.prediction.energy_wh_after, predicted.prediction.stored_data_mb_after]
+			COPY.bind(action_buttons[action], "tooltip_text", "After this step: {0} Wh battery, {1} MB stored.", ["%.2f" % predicted.prediction.energy_wh_after, "%.2f" % predicted.prediction.stored_data_mb_after])
 		if published or snapshot.phase == "finished":
-			action_buttons[action].tooltip_text = "This flight is recorded. Retry from results to make new choices."
+			COPY.bind(action_buttons[action], "tooltip_text", "This flight is recorded. Retry from results to make new choices.", [])
 		elif playing:
-			action_buttons[action].tooltip_text = "Pause the flight plan to choose an action yourself."
+			COPY.bind(action_buttons[action], "tooltip_text", "Pause the flight plan to choose an action yourself.", [])
 	prediction_text.text = "After the next step:\n" + "\n".join(projections)
 	var previous_guidance: String = action_help.text
 	_refresh_action_help(snapshot, published)
@@ -522,8 +524,7 @@ func take_action(action: String) -> void:
 	playing = false
 	var reply: Dictionary = preload("res://scripts/integration/mission_runtime.gd").take_action(state, action)
 	if not reply.ok:
-		action_feedback.text = LANGUAGE.sentence(reply.error.message)
-		action_help.text = action_feedback.text
+		_show_action_feedback(str(reply.error.get("code", "UNAVAILABLE")), str(reply.error.message))
 		return
 	DATA = preload("res://scripts/integration/mission_playback.gd").new()
 	DATA.configure(state.run_trace)
@@ -531,13 +532,18 @@ func take_action(action: String) -> void:
 	timeline_event = -1
 	seek(float(reply.state.step_index) / maxf(1, reply.state.total_steps) * DATA.TOTAL_SECONDS)
 	if not reply.state.event_log.is_empty():
-		action_feedback.text = LANGUAGE.sentence(reply.state.event_log[-1].get("message", ""))
-		action_help.text = action_feedback.text
+		var event: Dictionary = reply.state.event_log[-1]
+		_show_action_feedback(str(event.get("code", "OK")), str(event.get("message", "")))
 
 func finish_run() -> void:
 	skip_to_end()
 
+func _show_action_feedback(code: String, message: String) -> void:
+	for label in [action_feedback, action_help]:
+		COPY.bind(label, "text", "{0}\n{1} · {2}", [{"copy":COPY.code_label(code)}, code, message])
+
 func _refresh_action_help(snapshot: Dictionary, published: bool) -> void:
+	if action_help.has_meta("ke3_copy_text"): action_help.remove_meta("ke3_copy_text")
 	if snapshot.phase == "finished":
 		action_help.text = "Flight finished. Open results to see which goals you reached."
 	elif published:
