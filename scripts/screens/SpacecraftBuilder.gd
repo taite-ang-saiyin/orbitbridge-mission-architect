@@ -319,7 +319,7 @@ func review_saved_a() -> void:
 	dialog.title = "Design A · read-only"
 	var lines = PackedStringArray([str(config.mission.title), ""])
 	for slot in config.design: lines.append("%s: %s" % [slot, config.design[slot]])
-	dialog.dialog_text = "\n".join(lines)
+	preload("res://scripts/settings/MyanmarText.gd").raw(dialog, "dialog_text", "\n".join(lines))
 	dialog.confirmed.connect(dialog.queue_free)
 	dialog.canceled.connect(dialog.queue_free)
 	add_child(dialog)

@@ -41,7 +41,7 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 		"photos":amount(final.get("observations_completed")), "photo_goal":amount(mission.get("required_observations")),
 		"data":amount(final.get("returned_data_mb")), "data_goal":amount(mission.get("required_returned_data_mb")),
 		"battery":amount(final.get("energy_wh")), "stored":amount(final.get("stored_data_mb")),
-		"targets":"", "evidence":"", "credits":""
+		"targets":"", "evidence":"", "evidence_parts":[], "credits":""
 	}
 	if valid:
 		result.headline = {"success":"All goals reached", "partial":"Some goals reached", "failed":"Goals not reached"}.get(supplied.get("status"), "Mission results")
@@ -84,9 +84,12 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 		for cause in supplied.get("root_causes", []):
 			if not cause is Dictionary: continue
 			result.evidence += sentence(cause.get("explanation")) + "\n"
+			result.evidence_parts.append({"raw":str(cause.get("explanation", "Unavailable")) + "\n"})
 			for id in cause.get("evidence_event_ids", []):
 				if not history.has(id) or ambiguous.has(id): result.evidence += "Evidence Unavailable: " + str(id) + "\n"
 				else: result.evidence += "Evidence: %s · Step %s · %s\n" % [id, amount(history[id].get("step_index")), sentence(history[id].get("message"))]
+				if not history.has(id) or ambiguous.has(id): result.evidence_parts.append_array(["Evidence Unavailable: ", {"raw":str(id)}, "\n"])
+				else: result.evidence_parts.append_array(["Evidence: ", {"raw":str(id)}, " · Step ", {"raw":amount(history[id].get("step_index"))}, " · ", {"raw":str(history[id].get("message", "Unavailable"))}, "\n"])
 	return result
 
 static func credits(model: Dictionary) -> String:
@@ -96,5 +99,16 @@ static func credits(model: Dictionary) -> String:
 		parts.append("NASA CubeSat 101\nThe sample 1U spacecraft mass check is adapted from Appendix C, item 6, printed page 79. Your recorded check: %s g %s %s g. This educational check is not flight certification." % [amount(readiness.get("total_mass_g")), readiness.get("comparator", ""), amount(readiness.get("threshold_g"))])
 	for source in model.get("source_credits", []):
 		if not source is Dictionary or source.get("credit_scope") == "readiness": continue
-		parts.append(sentence(source.get("title")) + "\n" + sentence(source.get("attribution_text")))
+		parts.append(str(source.get("title", "Unavailable")) + "\n" + str(source.get("attribution_text", "Unavailable")))
 	return "\n\n".join(parts) if not parts.is_empty() else "No source attribution was supplied for this flight."
+
+static func credit_parts(model: Dictionary) -> Array:
+	var parts: Array = []
+	var readiness: Dictionary = model.get("readiness_credit", {})
+	if readiness.get("source_id") == "cubesat_101_1u_sample":
+		parts.append_array([{"raw":"NASA CubeSat 101"}, "\nThe sample 1U spacecraft mass check is adapted from Appendix C, item 6, printed page 79. Your recorded check: ", {"raw":amount(readiness.get("total_mass_g"))}, " g ", {"raw":readiness.get("comparator", "")}, " ", {"raw":amount(readiness.get("threshold_g"))}, " g. This educational check is not flight certification."])
+	for source in model.get("source_credits", []):
+		if not source is Dictionary or source.get("credit_scope") == "readiness": continue
+		if not parts.is_empty(): parts.append("\n\n")
+		parts.append_array([{"raw":str(source.get("title", "Unavailable"))}, "\n", {"raw":str(source.get("attribution_text", "Unavailable"))}])
+	return parts if not parts.is_empty() else ["No source attribution was supplied for this flight."]

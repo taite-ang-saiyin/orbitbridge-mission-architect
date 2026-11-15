@@ -7,6 +7,7 @@ signal modify_current_requested
 signal compare_requested
 signal clear_a_requested
 signal view_execution_requested(execution_key: String)
+const COPY = preload("res://scripts/settings/MyanmarText.gd")
 const UI = preload("res://ui/components/UI.gd")
 const Words = preload("res://scripts/presentation/PlayerLanguage.gd")
 const Presenter = preload("res://scripts/presentation/DebriefPresentation.gd")
@@ -159,30 +160,36 @@ func refresh() -> void:
 	elif state == "blocked": status_label.text = "Controlled comparison blocked"
 	elif state == "example": status_label.text = "Measured example · eligibility pending"
 	var interpretation: Variant = comparison.get("interpretation", comparison.get("explanation")) if binding else null
-	explanation.text = interpretation if interpretation is String and not interpretation.is_empty() else "Save a completed flight as A, then continue with one design change. Both Debriefs remain available."
-	if state == "comparison" and not (interpretation is String and not interpretation.is_empty()): explanation.text = "Interpretation: Unavailable"
+	var parts: Array = [{"raw":interpretation}] if interpretation is String and not interpretation.is_empty() else ["Save a completed flight as A, then continue with one design change. Both Debriefs remain available."]
+	if state == "comparison" and not (interpretation is String and not interpretation.is_empty()): parts = ["Interpretation: Unavailable"]
 	if state == "comparison" and comparison.get("limitations") is Array:
+		parts.append("\nLimitations\n")
 		for limitation in comparison.limitations:
-			if limitation is String and not limitation.is_empty(): explanation.text += "\n" + limitation
-	if inputs.get("storage_available") != true: explanation.text = "Saved-design services are unavailable on this build. Completed run measurements remain readable."
+			if limitation is String and not limitation.is_empty(): parts.append({"raw":limitation + "\n"})
+	if inputs.get("storage_available") != true: parts = ["Saved-design services are unavailable on this build. Completed run measurements remain readable."]
 	if saved and state == "pending": status_label.text = "Design A saved · ready for your next experiment"
-	if inputs.get("feedback") is String and not inputs.feedback.is_empty(): explanation.text = inputs.feedback
+	if inputs.get("feedback") is String and not inputs.feedback.is_empty(): parts = [inputs.feedback]
 	var error: Dictionary = dictionary(inputs.get("error"))
 	if not error.is_empty():
 		status_label.text = "Review needed" if error.get("code") == "A_CHANGED" else "Comparison or action unavailable"
-		explanation.text = "%s: %s" % [error.get("code", "UNAVAILABLE"), error.get("message", "No additional detail was supplied.")]
-		if error.get("code") == "A_CHANGED": explanation.text += "\nSaved A has been refreshed below. Review it before confirming again."
+		var code: String = str(error.get("code", "UNAVAILABLE"))
+		var message: String = str(error.get("message", "No additional detail was supplied."))
+		var caption: String = COPY.code_label(code)
+		parts = [{"raw":code}, ": ", {"copy":caption}]
+		if message != caption: parts.append({"raw":"\n" + message})
+		if error.get("code") == "A_CHANGED": parts.append("\nSaved A has been refreshed below. Review it before confirming again.")
 	var reason_values: Variant = comparison.get("reasons", eligibility.get("reasons"))
 	var reasons: Array = reason_values if reason_values is Array else []
 	for reason in reasons:
-		if reason is Dictionary: explanation.text += "\n%s: %s" % [reason.get("code", "Unavailable"), reason.get("message", "Unavailable")]
-		elif reason is String: explanation.text += "\n" + reason
-	if not comparison.is_empty() and not ready: explanation.text += "\nTwo distinct completed, non-aborted executions with matching reports are required."
-	if not comparison.is_empty() and not binding: explanation.text += "\nComparison identifiers do not match these executions."
-	fixture_notice.text = str(inputs.get("fixture_label", "")) if preview else ""
+		if reason is Dictionary: parts.append({"raw":"\n%s: %s" % [reason.get("code", "Unavailable"), reason.get("message", "Unavailable")]})
+		elif reason is String: parts.append({"raw":"\n" + reason})
+	if not comparison.is_empty() and not ready: parts.append("\nTwo distinct completed, non-aborted executions with matching reports are required.")
+	if not comparison.is_empty() and not binding: parts.append("\nComparison identifiers do not match these executions.")
+	COPY.pieces(explanation, "text", parts)
+	COPY.raw(fixture_notice, "text", str(inputs.get("fixture_label", "")) if preview else "")
 	fixture_notice.visible = preview
-	identities.text = "A%s: %s\nB: %s" % [" (saved)" if saved else " candidate (not saved)", a.get("run_id", "Unavailable"), b.get("run_id", "Unavailable")]
-	identities.tooltip_text = "A mission: %s\nA execution: %s\nB mission: %s\nB execution: %s" % [a.get("mission_id", "Unavailable"), a.get("execution_key", "Unavailable"), b.get("mission_id", "Unavailable"), b.get("execution_key", "Unavailable")]
+	COPY.bind(identities, "text", "A (saved): {0}\nB: {1}" if saved else "A candidate (not saved): {0}\nB: {1}", [a.get("run_id", {"copy":"Unavailable"}), b.get("run_id", {"copy":"Unavailable"})])
+	COPY.bind(identities, "tooltip_text", "A mission: {0}\nA execution: {1}\nB mission: {2}\nB execution: {3}", [a.get("mission_id", {"copy":"Unavailable"}), a.get("execution_key", {"copy":"Unavailable"}), b.get("mission_id", {"copy":"Unavailable"}), b.get("execution_key", {"copy":"Unavailable"})])
 	var show_supplied: bool = eligible or example
 	for definition in METRICS:
 		var name: String = definition[0]
@@ -196,13 +203,17 @@ func refresh() -> void:
 		cells[name][2].tooltip_text = str(supplied.get("delta_unit", definition[2]))
 		if numeric(supplied.get("delta")) and show_supplied and not str(supplied.get("delta_unit", definition[2])).is_empty():
 			cells[name][2].text += " " + str(supplied.get("delta_unit", definition[2]))
+		for cell in cells[name]:
+			if name != "outcome" and not "Unavailable" in cell.text: COPY.raw(cell, "text", cell.text)
+			else: COPY.bind(cell, "text", "{0}", [{"copy":cell.text}])
+			COPY.raw(cell, "tooltip_text", cell.tooltip_text)
 	var changed: Variant = comparison.get("changed_parts") if show_supplied else null
 	var part_lines: Array[String] = []
 	if changed is Array:
 		for part in changed:
 			if part is String: part_lines.append(part)
 			elif part is Dictionary: part_lines.append("%s: %s → %s" % [part.get("slot", part.get("field", "Part")), part.get("a", "Unavailable"), part.get("b", "Unavailable")])
-	changes.text = "Changed parts\n" + "\n".join(part_lines) if not part_lines.is_empty() else "Changed parts: Unavailable"
+	COPY.bind(changes, "text", "Changed parts\n{0}" if not part_lines.is_empty() else "Changed parts: {0}", ["\n".join(part_lines) if not part_lines.is_empty() else {"copy":"Unavailable"}])
 	var storage: bool = inputs.get("storage_available") == true and not preview
 	save_button.disabled = not storage or saved or not completed(candidate)
 	replace_button.disabled = not storage or not saved or not completed(candidate) or candidate.get("run_id") == a.get("run_id")

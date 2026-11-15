@@ -3,6 +3,7 @@ signal navigate(index: int)
 signal retry_requested
 signal modify_requested
 signal new_mission_requested
+const COPY = preload("res://scripts/settings/MyanmarText.gd")
 const UI = preload("res://ui/components/UI.gd")
 const ORBIT = preload("res://scenes/ui/components/OperationsOrbitViewport.tscn")
 @export var screen_id: String
@@ -311,6 +312,7 @@ func debrief():
 	flight_details = report_sections[1]
 	full_explanation = UI.label(flight_details, "", 17)
 	flight_facts = UI.label(flight_details, "", 17)
+	UI.label(flight_details, "LINKED EVIDENCE", 14, "8ea9bb")
 	evidence = UI.label(flight_details, "", 17)
 	previous_flights = VBoxContainer.new()
 	flight_details.add_child(previous_flights)
@@ -325,6 +327,7 @@ func debrief():
 		for cell in ["Flight " + str(i + 1), LANGUAGE.amount(history[i].final_state.get("observations_completed")), LANGUAGE.amount(history[i].final_state.get("returned_data_mb"))]: _history_cell(grid, cell)
 	source_disclosure = report_sections[2]
 	credits_button = report_tabs
+	UI.label(source_disclosure, "SOURCE CREDITS", 14, "8ea9bb")
 	credits = UI.label(source_disclosure, "", 17)
 	source_links = VBoxContainer.new()
 	source_disclosure.add_child(source_links)
@@ -351,7 +354,7 @@ func select_report_tab(index: int) -> void:
 
 func _history_cell(parent: Node,value: String) -> void:
 	var label: Label = UI.label(parent,value,16)
-	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 func _fit_results() -> void:
 	if not is_inside_tree() or is_queued_for_deletion(): return
@@ -419,7 +422,7 @@ func show_execution(trace: Dictionary) -> void:
 	outcome_title.add_theme_color_override("font_color", Color(outcome_color))
 	photo_goal_value.text = "%s / %s" % [player.photos, player.photo_goal]
 	data_goal_value.text = "%s / %s MB" % [player.data, player.data_goal]
-	flight_name.text = str(trace.config.mission.get("title", "Your flight"))
+	COPY.raw(flight_name, "text", str(trace.config.mission.get("title", "Your flight")))
 	score_label.text = player.score
 	score_label.add_theme_font_size_override("font_size", 17 if report_score_unavailable(_presentation_model) else 20)
 	score_label.tooltip_text = "Mission score"
@@ -430,12 +433,21 @@ func show_execution(trace: Dictionary) -> void:
 	outcome_badge.add_theme_color_override("font_color", Color(outcome_color))
 	var summary: Dictionary = SUMMARY.build(_presentation_model, trace)
 	results.text = summary.text if trace.config.mission.get("objective") == "imaging" and not summary.text.is_empty() else player.summary
-	full_explanation.text = player.summary
+	if _presentation_model.get("state") == "report":
+		COPY.bind(full_explanation, "text", "Producer explanation\n{0}", [str(report.get("explanation", "Unavailable"))])
+	elif _presentation_model.get("state") == "evaluation_error":
+		var error: Dictionary = _presentation_model.get("evaluation_error", {})
+		var prefix: String = "Your Survey flight is complete. Survey scoring is not available yet; you can still review the photos and data you collected." if trace.config.mission.get("objective") == "survey" else "Evaluation unavailable for this flight. Your recorded measurements are shown below."
+		COPY.bind(full_explanation, "text", prefix + "\n{0} · {1}\n{2}", [error.get("code", "Unavailable"), error.get("field_path", "Unavailable"), error.get("message", "Unavailable")])
+	else: COPY.bind(full_explanation, "text", player.summary, [])
 	render_goal_progress(trace, _presentation_model)
-	next_experiment.text = player.next
+	var suggestion: Variant = report.get("next_experiment") if _presentation_model.get("state") == "report" else _presentation_model.get("evaluation_error", {}).get("suggested_fix")
+	if suggestion is String and not suggestion.is_empty(): COPY.raw(next_experiment, "text", suggestion)
+	else: COPY.bind(next_experiment, "text", player.next, [])
 	flight_facts.text = player.targets + "\nBattery remaining: %s Wh\nData still on the spacecraft: %s MB\n\nCaptured observations and returned data are separate measurements. A complete delivery is counted only after the whole observation reaches Earth." % [player.battery, player.stored]
-	flight_facts.tooltip_text = "Flight " + str(trace.final_state.run_id)
-	evidence.text = player.evidence if not player.evidence.is_empty() else "No specific cause was established by the recorded events."
+	COPY.bind(flight_facts, "tooltip_text", "Flight {0}", [trace.final_state.run_id])
+	if not player.evidence_parts.is_empty(): COPY.pieces(evidence, "text", player.evidence_parts)
+	else: COPY.bind(evidence, "text", "No specific cause was established by the recorded events.", [])
 	var latest: Dictionary = state.get("run_trace", {})
 	var selected_is_latest: bool = _presentation_model.execution_key == preload("res://scripts/integration/mission_results.gd").input_key(latest)
 	# The current controller's generic Modify/Retry acts on run_trace, not the picker.
@@ -446,7 +458,7 @@ func show_execution(trace: Dictionary) -> void:
 	for button in [retry_button, same_mission_button]:
 		button.tooltip_text = "" if selected_is_latest else "Return to the latest flight to modify or retry."
 	refresh_design_lab()
-	credits.text = LANGUAGE.credits(_presentation_model)
+	COPY.pieces(credits, "text", LANGUAGE.credit_parts(_presentation_model))
 	for link in source_links.get_children():
 		source_links.remove_child(link)
 		link.queue_free()
@@ -466,7 +478,7 @@ func show_execution(trace: Dictionary) -> void:
 		urls.append(url)
 		var link = LinkButton.new()
 		link.text = "Open reference " + str(urls.size())
-		link.tooltip_text = str(source.get("title", "Reference")) + "\n" + url
+		COPY.raw(link, "tooltip_text", str(source.get("title", "Reference")) + "\n" + url)
 		link.custom_minimum_size.y = 44
 		link.add_theme_font_size_override("font_size", 17)
 		link.pressed.connect(func(): OS.shell_open(url))
@@ -559,13 +571,16 @@ func _lab_open(key: String) -> void:
 func render_goal_progress(trace: Dictionary, model: Dictionary, supplied_details: Dictionary = {}) -> void:
 	# Optional details are a view input only; runtime never creates pending-goal configs.
 	_goal_progress = GOAL_PROGRESS.build(model, trace, supplied_details)
-	run_identity.text = "Flight " + str(_goal_progress.get("run_id", "Unavailable"))
-	qa_notice.text = str(_goal_progress.get("fixture_label", ""))
+	COPY.bind(run_identity, "text", "Flight {0}", [_goal_progress.get("run_id", {"copy":"Unavailable"})])
+	COPY.raw(qa_notice, "text", str(_goal_progress.get("fixture_label", "")))
 	qa_notice.visible = not qa_notice.text.is_empty()
 	for i in 2:
 		var goal: Dictionary = _goal_progress.primary if i == 0 else _goal_progress.data
 		goal_labels[i].text = goal.label
-		goal_cards[i].text = goal.value
+		var actual: String = LANGUAGE.amount(goal.get("actual"))
+		var required: String = LANGUAGE.amount(goal.get("required"))
+		var unit: String = str(goal.value).trim_prefix(actual + " / " + required)
+		COPY.bind(goal_cards[i], "text", "{0} / {1}{2}", [{"copy":"Unavailable"} if actual == "Unavailable" else actual, {"copy":"Unavailable"} if required == "Unavailable" else required, unit])
 		goal_verdicts[i].text = goal.verdict
 		var tint = Color("b9f4e7") if goal.known and goal.reached else Color("f4d38b")
 		goal_verdicts[i].add_theme_color_override("font_color", tint)
@@ -591,7 +606,7 @@ func render_goal_progress(trace: Dictionary, model: Dictionary, supplied_details
 			UI.label(target_deliveries, delivery.get("context_text", "Target measurements: Unavailable"), 14, "8ea9bb")
 		UI.label(target_deliveries, "Captured-only and partial packets are not complete deliveries.", 12, "8ea9bb")
 	missed_goals.text = "Goal progress\n" + _goal_progress.missed_text
-	progress_evidence.text = "Same-run events\n" + _goal_progress.evidence_text
+	COPY.bind(progress_evidence, "text", "Same-run events\n{0}", [_goal_progress.evidence_text if not _goal_progress.evidence_ids.is_empty() else {"copy":"Unavailable"}])
 	_fit_results.call_deferred()
 
 func get_goal_progress() -> Dictionary:

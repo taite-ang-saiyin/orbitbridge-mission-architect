@@ -53,7 +53,7 @@ func run() -> void:
 		check(page.score_label.text == "87 / 100", "Authoritative score retained " + str(size))
 		check(page.score_gauge.score == raw.score, "Circular score uses supplied score " + str(size))
 		check("All requested photos were taken" in page.results.text and not "5/5" in page.results.text, "Overview explains without repeating fraction totals " + str(size))
-		check(page.full_explanation.text.contains("44.32/60 MB"), "Supplied explanation retained in log " + str(size))
+		check(page.full_explanation.text.contains(raw.explanation), "Unmodified producer explanation retained in log " + str(size))
 		check(page.content.size.x <= page.report_scroll.size.x + 1, "No horizontal overflow " + str(size))
 		if size.x >= 1280:
 			check(page.report_scroll.get_global_rect().encloses(page.retry_button.get_global_rect()), "Primary Retry action visible without scrolling " + str(size))
