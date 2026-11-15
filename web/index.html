@@ -71,9 +71,34 @@ body {
 }
 
 #status-progress {
-	bottom: 10%;
-	width: 50%;
+	bottom: 7%;
+	width: 42%;
+	max-width: 520px;
+	height: 8px;
 	margin: 0 auto;
+	appearance: none;
+	-webkit-appearance: none;
+	border: none;
+	border-radius: 999px;
+	background: rgba(3, 7, 16, 0.72);
+	box-shadow: 0 0 0 1px rgba(125, 211, 252, 0.25), 0 4px 16px rgba(0, 0, 0, 0.55);
+	overflow: hidden;
+}
+
+#status-progress::-webkit-progress-bar {
+	background: rgba(3, 7, 16, 0.72);
+	border-radius: 999px;
+}
+
+#status-progress::-webkit-progress-value {
+	background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+	border-radius: 999px;
+	box-shadow: 0 0 12px rgba(56, 189, 248, 0.75);
+}
+
+#status-progress::-moz-progress-bar {
+	background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+	border-radius: 999px;
 }
 
 #status-notice {
