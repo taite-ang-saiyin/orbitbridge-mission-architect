@@ -43,8 +43,10 @@ static func text(source: String, language: String) -> String:
 
 static func myanmar_font() -> Font:
 	if font == null:
-		# Bundled Unicode font keeps Myanmar shaping available in exported builds.
-		if ResourceLoader.exists("res://assets/fonts/myanmar/NotoSansMyanmar.ttf"):
+		# Bundled Unicode font keeps Myanmar shaping + English/symbol fallbacks available in exported builds.
+		if ResourceLoader.exists("res://assets/fonts/app_font_my.tres"):
+			font = load("res://assets/fonts/app_font_my.tres")
+		elif ResourceLoader.exists("res://assets/fonts/myanmar/NotoSansMyanmar.ttf"):
 			font = load("res://assets/fonts/myanmar/NotoSansMyanmar.ttf")
 		else:
 			var fallback = SystemFont.new()

@@ -171,6 +171,8 @@ static func launch(draft: Dictionary, previous: Dictionary = {}, options: Dictio
 	var trace: Dictionary = {"config": config.duplicate(true), "validation": reviewed,
 		"policy": draft.get("policy", "Observe First"), "catalogs_snapshot": loaded.catalogs.duplicate(true), "draft_snapshot": snapshots}
 	trace.versions = {"simulator_sha256":_code_hash("res://core/MissionStepEngine.gd"), "validator_sha256":_validator_hash(), "evaluator_sha256":_code_hash("res://scripts/evaluation/mission_evaluator.gd"), "adapter_sha256":_code_hash("res://core/HPCContractAdapter.gd"), "runner_sha256":_code_hash("res://scripts/integration/mission_runtime.gd"), "catalog_sha256":JSON.stringify(loaded.catalogs,"",true,true).sha256_text()}
+	if config.schema_version == 2 and config.mission.objective in ["communication", "weather_monitoring"]:
+		trace.versions.goal_evaluator_sha256 = _code_hash("res://scripts/evaluation/mission_goal_evaluator.gd")
 	trace.manual_actions = []
 	if options.has("comparison_context"): trace.comparison_context = options.comparison_context.duplicate(true)
 	if options.has("action_plan"): trace.requested_action_plan = options.action_plan.duplicate(true)
@@ -188,6 +190,11 @@ static func _finish_trace(trace: Dictionary, current: Dictionary, frames: Array)
 		var order: Array = ["transmit", "observe"] if trace.policy == "Downlink First" else ["observe", "transmit"]
 		for candidate in order:
 			if current.available_actions[candidate].allowed:
+				# Weather's automatic policy reserves later captures for later orbits.
+				# Explicit/manual action requests still go unchanged to the engine.
+				if candidate == "observe" and trace.config.mission.objective == "weather_monitoring":
+					var orbit_index: int = floori(float(current.step_index) / float(current.goal_steps_per_orbit))
+					if current.goal_progress.qualifying_revolution_indices.has(orbit_index): continue
 				action = candidate
 				break
 		if trace.has("requested_action_plan"):

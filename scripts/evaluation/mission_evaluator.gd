@@ -44,6 +44,8 @@ static func evaluate_mission(
 	comparison_baseline = null
 ) -> Dictionary:
 	if config.get("schema_version") == 2:
+		if config.get("mission") is Dictionary and config.mission.get("objective") in ["communication", "weather_monitoring"]:
+			return preload("res://scripts/evaluation/mission_goal_evaluator.gd").evaluate_mission(config, final_state, events)
 		return _error(INVALID_INPUT, "config.mission.objective", "Scoring is not available for this mission yet.", "Review the recorded flight measurements.", final_state.get("run_id"))
 	var run_id: Variant = final_state.get("run_id")
 	if not run_id is String or run_id.strip_edges().is_empty():

@@ -3,7 +3,7 @@ const Runtime = preload("res://scripts/integration/mission_runtime.gd")
 const Review = preload("res://scripts/integration/mission_review.gd")
 const Results = preload("res://scripts/integration/mission_results.gd")
 func _initialize() -> void:
-	create_timer(90).timeout.connect(func(): push_error("Comparison flow timeout"); quit(1))
+	create_timer(180).timeout.connect(func(): push_error("Comparison flow timeout"); quit(1))
 	call_deferred("run")
 func settle() -> void:
 	for frame in 10: await process_frame
@@ -27,6 +27,19 @@ func run() -> void:
 		app.show_screen(5)
 		await settle()
 		var a_key: String = Results.input_key(app.state.run_trace)
+		var candidate_view = app.current.design_lab
+		var candidate_model: Dictionary = candidate_view.get_model()
+		assert(not candidate_model.a_saved and candidate_model.a.execution_key == a_key)
+		assert(candidate_model.b.is_empty() and not candidate_model.eligible)
+		assert(candidate_view.cells.returned_data_mb[0].text == preload("res://scripts/presentation/PlayerLanguage.gd").amount(app.state.active_run_state.returned_data_mb))
+		assert(candidate_view.cells.returned_data_mb[1].text == "-")
+		assert(not candidate_view.view_a_button.disabled and candidate_view.view_b_button.disabled)
+		assert("not saved" in candidate_view.identities.text and not candidate_view.save_button.disabled)
+		assert(app.get_saved_design_a().execution == null)
+		candidate_view._view("a")
+		await settle()
+		assert(app.current.get_presentation_model().execution_key == a_key)
+		assert(app.get_saved_design_a().execution == null)
 		var saved: Dictionary = app.save_design_a(a_key)
 		if not saved.ok: print(saved); quit(1); return
 		var original: Dictionary = app.get_saved_design_a().execution.duplicate(true)
@@ -51,10 +64,15 @@ func run() -> void:
 		if model.state != "comparison": print(model); quit(1); return
 		assert(app.get_saved_design_a().execution == original)
 		var packet: Dictionary = model.comparison
+		var before_names: String = JSON.stringify(packet)
+		assert(app.current.design_lab.changes.text == ("Changed parts: Radio: Fast radio → Basic radio" if radio == "radio_basic" else "Changed parts: Radio: Basic radio → Fast radio"))
+		assert(app.current.design_lab.changes.get_index() < app.current.design_lab.grid.get_index())
+		assert(not "radio_basic" in app.current.design_lab.changes.text and not "radio_fast" in app.current.design_lab.changes.text)
+		assert(JSON.stringify(app.current.design_lab.get_model().comparison) == before_names)
 		assert(packet.a_execution_key == a_key and packet.b_execution_key != a_key)
 		assert(packet.metrics.total_mass_g.delta == (60 if radio == "radio_fast" else -60))
 		assert(packet.metrics.returned_data_mb.delta == packet.metrics.returned_data_mb.b - packet.metrics.returned_data_mb.a)
-		assert(packet.scored == (objective == "imaging"))
+		assert(packet.scored == (objective in ["imaging", "communication", "weather_monitoring"]))
 		if not packet.scored: assert(packet.metrics.score.a == null and packet.metrics.score.b == null)
 		var b_key: String = packet.b_execution_key
 		assert(app.show_execution_result(a_key).ok)

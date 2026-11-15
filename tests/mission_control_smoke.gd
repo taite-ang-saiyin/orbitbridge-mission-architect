@@ -23,7 +23,7 @@ func check() -> void:
 		assert(page.start_button.get_parent().get_parent() == page, "Start Mission must stay outside scrolling content")
 		assert(page.start_button.get_global_rect().end.y <= root.size.y, "Start Mission must be visible without scrolling")
 		assert(page.start_button.get_global_rect().position.y >= page.scroll.get_global_rect().end.y, "Footer must not overlap scroll content")
-		assert(page.presets.size() == 3)
+		assert(page.presets.size() == 5 and page.presets.has("Communication") and page.presets.has("Weather Monitoring"))
 		assert(page.earth.stage.orbit_paths.size() == 2)
 		page.presets["Polar Ice Survey"].pressed.emit()
 		await settle()

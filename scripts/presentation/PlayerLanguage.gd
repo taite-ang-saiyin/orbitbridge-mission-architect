@@ -57,7 +57,7 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 		result.headline = "Flight complete · score unavailable"
 		result.summary = "Evaluation unavailable for this flight. Your recorded measurements are shown below."
 		if mission.get("objective") in ["communication", "weather_monitoring"]:
-			result.summary = "Your flight is complete. Scoring is not available for this mission yet; recorded measurements are shown below."
+			result.summary = "Your flight is complete, but its score could not be verified. Recorded measurements are shown below."
 			var progress: Dictionary = final.get("goal_progress", {})
 			var goal_label: String = "Data-return steps" if mission.objective == "communication" else "Orbits with a target observation"
 			result.summary += "\n%s: %s / %s" % [goal_label, amount(progress.get("actual_count")), amount(progress.get("required_count"))]
@@ -72,6 +72,11 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 		result.headline = "These results do not match this flight"
 		result.summary = "The report could not be matched to your recorded flight. Its score and explanation are not shown."
 		result.next = "Return to Operations or select another completed flight."
+	# A native abort remains a stopped flight even if evaluation is unavailable.
+	if model.get("state") != "stale_report" and final.get("run_status") == "aborted":
+		result.headline = "Mission stopped early"
+		result.score = "Not scored"
+		if not valid: result.summary = "Your flight was stopped early. Recorded measurements remain available in the flight log."
 	for target in mission.get("target_regions", [mission.get("target_region", "")]):
 		if str(target).is_empty(): continue
 		var captured: Variant = final.get("observations_by_target", {}).get(target) if final.has("observations_by_target") else null

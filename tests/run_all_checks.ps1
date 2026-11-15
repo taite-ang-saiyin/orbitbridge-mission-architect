@@ -54,6 +54,8 @@ $orbitScripts = @(
     'mission_expansion_integration.gd'
     'navigation_resume_smoke.gd'
     'native_expansion_contract.gd'
+    'test_mission_goals_v2.gd'
+    'integration/test_new_missions_e2e.gd'
     'integration/test_ke3_merge.gd'
     'player_ui_check.gd'
     'debrief_summary_check.gd'
@@ -69,7 +71,8 @@ foreach ($orbitScript in $orbitScripts) {
         '--script', ('res://tests/' + $orbitScript), '--log-file', ('"' + $orbitLog + '"'),
         '--', ('"' + $orbitEvidence + '"'), '--output-dir', ('"' + $orbitEvidence + '"')
     ) -WindowStyle Hidden -PassThru
-    if (-not $orbitProcess.WaitForExit(45000)) {
+    $orbitTimeout = if ($orbitScript -in @('comparison_flow_smoke.gd', 'integration/test_new_missions_e2e.gd')) { 180000 } else { 45000 }
+    if (-not $orbitProcess.WaitForExit($orbitTimeout)) {
         $orbitProcess.Kill()
         throw "Timed out: $orbitScript. Read $orbitLog"
     }

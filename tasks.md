@@ -61,6 +61,8 @@ Phase: IMPLEMENTATION - v1.0-agreed remains the authority. K01-K14 including K13
 
 ## Work record
 
+15 November 2026 — user-requested Communication/Weather E2E fixes: real goal scoring, truthful stopped-flight wording, Weather automatic revisits and packaged evidence/Save A support implemented locally. New suites pass 134 scoring + 132 controller checks; all five mission comparison flows pass. Original v1 evaluation is preserved. Browser verification and full-suite limitations are recorded in [the fix report](docs/reviews/new-mission-fixes-2026-11-15.md). No push, deployment or additional owner signoff is claimed. Existing personal instructions and task history are preserved.
+
 | Task | Status/evidence | Next action |
 | --- | --- | --- |
 | Preparation docs | Agreed contract, implementation/test notes and K11 handoff available locally | K15 review/merge |

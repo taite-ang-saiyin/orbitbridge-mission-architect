@@ -51,7 +51,7 @@ static func encode(packet: Dictionary, retained_key_preimage: String = "") -> Di
 	record.execution_key_preimage_utf8 = bytes
 	record.content_digest_version = DIGEST_VERSION
 	var report: Dictionary = record.get("evaluation", {}).get("report", {})
-	record.report_contract_revision = report.get("contract_revision")
+	record.report_contract_revision = report.get("contract_revision", preload("res://scripts/integration/report_contract.gd").GOALS_REVISION if report.get("schema_version") == 2 else null)
 	record.content_preimage_utf8 = JSON.stringify(content_fields(record), "", true, true)
 	record.content_digest = record.content_preimage_utf8.sha256_text()
 	return verify(record)
@@ -83,13 +83,13 @@ static func verify(record: Dictionary) -> Dictionary:
 			if not report.has(field): return failure("A required legacy report field is missing: " + field)
 		if not (report.get("schema_version") is int or report.get("schema_version") is float) or (report.schema_version != 1 and report.schema_version != 2):
 			return failure("Unsupported report schema version.")
-		if report.schema_version == 2 and (report.get("contract_revision") != preload("res://scripts/integration/report_contract.gd").GOALS_REVISION or not report.get("goal_progress") is Array or not report.get("objective") is String):
+		if report.schema_version == 2 and (record.get("report_contract_revision") != preload("res://scripts/integration/report_contract.gd").GOALS_REVISION or not report.get("goal_progress") is Array or not report.get("objective") is String):
 			return failure("Expanded reports require their own contract revision, objective and goal progress.")
 		for field in ["required_observations", "required_returned_data_mb"]:
 			if report.get(field) != trace.config.mission.get(field): return failure("Report requirements differ from the frozen config.")
 		for field in ["observations_completed", "returned_data_mb", "run_status"]:
 			if report.get(field) != final.get(field): return failure("Report actuals differ from the terminal state.")
-		if record.get("report_contract_revision") != report.get("contract_revision"):
+		if record.get("report_contract_revision") != report.get("contract_revision", preload("res://scripts/integration/report_contract.gd").GOALS_REVISION if report.schema_version == 2 else null):
 			return failure("Report contract metadata differs from the retained report.")
 		if report.has("objective") and report.objective != trace.config.mission.get("objective"):
 			return failure("A proposed objective report cannot be bound to an Imaging proxy config.")

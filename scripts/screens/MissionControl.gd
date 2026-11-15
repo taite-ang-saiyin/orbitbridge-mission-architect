@@ -127,7 +127,7 @@ func build_flow(parent: Node) -> void:
 
 func build_quick_start(parent: Node) -> void:
 	var box = panel(parent, "♧  QUICK START")
-	quick_start = UI.button(box, "＋  Create New Mission  →\nDesign a custom satellite mission", new_mission)
+	quick_start = UI.button(box, "+  Create New Mission  →\nDesign a custom satellite mission", new_mission)
 	quick_start.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	quick_start.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	accent(quick_start)
@@ -148,7 +148,7 @@ func build_presets(parent: Node) -> void:
 			Catalog.reset(state)
 			var selected: Dictionary = Runtime.select_preset(state, entry[0])
 			if selected.ok: navigate.emit(1))
-		button.tooltip_text = "This mission can fly. Scoring is not available yet."
+		button.tooltip_text = "Complete the mission goal and return the required data to Earth."
 		presets[entry[1]] = button
 
 func preset_card(parent: Node, title: String, subtitle: String, action: Callable) -> Button:

@@ -465,7 +465,7 @@ func show_execution(trace: Dictionary, auto_compare: bool = true) -> void:
 	score_gauge.set_score(_presentation_model.get("report", {}).get("score"), Color(outcome_color))
 	var report: Dictionary = _presentation_model.get("report", {})
 	outcome_badge.text = {"success":"SUCCESS", "partial":"PARTIAL RESULT", "failed":"GOALS NOT REACHED"}.get(report.get("status"), "RESULT NOT AVAILABLE")
-	if report.get("run_status") == "aborted": outcome_badge.text = "STOPPED EARLY · NOT SCORED"
+	if report.get("run_status", trace.final_state.get("run_status")) == "aborted" and _presentation_model.get("state") != "stale_report": outcome_badge.text = "STOPPED EARLY · NOT SCORED"
 	outcome_badge.add_theme_color_override("font_color", Color(outcome_color))
 	var summary: Dictionary = SUMMARY.build(_presentation_model, trace)
 	results.text = summary.text if trace.config.mission.get("objective") == "imaging" and not summary.text.is_empty() else player.summary

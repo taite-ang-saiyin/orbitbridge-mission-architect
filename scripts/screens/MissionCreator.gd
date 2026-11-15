@@ -77,14 +77,15 @@ func build_details(parent: Node) -> void:
 		refresh())
 func build_objectives(parent: Node) -> void:
 	var box = section(parent, "02   MISSION OBJECTIVE")
-	UI.label(box, "Choose pooled imagery or a survey across each selected target.", 12, "a5bed0")
-	UI.label(box, "Survey can simulate target deliveries; a Survey score is not available in this build.", 11, "efc371")
 	if state.get("schema_version", 1) == 2:
-		UI.label(box, state.objective + " · Flight available · Unscored", 13, "efc371")
+		UI.label(box, state.objective + " · Complete the goal and return the required data", 13, "9bddd5")
 		if state.get("preset_id") == "communication":
 			UI.label(box, "Count accepted transmissions that return data; empty or rejected attempts do not count.", 12, "a5bed0")
 		elif state.get("preset_id") == "weather_monitoring":
 			UI.label(box, "Observe the selected region on different orbits and return the required data.", 12, "a5bed0")
+	else:
+		UI.label(box, "Choose pooled imagery or a survey across each selected target.", 12, "a5bed0")
+		UI.label(box, "Survey can simulate target deliveries; a Survey score is not available in this build.", 11, "efc371")
 	var cards = row(box)
 	for entry in [["Capture Imagery", "Capture images and return the required MB to Earth."], ["Survey Target Regions", "Return at least one complete observation from every selected target."]]:
 		var button = choice_card(cards, entry[0], entry[1], func():

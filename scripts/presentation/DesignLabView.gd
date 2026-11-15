@@ -46,8 +46,12 @@ var view_a_button: Button
 var manage_button: MenuButton
 var view_b_button: Button
 var _confirmation_focus: Control
+var _component_names: Dictionary = {}
 
 func _ready() -> void:
+	var component_document: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/components.json"))
+	if component_document is Dictionary:
+		_component_names = component_names(component_document.get("components"))
 	add_theme_constant_override("separation", 12)
 	UI.label(self, "A / B DESIGN COMPARISON", 20, "b9f4e7")
 	notice = UI.label(self, session_notice(OS.has_feature("web")), 16, "f4d38b")
@@ -56,6 +60,7 @@ func _ready() -> void:
 	explanation = UI.label(self, "", 18)
 	identities = UI.label(self, "", 16, "8ea9bb")
 	identities.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+	changes = UI.label(self, "", 18)
 	grid = GridContainer.new()
 	grid.name = "DesignComparison"
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -67,7 +72,7 @@ func _ready() -> void:
 	for definition in METRICS:
 		_cell(definition[1], "e6edf8", 135)
 		var row: Array[Label] = []
-		for i in 3: row.append(_cell("Unavailable", "e6edf8", 75))
+		for i in 3: row.append(_cell("-", "e6edf8", 75))
 		cells[definition[0]] = row
 	stacked = VBoxContainer.new()
 	stacked.add_theme_constant_override("separation", 18)
@@ -86,11 +91,10 @@ func _ready() -> void:
 			column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			values.add_child(column)
 			UI.label(column, title, 16, "8ea9bb")
-			labels.append(UI.label(column, "Unavailable", 18))
+			labels.append(UI.label(column, "-", 18))
 		stacked_cells[definition[0]] = labels
 	resized.connect(_responsive)
 	_responsive.call_deferred()
-	changes = UI.label(self, "", 18)
 	var actions = HFlowContainer.new()
 	actions.add_theme_constant_override("h_separation", 10)
 	actions.add_theme_constant_override("v_separation", 8)
@@ -153,7 +157,7 @@ static func numeric(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(value)
 
 static func signed(value: Variant) -> String:
-	if not numeric(value): return "Unavailable"
+	if not numeric(value): return "-"
 	return ("+" if value > 0 else "") + Words.amount(value)
 
 static func completed(record: Dictionary) -> bool:
@@ -162,6 +166,12 @@ static func completed(record: Dictionary) -> bool:
 
 func set_inputs(value: Dictionary) -> void:
 	inputs = value.duplicate(true)
+	# A candidate is a display role until the player explicitly saves it.
+	# Normalize here so live and fallback callers use the same columns and intents.
+	if inputs.get("a_saved") != true:
+		inputs.a = dictionary(inputs.get("candidate")).duplicate(true)
+		inputs.b = {}
+		inputs.comparison = {}
 	if is_node_ready(): refresh()
 
 func refresh() -> void:
@@ -190,6 +200,7 @@ func refresh() -> void:
 	elif eligible: state = "comparison"
 	elif example: state = "example"
 	status_label.text = "Live comparison pending"
+	if not saved and completed(candidate): status_label.text = "Design A candidate · not saved"
 	if state == "comparison":
 		var classification: Variant = comparison.get("classification") if comparison.has("classification") else comparison.get("mode")
 		status_label.text = {"Design":"Controlled design comparison", "Design + operations":"Design + operations comparison", "design":"Controlled design comparison", "controlled_design":"Controlled design comparison", "design_operations":"Design + operations comparison", "design_and_operations":"Design + operations comparison"}.get(classification, "Comparison scope Unavailable")
@@ -221,7 +232,7 @@ func refresh() -> void:
 	COPY.pieces(explanation, "text", parts)
 	COPY.raw(fixture_notice, "text", str(inputs.get("fixture_label", "")) if preview else "")
 	fixture_notice.visible = preview
-	COPY.bind(identities, "text", "Design A · {0}\nDesign B · {1}" if saved else "Save this flight as A to start a comparison.", [a.get("config", {}).get("mission", {}).get("title", "Unavailable"), b.get("config", {}).get("mission", {}).get("title", "Not flown yet")])
+	COPY.bind(identities, "text", "Design A · {0}\nDesign B · {1}" if saved else "Design A · {0} (not saved)\nDesign B · Not flown yet", [a.get("config", {}).get("mission", {}).get("title", "Unavailable"), b.get("config", {}).get("mission", {}).get("title", "Not flown yet")])
 	COPY.bind(identities, "tooltip_text", "A mission: {0}\nA execution: {1}\nB mission: {2}\nB execution: {3}", [a.get("mission_id", {"copy":"Unavailable"}), a.get("execution_key", {"copy":"Unavailable"}), b.get("mission_id", {"copy":"Unavailable"}), b.get("execution_key", {"copy":"Unavailable"})])
 	var show_supplied: bool = eligible or example
 	for definition in METRICS:
@@ -232,12 +243,17 @@ func refresh() -> void:
 		cells[name][0].text = _value(name, av, a)
 		cells[name][1].text = _value(name, bv, b)
 		# Deltas are supplied values only; never calculate a substitute comparison.
-		cells[name][2].text = ("Not scored" if av == "Not scored" else ("Unchanged" if av == bv else "%s → %s" % [av, bv])) if name == "outcome" and show_supplied else (signed(supplied.get("delta")) if show_supplied else "Unavailable")
+		cells[name][2].text = "-"
+		if show_supplied:
+			if name == "outcome":
+				if av is String and bv is String:
+					cells[name][2].text = "Not scored" if av == "Not scored" else ("Unchanged" if av == bv else "%s → %s" % [av, bv])
+			else: cells[name][2].text = signed(supplied.get("delta"))
 		cells[name][2].tooltip_text = str(supplied.get("delta_unit", definition[2]))
 		if numeric(supplied.get("delta")) and show_supplied and not str(supplied.get("delta_unit", definition[2])).is_empty():
 			cells[name][2].text += " " + str(supplied.get("delta_unit", definition[2]))
 		for cell in cells[name]:
-			if name != "outcome" and not "Unavailable" in cell.text: COPY.raw(cell, "text", cell.text)
+			if name != "outcome": COPY.raw(cell, "text", cell.text)
 			else: COPY.bind(cell, "text", "{0}", [{"copy":cell.text}])
 			COPY.raw(cell, "tooltip_text", cell.tooltip_text)
 	for name in cells:
@@ -249,8 +265,9 @@ func refresh() -> void:
 	if changed is Array:
 		for part in changed:
 			if part is String: part_lines.append(part)
-			elif part is Dictionary: part_lines.append("%s: %s → %s" % [part.get("slot", part.get("field", "Part")), part.get("a", "Unavailable"), part.get("b", "Unavailable")])
-	COPY.bind(changes, "text", "Changed parts\n{0}" if not part_lines.is_empty() else "Changed parts: {0}", ["\n".join(part_lines) if not part_lines.is_empty() else {"copy":"Unavailable"}])
+			elif part is Dictionary: part_lines.append("%s: %s → %s" % [part.get("slot", part.get("field", "Part")), _part_name(part.get("a"), a), _part_name(part.get("b"), b)])
+	COPY.bind(changes, "text", "Changed parts: {0}", [" · ".join(part_lines) if not part_lines.is_empty() else {"copy":"None" if changed is Array else "Unavailable"}])
+	changes.visible = show_supplied
 	var storage: bool = inputs.get("storage_available") == true and not preview
 	save_button.disabled = not storage or saved or not completed(candidate)
 	replace_button.disabled = not storage or not saved or not completed(candidate) or candidate.get("run_id") == a.get("run_id")
@@ -266,15 +283,31 @@ func refresh() -> void:
 	manage_button.visible = saved
 	manage_button.get_popup().set_item_disabled(0, replace_button.disabled)
 	manage_button.get_popup().set_item_disabled(1, clear_button.disabled)
-	view_a_button.disabled = preview or not saved or not completed(a)
+	view_a_button.disabled = preview or not completed(a)
 	view_b_button.disabled = preview or not completed(b)
 	model = {"state":state, "eligible":eligible, "a_saved":saved, "preview":preview, "comparison":comparison.duplicate(true), "a":a.duplicate(true), "b":b.duplicate(true), "error":error.duplicate(true), "heading":status_label.text}
 
+static func component_names(parts: Variant) -> Dictionary:
+	var names: Dictionary = {}
+	if parts is Array:
+		for part in parts:
+			if part is Dictionary and part.get("id") is String and part.get("display_name") is String:
+				names[part.id] = part.display_name
+	return names
+
+func _part_name(value: Variant, record: Dictionary) -> String:
+	if not value is String or value.is_empty(): return "Unavailable"
+	# Prefer the component names frozen with each flight over today's catalog.
+	return dictionary(record.get("component_names")).get(value, _component_names.get(value, "Unknown component"))
+
 static func _value(name: String, value: Variant, record: Dictionary) -> String:
-	if name == "outcome": return value if value is String else "Unavailable"
-	if name == "qualifying_count": return Words.amount(value) + " / " + Words.amount(record.get("required_count"))
-	if name == "score": return Words.amount(value) + " / 100" if numeric(value) else "Unavailable"
-	return Words.amount(value)
+	if name == "outcome": return value if value is String else "-"
+	if name == "qualifying_count":
+		var required: Variant = record.get("required_count")
+		if not numeric(value) and not numeric(required): return "-"
+		return (Words.amount(value) if numeric(value) else "-") + " / " + (Words.amount(required) if numeric(required) else "-")
+	if name == "score": return Words.amount(value) + " / 100" if numeric(value) else "-"
+	return Words.amount(value) if numeric(value) else "-"
 
 func _save(replace: bool) -> void:
 	if (replace and replace_button.disabled) or (not replace and save_button.disabled): return
@@ -344,6 +377,7 @@ static func record(trace: Dictionary, report: Dictionary) -> Dictionary:
 		"phase":final.get("phase"), "run_status":final.get("run_status"),
 		"config":config.duplicate(true), "report":report.duplicate(true),
 		"required_count":required, "measurements_only":unscored,
+		"component_names":component_names(dictionary(trace.get("catalogs_snapshot")).get("components")),
 		"metrics":measured}
 
 

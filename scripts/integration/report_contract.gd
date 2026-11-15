@@ -1,5 +1,5 @@
 extends RefCounted
-## SE output-selection proposal, not a production KE2 evaluator or score policy.
+## Report selection. The original revision identifier is retained for saved-record compatibility.
 const GOALS_REVISION = "mission-report-goals-v2-draft-1"
 
 static func output_format(config: Dictionary) -> Dictionary:

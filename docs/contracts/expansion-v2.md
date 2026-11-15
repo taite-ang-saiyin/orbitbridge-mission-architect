@@ -43,4 +43,6 @@ A/B requires matching full mission/orbit/conditions/versions, separate completed
 
 The explicit v2 context attaches the same agreed registry/capability documents to effective legacy physical catalogs. It does not change v1 objective registration. HPC/SE must consume that same capability source and include every validator dependency in producer-version binding; see the [K21/K22 integration guide](../ke1-expansion/k21-k22-live-integration.md).
 
-No new card is enabled by these data files. KE1 validation can approve physical readiness, but the current native adapter still rejects v2 and the existing UI mapping/evaluator still require coordinated owner work. Keep unsupported launches blocked; do not strip goals or downgrade configs to bypass the adapter. Public browser and five-mission/A-B release acceptance remain separate.
+Historical rollout note: these data files alone did not enable new cards; the adapter and UI needed coordinated owner work. Keep unsupported launches blocked; do not strip goals or downgrade configs to bypass the adapter. Public browser and five-mission/A-B release acceptance remain separate.
+
+15 November implementation update: this checkout now has native v2 launch support and a Communication/Weather report-v2 evaluator, with packaged evidence verification restored. The [E2E fix record](../reviews/new-mission-fixes-2026-11-15.md) records behavior, evidence and remaining test limitations. This implementation note does not add team or deployment signoff.

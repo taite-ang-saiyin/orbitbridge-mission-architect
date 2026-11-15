@@ -166,6 +166,14 @@ static func build(model: Dictionary, trace: Dictionary, details: Dictionary = {}
 		"imaging", "survey": primary = metric("Captures", actuals.get("observations_completed"), requirements.get("required_observations"), report.get("observation_completion_ratio"), " captures")
 		_: primary = metric("Goal progress unavailable", null, null)
 	var data: Dictionary = metric("Returned to Earth", actuals.get("returned_data_mb"), requirements.get("required_returned_data_mb"), report.get("data_return_completion_ratio"), " MB")
+	if bound and kind in ["communication", "weather_monitoring"] and report.get("goal_progress") is Array:
+		var primary_id: String = "positive_transmit_steps" if kind == "communication" else "selected_target_revolution_visits"
+		for goal in report.goal_progress:
+			if not goal is Dictionary: continue
+			if goal.get("id") == primary_id:
+				primary = supplied_goal(goal, primary.label)
+				supplied.evidence_event_ids = goal.get("evidence_event_ids", []).duplicate()
+			elif goal.get("id") == "returned_data": data = supplied_goal(goal, "Returned to Earth")
 	var rows: Array = [primary, data]
 	var deliveries: Array = []
 	if kind == "survey":

@@ -28,12 +28,14 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 			if report.has(key) and report[key] != mission.get(key): matches = false
 		for key in ["observations_completed", "returned_data_mb", "run_status"]:
 			if report.has(key) and report[key] != final.get(key): matches = false
+		if mission.get("objective") in ["communication", "weather_monitoring"] and report.get("goal_progress") is Array and not report.goal_progress.is_empty():
+			if not _matches_expanded_goals(report, mission, final): matches = false
 		if not matches:
 			model.state = "stale_report"
 			model.text = heading + "\n\nReport unavailable: run/mission, goals or counters do not match this run."
 		elif mission.get("objective") in ["communication", "weather_monitoring"] and (not report.get("goal_progress") is Array or report.goal_progress.is_empty()):
 			# A v1 aggregate Imaging score cannot certify an expanded objective.
-			# The goal_progress extension is still a draft; mapping awaits KE2 handoff.
+			# Require the native goal report rather than an aggregate Imaging proxy.
 			model.state = "unsupported_report"
 			model.text = heading + "\n\nObjective-specific report Unavailable. The supplied aggregate report has no qualifying contact/orbit progress."
 		else:
@@ -97,3 +99,16 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 		model.credits += "\n\nScope: %s (display metadata; not report source_ids)\n%s\n%s\n%s\nActual use: %s" % [text(credit.get("credit_scope")),text(credit.get("title")),text(credit.get("attribution_text")),text(credit.get("url")),text(credit.get("actual_use"))]
 	if not has_feedback: model.credits += "\n\nFeedback-vocabulary credit metadata: Unavailable"
 	return model.duplicate(true)
+
+static func _matches_expanded_goals(report: Dictionary, mission: Dictionary, final: Dictionary) -> bool:
+	if report.get("schema_version") != 2 or report.get("objective") != mission.get("objective"): return false
+	var native: Variant = final.get("goal_progress")
+	if not native is Dictionary or not mission.get("goal") is Dictionary: return false
+	var rows: Dictionary = {}
+	for row in report.goal_progress:
+		if not row is Dictionary or not row.get("id") is String or rows.has(row.id): return false
+		rows[row.id] = row
+	var primary: String = "positive_transmit_steps" if mission.objective == "communication" else "selected_target_revolution_visits"
+	var required: Variant = mission.goal.get("required_positive_contact_steps" if mission.objective == "communication" else "required_distinct_orbits")
+	if rows.size() != 2 or not rows.has(primary) or not rows.has("returned_data"): return false
+	return rows[primary].get("actual") == native.get("actual_count") and rows[primary].get("required") == required and rows[primary].get("evidence_event_ids") == native.get("evidence_event_ids") and rows.returned_data.get("actual") == final.get("returned_data_mb") and rows.returned_data.get("required") == mission.get("required_returned_data_mb")

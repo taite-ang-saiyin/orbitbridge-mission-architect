@@ -35,7 +35,7 @@ func run() -> void:
 		app.show_screen(3)
 		for frame in 8: await process_frame
 		assert(not app.current.next_button.disabled)
-		assert(Copy.text("This mission can fly. Scoring is not available yet.", "my") in app.current.warning_label.text)
+		assert(not Copy.text("This mission can fly. Scoring is not available yet.", "my") in app.current.warning_label.text)
 		assert(Review.confirm(app.state, Review.snapshot(app.state)))
 		assert(Runtime.launch(app.state).ok)
 		app.show_screen(4)
@@ -47,6 +47,8 @@ func run() -> void:
 		app.show_screen(5)
 		for frame in 8: await process_frame
 		assert(app.current.screen_id == "DebriefCompare")
+		assert(app.current.get_presentation_model().state == "report")
+		assert(app.current.get_presentation_model().report.schema_version == 2 and app.current.get_presentation_model().report.score == 100)
 		var progress: Dictionary = app.current.get_goal_progress()
 		assert(progress.primary.known and progress.primary.actual == app.state.run_trace.final_state.goal_progress.actual_count)
 		assert(progress.primary.required == 2)

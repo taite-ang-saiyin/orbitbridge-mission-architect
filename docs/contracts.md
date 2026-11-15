@@ -229,4 +229,10 @@ The user selected both Results actions: `Retry same mission` repeats the frozen 
 
 `mission_results.gd` binds a report to its configuration, terminal state, ordered events, and readiness snapshot. `DebriefPresentation.gd` displays the exact evaluator output, recorded evidence, per-target totals, and separately scoped source-credit metadata. A report with mismatched identity, goals, counters, or execution binding is rejected. Presentation does not calculate a new score or claim unsupported causes.
 
-The signed agreement, native orbit data, KE1 validation/catalog rules, and current KE2 evaluator/feedback code remain unchanged. Survey scoring and controlled A/B comparison remain unavailable. Source/verification details are in [the KE3 merge record](ke3-main-merge.md).
+The signed agreement, native orbit data, KE1 validation/catalog rules, and current KE2 evaluator/feedback code remain unchanged. Survey scoring and controlled A/B comparison remain unavailable at that merge. Source/verification details are in [the KE3 merge record](ke3-main-merge.md).
+
+## 14. Communication/Weather E2E fixes — 15 November 2026
+
+The later settled [expansion contract](contracts/expansion-v2.md) governs the new goals. The evaluator now accepts native config-v2 Communication/Weather and returns report v2 (legacy fields plus objective and goal_progress). Count and MB contribute equally using capped ratios, rounded once half-up; capture quota is not an extra success condition. Aborted flights have failed status and null score. V1 evaluation is retained unchanged.
+
+Report revision is retained in saved-record metadata. New-goal runs additionally bind the helper evaluator's source hash. Exports keep script source so existing native-evidence verification works in packaged games. Weather's automatic policy waits for a new orbit before repeating a qualifying capture; manual/explicit plans keep their requested actions. No simulator evidence meanings or signed approvals are changed. Details and limitations: [fix record](reviews/new-mission-fixes-2026-11-15.md).
