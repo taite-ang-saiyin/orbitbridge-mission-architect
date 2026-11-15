@@ -33,6 +33,14 @@ The step engine uses `battery.initial_charge_fraction`, defaults to 1 only for l
 
 The windows are deterministic gameplay presets, not physical coverage predictions. KE1's readiness check uses these HPC `target_windows` to determine target/orbit suitability; current integration tests pass for `equator` with both orbit IDs and block a target whose window is removed. SE should pass the selected orbit ID and config unchanged. KE3 should render `available_actions`, state, and emitted events without recomputing windows.
 
+## Native config-v2 objectives
+
+Schema-version 2 preserves `contract_revision`, `preset_id`, `preset_revision`, the complete `mission.goal`, and the immutable catalog context in every native run state and v2 report. The supported objective IDs are `communication` and `weather_monitoring`; they are never rewritten to `imaging`.
+
+Communication progress is the number of distinct pre-action steps whose accepted `transmit` event returned positive decimal MB. Weather progress is the number of distinct revolutions containing an accepted positive observation of the selected `mission.target_region`; revolution indices use the frozen selected-orbit `steps_per_orbit`. Each qualifying count retains its event ID and step/revolution evidence. Blocked or zero-MB transmissions, repeated observations in one revolution, and observations of another target do not qualify.
+
+The v2 lifecycle uses the same `init_run`, `request_action`, `abort_run`, and replay APIs. `evaluate_hpc_state` returns the preserved v2 config, `catalog_context`, goal progress, and qualifying evidence for completed and aborted runs.
+
 ## Next-step energy and storage prediction (optional HPC API)
 
 `MissionStepEngine.predict_next_step(state, action)` previews attempting `observe`, `transmit`, or `power_save` at the state's current `step_index`. It uses the immutable launch/scenario snapshots and the same resource calculation as `request_action`. It returns `{"ok": true, "prediction": {...}}` for valid states, including blocked actions, and the usual `ok: false` error wrapper for invalid states. The method leaves the input state, snapshots, cumulative event log, and event sequence unchanged. It emits no events. Existing v1 state/event payloads are unchanged; UI adoption of this optional API should be coordinated with SE/KE3.

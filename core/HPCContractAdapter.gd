@@ -4,6 +4,7 @@ class_name HPCContractAdapter
 ## Team Contract v1 adapter from the shared MissionConfig to HPC catalog rows.
 const SCHEMA_VERSION: int = 1
 const CONTRACT_VERSION: String = "team-v1"
+const V2_SCHEMA_VERSION: int = 2
 const KB_PER_MB: float = 1000.0
 
 ## Combine KE1 CatalogLoader's v1 bundle with HPC's authored orbit presets.
@@ -64,6 +65,8 @@ static func build_scenario(ke1_catalogs: Dictionary, orbit_data: Dictionary) -> 
 	}}
 
 static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictionary:
+	if int(config.get("schema_version", 0)) == V2_SCHEMA_VERSION:
+		return _validate_config_v2(config, catalog)
 	if not config.has("schema_version"):
 		return _error("MISSING_FIELD", "schema_version is required")
 	if not _is_integer(config.schema_version) or int(config.schema_version) != SCHEMA_VERSION:
@@ -223,6 +226,51 @@ static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictiona
 		"parts": normalized_parts,
 		"launcher": launcher
 	}
+
+static func _validate_config_v2(config: Dictionary, catalog: Dictionary) -> Dictionary:
+	if not config.get("contract_revision") is String or str(config.contract_revision).strip_edges().is_empty():
+		return _error("MISSING_FIELD", "contract_revision is required for schema_version 2")
+	if not config.get("preset_id") is String or str(config.preset_id).strip_edges().is_empty():
+		return _error("MISSING_FIELD", "preset_id is required for schema_version 2")
+	if not _is_integer(config.get("preset_revision", null)) or int(config.preset_revision) < 1:
+		return _error("INVALID_TYPE", "preset_revision must be a positive integer for schema_version 2")
+	if not config.get("mission", null) is Dictionary:
+		return _error("INVALID_TYPE", "mission must be an object")
+	var mission: Dictionary = config.mission
+	if not mission.get("goal", null) is Dictionary:
+		return _error("MISSING_FIELD", "mission.goal is required for schema_version 2")
+	var goal: Dictionary = mission.goal
+	var objective: String = str(mission.get("objective", ""))
+	if not ["communication", "weather_monitoring"].has(objective):
+		return _error("UNKNOWN_OBJECTIVE_ID", "schema_version 2 supports communication and weather_monitoring objectives")
+	if str(goal.get("kind", objective)) != objective:
+		return _error("INVALID_GOAL", "mission.goal.kind must match mission.objective")
+	var required_count: Variant = goal.get("required_count", null)
+	if required_count == null:
+		required_count = mission.get("required_contact_steps" if objective == "communication" else "required_orbit_visits", null)
+	if required_count == null:
+		required_count = config.get("required_contact_steps" if objective == "communication" else "required_orbit_visits", null)
+	if required_count == null:
+		required_count = goal.get("required_steps" if objective == "communication" else "required_revolutions", null)
+	if not _is_integer(required_count) or int(required_count) < 1:
+		return _error("INVALID_GOAL", "schema_version 2 requires a positive integer goal count")
+	var catalog_copy: Dictionary = catalog.duplicate(true)
+	var objective_rows: Array = catalog_copy.get("objectives", []).duplicate(true)
+	if _find(objective_rows, objective).is_empty():
+		objective_rows.append({"id": objective, "label": objective, "capability": "goal"})
+		catalog_copy.objectives = objective_rows
+	var legacy_config: Dictionary = config.duplicate(true)
+	legacy_config.schema_version = SCHEMA_VERSION
+	legacy_config.contract_version = CONTRACT_VERSION
+	var resolved: Dictionary = validate_config(legacy_config, catalog_copy)
+	if not resolved.ok:
+		return resolved
+	resolved.config_snapshot = config.duplicate(true)
+	resolved.goal_kind = objective
+	resolved.goal_required_count = int(required_count)
+	resolved.goal_definition = goal.duplicate(true)
+	resolved.catalog_context = catalog.duplicate(true)
+	return resolved
 
 static func _find(rows: Variant, id: String, kind: String = "") -> Dictionary:
 	if rows is Array:

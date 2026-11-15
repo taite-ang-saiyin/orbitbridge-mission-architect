@@ -116,7 +116,7 @@ static func launch(draft: Dictionary, previous: Dictionary = {}) -> Dictionary:
 	var reviewed: Dictionary = started.validation_result.duplicate(true)
 	reviewed.config = config.duplicate(true)
 	var snapshots: Dictionary = {}
-	for key in ["name", "description", "objective", "targets", "target_limit", "target", "observations", "required_returned_data_mb", "duration", "budget", "orbit", "launcher", "policy", "component", "components", "satellite_id", "body_id", "wings_id", "radio_id", "engineering_parts", "launch_profile_id", "launcher_id"]:
+	for key in ["name", "description", "objective", "targets", "target_limit", "target", "observations", "required_returned_data_mb", "duration", "budget", "orbit", "launcher", "policy", "component", "components", "satellite_id", "body_id", "wings_id", "radio_id", "engineering_parts", "launch_profile_id", "launcher_id", "schema_version", "contract_revision", "preset_id", "preset_revision", "goal", "required_contact_steps", "required_orbit_visits"]:
 		if draft.has(key):
 			var value: Variant = draft[key]
 			snapshots[key] = value.duplicate(true) if value is Dictionary or value is Array else value

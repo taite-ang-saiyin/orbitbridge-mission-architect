@@ -43,6 +43,8 @@ static func evaluate_mission(
 	events: Array,
 	comparison_baseline = null
 ) -> Dictionary:
+	if int(config.get("schema_version", 0)) == 2:
+		return _evaluate_v2_mission(config, final_state, events)
 	var run_id: Variant = final_state.get("run_id")
 	if not run_id is String or run_id.strip_edges().is_empty():
 		run_id = null
@@ -220,6 +222,74 @@ static func evaluate_mission(
 		"observation_completion_ratio": observation_ratio,
 		"data_return_completion_ratio": data_ratio,
 		"score": score,
+		"explanation": "",
+		"root_causes": [],
+		"next_experiment": "",
+		"source_ids": [],
+		"comparison": null,
+	}
+	var feedback: Dictionary = Feedback.build_feedback(report, final_state, events)
+	report.merge(feedback, true)
+	return {"ok": true, "report": report}
+
+
+static func _evaluate_v2_mission(config: Dictionary, final_state: Dictionary, events: Array) -> Dictionary:
+	var run_id: Variant = final_state.get("run_id")
+	if config.is_empty() or final_state.is_empty() or not config.get("mission") is Dictionary:
+		return _error(INVALID_INPUT, "config", "Required v2 evaluation input is missing or malformed.", "Provide the complete v2 config and terminal state.", run_id)
+	if final_state.get("phase") != "finished" or not ["completed", "aborted"].has(final_state.get("run_status")):
+		return _error(INVALID_INPUT, "final_state", "A v2 mission must be evaluated after completion or abort.", "Finish or explicitly abort the run before evaluation.", run_id)
+	if final_state.get("config_snapshot") != config or final_state.get("event_log") != events:
+		return _error(INVALID_INPUT, "trace", "The v2 terminal state must retain the exact config and ordered event log.", "Use the original snapshots from this execution.", run_id)
+	var mission: Dictionary = config.mission
+	var progress: Dictionary = final_state.get("goal_progress", {})
+	var required_count: Variant = progress.get("required_count", null)
+	var actual_count: Variant = progress.get("actual_count", null)
+	if not _is_whole_number(required_count) or required_count < 1 or not _is_whole_number(actual_count) or actual_count < 0:
+		return _error(INVALID_INPUT, "final_state.goal_progress", "The v2 goal progress counters are missing or malformed.", "Preserve native v2 goal progress through the terminal state.", run_id)
+	var required_data: Variant = mission.get("required_returned_data_mb")
+	var returned_data: Variant = final_state.get("returned_data_mb")
+	if not _is_finite_number(required_data) or required_data <= 0 or not _is_finite_number(returned_data) or returned_data < 0:
+		return _error(INVALID_INPUT, "mission.required_returned_data_mb", "The returned-data target and actual must be positive finite values.", "Provide the v2 data goal in decimal MB.", run_id)
+	for event: Dictionary in events:
+		if event.get("run_id") != run_id or event.get("mission_id") != final_state.get("mission_id"):
+			return _error(INVALID_INPUT, "events", "Every v2 event must belong to this run and mission.", "Preserve the complete same-run event log.", run_id)
+	var goal_ratio: float = 1.0 if actual_count >= required_count else float(actual_count) / float(required_count)
+	var data_ratio: float = 1.0 if returned_data >= required_data else float(returned_data) / float(required_data)
+	var status: String = "failed"
+	if actual_count >= required_count and returned_data >= required_data:
+		status = "success"
+	elif actual_count > 0 or returned_data > 0:
+		status = "partial"
+	var score: Variant = int(floorf(50.0 * (goal_ratio + data_ratio) + 0.5))
+	if final_state.get("run_status") == "aborted":
+		status = "failed"
+		score = null
+	var report: Dictionary = {
+		"schema_version": 2,
+		"contract_revision": config.get("contract_revision"),
+		"preset_id": config.get("preset_id"),
+		"preset_revision": config.get("preset_revision"),
+		"run_id": run_id,
+		"mission_id": final_state.get("mission_id"),
+		"run_status": final_state.get("run_status"),
+		"status": status,
+		"score": score,
+		"goal_type": str(progress.get("kind", mission.get("objective", ""))),
+		"actual_count": actual_count,
+		"required_count": required_count,
+		"goal_completion_ratio": goal_ratio,
+		"observations_completed": final_state.get("observations_completed", 0),
+		"stored_data_mb": final_state.get("stored_data_mb", 0.0),
+		"returned_data_mb": returned_data,
+		"required_returned_data_mb": required_data,
+		"data_return_completion_ratio": data_ratio,
+		"goal_progress": progress.duplicate(true),
+		"goal_evidence": final_state.get("goal_evidence", []).duplicate(true),
+		"evidence_event_ids": progress.get("evidence_event_ids", []).duplicate(true),
+		"config_snapshot": config.duplicate(true),
+		"scenario_snapshot": final_state.get("scenario_snapshot", {}).duplicate(true),
+		"catalog_context": final_state.get("catalog_context", final_state.get("scenario_snapshot", {})).duplicate(true),
 		"explanation": "",
 		"root_causes": [],
 		"next_experiment": "",

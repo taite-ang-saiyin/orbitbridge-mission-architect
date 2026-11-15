@@ -9,6 +9,8 @@ const DESIGN_FIELDS: Array = ["bus_id", "instrument_id", "solar_id", "battery_id
 
 
 static func validate(config: Variant, catalogs: Variant) -> Dictionary:
+	if config is Dictionary and int(config.get("schema_version", 0)) == 2:
+		return _validate_v2(config, catalogs)
 	var checks: Dictionary = {}
 	for id_value in CHECK_IDS:
 		checks[id_value] = {"status": "not_evaluated", "passed": null, "message": "Not evaluated until valid inputs and design totals are available."}
@@ -45,6 +47,35 @@ static func validate(config: Variant, catalogs: Variant) -> Dictionary:
 	for key in CHECK_IDS:
 		if checks[key]["status"] != "pass":
 			result["ready_to_launch"] = false
+	return result
+
+
+static func _validate_v2(config: Dictionary, catalogs: Variant) -> Dictionary:
+	var normalized: Dictionary = config.duplicate(true)
+	normalized.schema_version = 1
+	normalized.erase("contract_revision")
+	normalized.erase("preset_id")
+	normalized.erase("preset_revision")
+	var mission: Dictionary = normalized.mission.duplicate(true) if normalized.get("mission") is Dictionary else {}
+	mission.erase("goal")
+	mission.erase("required_contact_steps")
+	mission.erase("required_orbit_visits")
+	normalized.mission = mission
+	var catalog_copy: Dictionary = catalogs.duplicate(true) if catalogs is Dictionary else {}
+	var objective_ids: Array = catalog_copy.get("objective_ids", []).duplicate()
+	for objective in ["communication", "weather_monitoring"]:
+		if not objective_ids.has(objective):
+			objective_ids.append(objective)
+	catalog_copy.objective_ids = objective_ids
+	var result: Dictionary = validate(normalized, catalog_copy)
+	result.schema_version = 2
+	var v2_mission: Dictionary = config.get("mission", {}) if config.get("mission") is Dictionary else {}
+	result.v2_contract = {
+		"contract_revision": config.get("contract_revision"),
+		"preset_id": config.get("preset_id"),
+		"preset_revision": config.get("preset_revision"),
+		"goal": v2_mission.get("goal", {}).duplicate(true) if v2_mission.get("goal") is Dictionary else {}
+	}
 	return result
 
 
