@@ -232,8 +232,9 @@ static func evaluate_mission(
 
 
 ## Step 10.2 preparation only: not called by evaluate_mission or report publication.
-## Read explicit complete-delivery counters; missing sparse entries remain unavailable
-## until HPC confirms their meaning. No scores, outcome or missing-as-zero policy here.
+## Read explicit complete-delivery counters for raw/legacy preparation inputs.
+## Native callers normalize sparse zeros after full evidence validation, following
+## HPC's 345e5bd confirmation. Missing whole maps remain unavailable.
 static func _measure_survey_deliveries(config: Dictionary, final_state: Dictionary) -> Dictionary:
 	var run_id: Variant = final_state.get("run_id")
 	if not run_id is String or run_id.strip_edges().is_empty():
@@ -282,7 +283,7 @@ static func _measure_survey_deliveries(config: Dictionary, final_state: Dictiona
 		if not deliveries.has(target):
 			return _error(INVALID_INPUT, "final_state.observations_delivered_by_target." + target,
 				"The selected target has no explicit complete-delivery counter.",
-				"Confirm sparse-map semantics with HPC; use explicit counters in labeled fixtures meanwhile.", run_id)
+				"Validate native provenance before normalizing sparse keys, or supply explicit fixture counters.", run_id)
 		var actual: Variant = deliveries[target]
 		var has_delivery: bool = actual >= 1
 		if has_delivery:

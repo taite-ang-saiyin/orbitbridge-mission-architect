@@ -1,0 +1,2157 @@
+{
+  "date": "2026-11-15",
+  "commits": {
+    "KE1": "cd5b863dc0502bb931948eb7a0ff6e56e4f8f5c3",
+    "HPC": "61a2772acbb55a069d4472079611fcdb91c43960",
+    "SE": "0d9e275fc270630c74324f29c11281f9883909a2",
+    "KE3": "274990e8eeadc4d42378b48c3adee181258997f3",
+    "KE2_base": "cb458c7d9c9b3b2484e8111dbbec4ea1468f51b8"
+  },
+  "programs_passed": 62,
+  "programs_failed": 0,
+  "journey_checks": 364,
+  "native_goal_checks": 51,
+  "candidate_checks": 706,
+  "original_evaluator_pending_declarations": 5,
+  "verification_scope": "real_native_v2_modules_and_headless_widgets_with_opt_in_scoring",
+  "browser_export_public_deployment": "pending_SE",
+  "owner_patch_adoption": "pending_team_review",
+  "checks": {
+    "validation/test_mission_validator.gd": {
+      "exit_code": 0,
+      "sha256": "6715be9d2947c24b03a2ac335c719bc668479c1a0879a32e0b5370939da801f0",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_mission_validator.log"
+    },
+    "validation/test_mission_readiness.gd": {
+      "exit_code": 0,
+      "sha256": "74eafead3c94ed0964696c702c4b1e45765a22cc8d955e57a9bc955a7088bfef",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_mission_readiness.log"
+    },
+    "validation/test_mission_fixtures.gd": {
+      "exit_code": 0,
+      "sha256": "a46a19b9649ebd162cd34dc1c5bb5fdd693b830b89f820537e6fad63069f241f",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_mission_fixtures.log"
+    },
+    "test_hpc.gd": {
+      "exit_code": 0,
+      "sha256": "4e470e297d9b7fbca6d513efb1174670f4e4185ee108af41014fc3258538e8d0",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_hpc.log"
+    },
+    "test_simulator.gd": {
+      "exit_code": 0,
+      "sha256": "c2cbdd702654efd1d77073df507edcb16ace821a6ab6489bda38676df0787cdb",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_simulator.log"
+    },
+    "test_mission_evaluator.gd": {
+      "exit_code": 0,
+      "sha256": "f8eb0d5259d9cb91947eaaeb993bf49636633d5b4aa2c7fc51167a914b40f673",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_mission_evaluator.log"
+    },
+    "integration/test_mission_flow.gd": {
+      "exit_code": 0,
+      "sha256": "61b3523387c4d3135d8b72759a5a6904dc0ba585708ed4c9ced8f3f40d2bbec1",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_mission_flow.log"
+    },
+    "integration/test_screen_flow.gd": {
+      "exit_code": 0,
+      "sha256": "e70fae30f0f28f5c5304ccccd2638c8b2e73568c0c6794a8bc8fba845e25a9d5",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_screen_flow.log"
+    },
+    "acceptance/test_k14_acceptance.gd": {
+      "exit_code": 0,
+      "sha256": "6c217abb44350453290e37793cdc7951ec5ce1b4965e6584a2754f632d4c984b",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_k14_acceptance.log"
+    },
+    "mission_review_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "7869791fe254b1793ab9ffb136a911f3433027947fbdf79f860f1293d83d2b59",
+      "path": "exports/team-alignment-20261115/exports/check-logs/mission_review_smoke.log"
+    },
+    "creator_earth_framing_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "ecf7d1f774c6a1db780ec74f48efd63050e0baf081aa80449567484cb30531a5",
+      "path": "exports/team-alignment-20261115/exports/check-logs/creator_earth_framing_smoke.log"
+    },
+    "earth_station_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "7c0e9f1be58ae81d7c0c17955a91aa96e1e84e6315e756dd624cab86ab6d6690",
+      "path": "exports/team-alignment-20261115/exports/check-logs/earth_station_smoke.log"
+    },
+    "compact_antenna_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "8e34d90863c67c3229cd211f65304e1155d90e2bcb2709c183d2fd6848591b2b",
+      "path": "exports/team-alignment-20261115/exports/check-logs/compact_antenna_smoke.log"
+    },
+    "acrimsat_hull_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "9bfe6392379606afc6afded3f7737d0116eeaa0c61c69513c01a5fc089c644f5",
+      "path": "exports/team-alignment-20261115/exports/check-logs/acrimsat_hull_smoke.log"
+    },
+    "home_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "079ce04cf964ad5f20e815389ff1feeb508f521f6fb032e56df7eb19773e36f9",
+      "path": "exports/team-alignment-20261115/exports/check-logs/home_smoke.log"
+    },
+    "myanmar_localization_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "31e18ede27299a715c322488833ca8a61471f46a2bde5cc6c2cdc988e487a79c",
+      "path": "exports/team-alignment-20261115/exports/check-logs/myanmar_localization_smoke.log"
+    },
+    "responsive_layout_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "af728bcef3b66fc723d5f4dc1dbd4eb3bb06d813ca2964b38fcc51d725d7105e",
+      "path": "exports/team-alignment-20261115/exports/check-logs/responsive_layout_smoke.log"
+    },
+    "3d/preview_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "6e8003e56b3077374a2e5abb202cd1c5f11b5ba4278f2e037997fbd934d1c170",
+      "path": "exports/team-alignment-20261115/exports/check-logs/preview_smoke.log"
+    },
+    "integration_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "e78acd8d92b9948c4601006554d8ba72226cbfcff286c0eebb43307363b02dc4",
+      "path": "exports/team-alignment-20261115/exports/check-logs/integration_smoke.log"
+    },
+    "controller_evaluation_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "6338dd33fa39256ff0e22f89140ce5b64b36440384f8130c6931e165d3d0f939",
+      "path": "exports/team-alignment-20261115/exports/check-logs/controller_evaluation_smoke.log"
+    },
+    "se_design_lab_hooks.gd": {
+      "exit_code": 0,
+      "sha256": "cc611a2708f02ff2ffbe2f054f618e7a96ef1674cc39fc47f5fd49cb68d6f5a0",
+      "path": "exports/team-alignment-20261115/exports/check-logs/se_design_lab_hooks.log"
+    },
+    "se_execution_record.gd": {
+      "exit_code": 0,
+      "sha256": "cb9711c9df076abeadc759d4648edb9f14ee3887915a4ef029e0efacff34d65a",
+      "path": "exports/team-alignment-20261115/exports/check-logs/se_execution_record.log"
+    },
+    "creator_builder_catalog_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "51c7c2949045fb29207b517457170971716dcb86d0c4f84c25ddb09fee2c31e6",
+      "path": "exports/team-alignment-20261115/exports/check-logs/creator_builder_catalog_smoke.log"
+    },
+    "expanded_missions_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "704751c87f70332d9b7c8804ce0fe8dac8a3fa8d3dcef34f782537cffaae69b2",
+      "path": "exports/team-alignment-20261115/exports/check-logs/expanded_missions_smoke.log"
+    },
+    "mission_control_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "143b87ecbedde746c3409d8c1dca0214afce0751995c35c4a2807863f4069876",
+      "path": "exports/team-alignment-20261115/exports/check-logs/mission_control_smoke.log"
+    },
+    "prediction_multitarget_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "3d82113e3a25bc61f7eb25730739967abd435ef6647015b139e64be072052e7c",
+      "path": "exports/team-alignment-20261115/exports/check-logs/prediction_multitarget_smoke.log"
+    },
+    "design_workflow_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "65be2293ffb439cb358fb414a675e194f9b73edcf597fe80b7292d3e8423ad52",
+      "path": "exports/team-alignment-20261115/exports/check-logs/design_workflow_smoke.log"
+    },
+    "modular_reference_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "aa6894e936ed186f5c4c82e9abeed7eb19f27f6e5aba14e7137f1e54dc423660",
+      "path": "exports/team-alignment-20261115/exports/check-logs/modular_reference_smoke.log"
+    },
+    "operations_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "c82e2f3f26dffe19fba42d8ea855774630205c0236b77d7c30019d15e86ee05d",
+      "path": "exports/team-alignment-20261115/exports/check-logs/operations_smoke.log"
+    },
+    "prototype_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "bdc162cfaf153ddbb7aa38716a32887dc122959edf78b4d614428c31205165ee",
+      "path": "exports/team-alignment-20261115/exports/check-logs/prototype_smoke.log"
+    },
+    "readiness_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "0d20573dea51107e1843bc07d9450998a77babad0c38974b491ff2c75ab06217",
+      "path": "exports/team-alignment-20261115/exports/check-logs/readiness_smoke.log"
+    },
+    "satellite_builder_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "ba235c3d141e1e5f8e77befbb979a70f34fe95a123b1ebc366049a1bd0a501f8",
+      "path": "exports/team-alignment-20261115/exports/check-logs/satellite_builder_smoke.log"
+    },
+    "satellite_selection_smoke.gd": {
+      "exit_code": 0,
+      "sha256": "e33aa14785d87f985b30a1c53d64072efaef4ec0aa986c0247f79e9d277729c6",
+      "path": "exports/team-alignment-20261115/exports/check-logs/satellite_selection_smoke.log"
+    },
+    "ke2_results_integration.gd": {
+      "exit_code": 0,
+      "sha256": "eaac618518a934bf99c105e5eaf8a4cc1bebb1b38d3691238ea8e57758c528a3",
+      "path": "exports/team-alignment-20261115/exports/check-logs/ke2_results_integration.log"
+    },
+    "ke3_report_binding_check.gd": {
+      "exit_code": 0,
+      "sha256": "4c416bf1a84cf53418c9026b3c6676b6fb37fc94113018f008f1c923538bff61",
+      "path": "exports/team-alignment-20261115/exports/check-logs/ke3_report_binding_check.log"
+    },
+    "ke3_team_integration_check.gd": {
+      "exit_code": 0,
+      "sha256": "9dabbad990c9cd25616e300b424ef3a03ebe624df1ab9fed730ecf03c4377c18",
+      "path": "exports/team-alignment-20261115/exports/check-logs/ke3_team_integration_check.log"
+    },
+    "ke3_power_launcher_check.gd": {
+      "exit_code": 0,
+      "sha256": "7d9a7348261df603216a2974b5842af41c96a8e54f6e3e14f06b6b6442335b04",
+      "path": "exports/team-alignment-20261115/exports/check-logs/ke3_power_launcher_check.log"
+    },
+    "a03_operations_check.gd": {
+      "exit_code": 0,
+      "sha256": "cac78ba58887acb1b42de5302758db734ebcec8fb04af74453757374bbf7c5e0",
+      "path": "exports/team-alignment-20261115/exports/check-logs/a03_operations_check.log"
+    },
+    "a05_debrief_check.gd": {
+      "exit_code": 0,
+      "sha256": "d34fb37338416383d85d2c4dbe50d1b9bab4c151ba9504b54200fe362dc68286",
+      "path": "exports/team-alignment-20261115/exports/check-logs/a05_debrief_check.log"
+    },
+    "a06_retry_check.gd": {
+      "exit_code": 0,
+      "sha256": "d92118b50160f9f00604215234023f74621f6b5c972f5cc0d19df4510e972b1a",
+      "path": "exports/team-alignment-20261115/exports/check-logs/a06_retry_check.log"
+    },
+    "mission_fixture_check.gd": {
+      "exit_code": 0,
+      "sha256": "159a556c9542fd347b5bdceb7e1fa2cf9f6a6969d7e9e9d6a60eded25cce7a2e",
+      "path": "exports/team-alignment-20261115/exports/check-logs/mission_fixture_check.log"
+    },
+    "ke2_recorded_debrief_check.gd": {
+      "exit_code": 0,
+      "sha256": "dec3b3909307de02bcee4f3842c4606ad004736a7d5f532c1d3c4025a73b6c22",
+      "path": "exports/team-alignment-20261115/exports/check-logs/ke2_recorded_debrief_check.log"
+    },
+    "ke2_validated_debrief_check.gd": {
+      "exit_code": 0,
+      "sha256": "9ea3e8e708f11cf3c994d11169350a9fdc26d795f14fcf5f561fa34279e1572f",
+      "path": "exports/team-alignment-20261115/exports/check-logs/ke2_validated_debrief_check.log"
+    },
+    "integration/test_ke3_merge.gd": {
+      "exit_code": 0,
+      "sha256": "19d6b8c77d26646dc40144bf271764a57de2c4fc86fb50da4c52d478e5211aff",
+      "path": "exports/team-alignment-20261115/exports/check-logs/test_ke3_merge.log"
+    },
+    "player_ui_check.gd": {
+      "exit_code": 0,
+      "sha256": "763d38a400e577bd716f844bcab120dab6123f5c0fe16d566b7c9a381710dabf",
+      "path": "exports/team-alignment-20261115/exports/check-logs/player_ui_check.log"
+    },
+    "debrief_summary_check.gd": {
+      "exit_code": 0,
+      "sha256": "fb1ee386a19d9ee5d18fcc391d6b26457267a94def1d8b20a18b1672e2ae46d8",
+      "path": "exports/team-alignment-20261115/exports/check-logs/debrief_summary_check.log"
+    },
+    "validation/test_mission_presets.gd": {
+      "exit_code": 0,
+      "sha256": "e38b61de788ef8132b573a8f73be96563c7d31cdd7c10bea5742523bea4cf734",
+      "path": "exports/check-logs/team-validation-test_mission_presets.log"
+    },
+    "validation/test_mission_config_v2_draft.gd": {
+      "exit_code": 0,
+      "sha256": "4636823f18f4ea22d99703cded26d0faa5716db0ebacc18a58cf6a75f9522825",
+      "path": "exports/check-logs/team-validation-test_mission_config_v2_draft.log"
+    },
+    "validation/test_mission_capability_draft_loader.gd": {
+      "exit_code": 0,
+      "sha256": "c1dbc93f2f55cb39abccd8865292792c85951e045e11417cfd8dfa93c9900180",
+      "path": "exports/check-logs/team-validation-test_mission_capability_draft_loader.log"
+    },
+    "validation/test_mission_validator_v2_candidate.gd": {
+      "exit_code": 0,
+      "sha256": "647f7c5d71a97f2faa9026a0bc9c0a61588444318bf0eec11d7f04a9a6ed4846",
+      "path": "exports/check-logs/team-validation-test_mission_validator_v2_candidate.log"
+    },
+    "validation/test_mission_presets_v2.gd": {
+      "exit_code": 0,
+      "sha256": "cdc76fd4c118bfa0a995d68817315f639e3082096f2319cca906fa012d2f802e",
+      "path": "exports/check-logs/team-validation-test_mission_presets_v2.log"
+    },
+    "validation/test_mission_validator_v2.gd": {
+      "exit_code": 0,
+      "sha256": "d60a6d5446ab633fbf1c45f7a513e8e6d4fc96920324b3a4ef369ce9dcaff6fe",
+      "path": "exports/check-logs/team-validation-test_mission_validator_v2.log"
+    },
+    "integration/test_k23_five_mission_readiness.gd": {
+      "exit_code": 0,
+      "sha256": "ac0dbf88f53305b38f3d30f2aacba555428429aa8b8d800d5dfd7301eca10446",
+      "path": "exports/check-logs/team-integration-test_k23_five_mission_readiness.log"
+    },
+    "integration/test_k24_communication_current.gd": {
+      "exit_code": 0,
+      "sha256": "f945f8aba3adaf023a736a8e43eb2e03c8a1f66f948ff3134d3ea89365057ce3",
+      "path": "exports/check-logs/team-integration-test_k24_communication_current.log"
+    },
+    "test_hpc_config_v2.gd": {
+      "exit_code": 0,
+      "sha256": "ae6416ba672eb8af844627d6e8b545a041b570ef2b0137ef684d1625171ac911",
+      "path": "exports/check-logs/team-test_hpc_config_v2.log"
+    },
+    "test_simulator_v2.gd": {
+      "exit_code": 0,
+      "sha256": "af0d3b8622d93c4632ddae4b520a4faf7fa2db25ecf671066f802629a7b60afe",
+      "path": "exports/check-logs/team-test_simulator_v2.log"
+    },
+    "ke2_expansion_candidate_check.gd": {
+      "exit_code": 0,
+      "sha256": "9602d01ca46aa9eeeeccf35bdc75749f81ecb3e898f636c2ab0acf805cbca55e",
+      "path": "exports/check-logs/team-ke2_expansion_candidate_check.log"
+    },
+    "ke2_independent_work_check.gd": {
+      "exit_code": 0,
+      "sha256": "f67afef48ffc99570b2ac068165793ed5db6caa237ef672c4e18f047c36dead2",
+      "path": "exports/check-logs/team-ke2_independent_work_check.log"
+    },
+    "ke2_comparison_api_check.gd": {
+      "exit_code": 0,
+      "sha256": "c714f41789fce72e1746140aeb6a63c6f2ff81938863b5866534a1d1512f1c6e",
+      "path": "exports/check-logs/team-ke2_comparison_api_check.log"
+    },
+    "ke2_imaging_presets_check.gd": {
+      "exit_code": 0,
+      "sha256": "2daec73d4e139c3b76f2fe133708e7cf732aec32139ca60cb544a71e96b9dc27",
+      "path": "exports/check-logs/team-ke2_imaging_presets_check.log"
+    },
+    "ke2_team_alignment_check.gd": {
+      "exit_code": 0,
+      "sha256": "e7ed53dbaa6219613f93dc663e9962f12cea1a5292946800d5c7d536db9189fb",
+      "path": "exports/check-logs/ke2-team-alignment.log"
+    },
+    "ke2_team_goal_controls.gd": {
+      "exit_code": 0,
+      "sha256": "b28cd9adc9967af0f4d9a502b3d3ebca4f93c999ad6ff882ee03739dc9a40217",
+      "path": "exports/check-logs/ke2-team-goal-controls.log"
+    }
+  },
+  "presets": {
+    "communication": {
+      "a_execution_key": "8802a39e0405d0d021aa4da24ddfd8612e4f0a22dcba397347235bd28e7a5464",
+      "a_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "All required candidate goals were met; raw measurements are retained in the goal rows.",
+        "goal_progress": [
+          {
+            "actual": 2,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010"
+            ],
+            "id": "positive_transmit_steps",
+            "met": true,
+            "required": 2.0,
+            "unit": "steps"
+          },
+          {
+            "actual": 24.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 12.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_09328e25cc0f83d87a3c7ea6",
+        "next_experiment": "Keep the scenario and plan fixed and change one design choice on the next attempt.",
+        "objective": "communication",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 2,
+        "required_observations": 2.0,
+        "required_returned_data_mb": 12.0,
+        "returned_data_mb": 24.0,
+        "root_causes": [],
+        "run_id": "run_09328e25cc0f83d87a3c7ea6_011",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      },
+      "b_execution_key": "4d6e1e0d681af3232a5a36277c832a22b5fc34af71c239239c061db2b999c6fa",
+      "b_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "All required candidate goals were met; raw measurements are retained in the goal rows.",
+        "goal_progress": [
+          {
+            "actual": 2,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010"
+            ],
+            "id": "positive_transmit_steps",
+            "met": true,
+            "required": 2.0,
+            "unit": "steps"
+          },
+          {
+            "actual": 24.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 12.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_09328e25cc0f83d87a3c7ea6",
+        "next_experiment": "Keep the scenario and plan fixed and change one design choice on the next attempt.",
+        "objective": "communication",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 2,
+        "required_observations": 2.0,
+        "required_returned_data_mb": 12.0,
+        "returned_data_mb": 24.0,
+        "root_causes": [],
+        "run_id": "run_09328e25cc0f83d87a3c7ea6_012",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      },
+      "comparison": {
+        "a_execution_key": "8802a39e0405d0d021aa4da24ddfd8612e4f0a22dcba397347235bd28e7a5464",
+        "a_mission_id": "mission_09328e25cc0f83d87a3c7ea6",
+        "a_run_id": "run_09328e25cc0f83d87a3c7ea6_011",
+        "b_execution_key": "4d6e1e0d681af3232a5a36277c832a22b5fc34af71c239239c061db2b999c6fa",
+        "b_mission_id": "mission_09328e25cc0f83d87a3c7ea6",
+        "b_run_id": "run_09328e25cc0f83d87a3c7ea6_012",
+        "changed_parts": [],
+        "classification": "Design",
+        "eligible": true,
+        "goal_measures": [
+          {
+            "a": 2,
+            "available": true,
+            "b": 2,
+            "delta_b_minus_a": 0,
+            "delta_unit": "steps",
+            "id": "positive_transmit_steps",
+            "unavailable_reason": null,
+            "unit": "steps"
+          },
+          {
+            "a": 24.0,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "returned_data",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "goal_progress": {
+          "a": [
+            {
+              "actual": 2,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010"
+              ],
+              "id": "positive_transmit_steps",
+              "met": true,
+              "required": 2.0,
+              "unit": "steps"
+            },
+            {
+              "actual": 24.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB"
+            }
+          ],
+          "b": [
+            {
+              "actual": 2,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010"
+              ],
+              "id": "positive_transmit_steps",
+              "met": true,
+              "required": 2.0,
+              "unit": "steps"
+            },
+            {
+              "actual": 24.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB"
+            }
+          ]
+        },
+        "interpretation": "Measured B minus A for this pair only. Proposed scoring, identity and sampling rules apply. Multiple changes limit causal attribution; missing operations context leaves classification unavailable.",
+        "measures": [
+          {
+            "a": 2,
+            "available": true,
+            "b": 2,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "observations_completed",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 24.0,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "returned_data_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          },
+          {
+            "a": 100,
+            "available": true,
+            "b": 100,
+            "delta_b_minus_a": 0,
+            "delta_unit": "points",
+            "id": "score",
+            "unavailable_reason": null,
+            "unit": "points"
+          },
+          {
+            "a": 89,
+            "available": true,
+            "b": 89,
+            "delta_b_minus_a": 0,
+            "delta_unit": "credits",
+            "id": "total_cost_credits",
+            "unavailable_reason": null,
+            "unit": "credits"
+          },
+          {
+            "a": 1120,
+            "available": true,
+            "b": 1120,
+            "delta_b_minus_a": 0,
+            "delta_unit": "g",
+            "id": "total_mass_g",
+            "unavailable_reason": null,
+            "unit": "g"
+          },
+          {
+            "a": 20.81111111139997,
+            "available": true,
+            "b": 20.81111111139997,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "Wh",
+            "id": "lowest_battery_wh",
+            "unavailable_reason": null,
+            "unit": "Wh"
+          },
+          {
+            "a": 83.24444444559987,
+            "available": true,
+            "b": 83.24444444559987,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "percentage_points",
+            "id": "lowest_battery_percent",
+            "unavailable_reason": null,
+            "unit": "percent"
+          },
+          {
+            "a": 24.0,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "highest_storage_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "metrics": {
+          "qualifying_count": {
+            "a": 2,
+            "b": 2,
+            "delta": 0,
+            "delta_unit": "steps"
+          }
+        },
+        "mode": "controlled_design",
+        "objective": "communication",
+        "outcomes": {
+          "a": "success",
+          "b": "success"
+        },
+        "proposal": true,
+        "requirements": {
+          "budget_credits": 100.0,
+          "duration_orbits": 3.0,
+          "goal": {
+            "kind": "communication_contacts",
+            "required_positive_contact_steps": 2.0
+          },
+          "objective": "communication",
+          "required_observations": 2.0,
+          "required_returned_data_mb": 12.0,
+          "target_region": "equator",
+          "target_regions": [
+            "equator"
+          ],
+          "title": "Communication"
+        },
+        "target_deliveries": {
+          "a": {
+            "equator": 2
+          },
+          "b": {
+            "equator": 2
+          }
+        }
+      },
+      "scope": "native_v2_modules_and_headless_controller_widgets"
+    },
+    "estuary_watch": {
+      "a_execution_key": "36ceb7977a4e524cc0040e4da83427328be1bff665a8f34e57c3a632da402824",
+      "a_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "All required candidate goals were met; raw measurements are retained in the goal rows.",
+        "goal_progress": [
+          {
+            "actual": 5,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_002",
+              "evt_005",
+              "evt_012",
+              "evt_015",
+              "evt_022"
+            ],
+            "id": "captures",
+            "met": true,
+            "required": 5.0,
+            "unit": "count"
+          },
+          {
+            "actual": 60.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010",
+              "evt_017",
+              "evt_020",
+              "evt_027",
+              "evt_030",
+              "evt_037",
+              "evt_040"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 60.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_332145ac780ea596a2c6c0e6",
+        "next_experiment": "Keep the scenario and plan fixed and change one design choice on the next attempt.",
+        "objective": "imaging",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 5,
+        "required_observations": 5.0,
+        "required_returned_data_mb": 60.0,
+        "returned_data_mb": 60.0,
+        "root_causes": [],
+        "run_id": "run_332145ac780ea596a2c6c0e6_002",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      },
+      "b_execution_key": "5761a4f6b1b47119d64f82ad1feb75c597b535bcdb5dbe96d9c84db05632628a",
+      "b_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "All required candidate goals were met; raw measurements are retained in the goal rows.",
+        "goal_progress": [
+          {
+            "actual": 5,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_002",
+              "evt_005",
+              "evt_012",
+              "evt_015",
+              "evt_022"
+            ],
+            "id": "captures",
+            "met": true,
+            "required": 5.0,
+            "unit": "count"
+          },
+          {
+            "actual": 60.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010",
+              "evt_017",
+              "evt_020",
+              "evt_027"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 60.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_332145ac780ea596a2c6c0e6",
+        "next_experiment": "Keep the scenario and plan fixed and change one design choice on the next attempt.",
+        "objective": "imaging",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 5,
+        "required_observations": 5.0,
+        "required_returned_data_mb": 60.0,
+        "returned_data_mb": 60.0,
+        "root_causes": [],
+        "run_id": "run_332145ac780ea596a2c6c0e6_003",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      },
+      "comparison": {
+        "a_execution_key": "36ceb7977a4e524cc0040e4da83427328be1bff665a8f34e57c3a632da402824",
+        "a_mission_id": "mission_332145ac780ea596a2c6c0e6",
+        "a_run_id": "run_332145ac780ea596a2c6c0e6_002",
+        "b_execution_key": "5761a4f6b1b47119d64f82ad1feb75c597b535bcdb5dbe96d9c84db05632628a",
+        "b_mission_id": "mission_332145ac780ea596a2c6c0e6",
+        "b_run_id": "run_332145ac780ea596a2c6c0e6_003",
+        "changed_parts": [
+          {
+            "a": "radio_basic",
+            "b": "radio_fast",
+            "field": "radio_id"
+          }
+        ],
+        "classification": "Design",
+        "eligible": true,
+        "goal_measures": [
+          {
+            "a": 5,
+            "available": true,
+            "b": 5,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "captures",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 60.0,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "returned_data",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "goal_progress": {
+          "a": [
+            {
+              "actual": 5,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_002",
+                "evt_005",
+                "evt_012",
+                "evt_015",
+                "evt_022"
+              ],
+              "id": "captures",
+              "met": true,
+              "required": 5.0,
+              "unit": "count"
+            },
+            {
+              "actual": 60.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010",
+                "evt_017",
+                "evt_020",
+                "evt_027",
+                "evt_030",
+                "evt_037",
+                "evt_040"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 60.0,
+              "unit": "MB"
+            }
+          ],
+          "b": [
+            {
+              "actual": 5,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_002",
+                "evt_005",
+                "evt_012",
+                "evt_015",
+                "evt_022"
+              ],
+              "id": "captures",
+              "met": true,
+              "required": 5.0,
+              "unit": "count"
+            },
+            {
+              "actual": 60.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010",
+                "evt_017",
+                "evt_020",
+                "evt_027"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 60.0,
+              "unit": "MB"
+            }
+          ]
+        },
+        "interpretation": "Measured B minus A for this pair only. Proposed scoring, identity and sampling rules apply. Multiple changes limit causal attribution; missing operations context leaves classification unavailable.",
+        "measures": [
+          {
+            "a": 5,
+            "available": true,
+            "b": 5,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "observations_completed",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 60.0,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "returned_data_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          },
+          {
+            "a": 100,
+            "available": true,
+            "b": 100,
+            "delta_b_minus_a": 0,
+            "delta_unit": "points",
+            "id": "score",
+            "unavailable_reason": null,
+            "unit": "points"
+          },
+          {
+            "a": 82,
+            "available": true,
+            "b": 89,
+            "delta_b_minus_a": 7,
+            "delta_unit": "credits",
+            "id": "total_cost_credits",
+            "unavailable_reason": null,
+            "unit": "credits"
+          },
+          {
+            "a": 1060,
+            "available": true,
+            "b": 1120,
+            "delta_b_minus_a": 60,
+            "delta_unit": "g",
+            "id": "total_mass_g",
+            "unavailable_reason": null,
+            "unit": "g"
+          },
+          {
+            "a": 15.977777778399936,
+            "available": true,
+            "b": 15.011111111799938,
+            "delta_b_minus_a": -0.9666666665999983,
+            "delta_unit": "Wh",
+            "id": "lowest_battery_wh",
+            "unavailable_reason": null,
+            "unit": "Wh"
+          },
+          {
+            "a": 63.911111113599745,
+            "available": true,
+            "b": 60.04444444719975,
+            "delta_b_minus_a": -3.8666666663999933,
+            "delta_unit": "percentage_points",
+            "id": "lowest_battery_percent",
+            "unavailable_reason": null,
+            "unit": "percent"
+          },
+          {
+            "a": 32.5333333344,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": -8.533333334399998,
+            "delta_unit": "MB",
+            "id": "highest_storage_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "metrics": {
+          "qualifying_count": {
+            "a": 5,
+            "b": 5,
+            "delta": 0,
+            "delta_unit": "count"
+          }
+        },
+        "mode": "controlled_design",
+        "objective": "imaging",
+        "outcomes": {
+          "a": "success",
+          "b": "success"
+        },
+        "proposal": true,
+        "requirements": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "imaging"
+          },
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "coastal_region",
+          "target_regions": [
+            "coastal_region"
+          ],
+          "title": "Estuary Watch"
+        },
+        "target_deliveries": {
+          "a": {
+            "coastal_region": 5
+          },
+          "b": {
+            "coastal_region": 5
+          }
+        }
+      },
+      "scope": "native_v2_modules_and_headless_controller_widgets"
+    },
+    "polar_ice_survey": {
+      "a_execution_key": "2165fd5fcc5b92b3b42d9595ccee3693f65751e17d28d521affb48963be2931f",
+      "a_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 0.9022222221600001,
+        "explanation": "Recorded goals have a shortfall; available events do not establish its cause.",
+        "goal_progress": [
+          {
+            "actual": 5,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_000",
+              "evt_007",
+              "evt_010",
+              "evt_017",
+              "evt_020"
+            ],
+            "id": "captures",
+            "met": true,
+            "required": 5.0,
+            "unit": "count"
+          },
+          {
+            "actual": 1,
+            "by_target": [
+              {
+                "actual": 4,
+                "completion_ratio": 1.0,
+                "met": true,
+                "required": 1,
+                "returned_data_mb": 54.133333329600006,
+                "target_id": "arctic_ice",
+                "unit": "complete_observations"
+              }
+            ],
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_027",
+              "evt_030",
+              "evt_037",
+              "evt_040",
+              "evt_047",
+              "evt_050",
+              "evt_057"
+            ],
+            "id": "selected_targets_delivered",
+            "met": true,
+            "required": 1,
+            "unit": "targets"
+          },
+          {
+            "actual": 54.133333329600006,
+            "completion_ratio": 0.9022222221600001,
+            "evidence_event_ids": [
+              "evt_027",
+              "evt_030",
+              "evt_037",
+              "evt_040",
+              "evt_047",
+              "evt_050",
+              "evt_057"
+            ],
+            "id": "returned_data",
+            "met": false,
+            "required": 60.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_28b87f5d23a2495ec2a807c0",
+        "next_experiment": "Retry with one timing change and review the recorded event timeline.",
+        "objective": "survey",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 5,
+        "required_observations": 5.0,
+        "required_returned_data_mb": 60.0,
+        "returned_data_mb": 54.133333329600006,
+        "root_causes": [],
+        "run_id": "run_28b87f5d23a2495ec2a807c0_008",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 97,
+        "source_ids": [],
+        "status": "partial"
+      },
+      "b_execution_key": "1a4a6f88b62586b4a182c9669054b54401120b3bab19f25b543826dd729cbb29",
+      "b_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "All required candidate goals were met; raw measurements are retained in the goal rows.",
+        "goal_progress": [
+          {
+            "actual": 5,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_000",
+              "evt_007",
+              "evt_010",
+              "evt_017",
+              "evt_020"
+            ],
+            "id": "captures",
+            "met": true,
+            "required": 5.0,
+            "unit": "count"
+          },
+          {
+            "actual": 1,
+            "by_target": [
+              {
+                "actual": 5,
+                "completion_ratio": 1.0,
+                "met": true,
+                "required": 1,
+                "returned_data_mb": 60.0,
+                "target_id": "arctic_ice",
+                "unit": "complete_observations"
+              }
+            ],
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_027",
+              "evt_030",
+              "evt_037",
+              "evt_040"
+            ],
+            "id": "selected_targets_delivered",
+            "met": true,
+            "required": 1,
+            "unit": "targets"
+          },
+          {
+            "actual": 60.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_027",
+              "evt_030",
+              "evt_037",
+              "evt_040"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 60.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_28b87f5d23a2495ec2a807c0",
+        "next_experiment": "Keep the scenario and plan fixed and change one design choice on the next attempt.",
+        "objective": "survey",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 5,
+        "required_observations": 5.0,
+        "required_returned_data_mb": 60.0,
+        "returned_data_mb": 60.0,
+        "root_causes": [],
+        "run_id": "run_28b87f5d23a2495ec2a807c0_009",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      },
+      "comparison": {
+        "a_execution_key": "2165fd5fcc5b92b3b42d9595ccee3693f65751e17d28d521affb48963be2931f",
+        "a_mission_id": "mission_28b87f5d23a2495ec2a807c0",
+        "a_run_id": "run_28b87f5d23a2495ec2a807c0_008",
+        "b_execution_key": "1a4a6f88b62586b4a182c9669054b54401120b3bab19f25b543826dd729cbb29",
+        "b_mission_id": "mission_28b87f5d23a2495ec2a807c0",
+        "b_run_id": "run_28b87f5d23a2495ec2a807c0_009",
+        "changed_parts": [
+          {
+            "a": "radio_basic",
+            "b": "radio_fast",
+            "field": "radio_id"
+          }
+        ],
+        "classification": "Design",
+        "eligible": true,
+        "goal_measures": [
+          {
+            "a": 5,
+            "available": true,
+            "b": 5,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "captures",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 1,
+            "available": true,
+            "b": 1,
+            "delta_b_minus_a": 0,
+            "delta_unit": "targets",
+            "id": "selected_targets_delivered",
+            "unavailable_reason": null,
+            "unit": "targets"
+          },
+          {
+            "a": 54.133333329600006,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 5.866666670399994,
+            "delta_unit": "MB",
+            "id": "returned_data",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "goal_progress": {
+          "a": [
+            {
+              "actual": 5,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_000",
+                "evt_007",
+                "evt_010",
+                "evt_017",
+                "evt_020"
+              ],
+              "id": "captures",
+              "met": true,
+              "required": 5.0,
+              "unit": "count"
+            },
+            {
+              "actual": 1,
+              "by_target": [
+                {
+                  "actual": 4,
+                  "completion_ratio": 1.0,
+                  "met": true,
+                  "required": 1,
+                  "returned_data_mb": 54.133333329600006,
+                  "target_id": "arctic_ice",
+                  "unit": "complete_observations"
+                }
+              ],
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_027",
+                "evt_030",
+                "evt_037",
+                "evt_040",
+                "evt_047",
+                "evt_050",
+                "evt_057"
+              ],
+              "id": "selected_targets_delivered",
+              "met": true,
+              "required": 1,
+              "unit": "targets"
+            },
+            {
+              "actual": 54.133333329600006,
+              "completion_ratio": 0.90222222216,
+              "evidence_event_ids": [
+                "evt_027",
+                "evt_030",
+                "evt_037",
+                "evt_040",
+                "evt_047",
+                "evt_050",
+                "evt_057"
+              ],
+              "id": "returned_data",
+              "met": false,
+              "required": 60.0,
+              "unit": "MB"
+            }
+          ],
+          "b": [
+            {
+              "actual": 5,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_000",
+                "evt_007",
+                "evt_010",
+                "evt_017",
+                "evt_020"
+              ],
+              "id": "captures",
+              "met": true,
+              "required": 5.0,
+              "unit": "count"
+            },
+            {
+              "actual": 1,
+              "by_target": [
+                {
+                  "actual": 5,
+                  "completion_ratio": 1.0,
+                  "met": true,
+                  "required": 1,
+                  "returned_data_mb": 60.0,
+                  "target_id": "arctic_ice",
+                  "unit": "complete_observations"
+                }
+              ],
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_027",
+                "evt_030",
+                "evt_037",
+                "evt_040"
+              ],
+              "id": "selected_targets_delivered",
+              "met": true,
+              "required": 1,
+              "unit": "targets"
+            },
+            {
+              "actual": 60.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_027",
+                "evt_030",
+                "evt_037",
+                "evt_040"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 60.0,
+              "unit": "MB"
+            }
+          ]
+        },
+        "interpretation": "Measured B minus A for this pair only. Proposed scoring, identity and sampling rules apply. Multiple changes limit causal attribution; missing operations context leaves classification unavailable.",
+        "measures": [
+          {
+            "a": 5,
+            "available": true,
+            "b": 5,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "observations_completed",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 54.133333329600006,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 5.866666670399994,
+            "delta_unit": "MB",
+            "id": "returned_data_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          },
+          {
+            "a": 97,
+            "available": true,
+            "b": 100,
+            "delta_b_minus_a": 3,
+            "delta_unit": "points",
+            "id": "score",
+            "unavailable_reason": null,
+            "unit": "points"
+          },
+          {
+            "a": 82,
+            "available": true,
+            "b": 89,
+            "delta_b_minus_a": 7,
+            "delta_unit": "credits",
+            "id": "total_cost_credits",
+            "unavailable_reason": null,
+            "unit": "credits"
+          },
+          {
+            "a": 1060,
+            "available": true,
+            "b": 1120,
+            "delta_b_minus_a": 60,
+            "delta_unit": "g",
+            "id": "total_mass_g",
+            "unavailable_reason": null,
+            "unit": "g"
+          },
+          {
+            "a": 16.46111111169995,
+            "available": true,
+            "b": 15.97777777839995,
+            "delta_b_minus_a": -0.48333333329999917,
+            "delta_unit": "Wh",
+            "id": "lowest_battery_wh",
+            "unavailable_reason": null,
+            "unit": "Wh"
+          },
+          {
+            "a": 65.8444444467998,
+            "available": true,
+            "b": 63.9111111135998,
+            "delta_b_minus_a": -1.9333333331999967,
+            "delta_unit": "percentage_points",
+            "id": "lowest_battery_percent",
+            "unavailable_reason": null,
+            "unit": "percent"
+          },
+          {
+            "a": 60.0,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "highest_storage_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "metrics": {
+          "qualifying_count": {
+            "a": 1,
+            "b": 1,
+            "delta": 0,
+            "delta_unit": "targets"
+          }
+        },
+        "mode": "controlled_design",
+        "objective": "survey",
+        "outcomes": {
+          "a": "partial",
+          "b": "success"
+        },
+        "proposal": true,
+        "requirements": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "survey_delivery",
+            "minimum_complete_observations_per_target": 1.0
+          },
+          "objective": "survey",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "arctic_ice",
+          "target_regions": [
+            "arctic_ice"
+          ],
+          "title": "Polar Ice Survey"
+        },
+        "target_deliveries": {
+          "a": {
+            "arctic_ice": 4
+          },
+          "b": {
+            "arctic_ice": 5
+          }
+        }
+      },
+      "scope": "native_v2_modules_and_headless_controller_widgets"
+    },
+    "tropical_forest_watch": {
+      "a_execution_key": "d6c71e861d98c3603feaca2d6d33442b43c10c375d246580d03e3d9cf786800b",
+      "a_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 0.7386666667200001,
+        "explanation": "Recorded goals have a shortfall; available events do not establish its cause.",
+        "goal_progress": [
+          {
+            "actual": 5,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_002",
+              "evt_012",
+              "evt_022",
+              "evt_032",
+              "evt_042"
+            ],
+            "id": "captures",
+            "met": true,
+            "required": 5.0,
+            "unit": "count"
+          },
+          {
+            "actual": 44.32000000320001,
+            "completion_ratio": 0.7386666667200001,
+            "evidence_event_ids": [
+              "evt_008",
+              "evt_018",
+              "evt_028",
+              "evt_038",
+              "evt_048",
+              "evt_058"
+            ],
+            "id": "returned_data",
+            "met": false,
+            "required": 60.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_f3e4b6bd81ad2363a5f7074a",
+        "next_experiment": "Retry with one timing change and review the recorded event timeline.",
+        "objective": "imaging",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 5,
+        "required_observations": 5.0,
+        "required_returned_data_mb": 60.0,
+        "returned_data_mb": 44.32000000320001,
+        "root_causes": [],
+        "run_id": "run_f3e4b6bd81ad2363a5f7074a_005",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 87,
+        "source_ids": [],
+        "status": "partial"
+      },
+      "b_execution_key": "d85e7ce9ec61573153d922898fd23dc70b7e9f87616ecee617a001980427ad6a",
+      "b_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "All required candidate goals were met; raw measurements are retained in the goal rows.",
+        "goal_progress": [
+          {
+            "actual": 5,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_002",
+              "evt_012",
+              "evt_022",
+              "evt_032",
+              "evt_042"
+            ],
+            "id": "captures",
+            "met": true,
+            "required": 5.0,
+            "unit": "count"
+          },
+          {
+            "actual": 60.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_008",
+              "evt_018",
+              "evt_028",
+              "evt_038",
+              "evt_048"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 60.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_f3e4b6bd81ad2363a5f7074a",
+        "next_experiment": "Keep the scenario and plan fixed and change one design choice on the next attempt.",
+        "objective": "imaging",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 5,
+        "required_observations": 5.0,
+        "required_returned_data_mb": 60.0,
+        "returned_data_mb": 60.0,
+        "root_causes": [],
+        "run_id": "run_f3e4b6bd81ad2363a5f7074a_006",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 100,
+        "source_ids": [],
+        "status": "success"
+      },
+      "comparison": {
+        "a_execution_key": "d6c71e861d98c3603feaca2d6d33442b43c10c375d246580d03e3d9cf786800b",
+        "a_mission_id": "mission_f3e4b6bd81ad2363a5f7074a",
+        "a_run_id": "run_f3e4b6bd81ad2363a5f7074a_005",
+        "b_execution_key": "d85e7ce9ec61573153d922898fd23dc70b7e9f87616ecee617a001980427ad6a",
+        "b_mission_id": "mission_f3e4b6bd81ad2363a5f7074a",
+        "b_run_id": "run_f3e4b6bd81ad2363a5f7074a_006",
+        "changed_parts": [
+          {
+            "a": "radio_basic",
+            "b": "radio_fast",
+            "field": "radio_id"
+          }
+        ],
+        "classification": "Design",
+        "eligible": true,
+        "goal_measures": [
+          {
+            "a": 5,
+            "available": true,
+            "b": 5,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "captures",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 44.32000000320001,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 15.679999996799992,
+            "delta_unit": "MB",
+            "id": "returned_data",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "goal_progress": {
+          "a": [
+            {
+              "actual": 5,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_002",
+                "evt_012",
+                "evt_022",
+                "evt_032",
+                "evt_042"
+              ],
+              "id": "captures",
+              "met": true,
+              "required": 5.0,
+              "unit": "count"
+            },
+            {
+              "actual": 44.32000000320001,
+              "completion_ratio": 0.7386666667200001,
+              "evidence_event_ids": [
+                "evt_008",
+                "evt_018",
+                "evt_028",
+                "evt_038",
+                "evt_048",
+                "evt_058"
+              ],
+              "id": "returned_data",
+              "met": false,
+              "required": 60.0,
+              "unit": "MB"
+            }
+          ],
+          "b": [
+            {
+              "actual": 5,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_002",
+                "evt_012",
+                "evt_022",
+                "evt_032",
+                "evt_042"
+              ],
+              "id": "captures",
+              "met": true,
+              "required": 5.0,
+              "unit": "count"
+            },
+            {
+              "actual": 60.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_008",
+                "evt_018",
+                "evt_028",
+                "evt_038",
+                "evt_048"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 60.0,
+              "unit": "MB"
+            }
+          ]
+        },
+        "interpretation": "Measured B minus A for this pair only. Proposed scoring, identity and sampling rules apply. Multiple changes limit causal attribution; missing operations context leaves classification unavailable.",
+        "measures": [
+          {
+            "a": 5,
+            "available": true,
+            "b": 5,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "observations_completed",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 44.32000000320001,
+            "available": true,
+            "b": 60.0,
+            "delta_b_minus_a": 15.679999996799992,
+            "delta_unit": "MB",
+            "id": "returned_data_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          },
+          {
+            "a": 87,
+            "available": true,
+            "b": 100,
+            "delta_b_minus_a": 13,
+            "delta_unit": "points",
+            "id": "score",
+            "unavailable_reason": null,
+            "unit": "points"
+          },
+          {
+            "a": 82,
+            "available": true,
+            "b": 89,
+            "delta_b_minus_a": 7,
+            "delta_unit": "credits",
+            "id": "total_cost_credits",
+            "unavailable_reason": null,
+            "unit": "credits"
+          },
+          {
+            "a": 1060,
+            "available": true,
+            "b": 1120,
+            "delta_b_minus_a": 60,
+            "delta_unit": "g",
+            "id": "total_mass_g",
+            "unavailable_reason": null,
+            "unit": "g"
+          },
+          {
+            "a": 16.997777777200113,
+            "available": true,
+            "b": 15.15111111040009,
+            "delta_b_minus_a": -1.846666666800024,
+            "delta_unit": "Wh",
+            "id": "lowest_battery_wh",
+            "unavailable_reason": null,
+            "unit": "Wh"
+          },
+          {
+            "a": 67.99111110880045,
+            "available": true,
+            "b": 60.60444444160035,
+            "delta_b_minus_a": -7.386666667200103,
+            "delta_unit": "percentage_points",
+            "id": "lowest_battery_percent",
+            "unavailable_reason": null,
+            "unit": "percent"
+          },
+          {
+            "a": 30.4533333312,
+            "available": true,
+            "b": 12.0,
+            "delta_b_minus_a": -18.4533333312,
+            "delta_unit": "MB",
+            "id": "highest_storage_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "metrics": {
+          "qualifying_count": {
+            "a": 5,
+            "b": 5,
+            "delta": 0,
+            "delta_unit": "count"
+          }
+        },
+        "mode": "controlled_design",
+        "objective": "imaging",
+        "outcomes": {
+          "a": "partial",
+          "b": "success"
+        },
+        "proposal": true,
+        "requirements": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "imaging"
+          },
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "tropical_forest",
+          "target_regions": [
+            "tropical_forest"
+          ],
+          "title": "Tropical Forest Watch"
+        },
+        "target_deliveries": {
+          "a": {
+            "tropical_forest": 3
+          },
+          "b": {
+            "tropical_forest": 5
+          }
+        }
+      },
+      "scope": "native_v2_modules_and_headless_controller_widgets"
+    },
+    "weather_monitoring": {
+      "a_execution_key": "32487461f3e48de8d647cfb2dc4c3aadd484f21d34d4920570d0bddf37a7b232",
+      "a_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "Accepted captures cover fewer required revolutions under HPC's confirmed pre-action mapping.",
+        "goal_progress": [
+          {
+            "actual": 1,
+            "completion_ratio": 0.5,
+            "evidence_event_ids": [
+              "evt_001"
+            ],
+            "id": "selected_target_revolution_visits",
+            "met": false,
+            "required": 2.0,
+            "unit": "revolutions"
+          },
+          {
+            "actual": 24.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010",
+              "evt_017",
+              "evt_020"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 12.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_6d77db7d952485178a2daeae",
+        "next_experiment": "Keep design and downlink fixed; try a target-access step in a different revolution.",
+        "objective": "weather_monitoring",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 2,
+        "required_observations": 2.0,
+        "required_returned_data_mb": 12.0,
+        "returned_data_mb": 24.0,
+        "root_causes": [],
+        "run_id": "run_6d77db7d952485178a2daeae_014",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 75,
+        "source_ids": [],
+        "status": "partial"
+      },
+      "b_execution_key": "e160dff66ba2c4835165c086b8473ec30037eae42a3cdfdc7b3df374f5cfecf5",
+      "b_report": {
+        "comparison": null,
+        "data_return_completion_ratio": 1.0,
+        "explanation": "Accepted captures cover fewer required revolutions under HPC's confirmed pre-action mapping.",
+        "goal_progress": [
+          {
+            "actual": 1,
+            "completion_ratio": 0.5,
+            "evidence_event_ids": [
+              "evt_001"
+            ],
+            "id": "selected_target_revolution_visits",
+            "met": false,
+            "required": 2.0,
+            "unit": "revolutions"
+          },
+          {
+            "actual": 24.0,
+            "completion_ratio": 1.0,
+            "evidence_event_ids": [
+              "evt_007",
+              "evt_010"
+            ],
+            "id": "returned_data",
+            "met": true,
+            "required": 12.0,
+            "unit": "MB"
+          }
+        ],
+        "mission_id": "mission_6d77db7d952485178a2daeae",
+        "next_experiment": "Keep design and downlink fixed; try a target-access step in a different revolution.",
+        "objective": "weather_monitoring",
+        "observation_completion_ratio": 1.0,
+        "observations_completed": 2,
+        "required_observations": 2.0,
+        "required_returned_data_mb": 12.0,
+        "returned_data_mb": 24.0,
+        "root_causes": [],
+        "run_id": "run_6d77db7d952485178a2daeae_015",
+        "run_status": "completed",
+        "schema_version": 2,
+        "score": 75,
+        "source_ids": [],
+        "status": "partial"
+      },
+      "comparison": {
+        "a_execution_key": "32487461f3e48de8d647cfb2dc4c3aadd484f21d34d4920570d0bddf37a7b232",
+        "a_mission_id": "mission_6d77db7d952485178a2daeae",
+        "a_run_id": "run_6d77db7d952485178a2daeae_014",
+        "b_execution_key": "e160dff66ba2c4835165c086b8473ec30037eae42a3cdfdc7b3df374f5cfecf5",
+        "b_mission_id": "mission_6d77db7d952485178a2daeae",
+        "b_run_id": "run_6d77db7d952485178a2daeae_015",
+        "changed_parts": [
+          {
+            "a": "radio_basic",
+            "b": "radio_fast",
+            "field": "radio_id"
+          }
+        ],
+        "classification": "Design",
+        "eligible": true,
+        "goal_measures": [
+          {
+            "a": 1,
+            "available": true,
+            "b": 1,
+            "delta_b_minus_a": 0,
+            "delta_unit": "revolutions",
+            "id": "selected_target_revolution_visits",
+            "unavailable_reason": null,
+            "unit": "revolutions"
+          },
+          {
+            "a": 24.0,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "returned_data",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "goal_progress": {
+          "a": [
+            {
+              "actual": 1,
+              "completion_ratio": 0.5,
+              "evidence_event_ids": [
+                "evt_001"
+              ],
+              "id": "selected_target_revolution_visits",
+              "met": false,
+              "required": 2.0,
+              "unit": "revolutions"
+            },
+            {
+              "actual": 24.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010",
+                "evt_017",
+                "evt_020"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB"
+            }
+          ],
+          "b": [
+            {
+              "actual": 1,
+              "completion_ratio": 0.5,
+              "evidence_event_ids": [
+                "evt_001"
+              ],
+              "id": "selected_target_revolution_visits",
+              "met": false,
+              "required": 2.0,
+              "unit": "revolutions"
+            },
+            {
+              "actual": 24.0,
+              "completion_ratio": 1.0,
+              "evidence_event_ids": [
+                "evt_007",
+                "evt_010"
+              ],
+              "id": "returned_data",
+              "met": true,
+              "required": 12.0,
+              "unit": "MB"
+            }
+          ]
+        },
+        "interpretation": "Measured B minus A for this pair only. Proposed scoring, identity and sampling rules apply. Multiple changes limit causal attribution; missing operations context leaves classification unavailable.",
+        "measures": [
+          {
+            "a": 2,
+            "available": true,
+            "b": 2,
+            "delta_b_minus_a": 0,
+            "delta_unit": "count",
+            "id": "observations_completed",
+            "unavailable_reason": null,
+            "unit": "count"
+          },
+          {
+            "a": 24.0,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "returned_data_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          },
+          {
+            "a": 75,
+            "available": true,
+            "b": 75,
+            "delta_b_minus_a": 0,
+            "delta_unit": "points",
+            "id": "score",
+            "unavailable_reason": null,
+            "unit": "points"
+          },
+          {
+            "a": 82,
+            "available": true,
+            "b": 89,
+            "delta_b_minus_a": 7,
+            "delta_unit": "credits",
+            "id": "total_cost_credits",
+            "unavailable_reason": null,
+            "unit": "credits"
+          },
+          {
+            "a": 1060,
+            "available": true,
+            "b": 1120,
+            "delta_b_minus_a": 60,
+            "delta_unit": "g",
+            "id": "total_mass_g",
+            "unavailable_reason": null,
+            "unit": "g"
+          },
+          {
+            "a": 20.81111111139997,
+            "available": true,
+            "b": 20.81111111139997,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "Wh",
+            "id": "lowest_battery_wh",
+            "unavailable_reason": null,
+            "unit": "Wh"
+          },
+          {
+            "a": 83.24444444559987,
+            "available": true,
+            "b": 83.24444444559987,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "percentage_points",
+            "id": "lowest_battery_percent",
+            "unavailable_reason": null,
+            "unit": "percent"
+          },
+          {
+            "a": 24.0,
+            "available": true,
+            "b": 24.0,
+            "delta_b_minus_a": 0.0,
+            "delta_unit": "MB",
+            "id": "highest_storage_mb",
+            "unavailable_reason": null,
+            "unit": "MB"
+          }
+        ],
+        "metrics": {
+          "qualifying_count": {
+            "a": 1,
+            "b": 1,
+            "delta": 0,
+            "delta_unit": "revolutions"
+          }
+        },
+        "mode": "controlled_design",
+        "objective": "weather_monitoring",
+        "outcomes": {
+          "a": "partial",
+          "b": "partial"
+        },
+        "proposal": true,
+        "requirements": {
+          "budget_credits": 100.0,
+          "duration_orbits": 3.0,
+          "goal": {
+            "kind": "weather_revisit",
+            "required_distinct_orbits": 2.0
+          },
+          "objective": "weather_monitoring",
+          "required_observations": 2.0,
+          "required_returned_data_mb": 12.0,
+          "target_region": "equator",
+          "target_regions": [
+            "equator"
+          ],
+          "title": "Weather Monitoring"
+        },
+        "target_deliveries": {
+          "a": {
+            "equator": 2
+          },
+          "b": {
+            "equator": 2
+          }
+        }
+      },
+      "scope": "native_v2_modules_and_headless_controller_widgets"
+    }
+  },
+  "goal_controls": {
+    "abort_after_goals": {
+      "run_id": "team_abort_after_goals",
+      "status": "failed",
+      "score": null,
+      "returned_data_mb": 24.0
+    },
+    "communication_complete": {
+      "run_id": "team_communication_complete",
+      "status": "success",
+      "score": 100,
+      "returned_data_mb": 24.0
+    },
+    "communication_shortfall": {
+      "run_id": "team_communication_shortfall",
+      "status": "partial",
+      "score": 75,
+      "returned_data_mb": 12.0
+    },
+    "survey_complete": {
+      "run_id": "team_survey_complete",
+      "status": "success",
+      "score": 100,
+      "returned_data_mb": 24.0
+    },
+    "survey_partial_packet": {
+      "run_id": "team_survey_partial_packet",
+      "status": "partial",
+      "score": 83,
+      "returned_data_mb": 15.466666665600002
+    },
+    "weather_complete": {
+      "run_id": "team_weather_complete",
+      "status": "success",
+      "score": 100,
+      "returned_data_mb": 24.0
+    },
+    "weather_shortfall": {
+      "run_id": "team_weather_shortfall",
+      "status": "partial",
+      "score": 75,
+      "returned_data_mb": 24.0
+    },
+    "zero_communication": {
+      "run_id": "team_zero_communication",
+      "status": "failed",
+      "score": 0,
+      "returned_data_mb": 0.0
+    },
+    "zero_estuary_watch": {
+      "run_id": "team_zero_estuary_watch",
+      "status": "failed",
+      "score": 0,
+      "returned_data_mb": 0.0
+    },
+    "zero_polar_ice_survey": {
+      "run_id": "team_zero_polar_ice_survey",
+      "status": "failed",
+      "score": 0,
+      "returned_data_mb": 0.0
+    },
+    "zero_tropical_forest_watch": {
+      "run_id": "team_zero_tropical_forest_watch",
+      "status": "failed",
+      "score": 0,
+      "returned_data_mb": 0.0
+    },
+    "zero_weather_monitoring": {
+      "run_id": "team_zero_weather_monitoring",
+      "status": "failed",
+      "score": 0,
+      "returned_data_mb": 0.0
+    }
+  }
+}

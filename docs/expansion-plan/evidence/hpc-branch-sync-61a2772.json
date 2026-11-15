@@ -1,0 +1,174 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "ke2_head": "cb458c7d9c9b3b2484e8111dbbec4ea1468f51b8",
+  "remote": "https://github.com/taite-ang-saiyin/orbitbridge-mission-architect.git",
+  "branch": "feature/hpc-ke3-goal-evidence-v1",
+  "fetched_commit": "61a2772acbb55a069d4472079611fcdb91c43960",
+  "previous_evidence_commit": "345e5bdecd41d716ba3f580ae615628edf00f6ca",
+  "source_files_changed_since_evidence": {
+    "core/HPCContractAdapter.gd": "bf3f722630865f8c4680e0a4487b959ca4544eec7aba42c46fda1bb7f4023094",
+    "core/MissionSimulator.gd": "0d6738bdeefe560d5e53ae3a3909620324dec49cca8086b8bd597a452e1e96aa",
+    "core/MissionStepEngine.gd": "f584a0c4d7dd4ce68bc2eb1ffe1454b814e9d2e9311015fbc66e5ccd9cc871fe",
+    "docs/hpc-integration.md": "d4382a4645f1dad983ce41cb5a5a8ea8701fe00fee01d2a98c61c8b108f72395",
+    "scripts/core/catalog_loader.gd": "8895a54af10fff96b2835749e03f0d0849e56ae9848643803573bcab9c07a59c",
+    "scripts/core/mission_validator.gd": "5809dc70fa2ce7893afe3b36ecc83a92c40e0afc215fe70d1c4f7af7d136cd27",
+    "scripts/evaluation/mission_evaluator.gd": "9694a4feb06e9f635505dc5e910810e888bcaf830ef5b98f78fb4a934ff00941",
+    "scripts/integration/mission_runtime.gd": "d6334914715e68de208d4e4f549c7a9115592ff60af2a237bd05fc6f83dbe95d",
+    "tests/test_hpc_config_v2.gd": "43b37e152a40770991c45287f2f0f2b30689ac13a8f2b269abf18af193bff28c",
+    "tests/test_simulator_v2.gd": "acc50d5206261ebb8eb7f9d3afd066c793f2f759849a4c112071516a1ac2d425"
+  },
+  "review_status": "owner_contract_and_validation_changes_required",
+  "native_v2_mechanics_reproduced": true,
+  "upstream_checks": {
+    "native_v2": {
+      "exit_code": 0,
+      "printed_passed": 6,
+      "script_errors": 3,
+      "accepted": false
+    },
+    "simulator_v2": {
+      "assertion_line": 29,
+      "actual_count": 4,
+      "asserted_count": 2,
+      "termination": "interrupted_after_failed_assertion",
+      "accepted": false
+    },
+    "v1_hpc": {
+      "exit_code": 0,
+      "passed": 48,
+      "accepted": true
+    },
+    "legacy_simulator": {
+      "exit_code": 0,
+      "accepted": true
+    },
+    "validator": {
+      "exit_code": 1,
+      "passed": 293,
+      "failed": 1,
+      "accepted": false
+    }
+  },
+  "ke2_consumer_review": {
+    "exit_code": 0,
+    "passed": 29,
+    "failed": 0,
+    "config_mapping": "explicit review fixture copies",
+    "scoring": "proposal",
+    "production_binding": "pending_SE"
+  },
+  "cases": {
+    "communication_complete": {
+      "native_objective": "communication",
+      "native_count": 2,
+      "returned_data_mb": 24.0,
+      "review_fixture_score": 100
+    },
+    "communication_shortfall": {
+      "native_objective": "communication",
+      "native_count": 1,
+      "returned_data_mb": 12.0,
+      "review_fixture_score": 75
+    },
+    "weather_complete": {
+      "native_objective": "weather_monitoring",
+      "native_count": 2,
+      "returned_data_mb": 24.0,
+      "review_fixture_score": 100
+    },
+    "weather_shortfall": {
+      "native_objective": "weather_monitoring",
+      "native_count": 1,
+      "returned_data_mb": 24.0,
+      "review_fixture_score": 75
+    }
+  },
+  "observed_gaps": {
+    "missing_legacy_report_fields": [
+      "required_observations",
+      "observation_completion_ratio"
+    ],
+    "native_report_fields": 29,
+    "goal_progress_type": "Dictionary",
+    "reviewed_goal_progress_type": "Array",
+    "reviewed_config_rejection": {
+      "error": {
+        "code": "INVALID_GOAL",
+        "message": "mission.goal.kind must match mission.objective"
+      },
+      "ok": false
+    },
+    "zero_goal_readiness": true,
+    "altered_shortfall_report_status": "success"
+  },
+  "logs": {
+    "hpc-branch-test_hpc_config_v2": {
+      "sha256": "91635e3eb4a315ffb0b06af1ed84118ff7060f130c9a56289d061c3bb6c30f78",
+      "contains_script_error": true,
+      "contains_assertion": false,
+      "contains_test_failure": false
+    },
+    "hpc-branch-test_simulator_v2": {
+      "sha256": "ecf8963984953106eabcffc0776bdfbe192b51d01d2fa2fa55c8b8a883cf5277",
+      "contains_script_error": true,
+      "contains_assertion": true,
+      "contains_test_failure": false
+    },
+    "hpc-branch-test_hpc": {
+      "sha256": "4e470e297d9b7fbca6d513efb1174670f4e4185ee108af41014fc3258538e8d0",
+      "contains_script_error": false,
+      "contains_assertion": false,
+      "contains_test_failure": false
+    },
+    "hpc-branch-test_simulator": {
+      "sha256": "c2cbdd702654efd1d77073df507edcb16ace821a6ab6489bda38676df0787cdb",
+      "contains_script_error": false,
+      "contains_assertion": false,
+      "contains_test_failure": false
+    },
+    "hpc-branch-validation-test_mission_validator": {
+      "sha256": "af06e47485d246f27b59c690e907f923d1cace9f870bde5a78b7d0fd4185e7dd",
+      "contains_script_error": false,
+      "contains_assertion": false,
+      "contains_test_failure": true
+    },
+    "hpc-native-v2-review": {
+      "sha256": "e460ca6fa500dbf9784ebabf62d44ce0790ffb4e25b06532e1e4228925cbeaec",
+      "contains_script_error": true,
+      "contains_assertion": false,
+      "contains_test_failure": false
+    },
+    "ke2-native-v2-consumer-review": {
+      "sha256": "b82363848b4d275938745651309946a11716cae33f97db6cf759fb6d072c7c5b",
+      "contains_script_error": false,
+      "contains_assertion": false,
+      "contains_test_failure": false
+    }
+  },
+  "files_touched_sha256": {
+    "docs/expansion-plan/hpc-branch-sync-review.md": "b777dbf56dedafdea3a2c98672edbc3973cab3c49eb9f91b96febe8315ea32d8",
+    "docs/expansion-plan/evidence/hpc-native-v2-review.gd": "439d2bd3b1bd3a2493337d9d1fbce6702353485f021bf9a61bac4f7130a44dcd",
+    "docs/expansion-plan/evidence/ke2-native-v2-consumer-review.gd": "5a65f671804354d2fda47325005ae0fc065599e4013b15ba9272f445b1176036",
+    "docs/expansion-plan/README.md": "e099f6cb3d2369812c9ce35a480140f4aa6865116c2023d716371bc65bfc0363",
+    "docs/expansion-plan/ke2-work-plan.md": "369e0c81726ab9799c9ca978f05a70302b1e794f94025f2e6216003efd33020f",
+    "docs/expansion-plan/progress.md": "50146ec471e8a094d07c4b972e0777790088ca35d90af3df97beb8fd33921078",
+    "docs/expansion-plan/team-scope-v2.md": "8764f604d484d89d141922f290aa6a59fd79024fc8fd4caf7d7a9ce592004261",
+    "docs/expansion-plan/OrbitBridge_KE2_Codex_Prompts.md": "cfdc7d3e3e6b7ecd8f11170c79fc5ac2d047048fd1a5dc6120b40a4b29058ad1"
+  },
+  "original_native_packet_sha256": "3def9a8044b6263283e7740576b2c6cff065eda279000797f0ce207ae5db29db",
+  "consumer_packet_sha256": "25b5304a06d544a4065d0fa40a3bcd6c7ea9da753a55ffbc5f04b5b29c0827ea",
+  "live_implementation_changed_this_sync": false,
+  "merge_or_push_performed": false,
+  "preserved_work": [
+    "prior KE2 implementation/documentation changes",
+    "README.md edit",
+    "UID files",
+    ".gitignore"
+  ],
+  "remaining_owners": [
+    "KE1 config/readiness",
+    "HPC adapter/simulator/tests",
+    "KE2/SE/KE3 report and execution binding"
+  ]
+}

@@ -617,6 +617,12 @@ Prepare the KE2 release handoff. Review the final focused checks and report the 
 
 ## Task completion and next-step response
 
+**Four-owner alignment completed locally.** The supplied branch revisions are composed and resolved in the reproducible review checkout. Sixty-two programs pass, including 364 five-preset card-to-comparison checks and 51 real-v2 goal controls. KE2 now supports KE1's published input revision and SE's packet/comparison hooks. Next is owner patch adoption and scoring/export/browser rollout. [Source pins, patches and commands](team-alignment/README.md)
+
+**Latest branch sync.** The supplied HPC branch was fetched at `61a2772` and tested in isolation. It now emits native config-v2 evidence. Review found goal-field/report differences, missing positive-count readiness validation, feedback script errors and a simulator test assertion. Twenty-nine KE2 review assertions pass using explicit config fixtures. Next integration work follows the prepared owner handoff. [Review and reproduction](hpc-branch-sync-review.md)
+
+**HPC reply applied on 15 November.** Task 00.3 and native Survey measurement 10.2 are complete. The 12-example release `345e5bd` replays with 8,266 native passes, KE2's consumer has 245 passes, and the updated candidate has 703. Confirmed map/mapping/sampling semantics now drive candidate revision 2 while previous records retain their policies. Continue consolidated config/report/scoring and SE/KE3 integration work. [Receipt and commands](hpc-evidence-receipt.md)
+
 **15 November local completion checkpoint:** [KE2 integration candidate](ke2-integration-candidate.md) completes the independent implementation portions of 10.2/10.3, 20.1/20.3, 30.1–30.3, 40.1/40.2/KE2 record support and verification/release preparation. Final candidate 702/0, full repository runner 43 programs pass. Tomorrow's ready action is owner-contract reconciliation followed by SE/KE3/HPC/KE1 integration in the documented merge order. Keep approval-dependent policy adoption and actual producer/UI/browser acceptance prompts open. No further local permission request or resend of existing evidence is required.
 
 After completing a task or subtask, update its verified checkbox and evidence in the work checklist/progress record. Keep wider agreement/integration items open until their stated criteria are met. Report the files touched, exact commands, expected/actual results, verification level, remaining owner dependency, and next ready prompt.

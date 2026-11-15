@@ -1,5 +1,11 @@
 # Five Missions and A/B Design Lab
 
+Four-owner alignment completed locally on 15 November. The supplied KE1/KE3/SE/HPC sources now have a reproducible combined review checkout with 62 passing programs, 364 five-preset journey checks and 51 native goal controls. Expanded scoring uses the explicit preview entry point. Per-owner patches and adoption steps are packaged with the evidence. [Team alignment](team-alignment/README.md)
+
+Latest HPC branch sync on 15 November fetched `61a2772`. Native config-v2 mechanics reproduce completion and shortfall, and KE2's review has 29 passing assertions. Direct integration needs goal-field alignment and fixes to report fields, readiness and upstream checks. [Branch review and prepared owner handoff](hpc-branch-sync-review.md)
+
+HPC confirmation received on 15 November closes evidence task 00.3. Twelve published examples independently replay with 8,266 passing checks. KE2's consumer has 245 passes and the updated candidate has 703. Evaluator candidate revision 2 uses the confirmed sparse-map, Weather and resource-sampling meanings. Scoring and SE saved-A binding continue through owner coordination. [Receipt, verification and commands](hpc-evidence-receipt.md)
+
 Prepared on 14 November 2026 in Asia/Rangoon.
 
 This folder contains Markdown versions of the supplied team scope and KE2 work plan, with task checklists and a shared progress record.

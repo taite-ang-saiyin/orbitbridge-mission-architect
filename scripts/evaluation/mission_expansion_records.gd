@@ -3,6 +3,7 @@ extends RefCounted
 const Evaluation = preload("res://scripts/evaluation/mission_expansion_candidate.gd")
 const Comparison = preload("res://scripts/evaluation/mission_comparison.gd")
 const REVISION = "ke2-execution-record-candidate-1"
+# HPC confirmed this sampling meaning at 345e5bd, retaining the original ID.
 const SAMPLING = "initial_and_each_accepted_poststep_v1_proposal"
 
 static func build_record(config: Dictionary, state: Dictionary, events: Array, validation: Dictionary, context: Dictionary, policy: Dictionary = {}) -> Dictionary:
@@ -46,9 +47,11 @@ static func validate_record(value: Variant) -> Dictionary:
 	if not typed is Dictionary or not Comparison._same(typed, parsed) or not _json_value(typed): return _bad("record.content_preimage_utf8")
 	var record: Dictionary = typed
 	if not Evaluation.Base._is_whole_number(record.get("record_schema_version")) or record.record_schema_version != 1 or record.get("record_revision") != REVISION or record.get("digest_algorithm") != "sha256-utf8-json-sorted-fullprecision": return _bad("record.record_revision")
-	if record.get("report_contract_revision") != Evaluation.REPORT_REVISION or record.get("evaluator_revision") != Evaluation.EVALUATOR_REVISION: return _bad("record.evaluator_revision")
+	if record.get("report_contract_revision") != Evaluation.REPORT_REVISION or not record.get("evaluator_revision") in [Evaluation.EVALUATOR_REVISION, Evaluation.HPC_EVALUATOR_REVISION, Evaluation.LEGACY_EVALUATOR_REVISION]: return _bad("record.evaluator_revision")
 	for field in ["config_snapshot", "final_state", "validation_snapshot", "report", "context", "evaluation_policy"]:
 		if not record.get(field) is Dictionary: return _bad("record." + field)
+	if record.evaluator_revision == Evaluation.LEGACY_EVALUATOR_REVISION and record.evaluation_policy.get("revision") != Evaluation.LEGACY_POLICY_REVISION:
+		return _bad("record.evaluation_policy.revision")
 	if not record.get("events") is Array: return _bad("record.events")
 	var state: Dictionary = record.final_state
 	if record.get("run_id") != state.get("run_id") or record.get("mission_id") != state.get("mission_id"): return _bad("record.run_id")
@@ -68,7 +71,7 @@ static func validate_record(value: Variant) -> Dictionary:
 	if context.get("initialization_policy") != "full_battery_empty_v1_proposal" or context.get("legacy_identity_policy") != "exact_requirements_v1_proposal": return _bad("record.context.initialization_policy")
 	for field in ["engine", "adapter", "catalogs", "scenario", "evaluator", "report"]:
 		if not context.source_versions.get(field) is String or context.source_versions[field].is_empty(): return _bad("record.context.source_versions." + field)
-	if context.source_versions.evaluator != Evaluation.EVALUATOR_REVISION or context.source_versions.report != Evaluation.REPORT_REVISION or context.source_versions.scenario != state.scenario_snapshot.scenario_version: return _bad("record.context.source_versions")
+	if context.source_versions.evaluator != record.evaluator_revision or context.source_versions.report != Evaluation.REPORT_REVISION or context.source_versions.scenario != state.scenario_snapshot.scenario_version: return _bad("record.context.source_versions")
 	var initial: Dictionary = context.initial_state
 	for field in ["run_id", "mission_id", "config_snapshot", "scenario_snapshot", "battery_capacity_wh", "storage_capacity_mb"]:
 		if initial.get(field) != state.get(field): return _bad("record.context.initial_state." + field)

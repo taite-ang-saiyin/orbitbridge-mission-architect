@@ -1,7 +1,9 @@
 extends RefCounted
 ## KE2 internal measurements. Not wired into production reports or new objectives.
-## Producer confirmation and goal/report contracts remain separate handoffs.
+## HPC confirmed these native measurements at 345e5bd. Goal/report adoption is
+## tracked separately from the producer evidence revision.
 const Evaluator = preload("res://scripts/evaluation/mission_evaluator.gd")
+const HPC_REVISION = "hpc-goal-evidence-v1.0.0"
 
 static func _communication(state: Dictionary, events: Variant) -> Dictionary:
 	var checked: Dictionary = _events(state, events)
@@ -53,7 +55,7 @@ static func _weather(config: Dictionary, state: Dictionary, events: Variant) -> 
 			ids.append(event.event_id)
 	return {"ok": true, "measure": {"selected_target_revolution_visits": indices.size(), "revolution_indices": indices,
 		"target_id": selected[0], "steps_per_orbit": steps, "evidence_event_ids": ids,
-		"mapping_status": "pre_action_floor_proposal_pending_HPC"}}
+		"mapping_status": "pre_action_floor_hpc_confirmed_345e5bd"}}
 
 static func _events(state: Dictionary, events: Variant) -> Dictionary:
 	if not events is Array: return _bad("events", state)

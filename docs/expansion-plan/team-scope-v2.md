@@ -4,6 +4,8 @@ Source date is 14 November 2026. This is the Markdown tracking version of the si
 
 Use the [progress record](progress.md) for evidence and handoffs. Detailed KE2 completion status lives in the [KE2 work plan](ke2-work-plan.md).
 
+- [x] **Combined owner review checkout** aligns the four supplied branches, with actual five-preset native/controller saved-A/B journeys and 62 passing programs. Owner patches and exact reproduction are prepared for adoption. Scoring rollout and exported/browser acceptance remain open. [Team alignment](team-alignment/README.md)
+
 - [x] **KE2 independent candidate, 15 November:** implement and verify callable expanded evaluation, goal reports/feedback, immutable execution-record helpers and analytical comparison. [Delivery, exact checks and owner dependencies](ke2-integration-candidate.md). This completes KE2's isolated candidate; team production promises below remain open pending ratification and real producer/runtime/presentation integration.
 
 ## Product promise and delivery
@@ -75,10 +77,10 @@ For a radio change, show measured returned-data improvement together with extra 
   - [x] Record the inspected baseline as `features/KE2` at `4c65496`. See the [baseline record](progress.md#baseline-and-verification).
   - [ ] Agree exact preset IDs, objective IDs, targets, goal fields, orbit, duration, and versions.
   - [ ] Provide compatible older-input examples and invalid-input examples.
-- [ ] CONTRACT.2 HPC and KE2 agree run evidence.
-  - [ ] Specify run identity, configuration snapshot, completed status, ordered events, and resource samples.
-  - [ ] Keep complete target deliveries, positive contact-step counts, and revolution-visit counts distinct.
-  - [ ] Define accepted-event semantics and the Weather revolution index or step mapping.
+- [x] CONTRACT.2 HPC and KE2 agree run evidence. Verified release `345e5bd` and adopted confirmed measurement semantics in the KE2 candidate. [Receipt](hpc-evidence-receipt.md)
+  - [x] Specify run identity, configuration snapshot, completed status, ordered events, and resource samples.
+  - [x] Keep complete target deliveries, positive contact-step counts, and revolution-visit counts distinct.
+  - [x] Define accepted-event semantics and zero-based pre-action Weather revolution mapping.
 - [ ] CONTRACT.3 KE1, HPC, and SE agree comparison matching.
   - [ ] Name matching fields, allowed design changes, and action-plan labels.
   - [ ] Specify how saved A survives recent-trace turnover.
@@ -106,14 +108,16 @@ By H+02:00, deliver five checked configs, stock designs, goal notes, and invalid
 
 ## HPC simulation and repeatable evidence
 
+- [x] Review the latest native-v2 branch `61a2772` against KE2's consumer. Native event counts agree, and concrete field/validation/test issues are recorded for consolidation. [Sync review](hpc-branch-sync-review.md)
+
 - [ ] HPC.1 Verify each preset's observation and ground-contact windows.
-- [ ] HPC.2 Supply the agreed evidence.
-  - [ ] Emit action, step, target identity, revolution identity or mapping, returned MB, complete per-target deliveries, and stable event IDs.
+- [x] HPC.2 Supply the agreed evidence through the 12-example release, with Communication/Weather proxy labels retained.
+  - [x] Emit action, step, target identity, revolution mapping, returned MB, complete per-target deliveries, and stable event IDs.
 - [ ] HPC.3 Provide reproducible A/B runs.
   - [ ] Use matching scenarios and requested action policy.
   - [ ] Reset mission state between runs.
-- [ ] HPC.4 Expose resource extrema.
-  - [ ] Supply lowest battery and highest storage, or samples with agreed boundaries for calculating them.
+- [x] HPC.4 Expose resource extrema.
+  - [x] Supply battery/storage extrema and initial/every accepted post-clamp/terminal samples, independently verified by KE2.
 - [ ] HPC.5 Supply success and shortfall traces for all five presets.
   - [ ] Verify storage and packet accounting, including complete and incomplete Survey deliveries.
 

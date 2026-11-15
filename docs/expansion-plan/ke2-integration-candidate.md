@@ -1,5 +1,9 @@
 # KE2 integration candidate for 16 November
 
+## HPC confirmation update on 15 November
+
+Evaluator candidate revision 2 defaults to HPC's confirmed sparse-map and pre-action revolution semantics. The 12 published examples replay with 8,266 native checks, and KE2's consumer has 245 passing checks. The candidate suite has 703 passes. Previous revision-1 records verify under their retained policies. Report/scoring proposals and SE binding continue through owner coordination. The earlier delivery and archive below retain their original revision and counts. [Current evidence and exact commands](hpc-evidence-receipt.md)
+
 Prepared locally on 15 November 2026, Asia/Rangoon, on `features/KE2` at base `65548235958de72e531774670a785b0285032cf0` plus the files listed in the manifest. The pre-existing four documentation edits were preserved. This is the completed independent KE2 implementation candidate for tomorrow's integration. The signed `v1.0-agreed` contract remains authoritative; expansion scoring, evidence policies, report/record revisions and identity rules below remain **proposals**.
 
 ## Completed KE2 work

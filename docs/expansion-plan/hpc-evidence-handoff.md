@@ -1,5 +1,9 @@
 # HPC evidence handoff for KE2 expansion
 
+## Owner confirmation received on 15 November
+
+HPC confirmed canonical `delta_returned_data_mb`, zero-based pre-action revolution mapping, complete-delivery counters with `< 1e-8 MB` packet tolerance, sparse native keys as zero, missing whole maps as unavailable, and initial/every accepted post-clamp/terminal sampling. Commit `345e5bd` supplies 12 reproducible examples. KE2 verified source/packet/log hashes and native replay, then adopted the confirmed default in evaluator candidate revision 2. The original planning request below records the earlier inspection. Current evidence and dependencies are in the receipt. [HPC evidence receipt](hpc-evidence-receipt.md)
+
 Prepared on 15 November 2026 in Asia/Rangoon from `features/KE2` at `4c65496`. Task 00.3 planning deliverable. Field descriptions below follow inspected source and existing records. New objective fields, thresholds, and sampling decisions retain their proposal status.
 
 ## Existing producer and runtime route

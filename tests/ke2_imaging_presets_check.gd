@@ -109,7 +109,7 @@ func run_preset(entry: Array) -> void:
 	await settle()
 	var page = app.current
 	check(page.get_presentation_model().report == report, title + " Debrief bound to unchanged report")
-	check(page.photo_goal_value.text == "5 / 5" and page.data_goal_value.text == ("60 / 60 MB" if entry[2] == "high_inc" else "44.32 / 60 MB"), title + " Debrief actuals and goal labels")
+	check(page.photo_goal_value.text in ["5 / 5", "5 / 5 captures"] and page.data_goal_value.text == ("60 / 60 MB" if entry[2] == "high_inc" else "44.32 / 60 MB"), title + " Debrief actuals and goal labels")
 	check(page.goal_verdicts[0].text == "Reached" and (page.goal_verdicts[1].text == "Reached" if entry[5] == "success" else page.goal_verdicts[1].text.begins_with("Short by ")), title + " separate goal verdicts")
 	check(page.score_label.text == "%d / 100" % int(entry[4]) and page.outcome_badge.text == ("SUCCESS" if entry[5] == "success" else "PARTIAL RESULT"), title + " authoritative score and outcome")
 	cases.append({"preset": title, "config": config.duplicate(true),

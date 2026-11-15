@@ -5,13 +5,17 @@ const Base = preload("res://scripts/evaluation/mission_evaluator.gd")
 const Evidence = preload("res://scripts/evaluation/mission_goal_evidence.gd")
 const Feedback = preload("res://scripts/evaluation/mission_goal_feedback.gd")
 const INPUT_REVISION = "expansion-goals-v2-draft-2"
+const AGREED_INPUT_REVISION = "expansion-goals-v2-agreed-1"
 const REPORT_REVISION = "mission-report-goals-v2-draft-1"
-const EVALUATOR_REVISION = "ke2-expansion-candidate-1"
+const EVALUATOR_REVISION = "ke2-expansion-candidate-3"
+const HPC_EVALUATOR_REVISION = "ke2-expansion-candidate-2"
+const LEGACY_EVALUATOR_REVISION = "ke2-expansion-candidate-1"
+const LEGACY_POLICY_REVISION = "ke2-evidence-policy-candidate-1"
 const OBJECTIVES = ["imaging", "survey", "communication", "weather_monitoring"]
 const PRESETS = {"estuary_watch": "imaging", "tropical_forest_watch": "imaging", "polar_ice_survey": "survey", "communication": "communication", "weather_monitoring": "weather_monitoring"}
 
 static func default_policy() -> Dictionary:
-	return {"revision": "ke2-evidence-policy-candidate-1", "survey_missing_targets": "unavailable", "weather_mapping": "step_floor"}
+	return {"revision": Evidence.HPC_REVISION, "survey_missing_targets": "zero_in_present_map", "weather_mapping": "step_floor"}
 
 @warning_ignore("unused_parameter")
 static func evaluate_mission(config: Dictionary, final_state: Dictionary, events: Array, comparison_baseline = null) -> Dictionary:
@@ -47,7 +51,9 @@ static func evaluate_with_policy(config: Dictionary, state: Dictionary, events: 
 			child.erase("evidence_event_ids")
 			child.target_id = target
 			var target_data: Variant = state.get("returned_data_by_target_mb")
-			child.returned_data_mb = target_data.get(target) if target_data is Dictionary else null
+			child.returned_data_mb = null
+			if target_data is Dictionary:
+				child.returned_data_mb = target_data.get(target, 0.0) if policy.revision == Evidence.HPC_REVISION else target_data.get(target)
 			details.append(child)
 		row.by_target = details
 		goals.insert(1, row)
@@ -71,7 +77,7 @@ static func evaluate_with_policy(config: Dictionary, state: Dictionary, events: 
 	if status != "success" and not progress: status = "failed"
 	var score: Variant = int(floorf(100.0 * ratio_sum / float(goals.size()) + 0.5))
 	if state.run_status == "aborted": status = "failed"; score = null
-	var feedback: Dictionary = Feedback._build(feedback_state, events, goals)
+	var feedback: Dictionary = Feedback._build(feedback_state, events, goals, policy.revision == Evidence.HPC_REVISION)
 	if objective == "weather_monitoring" and policy.weather_mapping == "recorded_orbit_index" and state.run_status != "aborted":
 		feedback = {"explanation": "Recorded revolution evidence was assessed under the explicit candidate mapping policy.", "root_causes": [], "next_experiment": "Keep the design/downlink fixed and try a target-access step in another required revolution."}
 	if status == "success":
@@ -86,7 +92,7 @@ static func evaluate_with_policy(config: Dictionary, state: Dictionary, events: 
 	return {"ok": true, "report": report}
 
 static func _validate(config: Dictionary, state: Dictionary, events: Array, policy: Dictionary) -> Dictionary:
-	if policy.get("revision") != default_policy().revision or not policy.get("survey_missing_targets") in ["unavailable", "zero_in_present_map"] or not policy.get("weather_mapping") in ["step_floor", "recorded_orbit_index"] or policy.size() != 3: return _bad("policy", state)
+	if not policy.get("revision") in [Evidence.HPC_REVISION, LEGACY_POLICY_REVISION] or not policy.get("survey_missing_targets") in ["unavailable", "zero_in_present_map"] or not policy.get("weather_mapping") in ["step_floor", "recorded_orbit_index"] or policy.size() != 3: return _bad("policy", state)
 	if not Base._is_whole_number(config.get("schema_version")) or (config.schema_version != 1 and config.schema_version != 2): return _bad("config.schema_version", state)
 	var version: int = int(config.schema_version)
 	var root_fields: Array = ["schema_version", "mission", "design"]
@@ -123,9 +129,13 @@ static func _validate(config: Dictionary, state: Dictionary, events: Array, poli
 	for field in config.design:
 		if not field in design_fields: return _bad("config.design." + str(field), state)
 	if version == 2:
-		if config.contract_revision != INPUT_REVISION: return _bad("config.contract_revision", state)
+		if not config.contract_revision in [INPUT_REVISION, AGREED_INPUT_REVISION]: return _bad("config.contract_revision", state)
 		if not config.preset_id is String or PRESETS.get(config.preset_id) != mission.objective: return _bad("config.preset_id", state)
 		if not Base._is_whole_number(config.preset_revision) or config.preset_revision <= 0: return _bad("config.preset_revision", state)
+		if config.contract_revision == AGREED_INPUT_REVISION:
+			var authored_revision: int = 2 if config.preset_id == "communication" else 1
+			if config.preset_revision != authored_revision: return _bad("config.preset_revision", state)
+			if mission.budget_credits > 9007199254740991: return _bad("config.mission.budget_credits", state)
 		var goal: Variant = mission.goal
 		var kinds: Dictionary = {"imaging": "imaging", "survey": "survey_delivery", "communication": "communication_contacts", "weather_monitoring": "weather_revisit"}
 		if not goal is Dictionary or goal.get("kind") != kinds[mission.objective]: return _bad("config.mission.goal", state)

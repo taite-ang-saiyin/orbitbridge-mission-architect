@@ -4,7 +4,7 @@ const Evaluator = preload("res://scripts/evaluation/mission_evaluator.gd")
 const Feedback = preload("res://scripts/evaluation/mission_feedback.gd")
 const Goals = preload("res://scripts/evaluation/mission_goal_evidence.gd")
 
-static func _build(state: Dictionary, events: Variant, progress: Variant) -> Dictionary:
+static func _build(state: Dictionary, events: Variant, progress: Variant, hpc_confirmed: bool = false) -> Dictionary:
 	if state.get("run_status") == "aborted":
 		var reason: String = Feedback._abort_reason(state)
 		return _neutral("Run aborted." + (" Recorded abort reason: " + reason if not reason.is_empty() else ""),
@@ -52,7 +52,8 @@ static func _build(state: Dictionary, events: Variant, progress: Variant) -> Dic
 	if "selected_target_revolution_visits" in unmet:
 		var weather: Dictionary = Goals._weather(state.config_snapshot, state, events)
 		if not weather.ok: return _neutral("Weather revolution evidence is unavailable.")
-		return _neutral("Under the proposed pre-action mapping, captures cover fewer required revolutions. The mapping still awaits HPC confirmation.",
+		var explanation: String = "Accepted captures cover fewer required revolutions under HPC's confirmed pre-action mapping." if hpc_confirmed else "Under the proposed pre-action mapping, captures cover fewer required revolutions. The mapping still awaits HPC confirmation."
+		return _neutral(explanation,
 			"Keep design and downlink fixed; try a target-access step in a different revolution.")
 	return _neutral("Recorded goals have a shortfall; available events do not establish its cause.")
 

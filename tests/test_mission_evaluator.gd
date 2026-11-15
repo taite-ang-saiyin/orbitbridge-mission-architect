@@ -802,7 +802,7 @@ func _test_survey_delivery_measure(base_config: Dictionary) -> void:
 		state.observations_delivered_by_target = {"arctic_ice": malformed, "antarctic_region": 0}
 		_check_error("SURVEY fixture malformed counter " + str(malformed), Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target", state.run_id)
 	state.observations_delivered_by_target = {"arctic_ice": 1}
-	_check_error("SURVEY fixture omitted target stays unavailable pending HPC", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.antarctic_region", state.run_id)
+	_check_error("SURVEY raw fixture requires explicit delivery counters", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.antarctic_region", state.run_id)
 	state.observations_delivered_by_target = {}
 	_check_error("SURVEY fixture empty map does not imply zeros", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.arctic_ice", state.run_id)
 	state.observations_delivered_by_target = {"arctic_ice": 1}
@@ -930,7 +930,7 @@ func _test_survey_native_packets() -> void:
 		if step == 7:
 			_check("SURVEY native partial packet has positive return and onboard remainder", state.returned_data_mb > 0 and state.stored_data_mb > 0, true)
 			_check("SURVEY native partial packet has no complete-delivery counter", state.observations_delivered_by_target, {})
-			_check_error("SURVEY native sparse entry stays unavailable pending owner rule", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.arctic_ice", state.run_id)
+			_check_error("SURVEY raw helper needs normalized native counters", Evaluator._measure_survey_deliveries(config, state), "final_state.observations_delivered_by_target.arctic_ice", state.run_id)
 	var measured: Dictionary = Evaluator._measure_survey_deliveries(config, state)
 	_check("SURVEY native full packet qualifies", measured.get("ok"), true)
 	_check("SURVEY native one recorded complete delivery", measured.get("measure", {}).get("delivered_selected_target_count"), 1)

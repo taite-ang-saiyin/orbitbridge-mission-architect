@@ -1,0 +1,715 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "branch": "features/KE2",
+  "head_before_edits": "cb458c7d9c9b3b2484e8111dbbec4ea1468f51b8",
+  "hpc_branch": "feature/hpc-ke3-goal-evidence-v1",
+  "hpc_commit": "345e5bdecd41d716ba3f580ae615628edf00f6ca",
+  "hpc_revision": "hpc-goal-evidence-v1.0.0",
+  "hpc_manifest_sha256": "f22f686eaf5269da1d6d0ea61c1c3a6ee5e9c89363b6f95b8d1935078658dfdd",
+  "producer_file_sha256": {
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "scripts/core/catalog_loader.gd": "36e1ecfbe8cdcccd0c0250618994a5628757172dd89c216c2172eb8ab76311ff",
+    "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+    "scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa",
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+    "data/launchers.json": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+    "data/ke1_reference_ids.json": "c805cdc843c1add3fc2af24975198f0a74f6a2dcfb2f764c5b011a0a3779c158",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70"
+  },
+  "producer_hashes_match_live": 13,
+  "published_stage_records": [
+    {
+      "name": "generate",
+      "command": "godot --headless --path . --script tests/run_hpc_goal_examples.gd",
+      "exit_code": 0,
+      "script_errors": false,
+      "log_path": "logs/generate.log",
+      "log_sha256": "0e960a9bf697717579d29c8672f368c25d180b33357a5278bfe9a27d7bd60bb5"
+    },
+    {
+      "name": "verify-persisted",
+      "command": "godot --headless --path . --script tests/run_hpc_goal_examples.gd -- --verify-only",
+      "exit_code": 0,
+      "script_errors": false,
+      "log_path": "logs/verify-persisted.log",
+      "log_sha256": "cb526e45ad030a188c6c4f58b3d3a0c90ca0bcb3bf8cb85918b864e391c8548f"
+    },
+    {
+      "name": "hpc-regression",
+      "command": "godot --headless --path . --script tests/test_hpc.gd",
+      "exit_code": 0,
+      "script_errors": false,
+      "log_path": "logs/hpc-regression.log",
+      "log_sha256": "3692527050ec9cf871da4a48c27524ddf196b5f2d8ff626e63b359836809f4ad"
+    },
+    {
+      "name": "prediction-multitarget",
+      "command": "godot --headless --path . --script tests/prediction_multitarget_smoke.gd",
+      "exit_code": 0,
+      "script_errors": false,
+      "log_path": "logs/prediction-multitarget.log",
+      "log_sha256": "097c9fef6339bfd8772bb1981f5cbeb3e74a5f769c4bd0a5a7aa0d9b8d20e5cf"
+    },
+    {
+      "name": "legacy-regression",
+      "command": "godot --headless --path . --script tests/test_simulator.gd",
+      "exit_code": 0,
+      "script_errors": false,
+      "log_path": "logs/legacy-regression.log",
+      "log_sha256": "2266c5b625cf0c816510a70a8d0dfd21f2ff2cf73ea8253b9670d9b1671a53df"
+    }
+  ],
+  "all_five_stages_independently_rerun": false,
+  "independently_replayed_stage": "verify-persisted",
+  "godot_version": "4.7.2.stable.mono.official.ed1daf0bf",
+  "evaluator_revision": "ke2-expansion-candidate-2",
+  "default_policy": {
+    "revision": "hpc-goal-evidence-v1.0.0",
+    "survey_missing_targets": "zero_in_present_map",
+    "weather_mapping": "step_floor"
+  },
+  "sampling_id": "initial_and_each_accepted_poststep_v1_proposal",
+  "historical_candidate_records_verified": 10,
+  "historical_artifacts_preserved": true,
+  "checks": {
+    "test_mission_evaluator": {
+      "passed": 294,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "f8eb0d5259d9cb91947eaaeb993bf49636633d5b4aa2c7fc51167a914b40f673",
+      "pending": 5
+    },
+    "ke2_independent_work_check": {
+      "passed": 125,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "f67afef48ffc99570b2ac068165793ed5db6caa237ef672c4e18f047c36dead2",
+      "pending": 0
+    },
+    "ke2_comparison_api_check": {
+      "passed": 34,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "c714f41789fce72e1746140aeb6a63c6f2ff81938863b5866534a1d1512f1c6e",
+      "pending": 0
+    },
+    "ke2_imaging_presets_check": {
+      "passed": 53,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "2daec73d4e139c3b76f2fe133708e7cf732aec32139ca60cb544a71e96b9dc27",
+      "pending": 0
+    },
+    "ke2_expansion_candidate_check": {
+      "passed": 703,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "b1cf27fb867537143c575fd2565d948bf37182944642541283623f549a9bdfee",
+      "pending": 0
+    },
+    "ke2_results_integration": {
+      "passed": 17,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "eaac618518a934bf99c105e5eaf8a4cc1bebb1b38d3691238ea8e57758c528a3",
+      "pending": 0
+    },
+    "debrief_summary_check": {
+      "passed": 57,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "fb1ee386a19d9ee5d18fcc391d6b26457267a94def1d8b20a18b1672e2ae46d8",
+      "pending": 0
+    },
+    "ke2_hpc_evidence_check": {
+      "passed": 245,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "645a0162d6d0bb6f3c1bdf0cb21ba7ccb2619733ed0dc0e9188fb9306e81e95e",
+      "pending": 0
+    },
+    "hpc-goal-persisted-ke2": {
+      "passed": 8266,
+      "failed": 0,
+      "exit_code": 0,
+      "log_sha256": "995e97afa9d03f1372514def332f6c39ba1bbe019e2994a6da905adaba02a7a5",
+      "pending": 0
+    }
+  },
+  "cases": {
+    "estuary_watch_stock": {
+      "hpc_file_sha256": "aeffbb5d7d428235bbbf466eea33bd8eb7a8809a690529714b68e3583f77f010",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "coastal_region": 5
+        },
+        "observations_completed": 5,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "coastal_region": [
+            "evt_002",
+            "evt_012",
+            "evt_022"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "coastal_region": [
+            0,
+            1,
+            2
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_010",
+          "evt_017",
+          "evt_020",
+          "evt_027",
+          "evt_030",
+          "evt_037",
+          "evt_040"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          10,
+          17,
+          20,
+          27,
+          30,
+          37,
+          40
+        ],
+        "positive_transmit_steps": 8,
+        "returned_data_mb": 60.0,
+        "selected_target_revolution_visits": 3,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "ae31e5ed899cdc661fa9f36a810016af0cacf7aeae4f000a680a4273fcd3b5df"
+    },
+    "tropical_forest_watch_stock": {
+      "hpc_file_sha256": "ebb5524a05b920a42bfbba86a85b03d096f8f85fbe80f5bf017cab8eb99e2835",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "tropical_forest": 3
+        },
+        "observations_completed": 5,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "tropical_forest": [
+            "evt_002",
+            "evt_012",
+            "evt_022",
+            "evt_032",
+            "evt_042"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "tropical_forest": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_008",
+          "evt_018",
+          "evt_028",
+          "evt_038",
+          "evt_048",
+          "evt_058"
+        ],
+        "positive_transmit_step_indices": [
+          8,
+          18,
+          28,
+          38,
+          48,
+          58
+        ],
+        "positive_transmit_steps": 6,
+        "returned_data_mb": 44.32000000320001,
+        "selected_target_revolution_visits": 5,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "partial",
+      "candidate_score": 87,
+      "candidate_execution_key": "dbf85fb905f9f10cdbd7957a1c6c4c43389db5f6253257bd0925069885d30ec2"
+    },
+    "tropical_forest_watch_fast_radio": {
+      "hpc_file_sha256": "143593411c67ad10b5134d9f41f762335e42c6d9c48a01bc7ed83f61b19a8664",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "tropical_forest": 5
+        },
+        "observations_completed": 5,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "tropical_forest": [
+            "evt_002",
+            "evt_012",
+            "evt_022",
+            "evt_032",
+            "evt_042"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "tropical_forest": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_008",
+          "evt_018",
+          "evt_028",
+          "evt_038",
+          "evt_048"
+        ],
+        "positive_transmit_step_indices": [
+          8,
+          18,
+          28,
+          38,
+          48
+        ],
+        "positive_transmit_steps": 5,
+        "returned_data_mb": 60.0,
+        "selected_target_revolution_visits": 5,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "0f9cf207916001e8c0b212561dc032fd48f64c77d8d0712e02e5b7f700adb5fc"
+    },
+    "polar_ice_survey_stock": {
+      "hpc_file_sha256": "edaec78071c400ebe8ac593f2d370a27e53626d66f6806a1f4a236bc290b119d",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "arctic_ice": 4
+        },
+        "observations_completed": 5,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "arctic_ice": [
+            "evt_000",
+            "evt_010",
+            "evt_020",
+            "evt_030",
+            "evt_040"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "arctic_ice": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_017",
+          "evt_027",
+          "evt_037",
+          "evt_047",
+          "evt_050",
+          "evt_057"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          17,
+          27,
+          37,
+          47,
+          50,
+          57
+        ],
+        "positive_transmit_steps": 7,
+        "returned_data_mb": 54.133333329600006,
+        "selected_target_revolution_visits": 5,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "partial",
+      "candidate_score": 97,
+      "candidate_execution_key": "cf23aedfc436a2b5cad7a8bcd2e7d668c1be7fd715e66f6d84a933d6a4bbd702"
+    },
+    "polar_ice_survey_fast_radio": {
+      "hpc_file_sha256": "09ebfd55ab0f94677d4581d6109fc16c395d1efed5ee1adc5cd66102b557d794",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "arctic_ice": 5
+        },
+        "observations_completed": 5,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "arctic_ice": [
+            "evt_000",
+            "evt_010",
+            "evt_020",
+            "evt_030",
+            "evt_040"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "arctic_ice": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_017",
+          "evt_027",
+          "evt_037",
+          "evt_047"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          17,
+          27,
+          37,
+          47
+        ],
+        "positive_transmit_steps": 5,
+        "returned_data_mb": 60.0,
+        "selected_target_revolution_visits": 5,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "e22c287738d961041fc91fe003dab271eaa6d3ba716191d8522938d74d2b02da"
+    },
+    "survey_two_targets_partial_packet": {
+      "hpc_file_sha256": "b096233ddc7fba5e5abb111a4761d4a966426b45318d46129c4d5631e8b0468f",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equatorial_ocean": 0,
+          "tropical_forest": 1
+        },
+        "observations_completed": 2,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equatorial_ocean": [
+            "evt_006"
+          ],
+          "tropical_forest": [
+            "evt_001"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equatorial_ocean": [
+            0
+          ],
+          "tropical_forest": [
+            0
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_010"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          10
+        ],
+        "positive_transmit_steps": 2,
+        "returned_data_mb": 15.466666665600002,
+        "selected_target_revolution_visits": 1,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "partial",
+      "candidate_score": 83,
+      "candidate_execution_key": "2b7927e0779a0271dead924730325d01c50e9b6047aba0856adbd6228d307014"
+    },
+    "survey_two_targets_complete": {
+      "hpc_file_sha256": "ad0c9f5ecdac57c0cbb4b68a18913e33e40964c52ea44c6e6523483187519294",
+      "mechanics_proxy": false,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equatorial_ocean": 1,
+          "tropical_forest": 1
+        },
+        "observations_completed": 2,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equatorial_ocean": [
+            "evt_006"
+          ],
+          "tropical_forest": [
+            "evt_001"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equatorial_ocean": [
+            0
+          ],
+          "tropical_forest": [
+            0
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_010",
+          "evt_017",
+          "evt_020"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          10,
+          17,
+          20
+        ],
+        "positive_transmit_steps": 4,
+        "returned_data_mb": 24.0,
+        "selected_target_revolution_visits": 1,
+        "selected_targets_delivered": 2,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "4f9ca3652feace07e1b5008811dc912450d18f59d55b2a1b7cf1b65014e9625b"
+    },
+    "communication_complete_proxy": {
+      "hpc_file_sha256": "d097733f7ddee019b9ec9bf0b54bed8302f09a735ec0e2f984767a7fde482ae9",
+      "mechanics_proxy": true,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equator": 2
+        },
+        "observations_completed": 2,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equator": [
+            "evt_001"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equator": [
+            0
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_011"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          10
+        ],
+        "positive_transmit_steps": 2,
+        "returned_data_mb": 24.0,
+        "selected_target_revolution_visits": 1,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "d5255be038cfb08571ecce263276f0e3f1a94e41da1a60cc6d5457f45cbc0bbd"
+    },
+    "communication_count_shortfall_proxy": {
+      "hpc_file_sha256": "9890549dd3c64dd46530a934dfb0ac8c7e097ffb4e2386555c794d785dec183d",
+      "mechanics_proxy": true,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equator": 1
+        },
+        "observations_completed": 1,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equator": [
+            "evt_001"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equator": [
+            0
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007"
+        ],
+        "positive_transmit_step_indices": [
+          7
+        ],
+        "positive_transmit_steps": 1,
+        "returned_data_mb": 12.0,
+        "selected_target_revolution_visits": 1,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "partial",
+      "candidate_score": 75,
+      "candidate_execution_key": "32d1a37b22624c145f41310d0e86bbc5a448b433be3e42db832534c10ddb41a1"
+    },
+    "weather_two_orbits_proxy": {
+      "hpc_file_sha256": "eadae31b36a7325b709ba8c7ebdac1542a9c72dffe85c87fec7eaa83682fe4b5",
+      "mechanics_proxy": true,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equator": 2
+        },
+        "observations_completed": 2,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equator": [
+            "evt_001",
+            "evt_011"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equator": [
+            0,
+            1
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_010",
+          "evt_017",
+          "evt_020"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          10,
+          17,
+          20
+        ],
+        "positive_transmit_steps": 4,
+        "returned_data_mb": 24.0,
+        "selected_target_revolution_visits": 2,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "cc9597c884fad0546c618edc28fd70adfca25d0a05c862236ba5402870d5c7f8"
+    },
+    "weather_one_orbit_shortfall_proxy": {
+      "hpc_file_sha256": "8be2a5c4f642b4ccea62df0d9f8f3ba2de7b2324152850ae7fb3c925f6f5ffc6",
+      "mechanics_proxy": true,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equator": 2
+        },
+        "observations_completed": 2,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equator": [
+            "evt_001"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equator": [
+            0
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_007",
+          "evt_010",
+          "evt_017",
+          "evt_020"
+        ],
+        "positive_transmit_step_indices": [
+          7,
+          10,
+          17,
+          20
+        ],
+        "positive_transmit_steps": 4,
+        "returned_data_mb": 24.0,
+        "selected_target_revolution_visits": 1,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "partial",
+      "candidate_score": 75,
+      "candidate_execution_key": "fe344329fbd3e7ac5c82945cd58f51eaba23a5cebd6d3fd8e551278538cb310f"
+    },
+    "communication_low_eq_basic_radio_proxy": {
+      "hpc_file_sha256": "f2286604ffd56bb1a6693e581d15e554653dec7d7f7ff1fb2c5f8ddee698cb6e",
+      "mechanics_proxy": true,
+      "native_measurements": {
+        "complete_deliveries_by_selected_target": {
+          "equator": 1
+        },
+        "observations_completed": 1,
+        "observed_orbit_evidence_event_ids_by_target": {
+          "equator": [
+            "evt_002"
+          ]
+        },
+        "observed_orbit_indices_by_target": {
+          "equator": [
+            0
+          ]
+        },
+        "positive_transmit_evidence_event_ids": [
+          "evt_008",
+          "evt_018"
+        ],
+        "positive_transmit_step_indices": [
+          8,
+          18
+        ],
+        "positive_transmit_steps": 2,
+        "returned_data_mb": 12.0,
+        "selected_target_revolution_visits": 1,
+        "selected_targets_delivered": 1,
+        "steps_per_orbit": 10
+      },
+      "candidate_status": "success",
+      "candidate_score": 100,
+      "candidate_execution_key": "9557f3a2b3dce1cdc75f7049234e18b186de21261c930e99c4d67801abafac57"
+    }
+  },
+  "scope": {
+    "evidence_semantics_confirmed_by_hpc": true,
+    "scoring_status": "proposal",
+    "se_saved_execution_binding": "pending",
+    "expanded_objective_producer_support": "pending",
+    "browser_export_verification": "pending",
+    "remote_actions": false
+  },
+  "sandbox_startup_failure": ".NET assemblies unavailable in sandbox; verified executable passed outside sandbox",
+  "files_touched_sha256": {
+    "scripts/evaluation/mission_evaluator.gd": "579f749a80c768b69b0df0014be6a5437ceaae864ee2092aa4e51c4c2e433864",
+    "scripts/evaluation/mission_expansion_candidate.gd": "fd5ac0c30e65acba51219bca2be41a2dde29e5ab54d74ad5ee42b7e2232c51d4",
+    "scripts/evaluation/mission_expansion_records.gd": "67b3075c591994ecc428f5ccd2eef6cdacd047ca2764817529057614333b0798",
+    "scripts/evaluation/mission_goal_evidence.gd": "84abed1d559db56641a99b2f1eb2e053aa0ac35d75c615e2214e03c4ff8edc72",
+    "scripts/evaluation/mission_goal_feedback.gd": "e4e247cfd2717edaee270c0c2c85ab1d0b01032d2fa6d58fc1ba4d818455870f",
+    "tests/test_mission_evaluator.gd": "83ce2db588f3f9eb12441b83e403b209171b0bd97e43c4acbec23c8cacf7f836",
+    "tests/ke2_expansion_candidate_check.gd": "8624dc1ae8b09b6eda00fcbd63fa703efb1bb5057b13e3dfc20b5d0ad1bd5ea7",
+    "tests/ke2_independent_work_check.gd": "f283aa225f9cd2cedb120008873468169c1467fdd02264965b4ec8c7e8a4b9d0",
+    "tests/ke2_hpc_evidence_check.gd": "efaa3deef37d189803df632a0c8c86a05999b6228b9a01206b3b1126fc388164",
+    "docs/expansion-plan/hpc-evidence-receipt.md": "bfe84e2fa4761f33301d1f62ad15233eb0305c24c2ade9ed2ac974294eff9713",
+    "docs/expansion-plan/hpc-evidence-handoff.md": "7368d2c36effd40193a922c98210f805e40790483b448874eb03148d47f90d20",
+    "docs/expansion-plan/ke2-integration-candidate.md": "09c6452060052a065ac8a3357f5ff87e0e2453b56c07c557c42a6ded763a6338",
+    "docs/expansion-plan/README.md": "e8c916a44dfb67ad8c3c712ca6e594c373a44dfca14fa852014aef9f21aaa514",
+    "docs/expansion-plan/ke2-work-plan.md": "0170001b05c1eb93d427712abab5f13d824afe52c0d7008ecdbcae7d64aa6f9a",
+    "docs/expansion-plan/progress.md": "82aa61095b126628e5ab86a5ef6bf037f2cf0d25e5b62130415c884754979489",
+    "docs/expansion-plan/team-scope-v2.md": "1cf8a2f73bb1c802ecaaddea7d90f4253f0fbc596d8b8c9887e29a80568af7bd",
+    "docs/expansion-plan/OrbitBridge_KE2_Codex_Prompts.md": "e43f64f783b119e616673fac951c35fa2cbc81f059cfa467bac1cac981879aa7"
+  },
+  "unrelated_changes_preserved": [
+    "README.md edit observed during work",
+    "pre-existing .gd.uid files"
+  ]
+}

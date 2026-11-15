@@ -1,0 +1,285 @@
+--- a/core/HPCContractAdapter.gd
++++ b/core/HPCContractAdapter.gd
+@@ -51,7 +51,7 @@
+ 	var objectives: Array = []
+ 	for objective_id in ke1_catalogs.objective_ids:
+ 		objectives.append({"id": objective_id})
+-	return {"ok": true, "scenario": {
++	var scenario: Dictionary = {
+ 		"schema_version": SCHEMA_VERSION,
+ 		"scenario_version": str(orbit_data.get("scenario_version", "")),
+ 		"contract_revision": str(ke1_catalogs.get("contract_revision", "")),
+@@ -62,14 +62,31 @@
+ 		"objectives": objectives,
+ 		"launch_profiles": ke1_catalogs.launch_profiles.duplicate(true),
+ 		"launchers": ke1_catalogs.launchers.duplicate(true)
+-	}}
++	}
++	if ke1_catalogs.has("mission_v2"):
++		var context: Dictionary = preload("res://scripts/core/mission_v2_context.gd").inspect_context(ke1_catalogs.mission_v2, ke1_catalogs)
++		if not context.ok:
++			return _error("INVALID_V2_CONTEXT", str(context.errors))
++		scenario.mission_v2_catalogs = ke1_catalogs.duplicate(true)
++		scenario.v2_objectives = []
++		var allowed: Array = []
++		for values: Array in context.capability_context.instrument_objectives.values():
++			for id: String in values:
++				if not id in allowed:
++					allowed.append(id)
++		for id: String in allowed:
++			scenario.v2_objectives.append({"id": id})
++	return {"ok": true, "scenario": scenario}
+ 
+ static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictionary:
+-	if int(config.get("schema_version", 0)) == V2_SCHEMA_VERSION:
++	if _is_integer(config.get("schema_version")) and config.schema_version == V2_SCHEMA_VERSION:
+ 		return _validate_config_v2(config, catalog)
++	return _resolve_config(config, catalog, SCHEMA_VERSION)
++
++static func _resolve_config(config: Dictionary, catalog: Dictionary, expected_schema: int) -> Dictionary:
+ 	if not config.has("schema_version"):
+ 		return _error("MISSING_FIELD", "schema_version is required")
+-	if not _is_integer(config.schema_version) or int(config.schema_version) != SCHEMA_VERSION:
++	if not _is_integer(config.schema_version) or int(config.schema_version) != expected_schema:
+ 		return _error("UNSUPPORTED_SCHEMA_VERSION", "schema_version must be integer 1")
+ 	if config.has("contract_version") and str(config.contract_version) != CONTRACT_VERSION:
+ 		return _error("UNSUPPORTED_CONTRACT_VERSION", "contract_version must be %s when supplied" % CONTRACT_VERSION)
+@@ -118,7 +135,8 @@
+ 	var target: Dictionary = _find(catalog.get("targets", []), str(mission.target_region))
+ 	if target.is_empty():
+ 		return _error("UNKNOWN_TARGET_ID", "mission.target_region '%s' is not in catalog.targets" % mission.target_region)
+-	var objective: Dictionary = _find(catalog.get("objectives", []), str(mission.objective))
++	var objective_rows: Array = catalog.get("v2_objectives", []) if expected_schema == 2 else catalog.get("objectives", [])
++	var objective: Dictionary = _find(objective_rows, str(mission.objective))
+ 	if objective.is_empty():
+ 		return _error("UNKNOWN_OBJECTIVE_ID", "mission.objective '%s' is not in catalog.objectives" % mission.objective)
+ 	var orbit: Dictionary = _find(catalog.get("orbits", []), str(design.orbit_id))
+@@ -228,47 +246,28 @@
+ 	}
+ 
+ static func _validate_config_v2(config: Dictionary, catalog: Dictionary) -> Dictionary:
+-	if not config.get("contract_revision") is String or str(config.contract_revision).strip_edges().is_empty():
+-		return _error("MISSING_FIELD", "contract_revision is required for schema_version 2")
+-	if not config.get("preset_id") is String or str(config.preset_id).strip_edges().is_empty():
+-		return _error("MISSING_FIELD", "preset_id is required for schema_version 2")
+-	if not _is_integer(config.get("preset_revision", null)) or int(config.preset_revision) < 1:
+-		return _error("INVALID_TYPE", "preset_revision must be a positive integer for schema_version 2")
+-	if not config.get("mission", null) is Dictionary:
+-		return _error("INVALID_TYPE", "mission must be an object")
+-	var mission: Dictionary = config.mission
+-	if not mission.get("goal", null) is Dictionary:
+-		return _error("MISSING_FIELD", "mission.goal is required for schema_version 2")
+-	var goal: Dictionary = mission.goal
+-	var objective: String = str(mission.get("objective", ""))
+-	if not ["communication", "weather_monitoring"].has(objective):
+-		return _error("UNKNOWN_OBJECTIVE_ID", "schema_version 2 supports communication and weather_monitoring objectives")
+-	if str(goal.get("kind", objective)) != objective:
+-		return _error("INVALID_GOAL", "mission.goal.kind must match mission.objective")
+-	var required_count: Variant = goal.get("required_count", null)
+-	if required_count == null:
+-		required_count = mission.get("required_contact_steps" if objective == "communication" else "required_orbit_visits", null)
+-	if required_count == null:
+-		required_count = config.get("required_contact_steps" if objective == "communication" else "required_orbit_visits", null)
+-	if required_count == null:
+-		required_count = goal.get("required_steps" if objective == "communication" else "required_revolutions", null)
+-	if not _is_integer(required_count) or int(required_count) < 1:
+-		return _error("INVALID_GOAL", "schema_version 2 requires a positive integer goal count")
+-	var catalog_copy: Dictionary = catalog.duplicate(true)
+-	var objective_rows: Array = catalog_copy.get("objectives", []).duplicate(true)
+-	if _find(objective_rows, objective).is_empty():
+-		objective_rows.append({"id": objective, "label": objective, "capability": "goal"})
+-		catalog_copy.objectives = objective_rows
+-	var legacy_config: Dictionary = config.duplicate(true)
+-	legacy_config.schema_version = SCHEMA_VERSION
+-	legacy_config.contract_version = CONTRACT_VERSION
+-	var resolved: Dictionary = validate_config(legacy_config, catalog_copy)
++	var physical: Variant = catalog.get("mission_v2_catalogs")
++	if not physical is Dictionary:
++		return _error("V2_CONTEXT_MISSING", "Native config v2 requires the frozen KE1 registry and capability context.")
++	var context: Dictionary = preload("res://scripts/core/mission_v2_context.gd").inspect_context(physical.get("mission_v2"), physical)
++	if not context.ok:
++		return _error("INVALID_V2_CONTEXT", str(context.errors))
++	var checked: Dictionary = preload("res://scripts/core/mission_config_v2_agreed_rules.gd").inspect_configuration(config, physical, context.registry, context.capability_context)
++	if not checked.config_valid:
++		return _error("INVALID_V2_CONFIG", str(checked.errors))
++	var resolved: Dictionary = _resolve_config(config, catalog, V2_SCHEMA_VERSION)
+ 	if not resolved.ok:
+ 		return resolved
++	var objective: String = config.mission.objective
++	var required: int = int(config.mission.required_observations)
++	match objective:
++		"survey": required = config.mission.get("target_regions", [config.mission.target_region]).size()
++		"communication": required = int(config.mission.goal.required_positive_contact_steps)
++		"weather_monitoring": required = int(config.mission.goal.required_distinct_orbits)
+ 	resolved.config_snapshot = config.duplicate(true)
+ 	resolved.goal_kind = objective
+-	resolved.goal_required_count = int(required_count)
+-	resolved.goal_definition = goal.duplicate(true)
++	resolved.goal_required_count = required
++	resolved.goal_definition = config.mission.goal.duplicate(true)
+ 	resolved.catalog_context = catalog.duplicate(true)
+ 	return resolved
+ 
+--- a/core/MissionStepEngine.gd
++++ b/core/MissionStepEngine.gd
+@@ -361,10 +361,21 @@
+ 		if qualifying:
+ 			revolution_index = floori(float(pre_action_step) / float(state.goal_steps_per_orbit))
+ 			var revolutions: Array = progress.get("qualifying_revolution_indices", []).duplicate()
+-			if not revolutions.has(revolution_index):
++			qualifying = not revolutions.has(revolution_index)
++			if qualifying:
+ 				revolutions.append(revolution_index)
+ 				progress.qualifying_revolution_indices = revolutions
+ 				progress.actual_count = revolutions.size()
++	elif str(progress.get("kind", "")) == "imaging":
++		qualifying = action == "observe" and int(event.get("delta_observations", 0)) > 0
++		progress.actual_count = state.observations_completed
++	elif str(progress.get("kind", "")) == "survey":
++		var count: int = 0
++		for target in state.config_snapshot.mission.get("target_regions", [state.config_snapshot.mission.target_region]):
++			if state.observations_delivered_by_target.get(target, 0) >= 1:
++				count += 1
++		qualifying = count > int(progress.actual_count)
++		progress.actual_count = count
+ 	if qualifying:
+ 		var evidence: Array = progress.get("evidence_event_ids", []).duplicate()
+ 		evidence.append(str(event.event_id))
+--- a/tests/test_hpc_config_v2.gd
++++ b/tests/test_hpc_config_v2.gd
+@@ -1,14 +1,14 @@
+ extends SceneTree
+ 
+ const Adapter = preload("res://core/HPCContractAdapter.gd")
+-const Evaluator = preload("res://scripts/evaluation/mission_evaluator.gd")
++const Evaluator = preload("res://scripts/evaluation/mission_team_integration.gd")
+ const Runtime = preload("res://scripts/integration/mission_runtime.gd")
+ const Step = preload("res://core/MissionStepEngine.gd")
+ 
+ var failures: int = 0
+ 
+ func _initialize() -> void:
+-	var catalogs_result: Dictionary = Runtime.load_game_catalogs()
++	var catalogs_result: Dictionary = Runtime.load_game_catalogs(true)
+ 	_check(catalogs_result.ok, "v2 catalogs load")
+ 	if not catalogs_result.ok:
+ 		quit(1)
+@@ -25,25 +25,22 @@
+ 	_check(_blocked_transmit_preserved(communication, scenario_result.scenario), "blocked or empty transmission is retained without counting")
+ 	var weather: Dictionary = _v2_config(base, "weather_monitoring", 2)
+ 	weather.mission.required_observations = 3
+-	weather.mission.target_regions = ["equator", "tropical_forest"]
++	weather.mission.target_regions = ["equator"]
+ 	_check(_weather_counting(weather, scenario_result.scenario), "weather counts selected target on distinct revolutions")
+ 	_check(_abort_preserves_v2(weather, scenario_result.scenario), "abort preserves v2 config, catalog context and evidence")
+ 	_check(_replay_is_deterministic(communication, scenario_result.scenario), "v2 execution deterministically replays")
+ 	print("HPC config-v2: %d checks passed, %d failed" % [6 - failures, failures])
+ 	quit(1 if failures > 0 else 0)
+ 
+-func _v2_config(base: Dictionary, objective: String, required_count: int) -> Dictionary:
+-	var config: Dictionary = base.duplicate(true)
+-	config.schema_version = 2
+-	config.contract_revision = "v2.0-agreed"
+-	config.preset_id = "hpc_" + objective
+-	config.preset_revision = 1
+-	config.mission.objective = objective
+-	config.mission.goal = {"kind": objective, "required_count": required_count}
+-	config.mission.required_returned_data_mb = 12
+-	config.mission.duration_orbits = 3
+-	config.design.radio_id = "radio_fast" if objective == "communication" else "radio_basic"
+-	return config
++func _v2_config(_base: Dictionary, objective: String, required_count: int) -> Dictionary:
++	var registry: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/mission_presets_v2.json"))
++	for entry: Dictionary in registry.presets:
++		if entry.config_v2.mission.objective == objective:
++			var config: Dictionary = entry.config_v2.duplicate(true)
++			var field: String = "required_positive_contact_steps" if objective == "communication" else "required_distinct_orbits"
++			config.mission.goal[field] = required_count
++			return config
++	return {}
+ 
+ func _start(config: Dictionary, scenario: Dictionary, suffix: String) -> Dictionary:
+ 	return Step.init_run(config, scenario, "v2_" + suffix, "mission_v2_" + suffix)
+@@ -58,10 +55,10 @@
+ 		if not _check(result.ok, "communication success action is processed"): return false
+ 		state = result.state
+ 	var progress: Dictionary = state.goal_progress
+-	var report: Dictionary = Evaluator.evaluate_hpc_state(state).report
++	var report: Dictionary = Evaluator.evaluate_state(state).report
+ 	return _check(state.config_snapshot == config and state.scenario_snapshot == scenario, "success snapshots remain complete") \
+ 		and _check(progress.actual_count == 2 and progress.evidence_event_ids.size() == 2, "success keeps one evidence ID per count") \
+-		and _check(report.status == "success" and report.actual_count == 2, "success report uses native v2 count")
++		and _check(report.status == "success" and report.goal_progress[0].actual == 2, "success report uses native v2 count")
+ 
+ func _communication_shortfall(config: Dictionary, scenario: Dictionary) -> bool:
+ 	var started: Dictionary = _start(config, scenario, "communication_shortfall")
+@@ -70,9 +67,9 @@
+ 	for step in range(state.total_steps):
+ 		var action: String = "observe" if step == 1 else ("transmit" if step == 7 else "power_save")
+ 		state = Step.request_action(state, action).state
+-	var report: Dictionary = Evaluator.evaluate_hpc_state(state).report
++	var report: Dictionary = Evaluator.evaluate_state(state).report
+ 	return _check(state.returned_data_mb >= 12.0 and state.goal_progress.actual_count == 1, "returned MB does not satisfy the second communication count") \
+-		and _check(report.status == "partial" and report.actual_count == 1, "shortfall report retains count failure")
++		and _check(report.status == "partial" and report.goal_progress[0].actual == 1, "shortfall report retains count failure")
+ 
+ func _blocked_transmit_preserved(config: Dictionary, scenario: Dictionary) -> bool:
+ 	var started: Dictionary = _start(config, scenario, "blocked_transmit")
+@@ -95,7 +92,7 @@
+ 	return _check(progress.actual_count == 2, "weather counts two selected-target revolutions") \
+ 		and _check(progress.qualifying_revolution_indices == [0, 1], "weather freezes pre-action revolution indices") \
+ 		and _check(progress.evidence_event_ids.size() == 2, "weather preserves evidence for counted revolutions") \
+-		and _check(state.observations_by_target.get("tropical_forest", 0) == 1, "wrong-target observation remains visible but does not qualify")
++		and _check(state.observations_by_target.get("equator", 0) == 3, "repeated selected-target captures remain visible while revolutions deduplicate")
+ 
+ func _abort_preserves_v2(config: Dictionary, scenario: Dictionary) -> bool:
+ 	var started: Dictionary = _start(config, scenario, "abort")
+@@ -103,7 +100,7 @@
+ 	var state: Dictionary = Step.request_action(started.state, "observe").state
+ 	var aborted: Dictionary = Step.abort_run(state, "test abort")
+ 	var terminal: Dictionary = aborted.state
+-	var evaluation: Dictionary = Evaluator.evaluate_hpc_state(terminal)
++	var evaluation: Dictionary = Evaluator.evaluate_state(terminal)
+ 	return _check(aborted.ok and terminal.run_status == "aborted", "abort reaches terminal state") \
+ 		and _check(terminal.config_snapshot == config and terminal.scenario_snapshot == scenario, "abort preserves v2 snapshots") \
+ 		and _check(evaluation.ok and evaluation.report.status == "failed" and evaluation.report.score == null, "abort report is failed without a score")
+--- a/tests/test_simulator_v2.gd
++++ b/tests/test_simulator_v2.gd
+@@ -5,20 +5,14 @@
+ const Simulator = preload("res://core/MissionSimulator.gd")
+ 
+ func _initialize() -> void:
+-	var loaded: Dictionary = Runtime.load_game_catalogs()
++	var loaded: Dictionary = Runtime.load_game_catalogs(true)
+ 	assert(loaded.ok)
+ 	var built: Dictionary = Adapter.build_scenario(loaded.catalogs, loaded.catalogs.orbit_catalog)
+ 	assert(built.ok)
+-	var config: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/valid_1u_feasible.json"))
+-	config.schema_version = 2
+-	config.contract_revision = "v2.0-agreed"
+-	config.preset_id = "simulator-v2"
+-	config.preset_revision = 1
+-	config.mission.objective = "communication"
+-	config.mission.goal = {"kind": "communication", "required_count": 2}
+-	config.mission.required_returned_data_mb = 12
+-	config.mission.duration_orbits = 3
+-	config.design.radio_id = "radio_fast"
++	var registry: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/mission_presets_v2.json"))
++	var config: Dictionary = {}
++	for entry: Dictionary in registry.presets:
++		if entry.id == "communication": config = entry.config_v2.duplicate(true)
+ 	var first: Dictionary = Simulator.simulate(config, built.scenario)
+ 	var second: Dictionary = Simulator.simulate(config, built.scenario)
+ 	assert(first.ok and second.ok)
+@@ -29,5 +23,10 @@
+ 	assert(first.metrics.actual_count == 2)
+ 	assert(first.metrics.evidence_event_ids.size() == 2)
+ 	assert(first == second)
+-	print("PASS MissionSimulator native v2 replay and evidence")
++	var extra_config: Dictionary = config.duplicate(true)
++	extra_config.mission.required_observations = 4
++	var extra: Dictionary = Simulator.simulate(extra_config, built.scenario)
++	assert(extra.ok and extra.metrics.actual_count == 4 and extra.metrics.returned_data_mb == 48.0)
++	assert(extra.metrics.required_count == 2)
++	print("PASS MissionSimulator native v2 replay, over-target actuals and evidence")
+ 	quit(0)

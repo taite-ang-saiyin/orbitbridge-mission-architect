@@ -6,6 +6,23 @@ KE2 owns evaluation, scores, event-supported feedback, comparison logic, and sou
 
 The first planned result is a Survey report with both aggregate goals met and one selected target lacking a complete delivery. Existing engine counters support preparing that example.
 
+## Four-owner integration completed locally — 15 November
+
+- [x] Receive the published KE1 consolidated input revision `expansion-goals-v2-agreed-1` and reconcile it with all four supplied branches.
+- [x] Support the new input marker in KE2 candidate revision 3, preserving earlier candidate records and adding the SE execution-packet provider.
+- [x] Exercise all five authored mission cards through Creator, Builder, real readiness/native Operations, Debrief, explicit saved A, fresh B and visible comparison. 364 checks pass.
+- [x] Verify 12 real typed-v2 goal controls, including Survey 83/100, Communication/Weather 75/100, zero progress, unavailable map and abort/null score. 51 checks pass.
+- [x] Complete 62 distinct combined check programs and package source hashes, owner patches, assembly/check commands and evidence. [Full handoff](team-alignment/README.md)
+- [ ] Adopt shared patches with primary owners and confirm scoring rollout/export/browser acceptance. Candidate weights retain the user's proposal decision.
+
+## HPC evidence confirmation history
+
+- [x] Fetch the supplied HPC branch at `61a2772` and review its two native-v2 commits after `345e5bd`. Reproduce four real config-v2 runs, independent counts and 29 KE2 review assertions. Record upstream failures, contract differences and owner handoffs. [Branch sync review](hpc-branch-sync-review.md)
+- [x] Reconcile the fetched native-v2 config/report shapes and readiness rules in the combined review checkout. Real controller journeys pass for all five presets. Shared patches are ready for owner adoption.
+
+- [x] Receive and verify HPC release `345e5bd`, including all 12 published examples, matching producer hashes and 8,266 native replay checks.
+- [x] Adopt confirmed sparse-map, revolution and sampling semantics in evaluator candidate revision 2. KE2 consumer 245/0, candidate 703/0, historical candidate records preserved and all seven existing KE2 programs pass. [Receipt and exact commands](hpc-evidence-receipt.md)
+
 ## Independent implementation complete — 15 November candidate
 
 - [x] **10.2/10.3 candidate:** callable Survey report/scoring implementation, explicit strict/sparse-zero trial policies, per-target details and 83/100 native-mechanics cases.
@@ -46,17 +63,17 @@ Complete when the affected owners use the same examples and field meanings. Curr
 
 Draft prepared on 15 November 2026 at `4c65496` and shared with KE1/SE as reported by the user. IDs and goal meanings are user-confirmed. KE1's four K20 interface choices are confirmed, and the draft-2 registry/API/tests and measured evidence have now been received and independently checked at `8b76b5d`. Remaining bounds/custom-identity decisions, SE/HPC alignment, production updates and integrated compatibility checks stay open. See the [receipt/review](ke1-k20-draft2-receipt-review.md). Existing Imaging task 10.1 is complete.
 
-- [ ] **00.3 Agree the evidence interface with HPC.**
+- [x] **00.3 Agree the evidence interface with HPC.**
   - [x] Draft the [HPC evidence handoff](hpc-evidence-handoff.md) by inspecting engine, adapter, planner, and runtime fields, with a hashed excerpt of existing local integration evidence and explicit missing-field requests.
-  - [ ] Obtain terminal state, ordered events, stable event IDs, step indices, target IDs, returned MB, and observation revolution identity or mapping.
-  - [ ] Define accepted-event semantics and test-payload generation.
-  - [ ] Agree resource-extrema sampling boundaries, including initial and terminal samples as applicable.
-  - [ ] Obtain a real trace excerpt and feasible run plan with field explanations.
-  - [x] Distinguish the orbit preset ID from the revolution index used for Weather visits. Planner computes the index, while native events omit it. HPC confirmation of the accepted-event step mapping remains pending.
+  - [x] Obtain terminal state, ordered events, stable event IDs, step indices, target IDs, returned MB, and observation revolution mapping from the verified 12-example HPC packet.
+  - [x] Define accepted-event semantics and Observe-generated test payloads with HPC's confirmation.
+  - [x] Agree initialization/every accepted post-clamp/terminal resource sampling with HPC.
+  - [x] Obtain native traces and feasible plans with field explanations. Communication/Weather retain Imaging-proxy provenance.
+  - [x] Distinguish preset ID from revolution index and confirm `floor(accepted_event.step_index / steps_per_orbit)` with HPC.
 
 Complete when KE2 can explain which recorded fact supports each new count and measure.
 
-Prompt 00.3's source trace and draft request were completed on 15 November 2026. Existing event/packet behavior is documented with a copied real-record excerpt. HPC agreement on new-objective evidence, resource sampling, and feasible success/shortfall traces remains open. The next independent planning prompt is 00.4.
+HPC's 15 November reply and release `345e5bd` complete the measurement interface. Verified receipt, native replay and KE2 acceptance are recorded in [the receipt](hpc-evidence-receipt.md). Production objective support, report/scoring adoption and SE saved-A binding continue through the corresponding owner tasks.
 
 - [ ] **00.4 Agree reports and comparison with KE3 and SE.**
   - [x] Deliver the [callable v1 Imaging comparison handoff](callable-comparison-ke3-handoff.md) using current SE records and verified evidence, with explicit unavailable/error/operation-context handling. SE/KE3 wiring and expanded contracts remain open.
@@ -81,13 +98,13 @@ Complete when both presets retain their configured meaning and expected outcomes
 
 Verified at `8b76b5d`: actual preset buttons through native runs, publication and headless Debrief pass 53 checks. Estuary returns 60 MB / success / 100; Tropical Forest returns 44.3200000032 MB / partial / 87. See the [baseline and report review](imaging-baseline-and-report-review.md) for commands, source-bound evidence and remaining owner dependencies.
 
-- [ ] **10.2 Read complete deliveries for selected Survey targets.**
+- [x] **10.2 Read complete deliveries for selected Survey targets.**
   - [x] Read selected targets from the launch configuration and deliveries from `observations_delivered_by_target` in a private, unwired preparation helper with snapshot binding.
   - [x] Count each selected target once when at least one complete observation is explicitly recorded, retaining its actual delivery count. Fixture checks cover extra/unrelated deliveries, repeatability and input preservation.
-  - [ ] Confirm absent-target entries with HPC and distinguish them from an unavailable delivery map.
+  - [x] Confirm native absent-target keys mean zero and missing whole maps mean unavailable. Candidate revision 2 applies this after full evidence validation, including a native empty-map regression.
   - [x] Verify partial packets do not qualify, complete packets do qualify, and unrelated targets contribute zero. Native packet checks leave sparse entries unavailable; explicit fixture counters cover multi-target counting.
 
-Step 8 preparation is verified: evaluator 254 passed / 0 failed / 5 existing pending, Imaging 53 passed, adapted Results 17 passed. See [implementation boundary, commands and remaining inputs](survey-delivery-measure-step8.md). The user reports HPC has not replied. Missing selected entries remain errors in the private helper; public Survey evaluation and scoring are unchanged. Parent 10.2 remains open for owner-confirmed semantics and integration.
+Historical Step 8 preparation passed evaluator 254/0/5 pending, Imaging 53 and adapted Results 17. Its private raw-counter helper requires explicit counters. HPC's subsequent release `345e5bd` confirms sparse native keys as zero, and the fully validated candidate now normalizes them. Task 10.2 is complete through the verified native producer route. [Current receipt and checks](hpc-evidence-receipt.md)
 
 - [ ] **10.3 Add the Survey verdict and score.**
   - [x] Record the user's 15 November decision to **keep Survey equal-thirds and Communication/Weather equal-halves scoring as proposals**. No production approval is inferred from KE3's producer request; do not repeat the same scoring question without a changed instruction.
@@ -121,11 +138,12 @@ The proposed thresholds remain three orbits, a qualifying count of two, and 12 M
   - [x] Deduplicate positive evidence entries for the same step, including whole-valued int/float step representations.
   - [x] Exclude rejected and zero-MB attempts; reject malformed/foreign/conflicting evidence.
   - [ ] Agree equal weighting for qualifying count and returned MB, plus partial-result semantics.
-  - [ ] Confirm Observe-generated test payloads and event fields with HPC.
+  - [x] Confirm Observe-generated test payloads and canonical `delta_returned_data_mb` with HPC, with native complete/shortfall controls verified.
 
 Independent implementation verified on 15 November: `tests/ke2_independent_work_check.gd` initially passes 25 checks, including all eight historical native contact counts. Production reports/scoring are unchanged; parent 20.1 remains open for HPC/report/scoring integration. The running [implementation record](independent-ke2-algorithms.md) holds final commands and evidence.
 
 - [ ] **20.2 Prove the Communication threshold.**
+  - [x] Verify HPC's same-config native Imaging-proxy complete/count-shortfall pair and low-equatorial basic-radio case. Typed production support and threshold freeze remain under KE1/HPC coordination.
   - [x] Inspect KE1's exact fast-radio stock candidate and reproduce its native surrogate mechanics: 1120 g / 89 credits; 24 MB over steps 7/10, plus a same-config count-only shortfall of 12 MB at step 7. [Evidence and limitations](ke1-k20-draft2-receipt-review.md#independent-rerun-and-same-config-control). Typed v2 readiness and HPC acceptance remain open.
   - [ ] Obtain a valid stock design from KE1.
   - [ ] Obtain a real three-orbit trace returning at least 12 MB over at least two qualifying steps.
@@ -135,15 +153,16 @@ Independent implementation verified on 15 November: `tests/ke2_independent_work_
 
 - [ ] **20.3 Count repeat Weather observations.**
   - [x] Count distinct revolutions for accepted successful captures of the selected region in an internal preparation helper.
-  - [ ] Use an HPC revolution index or an explicitly agreed mapping such as `floor(step_index / steps_per_orbit)` using the accepted observation event's step.
+  - [x] Use HPC-confirmed zero-based `floor(accepted_event.step_index / steps_per_orbit)` from frozen timing.
   - [x] Deduplicate repeated captures in the same revolution and exclude other regions.
-  - [x] Verify proposed pre-action/frozen-scenario mapping, 9/10 and non-ten-step boundaries, missing/invalid timing and the two historical Weather proxies. Mapping remains explicitly pending HPC ratification.
+  - [x] Verify frozen timing, 9/10 and non-ten-step boundaries, missing/invalid timing and both HPC Weather proxies. Mapping is confirmed at `345e5bd`.
   - [ ] Surface missing revolution evidence according to the agreed contract.
   - [ ] Agree equal weighting for revolution visits and returned MB, plus partial-result semantics.
 
 The existing `orbit_id`, such as `high_inc`, identifies the orbit preset throughout a run. Agree the distinct revolution representation in task 00.3.
 
 - [ ] **20.4 Prove the Weather threshold.**
+  - [x] Verify HPC's one/two-revolution native Imaging proxies, each with 24 MB returned, against KE2 goal measurements and proposed 75/100 scores. Production config and Debrief acceptance remain open.
   - [ ] Obtain a valid stock design and a real three-orbit trace with two selected-region revolution visits and at least 12 MB returned.
   - [ ] Obtain a shortfall with sufficient returned MB but captures restricted to one revolution.
   - [ ] Verify engine, report, and Debrief agree on region, visits, MB, and outcome.
@@ -204,7 +223,7 @@ KE2 computes eligibility and differences. SE owns stored records and lifecycle. 
   - [x] Implement/test proposed signed numeric output on normalized records: recorded outcomes/goals, raw target detail, changed parts, MB/score/mass/cost and sampled extrema. Positive/negative/zero/unavailable cases pass; HPC sampling/SE record ratification and UI integration remain open.
   - [ ] Return both outcomes, qualifying count and goal, returned MB, lowest battery, highest storage, total cost, total mass, and changed parts.
   - [ ] Compute signed B-minus-A differences for comparable numeric measures.
-  - [ ] Agree resource sampling boundaries with HPC and label Wh and percent separately where applicable.
+  - [x] Agree initialization/every accepted post-clamp/terminal sampling with HPC. Verified Wh, percent/percentage-point differences and storage against all 12 examples.
   - [ ] Display unavailable values explicitly and verify every delta against its source record.
 
 - [ ] **40.3 Protect saved A beyond trace turnover.**

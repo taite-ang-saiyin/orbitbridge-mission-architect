@@ -1,0 +1,156 @@
+--- a/scripts/presentation/GoalProgress.gd
++++ b/scripts/presentation/GoalProgress.gd
+@@ -88,7 +88,7 @@
+ 		"verdict":("Reached" if entry.met else "Not reached") if known else "Unavailable",
+ 		"progress_known":progress_known, "progress":float(ratio) * 100.0 if progress_known else 0.0}
+ 
+-static func _supplied_preview(model: Dictionary, trace: Dictionary, supplied: Dictionary) -> Dictionary:
++static func _from_goal_rows(model: Dictionary, trace: Dictionary, supplied: Dictionary) -> Dictionary:
+ 	# Exact draft goal entries are accepted only in an execution-bound, labeled preview.
+ 	# Never reinterpret an Imaging proxy report as a production expanded report.
+ 	var base: Dictionary = supplied.duplicate(true)
+@@ -100,7 +100,10 @@
+ 		index[entry.id] = {} if index.has(entry.id) else entry
+ 		if entry.get("evidence_event_ids") is Array: references.append_array(entry.evidence_event_ids)
+ 	base.evidence_event_ids = references
+-	var result: Dictionary = build(model, trace, base)
++	var base_model: Dictionary = model.duplicate(true)
++	if base_model.get("report") is Dictionary:
++		base_model.report.erase("goal_progress")
++	var result: Dictionary = build(base_model, trace, base)
+ 	var kind: String = result.goal_type
+ 	var mission: Dictionary = trace.get("config", {}).get("mission", {})
+ 	var goal_id: String = {"communication":"positive_transmit_steps", "weather_monitoring":"selected_target_revolution_visits"}.get(kind, "captures")
+@@ -144,10 +147,14 @@
+ 	if stale: supplied.clear()
+ 	# Objective overrides are limited to explicitly labeled previews.
+ 	var preview: bool = supplied.get("fixture_label") is String and not supplied.fixture_label.is_empty()
+-	if preview and supplied.get("goal_progress") is Array: return _supplied_preview(model, trace, supplied)
++	if preview and supplied.get("goal_progress") is Array: return _from_goal_rows(model, trace, supplied)
+ 	var kind: String = str(supplied.get("goal_type", mission.get("objective", ""))) if preview else str(mission.get("objective", ""))
+ 	var bound: bool = model.get("state") == "report"
+ 	var report: Dictionary = model.get("report", {}) if bound else {}
++	if bound and report.get("goal_progress") is Array:
++		var rows: Dictionary = {"run_id": final.run_id, "mission_id": final.mission_id,
++			"execution_key": Results.input_key(trace), "goal_progress": report.goal_progress}
++		return _from_goal_rows(model, trace, rows)
+ 	var actuals: Dictionary = {} if stale else (report if bound else final)
+ 	var requirements: Dictionary = {} if stale else (report if bound else mission)
+ 	var primary: Dictionary
+--- a/scripts/presentation/DesignLabView.gd
++++ b/scripts/presentation/DesignLabView.gd
+@@ -216,7 +216,7 @@
+ 
+ static func _value(name: String, value: Variant, record: Dictionary) -> String:
+ 	if name == "outcome": return value if value is String else "Unavailable"
+-	if name == "qualifying_count": return Words.amount(value) + " / " + Words.amount(record.get("required_count"))
++	if name == "qualifying_count": return Words.amount(value) + " / " + Words.amount(record.get("required_count")) + " " + str(record.get("qualifying_unit", ""))
+ 	if name == "score": return Words.amount(value) + " / 100" if numeric(value) else "Unavailable"
+ 	return Words.amount(value)
+ 
+@@ -277,16 +277,22 @@
+ 	var config: Dictionary = dictionary(trace.get("config"))
+ 	# The v1 capture counter is a qualifying count only for Imaging.
+ 	var imaging: bool = dictionary(config.get("mission")).get("objective") == "imaging"
++	var primary: Dictionary = {}
++	var goal_id: String = {"survey":"selected_targets_delivered", "communication":"positive_transmit_steps", "weather_monitoring":"selected_target_revolution_visits"}.get(config.get("mission", {}).get("objective"), "captures")
++	for row in report.get("goal_progress", []):
++		if row is Dictionary and row.get("id") == goal_id:
++			primary = row
+ 	return {
+ 		"run_id":final.get("run_id"), "mission_id":final.get("mission_id"),
+ 		"execution_key":Results.input_key(trace), "scenario_id":final.get("scenario_id"),
+ 		"scenario_version":dictionary(final.get("scenario_snapshot")).get("scenario_version"),
+ 		"phase":final.get("phase"), "run_status":final.get("run_status"),
+ 		"config":config.duplicate(true), "report":report.duplicate(true),
+-		"required_count":report.get("required_observations") if imaging else null,
++		"required_count":primary.get("required", report.get("required_observations") if imaging else null),
++		"qualifying_unit":"captures" if primary.get("unit", "count") == "count" else primary.unit,
+ 		"metrics":{
+ 			"outcome":report.get("status"), "score":report.get("score"),
+-			"qualifying_count":report.get("observations_completed") if imaging else null,
++			"qualifying_count":primary.get("actual", report.get("observations_completed") if imaging else null),
+ 			"returned_data_mb":report.get("returned_data_mb"),
+ 			"total_cost_credits":validation.get("total_cost_credits"),
+ 			"total_mass_g":validation.get("total_mass_g")}}
+--- a/scripts/screens/MissionControl.gd
++++ b/scripts/screens/MissionControl.gd
+@@ -140,6 +140,14 @@
+ 
+ func build_presets(parent: Node) -> void:
+ 	var box = panel(parent, "◇  MISSION PRESETS")
++	var controller: Node = _lab_controller()
++	if controller != null and controller.get("expansion_candidate_enabled") == true:
++		var registry: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/mission_presets_v2.json"))
++		for entry: Dictionary in registry.presets:
++			var button = UI.button(box, entry.display_name + "  →", apply_v2_preset.bind(entry.config_v2))
++			button.custom_minimum_size.y = 58
++			presets[entry.display_name] = button
++		return
+ 	for entry in [["Estuary Watch", "Coastal · Imaging", "Coastal Region", "Capture Imagery", "Polar – 600 km", "coast"], ["Tropical Forest Watch", "Equatorial · Imaging", "Tropical Forest", "Capture Imagery", "LEO – 400 km", "forest"], ["Polar Ice Survey", "Polar · Survey", "Arctic Ice", "Survey Target Regions", "Polar – 600 km", "ice"]]:
+ 		var line = HBoxContainer.new()
+ 		line.add_theme_constant_override("separation", 8)
+@@ -165,6 +173,30 @@
+ 		placeholder.add_theme_font_size_override("font_size", 12)
+ 		presets[title] = placeholder
+ 
++func apply_v2_preset(config: Dictionary) -> void:
++	if state.get("active_run_state", {}).get("phase") == "operating":
++		return
++	Catalog.reset(state)
++	state.name = config.mission.title
++	state.objective = config.mission.objective
++	state.targets = config.mission.get("target_regions", [config.mission.target_region]).map(func(id): return Runtime.TARGETS.find_key(id))
++	state.target = state.targets[0]
++	state.target_limit = state.targets.size()
++	state.observations = config.mission.required_observations
++	state.required_returned_data_mb = config.mission.required_returned_data_mb
++	state.duration = config.mission.duration_orbits
++	state.budget = config.mission.budget_credits
++	state.orbit = Runtime.ORBITS.find_key(config.design.orbit_id)
++	for field in ["schema_version", "contract_revision", "preset_id", "preset_revision"]:
++		state[field] = config[field]
++	state.goal = config.mission.goal.duplicate(true)
++	state.engineering_parts = {}
++	for category in ["bus", "instrument", "solar", "battery", "radio", "storage"]:
++		state.engineering_parts[category] = config.design[category + "_id"]
++	state.launch_profile_id = config.design.launch_profile_id
++	state.launcher_id = config.design.launcher_id
++	navigate.emit(1)
++
+ func apply_preset(entry: Array) -> void:
+ 	if state.get("active_run_state", {}).get("phase") == "operating": return
+ 	Catalog.reset(state)
+--- a/tests/mission_control_smoke.gd
++++ b/tests/mission_control_smoke.gd
+@@ -23,7 +23,7 @@
+ 		assert(page.start_button.get_parent().get_parent() == page, "Start Mission must stay outside scrolling content")
+ 		assert(page.start_button.get_global_rect().end.y <= root.size.y, "Start Mission must be visible without scrolling")
+ 		assert(page.start_button.get_global_rect().position.y >= page.scroll.get_global_rect().end.y, "Footer must not overlap scroll content")
+-		assert(page.presets.size() == 3)
++		assert(page.presets.size() == 5)
+ 		assert(page.earth.stage.orbit_paths.size() == 2)
+ 		page.presets["Polar Ice Survey"].pressed.emit()
+ 		await settle()
+--- a/tests/ke3_team_integration_check.gd
++++ b/tests/ke3_team_integration_check.gd
+@@ -43,7 +43,7 @@
+ 	root.get_texture().get_image().save_png(out.path_join(name+".png"))
+ func history_labels(node: Node) -> Array:
+ 	var labels: Array = []
+-	if node is GridContainer:
++	if node is GridContainer and node.name == "RunHistory":
+ 		for child in node.get_children():
+ 			if child is Label: labels.append(child)
+ 	for child in node.get_children(): labels.append_array(history_labels(child))
+--- a/tests/player_ui_check.gd
++++ b/tests/player_ui_check.gd
+@@ -167,7 +167,7 @@
+ 		player_copy(app.shell, "Expanded sources " + str(resolution))
+ 		await capture("sources-" + str(resolution.x))
+ 	check(Language.amount(44.3200000032) == "44.32", "Returned data display rounds to two decimals")
+-	check(Language.amount(null) == "Not available" and Language.amount(0) == "0", "Missing numeric data does not become zero")
++	check(Language.amount(null) == "Unavailable" and Language.amount(0) == "0", "Missing numeric data does not become zero")
+ 	check(Language.amount(0.001) == "< 0.01", "Small nonzero data is not presented as zero")
+ 	var sample: Dictionary = {"state":"report", "report":{"status":"failed", "run_status":"aborted", "score":null, "root_causes":[]}}
+ 	var cloned: Dictionary = sample.duplicate(true)

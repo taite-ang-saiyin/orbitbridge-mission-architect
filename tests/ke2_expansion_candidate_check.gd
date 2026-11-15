@@ -129,8 +129,12 @@ func _initialize() -> void:
 	quit(0 if failed == 0 else 1)
 
 func survey(policy: Dictionary) -> void:
-	var missing: Dictionary = evaluate(natives.survey_shortfall)
-	check(not missing.ok and "observations_delivered_by_target" in missing.error.field_path, "default sparse evidence unavailable")
+	var measured: Dictionary = evaluate(natives.survey_shortfall)
+	check(measured.ok and measured.report.score == 83, "HPC confirmed default sparse native map")
+	var strict: Dictionary = Evaluation.default_policy()
+	strict.survey_missing_targets = "unavailable"
+	var missing: Dictionary = evaluate(natives.survey_shortfall, strict)
+	check(not missing.ok and "observations_delivered_by_target" in missing.error.field_path, "explicit historical strict policy retained")
 	var reply: Dictionary = evaluate(natives.survey_shortfall, policy)
 	check(goal(reply, "selected_targets_delivered").actual == 1 and goal(reply, "selected_targets_delivered").by_target.size() == 2, "partial packet not complete, target detail retained")
 	check(reply.report.goal_progress.map(func(row): return row.id) == ["captures", "selected_targets_delivered", "returned_data"], "Survey rows match reviewed example order")
@@ -292,6 +296,17 @@ func additional_boundaries(packet: Dictionary, catalogs: Dictionary) -> void:
 	check(neutral.report.root_causes.is_empty() and not neutral.report.next_experiment.is_empty(), "count shortfall neutral with one experiment")
 	var legacy: Dictionary = evaluate(natives.imaging_b)
 	check(legacy.report.score == Active.evaluate_mission(natives.imaging_b.config, natives.imaging_b.state, natives.imaging_b.state.event_log).report.score, "candidate Imaging score agrees with active evaluator")
+	var agreed: Dictionary = typed(natives.communication_candidate_complete, "communication")
+	agreed.config.contract_revision = Evaluation.AGREED_INPUT_REVISION
+	agreed.state.config_snapshot = agreed.config.duplicate(true)
+	check(evaluate(agreed).ok, "KE1 consolidated input revision accepted")
+	agreed.config.preset_revision = 1
+	agreed.state.config_snapshot = agreed.config.duplicate(true)
+	check(not evaluate(agreed).ok, "agreed Communication authored revision enforced")
+	agreed.config.preset_revision = 2
+	agreed.config.mission.budget_credits = 9007199254740992
+	agreed.state.config_snapshot = agreed.config.duplicate(true)
+	check(not evaluate(agreed).ok, "agreed safe integer budget bound")
 
 func communication_control(packet: Dictionary, catalogs: Dictionary) -> void:
 	# Same frozen quota and goal, two sends in one continuous native contact.

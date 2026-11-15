@@ -82,7 +82,7 @@ func weather() -> void:
 	var before: Array = events.duplicate(true)
 	var measured: Dictionary = Goals._weather(config, state, events)
 	check(measured.ok and measured.measure.revolution_indices == [0, 1] and measured.measure.selected_target_revolution_visits == 2, "weather deduplicates same revolution and excludes other region")
-	check(measured.measure.mapping_status == "pre_action_floor_proposal_pending_HPC", "weather mapping cannot claim owner ratification")
+	check(measured.measure.mapping_status == "pre_action_floor_hpc_confirmed_345e5bd", "weather mapping records HPC confirmation")
 	check(Goals._weather(config, state, events) == measured and events == before, "weather repeatability/input preservation")
 	check(Goals._weather(config, state, [capture("before", 9, "equator"), capture("boundary", 10, "equator")]).measure.revolution_indices == [0, 1], "weather pre-action revolution boundary")
 	state.scenario_snapshot.orbits[0].steps_per_orbit = 3

@@ -12,7 +12,7 @@ Built with **Godot 4.7.2** and **GDScript**, the project combines an interactive
 
 ```text
 Home -> Mission Control -> Mission Creator -> Spacecraft Builder
-     -> Flight Readiness -> Mission Operations -> Debrief and Redesign
+	 -> Flight Readiness -> Mission Operations -> Debrief and Redesign
 ```
 
 | Stage | What the player does |

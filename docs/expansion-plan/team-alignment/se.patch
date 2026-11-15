@@ -1,0 +1,159 @@
+--- a/scripts/integration/mission_runtime.gd
++++ b/scripts/integration/mission_runtime.gd
+@@ -16,7 +16,7 @@
+ const SOLAR = {"dev_wings_1": "solar_standard", "dev_wings_2": "solar_large", "dev_wings_3": "solar_standard"}
+ const RADIOS = {"dev_radio_1": "radio_basic", "dev_radio_2": "radio_fast", "dev_radio_3": "radio_basic"}
+ 
+-static func load_game_catalogs() -> Dictionary:
++static func load_game_catalogs(include_v2: bool = false) -> Dictionary:
+ 	var loaded: Dictionary = Loader.load_catalogs()
+ 	if not loaded.ok: return loaded
+ 	var extension: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/mission_scenarios.json"))
+@@ -46,6 +46,8 @@
+ 		for orbit in catalogs.orbit_catalog.orbits:
+ 			if not orbit.target_windows.has(target.id): orbit.target_windows[target.id] = target.windows[orbit.id].duplicate()
+ 	if seen.size() != TARGETS.size(): return _scenario_error("The target pack must include every displayed region.")
++	if include_v2:
++		return preload("res://scripts/core/mission_v2_context.gd").load_context(catalogs)
+ 	return loaded
+ 
+ static func _scenario_error(message: String) -> Dictionary:
+@@ -91,7 +93,7 @@
+ 	return design
+ 
+ static func review(draft: Dictionary) -> Dictionary:
+-	var loaded: Dictionary = load_game_catalogs()
++	var loaded: Dictionary = load_game_catalogs(draft.get("schema_version", 1) == 2)
+ 	var config: Dictionary = config_for(draft)
+ 	if not loaded.ok:
+ 		return {"config": config, "ready_to_launch": false, "metrics": null, "checks": {}, "errors": loaded.errors, "warnings": []}
+@@ -113,8 +115,8 @@
+ 		loaded = {"ok": true, "catalogs": previous.catalogs_snapshot.duplicate(true)}
+ 		config = previous.config.duplicate(true)
+ 	else:
+-		loaded = {"ok":true,"catalogs":options.catalogs_snapshot.duplicate(true)} if options.has("catalogs_snapshot") else load_game_catalogs()
+ 		config = config_for(draft)
++		loaded = {"ok":true,"catalogs":options.catalogs_snapshot.duplicate(true)} if options.has("catalogs_snapshot") else load_game_catalogs(config.schema_version == 2)
+ 	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}, "errors": loaded.errors}
+ 	var sequence: int = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
+ 	# Run namespaces prevent collisions between sessions; identity does not enter physics.
+@@ -136,6 +138,13 @@
+ 	var trace: Dictionary = {"config": config.duplicate(true), "validation": reviewed,
+ 		"policy": draft.get("policy", "Observe First"), "catalogs_snapshot": loaded.catalogs.duplicate(true), "draft_snapshot": snapshots}
+ 	trace.versions = {"simulator_sha256":_code_hash("res://core/MissionStepEngine.gd"), "validator_sha256":_code_hash("res://scripts/core/mission_validator.gd"), "evaluator_sha256":_code_hash("res://scripts/evaluation/mission_evaluator.gd"), "adapter_sha256":_code_hash("res://core/HPCContractAdapter.gd"), "runner_sha256":_code_hash("res://scripts/integration/mission_runtime.gd"), "catalog_sha256":JSON.stringify(loaded.catalogs,"",true,true).sha256_text()}
++	# Capture the complete evaluator/validator dependency inventory at launch.
++	trace.versions.evaluator_dependencies = {}
++	for name in ["mission_evaluator", "mission_feedback", "mission_goal_evidence", "mission_goal_feedback", "mission_expansion_candidate", "mission_expansion_records", "mission_expansion_comparison", "mission_comparison", "mission_team_integration"]:
++		trace.versions.evaluator_dependencies[name] = _code_hash("res://scripts/evaluation/" + name + ".gd")
++	trace.versions.validator_dependencies = {}
++	for name in ["mission_validator", "mission_validator_v1", "mission_validator_v2", "mission_config_v2_agreed_rules", "mission_v2_context", "mission_presets_v2", "mission_capabilities_v2", "catalog_loader", "validation_support"]:
++		trace.versions.validator_dependencies[name] = _code_hash("res://scripts/core/" + name + ".gd")
+ 	trace.manual_actions = []
+ 	if options.has("comparison_context"): trace.comparison_context = options.comparison_context.duplicate(true)
+ 	if options.has("action_plan"): trace.requested_action_plan = options.action_plan.duplicate(true)
+--- a/scripts/MissionController.gd
++++ b/scripts/MissionController.gd
+@@ -12,6 +12,14 @@
+ var retry_restore: Dictionary = {}
+ var design_lab_restore: Dictionary = {}
+ var comparison_provider: Callable
++var evaluation_provider: Callable
++var expansion_candidate_enabled: bool = false
++
++func enable_expansion_candidate() -> void:
++	expansion_candidate_enabled = true
++	evaluation_provider = Callable(preload("res://scripts/evaluation/mission_team_integration.gd"), "evaluate_state")
++	comparison_provider = Callable(preload("res://scripts/evaluation/mission_team_integration.gd"), "compare_executions")
++
+ var sidebar_rail: PanelContainer
+ var scoped_language: Node
+ func _ready():
+@@ -219,7 +227,7 @@
+ 		get_viewport().set_input_as_handled()
+ 
+ func on_terminal_state(native_state: Dictionary) -> Dictionary:
+-	return preload("res://scripts/integration/mission_results.gd").publish(state, native_state)
++	return preload("res://scripts/integration/mission_results.gd").publish(state, native_state, evaluation_provider)
+ 
+ func retry_mission() -> void:
+ 	if not retry_restore.is_empty(): return
+--- a/scripts/integration/mission_results.gd
++++ b/scripts/integration/mission_results.gd
+@@ -27,6 +27,9 @@
+ 		var error: Dictionary = {"code":"STALE_EVALUATION", "message":"Evaluator reply does not match the requested run/mission.", "suggested_fix":"Provide the report for this exact native run."}
+ 		store.errors[id] = error.duplicate(true)
+ 		return {"ok":false,"error":error}
++	if evaluate.is_valid():
++		bound_trace.evaluation_key = input_key(bound_trace)
++		bound_trace.result_context = _context(bound_trace, reply)
+ 	var archived: Dictionary = _archive_execution(store, bound_trace, reply)
+ 	if not archived.ok: return archived
+ 	var record: Dictionary = {"report": reply.report.duplicate(true), "state": native_state.duplicate(true), "validation": bound_trace.validation.duplicate(true), "execution_key":input_key(bound_trace)}
+@@ -121,6 +124,7 @@
+ 	if not result.get("ok", false):
+ 		context.evaluation_error = result.get("error", {}).duplicate(true)
+ 		return context
++	context.report_contract_revision = preload("res://scripts/integration/report_contract.gd").output_format(config).get("contract_revision") if result.report.get("schema_version") == 2 else null
+ 	var ledger: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(LEDGER_PATH))
+ 	var validation: Dictionary = trace.get("validation", {})
+ 	var mass: Dictionary = validation.get("checks", {}).get("profile_mass", {})
+--- a/scripts/integration/execution_record.gd
++++ b/scripts/integration/execution_record.gd
+@@ -51,7 +51,7 @@
+ 	record.execution_key_preimage_utf8 = bytes
+ 	record.content_digest_version = DIGEST_VERSION
+ 	var report: Dictionary = record.get("evaluation", {}).get("report", {})
+-	record.report_contract_revision = report.get("contract_revision")
++	record.report_contract_revision = packet.get("result_context", {}).get("report_contract_revision", report.get("contract_revision"))
+ 	record.content_preimage_utf8 = JSON.stringify(content_fields(record), "", true, true)
+ 	record.content_digest = record.content_preimage_utf8.sha256_text()
+ 	return verify(record)
+@@ -83,13 +83,13 @@
+ 			if not report.has(field): return failure("A required legacy report field is missing: " + field)
+ 		if not (report.get("schema_version") is int or report.get("schema_version") is float) or (report.schema_version != 1 and report.schema_version != 2):
+ 			return failure("Unsupported report schema version.")
+-		if report.schema_version == 2 and (report.get("contract_revision") != preload("res://scripts/integration/report_contract.gd").GOALS_REVISION or not report.get("goal_progress") is Array or not report.get("objective") is String):
++		if report.schema_version == 2 and (record.get("report_contract_revision") != preload("res://scripts/integration/report_contract.gd").GOALS_REVISION or not report.get("goal_progress") is Array or not report.get("objective") is String):
+ 			return failure("Expanded reports require their own contract revision, objective and goal progress.")
+ 		for field in ["required_observations", "required_returned_data_mb"]:
+ 			if report.get(field) != trace.config.mission.get(field): return failure("Report requirements differ from the frozen config.")
+ 		for field in ["observations_completed", "returned_data_mb", "run_status"]:
+ 			if report.get(field) != final.get(field): return failure("Report actuals differ from the terminal state.")
+-		if record.get("report_contract_revision") != report.get("contract_revision"):
++		if report.has("contract_revision") and record.get("report_contract_revision") != report.get("contract_revision"):
+ 			return failure("Report contract metadata differs from the retained report.")
+ 		if report.has("objective") and report.objective != trace.config.mission.get("objective"):
+ 			return failure("A proposed objective report cannot be bound to an Imaging proxy config.")
+--- a/scripts/screens/MissionCreator.gd
++++ b/scripts/screens/MissionCreator.gd
+@@ -78,6 +78,10 @@
+ func build_objectives(parent: Node) -> void:
+ 	var box = section(parent, "02   MISSION OBJECTIVE")
+ 	UI.label(box, "Choose pooled imagery or a survey across each selected target.", 12, "a5bed0")
++	if state.get("schema_version", 1) == 2:
++		var labels: Dictionary = {"imaging": "Capture imagery", "survey": "Deliver complete target observations", "communication": "Return data during qualifying transmission steps", "weather_monitoring": "Observe the selected region across revolutions"}
++		UI.label(box, labels.get(state.objective, state.objective), 15, "e2f7ff")
++		return
+ 	UI.label(box, "Survey can simulate target deliveries; a Survey score is not available in this build.", 11, "efc371")
+ 	var cards = row(box)
+ 	for entry in [["Capture Imagery", "Capture images and return the required MB to Earth."], ["Survey Target Regions", "Return at least one complete observation from every selected target."]]:
+@@ -269,6 +273,8 @@
+ 	description_count.text = "%s / 200" % state.description.length()
+ 	budget_label.text = "%s Credits" % state.budget
+ 	target_note.text = "%s / %s selected · Click the region again to show all." % [state.targets.size(), target_limit]
++	if state.get("schema_version", 1) == 2 and state.objective in ["communication", "weather_monitoring"]:
++		count_buttons[2].disabled = true
+ 	for objective in objective_buttons:
+ 		objective_buttons[objective].set_pressed_no_signal(state.objective == objective)
+ 	for duration in duration_buttons:
+--- a/tests/integration/test_screen_flow.gd
++++ b/tests/integration/test_screen_flow.gd
+@@ -19,7 +19,7 @@
+ 	helper.fresh(app)
+ 	app.show_screen(0)
+ 	await settle()
+-	_check(app.current.presets.size() == 3 and app.current.earth.stage.orbit_paths.size() == 2, "SE dashboard retains presets and real orbit presentation")
++	_check(app.current.presets.size() == 5 and app.current.earth.stage.orbit_paths.size() == 2, "SE dashboard retains presets and real orbit presentation")
+ 	app.show_screen(2)
+ 	await settle()
+ 	helper.choose(app.current, "instrument", "instrument_advanced")
