@@ -4,8 +4,12 @@ class_name MissionSimulator
 ## Pure fixed-slot simulation for a validated, immutable proposal RunInput.
 const MODEL_VERSION: String = "slots-1"
 const OrbitPlannerScript = preload("res://core/OrbitPlanner.gd")
+const Adapter = preload("res://core/HPCContractAdapter.gd")
+const StepEngine = preload("res://core/MissionStepEngine.gd")
 
 static func simulate(run_input: Dictionary, catalog: Dictionary) -> Dictionary:
+	if int(run_input.get("schema_version", 0)) == 2:
+		return _simulate_v2(run_input, catalog)
 	var plan: Dictionary = OrbitPlannerScript.build_plan(run_input, catalog)
 	if not plan.get("ok", false):
 		return {"ok": false, "error": str(plan.get("error", "planning failed"))}
@@ -148,6 +152,76 @@ static func simulate(run_input: Dictionary, catalog: Dictionary) -> Dictionary:
 		"events": s.events,
 		"telemetry": s.telemetry
 	}
+
+static func _simulate_v2(config: Dictionary, catalog_input: Dictionary) -> Dictionary:
+	var scenario: Dictionary
+	if catalog_input.get("orbits") is Array and catalog_input.get("parts") is Array:
+		scenario = catalog_input.duplicate(true)
+	elif catalog_input.get("orbit_catalog") is Dictionary:
+		var built: Dictionary = Adapter.build_scenario(catalog_input, catalog_input.orbit_catalog)
+		if not built.get("ok", false):
+			return {"ok": false, "error": built.get("error_message", "Could not build the v2 scenario snapshot.")}
+		scenario = built.scenario
+	else:
+		return {"ok": false, "error": "schema_version 2 requires a native scenario or catalog bundle"}
+	var run_id: String = str(config.get("run_id", "sim_v2_" + str(config.get("preset_id", "mission"))))
+	var mission_id: String = str(config.get("mission_id", "mission_v2_" + str(config.get("preset_id", "mission"))))
+	var started: Dictionary = StepEngine.init_run(config, scenario, run_id, mission_id)
+	if not started.get("ok", false):
+		return started
+	var state: Dictionary = started.state
+	var frames: Array = [{"state": state.duplicate(true), "events": []}]
+	while state.phase == "operating":
+		var action: String = _v2_action(state)
+		var reply: Dictionary = StepEngine.request_action(state, action)
+		if not reply.get("ok", false):
+			return reply
+		if not reply.get("allowed", false):
+			reply = StepEngine.request_action(state, "power_save")
+			if not reply.get("ok", false) or not reply.get("allowed", false):
+				return {"ok": false, "error": "v2 simulator could not advance blocked step"}
+		state = reply.state
+		frames.append({"state": state.duplicate(true), "events": reply.events.duplicate(true)})
+	return {
+		"ok": true,
+		"schema_version": 2,
+		"model_version": "native-v2",
+		"run_input": config.duplicate(true),
+		"config_snapshot": state.config_snapshot.duplicate(true),
+		"scenario_snapshot": state.scenario_snapshot.duplicate(true),
+		"catalog_context": state.get("catalog_context", scenario).duplicate(true),
+		"status": state.run_status,
+		"slot_count": state.total_steps,
+		"metrics": {
+			"goal_type": state.goal_progress.kind,
+			"actual_count": state.goal_progress.actual_count,
+			"required_count": state.goal_progress.required_count,
+			"returned_data_mb": state.returned_data_mb,
+			"stored_data_mb": state.stored_data_mb,
+			"evidence_event_ids": state.goal_progress.evidence_event_ids.duplicate(),
+			"goal_evidence": state.goal_evidence.duplicate(true)
+		},
+		"state": state.duplicate(true),
+		"final_state": state.duplicate(true),
+		"events": state.event_log.duplicate(true),
+		"frames": frames
+	}
+
+static func _v2_action(state: Dictionary) -> String:
+	var available: Dictionary = state.get("available_actions", {})
+	var objective: String = str(state.get("goal_kind", ""))
+	var transmit: Dictionary = available.get("transmit", {})
+	var observe: Dictionary = available.get("observe", {})
+	if objective == "communication" and bool(transmit.get("allowed", false)):
+		return "transmit"
+	var progress: Dictionary = state.get("goal_progress", {})
+	if objective == "weather_monitoring" and int(progress.get("actual_count", 0)) < int(progress.get("required_count", 0)) and bool(observe.get("allowed", false)):
+		return "observe"
+	if bool(observe.get("allowed", false)):
+		return "observe"
+	if bool(transmit.get("allowed", false)):
+		return "transmit"
+	return "power_save"
 
 static func _resolve(input: Dictionary, catalog: Dictionary) -> Dictionary:
 	var brief: Dictionary = input.get("brief", {})

@@ -75,7 +75,7 @@ Observation adds a complete packet only when access, sunlight requirements, ener
 
 ## Legacy whole-run trace boundary
 
-`MissionSimulator.simulate()` remains the legacy fixed-slot API and continues to report its native `RunTrace` values in watt-seconds (`battery_ws`) and kilobytes (`*_kb`). For consumers that need a normalized summary, call the explicit `LegacyTraceAdapter` after the legacy run:
+`MissionSimulator.simulate()` preserves the legacy fixed-slot API for schema-1 `RunInput` values and continues to report its native `RunTrace` values in watt-seconds (`battery_ws`) and kilobytes (`*_kb`). When passed a native schema-2 config, it delegates to the deterministic `MissionStepEngine` path and returns a v2 trace with preserved snapshots, catalog context, goal progress, and evidence. For legacy consumers that need a normalized summary, call the explicit `LegacyTraceAdapter` after the legacy run:
 
 ```gdscript
 const LegacySimulator = preload("res://core/MissionSimulator.gd")
