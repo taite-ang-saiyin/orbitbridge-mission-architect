@@ -18,10 +18,40 @@ static func metric(label: String, actual: Variant, required: Variant, ratio: Var
 		"known":verdict.known, "reached":verdict.reached,
 		"progress_known":verdict.progress_known, "progress":verdict.progress}
 
-static func delivery_context(final: Dictionary, target: String, stale: bool = false) -> String:
+static func verified_native_trace(trace: Dictionary) -> bool:
+	# Only the full, same-run native trace may supply zero for absent sparse keys.
+	# Legacy projections and missing source/version evidence cannot establish that meaning.
+	var final: Dictionary = trace.get("final_state", {})
+	var versions: Variant = trace.get("versions")
+	var validation: Variant = trace.get("validation")
+	var frames: Variant = trace.get("frames")
+	if final.get("schema_version") != 1 or not final.get("run_id") is String or str(final.run_id).is_empty() or not final.get("mission_id") is String or str(final.mission_id).is_empty(): return false
+	if final.get("config_snapshot") != trace.get("config") or final.get("event_log") != trace.get("events") or not trace.get("events") is Array: return false
+	if not validation is Dictionary or validation.get("ready_to_launch") != true or validation.get("config") != trace.get("config"): return false
+	if not versions is Dictionary: return false
+	for pair in [["simulator_sha256", "res://core/MissionStepEngine.gd"], ["adapter_sha256", "res://core/HPCContractAdapter.gd"]]:
+		var source_hash: String = FileAccess.get_sha256(pair[1])
+		if source_hash.is_empty() or versions.get(pair[0]) != source_hash: return false
+	if not frames is Array or frames.is_empty() or not frames[0] is Dictionary or not frames[-1] is Dictionary: return false
+	if not frames[0].get("state") is Dictionary or not frames[-1].get("state") is Dictionary: return false
+	if frames[0].get("state", {}).get("step_index") != 0 or frames[0].get("state", {}).get("event_log") != [] or frames[-1].get("state") != final: return false
+	for frame in frames:
+		if not frame is Dictionary or not frame.get("state") is Dictionary: return false
+		var state: Dictionary = frame.state
+		if state.get("run_id") != final.run_id or state.get("mission_id") != final.mission_id or state.get("config_snapshot") != trace.config: return false
+	for index in trace.events.size():
+		var event: Variant = trace.events[index]
+		if not event is Dictionary or event.get("event_id") != "evt_%03d" % index or event.get("run_id") != final.run_id or event.get("mission_id") != final.mission_id: return false
+	return true
+
+static func target_measurement(final: Dictionary, map_name: String, target: String, native_verified: bool = false) -> Variant:
+	var values: Variant = final.get(map_name)
+	if not values is Dictionary: return null
+	# HPC v1.0.0 confirms absent selected keys mean zero only in genuine native maps.
+	return values.get(target, 0 if native_verified else null)
+
+static func delivery_context(final: Dictionary, target: String, stale: bool = false, native_verified: bool = false) -> String:
 	if stale: return "Target measurements: Unavailable"
-	var captures: Dictionary = final.observations_by_target if final.get("observations_by_target") is Dictionary else {}
-	var returned: Dictionary = final.returned_data_by_target_mb if final.get("returned_data_by_target_mb") is Dictionary else {}
 	var packets: Variant = final.get("data_packets")
 	var pending: Array[String] = []
 	var packets_known: bool = packets is Array
@@ -33,7 +63,7 @@ static func delivery_context(final: Dictionary, target: String, stale: bool = fa
 			if packet.target_id == target: pending.append(Words.amount(packet.get("remaining_mb")) + " MB")
 	var remaining: String = "Unavailable" if not packets_known else ("None listed" if pending.is_empty() else ", ".join(pending))
 	# Raw native context only. Never turn captures, MB or pending packets into deliveries.
-	return "Captured: %s · Returned: %s MB\nPacket remainder(s): %s" % [Words.amount(captures.get(target)), Words.amount(returned.get(target)), remaining]
+	return "Captured: %s · Returned: %s MB\nPacket remainder(s): %s" % [Words.amount(target_measurement(final, "observations_by_target", target, native_verified)), Words.amount(target_measurement(final, "returned_data_by_target_mb", target, native_verified)), remaining]
 
 static func same_run_events(trace: Dictionary) -> Array:
 	var final: Dictionary = trace.get("final_state", {})
@@ -92,7 +122,7 @@ static func _supplied_preview(model: Dictionary, trace: Dictionary, supplied: Di
 		for id in mission.get("target_regions", [mission.get("target_region", "")]):
 			if str(id).is_empty(): continue
 			var row: Dictionary = supplied_goal(by_target.get(id, {}), str(id).replace("_", " ").capitalize())
-			row.context_text = delivery_context(trace.get("final_state", {}), str(id))
+			row.context_text = delivery_context(trace.get("final_state", {}), str(id), false, verified_native_trace(trace))
 			result.deliveries.append(row)
 			rows.append(row)
 	var missed: Array[String] = []
@@ -130,13 +160,12 @@ static func build(model: Dictionary, trace: Dictionary, details: Dictionary = {}
 	var rows: Array = [primary, data]
 	var deliveries: Array = []
 	if kind == "survey":
-		var delivered: Dictionary = final.observations_delivered_by_target if final.get("observations_delivered_by_target") is Dictionary else {}
+		var native_verified: bool = not stale and verified_native_trace(trace)
 		for target in mission.get("target_regions", [mission.get("target_region", "")]):
 			if str(target).is_empty(): continue
-			# Preserve the HPC map literally. Sparse/absent entries are not an agreed zero.
-			var measured: Variant = null if stale else delivered.get(target)
+			var measured: Variant = null if stale else target_measurement(final, "observations_delivered_by_target", target, native_verified)
 			var delivery: Dictionary = metric(str(target).replace("_", " ").capitalize(), measured, 1, null, " complete")
-			delivery.context_text = delivery_context(final, str(target), stale)
+			delivery.context_text = delivery_context(final, str(target), stale, native_verified)
 			deliveries.append(delivery)
 			rows.append(delivery)
 	var missed: Array[String] = []
