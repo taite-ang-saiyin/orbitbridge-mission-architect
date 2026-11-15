@@ -1,5 +1,8 @@
 # K24/K25: Communication and Weather feasibility
 
+**Current K23/K24 update:** [Five-mission current report](k23-five-mission-readiness.md) and [Communication current evidence](k24-communication-current.md) contain 1347 newly executed checks. K20 is agreed; old proposed/confirmation-pending labels below are historical. Actual v2 native launch/evaluation remains unfinished. No earlier ZIP or default was changed.
+
+
 Date: 15 November 2026, Asia/Rangoon. Tested main: `dce75db845f6c494b8c25c9028dd9c0648aabd91`, also confirmed as GitHub main before this work.
 
 **Local feasibility work is ready. HPC confirmation and K20 agreement remain pending.** No production objective, policy, scoring rule, interface, UI card or shared agreement was changed. Nothing was committed, pushed, deployed or sent to teammates.

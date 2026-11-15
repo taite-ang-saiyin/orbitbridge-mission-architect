@@ -30,3 +30,8 @@ Combine any changes to tests/run_all_checks.ps1 instead of replacing your own ad
 After merging into your working branch, rerun that runner plus your Design Lab/record checks and the separate owner-contract test. Exercise Creator objective changes; stale review; invalid mass/budget/power; Save A → Not now → Continue B → Cancel; rerun B with A unchanged; Retry same mission; Modify/Cancel; and later all five missions in the public browser build.
 
 Please return your branch/commit, exact context/Creator/runtime/storage entry points, guard-fix results, source/version binding and launch/report limitations. No main merge, deployment or further K20 confirmation is requested by this handoff.
+
+
+## New K23/K24 evidence
+
+See the [current five-mission report](../../ke1-expansion/k23-five-mission-readiness.md) and [current Communication cases](../../ke1-expansion/k24-communication-current.md). 636 + 711 new checks passed on the current KE1 source. Stock Forest and Survey need a design/operation improvement to return 60 MB; the tested fast-radio player designs return 60 MB without changing presets. Communication physics trials remain explicitly v1-labelled while native v2 rejects. These are new local branch edits; no commit/push or teammate message was performed for this task.

@@ -13,6 +13,8 @@ $orbitScripts = @(
     'validation/test_mission_validator_v2_candidate.gd',
     'validation/test_mission_presets_v2.gd',
     'validation/test_mission_validator_v2.gd',
+    'integration/test_k23_five_mission_readiness.gd',
+    'integration/test_k24_communication_current.gd',
     'test_hpc.gd',
     'test_simulator.gd',
     'test_mission_evaluator.gd',

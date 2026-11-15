@@ -1,72 +1,55 @@
-# K23 preparation: five-mission readiness report
+# K23 current five-mission readiness report
 
-Prepared 15 November 2026, Asia/Rangoon. Report revision: `k23-five-mission-readiness-1`. **All five candidates pass the recorded draft and physical checks. All v2 launch approvals remain pending.**
+Report revision: **k23-live-readiness-2**, 15 November 2026, Asia/Rangoon. Tested working source based on `ke1-expand` commit `3ec299d20a9b244b56888fc99f89eec4b1bea17f`; GitHub main remains `dce75db845f6c494b8c25c9028dd9c0648aabd91`. **K20 is agreed.** This is fresh execution against the agreed public validator, replacing this document's older draft-only readiness summary. Historical evidence/ZIPs remain unchanged.
 
-This report reuses existing results; **no game tests were rerun**. It changes no preset, part value, code, launch gate, score or approval. Existing v1 behavior remains unchanged, including the original three cards. Physical readiness does not establish completed mission success.
+## Agreed v2 physical readiness and actual launch gate
 
-## Recorded checks and physical totals
+| Mission | Public KE1 gates | Mass | Credits, including launch | Actual native v2 initialization |
+| --- | --- | --- | --- | --- |
+| Estuary Watch | 8/8 pass | 1060 g | 82 | Blocked: UNSUPPORTED_SCHEMA_VERSION |
+| Tropical Forest Watch | 8/8 pass | 1060 g | 82 | Blocked: UNSUPPORTED_SCHEMA_VERSION |
+| Polar Ice Survey | 8/8 pass | 1060 g | 82 | Blocked: UNSUPPORTED_SCHEMA_VERSION |
+| Communication | 8/8 pass | 1120 g | 89 | Blocked: UNSUPPORTED_SCHEMA_VERSION |
+| Weather Monitoring | 8/8 pass | 1060 g | 82 | Blocked: UNSUPPORTED_SCHEMA_VERSION |
 
-| Mission | Draft fields/IDs/goals | Physical gates | Mass | Parts + launch cost | V2 launch approval |
-| --- | --- | --- | --- | --- | --- |
-| Estuary Watch | Pass under proposal | 8/8 pass | 1060 g | 82 credits | Pending; checker returns false |
-| Tropical Forest Watch | Pass under proposal | 8/8 pass | 1060 g | 82 credits | Pending; checker returns false |
-| Polar Ice Survey | Pass under proposal | 8/8 pass | 1060 g | 82 credits | Pending; checker returns false |
-| Communication | Pass under proposal | 8/8 pass | 1120 g | 89 credits | Pending; checker returns false |
-| Weather Monitoring | Pass under proposal | 8/8 pass | 1060 g | 82 credits | Pending; checker returns false |
+All use the agreed v2 config, registered preset identity/revision and explicit capability context. Communication retains fast radio revision 2; all other stock values remain. The validator returns physical ready_to_launch=true, but the current native adapter rejects schema version 2 before creating state. None of these results is v2 mission success, official new-goal scoring or public-browser acceptance. No new card or launch path was enabled.
 
-The checks cover fields, registered selections, profile mass, launcher capacity, budget, launch/orbit compatibility, target opportunities and essential power. The selected sample profile uses strict mass <1330 g; current catalog values are illustrative training values. These are proposed-v2 review results and existing physical checks, not final capability approval or flight certification.
+## Fresh supported game-runtime runs
 
-All setups use bus_basic, instrument_basic, solar_standard, battery_standard, storage_standard, launcher small and cubesat_1u_sample. Communication uses radio_fast (120 MB/hour); the other four use radio_basic (48 MB/hour). Shared physical metrics are 2 W baseline, 3 W solar output, 25 Wh battery/initial energy, 64 MB storage and 12 MB per capture. New Communication/Weather capability is still proposed; their physical check uses a private supported v1 Imaging surrogate. No new capability is registered by this report.
+The exact original three **v1** presets were mapped through the current UI/runtime boundary and run with both existing policies. Full config/event binding, initial/final native states, and initialization plus accepted post-clamp resource samples are retained. These are real current native game-policy/evaluator runs; no screens were clicked and they are not v2 acceptance.
 
-## Exact preserved candidate settings
+| Original mission | Requested policy | Actual captures / returned data | Actual current v1 evaluation |
+| --- | --- | --- | --- |
+| Estuary Watch | Downlink First | 5 / 60 MB | success / 100 |
+| Estuary Watch | Observe First | 5 / 60 MB | success / 100 |
+| Tropical Forest Watch | Downlink First | 5 / 44.32 MB | partial / 87 |
+| Tropical Forest Watch | Observe First | 5 / 44.32 MB | partial / 87 |
+| Polar Ice Survey | Downlink First | 4 / 48 MB | Unavailable: Survey evaluation unsupported |
+| Polar Ice Survey | Observe First | 5 / 54.133333 MB | Unavailable: Survey evaluation unsupported |
 
-| Preset ID / revision | Objective / goal | Target | Orbit | Captures / returned MB | Orbits / budget |
-| --- | --- | --- | --- | --- | --- |
-| estuary_watch / 1 | imaging / imaging | coastal_region | high_inc | 5 / 60 MB | 6 / 100 credits |
-| tropical_forest_watch / 1 | imaging / imaging | tropical_forest | low_eq | 5 / 60 MB | 6 / 100 credits |
-| polar_ice_survey / 1 | survey / survey_delivery: one complete observation per selected target, plus retained overall goals | arctic_ice | high_inc | 5 / 60 MB | 6 / 100 credits |
-| communication / 2 | communication / communication_contacts: two positive transmission steps | equator | high_inc | 2 / 12 MB | 3 / 100 credits |
-| weather_monitoring / 1 | weather_monitoring / weather_revisit: two distinct orbit visits; delivery meaning pending | equator | high_inc | 2 / 12 MB | 3 / 100 credits |
+Estuary Watch succeeds with its current stock design. Tropical Forest Watch's stock basic radio returns 44.32 MB against 60 MB; its actual supported Imaging result is partial/87. Polar Ice Survey's stock Observe First plan captures five, returns about 54.133333 MB and fully delivers four Arctic images; Downlink First captures/delivers four and returns 48 MB. Its current production scorer explicitly refuses Survey, so there is no official score rather than a fabricated zero.
 
-All five current presets select one target. Survey's separate two-target training examples are not additional authored presets. Root config contract is `expansion-goals-v2-draft-2`, registry is `five-presets-candidate-2`, and checker is `k22-v2-review-1`. The original three v1 configs are preserved exactly; Communication retains its KE2-supported fast-radio candidate setting. No custom/edit identity decision is inferred.
+## Tested redesign options, with defaults preserved
 
-## Runtime support and goal evidence
+For Forest and Survey, changing only the radio to radio_fast gives 1120 g / 89 credits and passes the same v2 physical gates. With the existing Observe First policy, both actual **legacy** design-option runs capture five, return 60 MB and completely deliver five target images. Forest's real supported Imaging result becomes success/100. Survey still has no production score. Each redesign uses a distinct run ID and retains its full edited config; original preset definitions and prior runs remain unchanged.
 
-| Mission | Existing support and reused evidence | Missing support or limitation |
-| --- | --- | --- |
-| Estuary Watch | Existing v1 Imaging setup/scoring retained; exact draft config and stock metrics match recorded input | This readiness evidence does not establish a completed run for this exact stock preset; v2 migration/approval is pending |
-| Tropical Forest Watch | Existing v1 Imaging setup/scoring retained; exact draft config and stock metrics match recorded input | This readiness evidence does not establish a completed run for this exact stock preset; v2 migration/approval is pending |
-| Polar Ice Survey | Existing v1 Survey setup/simulation retained; K26 records five captures but only about 54.1333 MB for the basic-radio stock design | Current Survey evaluation is unavailable; stock design falls short of 60 MB under its shared capture/contact windows. A separate fast-radio design returns 60 MB; defaults are unchanged |
-| Communication | Candidate-derived v1 physical/action evidence returns 24 MB in positive steps 7 and 10 with the fast radio | Production objective/catalog/mapping/launch/evaluator integration is absent. Contact-step/window meaning and owner acceptance remain pending |
-| Weather Monitoring | Recorded manual two-orbit plans return 24 MB completely, or only 12 MB from the first image while the second remains onboard | W1 capture/delivery meaning is unresolved; current Observe First and Downlink First policies take both captures in one orbit. Production goal/scoring/launch integration is absent |
+These are useful player experiments, not automatic preset changes, formal A/B acceptance or proof that a faster radio is always better. [K24's one-capture control](k24-communication-current.md) shows why a slower radio can help satisfy a positive-step count.
 
-No new Communication, Weather or Survey score is claimed. The existing K27 Imaging A/B reports concern a separate controlled training mission and do not prove success of these five exact stock configs. The launch flag in every recorded v2 review is false. Passing a physical target-opportunity check says windows exist; it does not prove enough useful actions or complete data delivery within the mission.
+## Evidence and checks
 
-## Evidence reused and report verification
+**636 checks passed, zero failed**, with five agreed v2 readiness/native attempts, six exact-stock legacy policy runs and two radio-only legacy redesign runs. [Machine report](evidence/k23-k24-current/five-mission-readiness-current.json), [log](evidence/k23-k24-current/test_k23_five_mission_readiness.log), [source/provenance summary](evidence/k23-k24-current/checks.json). Resource projections are explicitly labelled; missing fields in historical/incomplete projections are not inferred as native zeros. Final native states preserve Survey maps under the agreed provenance rule.
 
-The report uses K22's recorded **466 draft checks and 2,019 checks across six programs, zero failures**. Those are earlier executed results, not new runs in this task. It cross-checks all five metrics with the earlier 70-check candidate-2 catalog evidence and uses existing K24/K26/fast-radio/Weather traces only for their stated action/outcome facts.
+Reproduce after importing the project with Godot 4.7.2:
 
-For this report, stored evidence/source hashes were verified, each full candidate config was matched to its recorded fixture input, all eight statuses and both metrics were checked, original v1 settings were compared, and current physical/runtime inputs were matched to the recorded main baseline. This is report consistency/provenance checking, not a rerun of the game. Existing test records, source files and shared packets remain unchanged.
+```powershell
+& $GodotExe --headless --path . --script res://tests/integration/test_k23_five_mission_readiness.gd -- ./exports/k23-current
+```
 
-Machine-readable snapshots, gate outputs, metrics, blockers and source hashes are in [readiness-report.json](evidence/k23-readiness/readiness-report.json).
+The prior 49-program fresh-checkout pass belongs to commit 3ec299d. This task ran the two new audits; the expanded 51-program runner was not rerun in full. Production game/catalog code is unchanged.
 
-Source records:
+## Remaining blockers
 
-- [Candidate registry](../../data/mission_presets.json).
-- [K22 recorded results](evidence/k22-draft/v2-draft-check.json) and [verification](evidence/k22-draft/verification.json).
-- [Candidate-2 physical results](evidence/ke2-draft-2/mission-presets-check.json).
-- [Exact Communication starter evidence](evidence/ke2-draft-2/communication-fast-radio-check.json).
-- [Survey evidence](evidence/k26-survey/summary.json).
-- [Weather delivery alternatives](evidence/k20-review-additions/physical-qa.json) and [automatic-policy evidence](evidence/k24-k25/summary.json).
+K23 stays unchecked for final live five-mission acceptance. HPC must provide the typed-v2 adapter/scenario path; SE must connect the agreed presets/context/full goals through the live flow; official expanded evaluation/reporting must be integrated. KE2 has published candidate helpers on features/KE2 at cb458c7d9c9b3b2484e8111dbbec4ea1468f51b8, but the public production entry point still requires v1 and this candidate is not merged/tested here. No K20 agreement needs repeating. Later integrated/public-browser testing remains necessary.
 
-Base main is `dce75db845f6c494b8c25c9028dd9c0648aabd91`. Newer owner patches or source/catalog changes require their own integration checks; this report cannot approve them from older evidence. The report JSON is evidence, not a runtime preset catalog or launch authorization.
 
-## Blockers and next owners
-
-- K20: exact rules, Weather delivery, transmission steps versus windows, custom/edit identity and capability registration still need final agreement.
-- HPC: confirm evidence, windows/policy choices, event/orbit/packet meanings, resource samples and versions; review the stock Survey design shortfall.
-- KE2: provide coordinated Survey/Communication/Weather evaluation, partial outcomes, reports and comparison rules.
-- SE/HPC/KE1: integrate agreed live v2 validation/config propagation, frozen mission review, adapter acceptance, launch/storage and guards.
-- KE3: integrate the confirmed progress/result definitions and execution-bound reports, then complete owner acceptance.
-
-K23 remains unchecked as **REPORT PREPARATION READY, LIVE FIVE-MISSION ACCEPTANCE PENDING**. Existing v1 flows are not disabled or reapproved here. Personal planning files are preserved. Nothing was committed, pushed, deployed or sent to teammates.
+A separate boot-splash settings/image edit appeared in the shared folder during this task. It was copied only into the isolated audit checkout and both audits were rerun successfully. That unrelated original edit is preserved and is not included in this task's writes; no visual splash acceptance is claimed.

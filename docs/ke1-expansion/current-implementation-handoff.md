@@ -1,5 +1,8 @@
 # Current KE1 handoff — candidate validator and aligned copy
 
+**Current K23/K24 update:** [Five-mission current report](k23-five-mission-readiness.md) and [Communication current evidence](k24-communication-current.md) contain 1347 newly executed checks. K20 is agreed; old proposed/confirmation-pending labels below are historical. Actual v2 native launch/evaluation remains unfinished. No earlier ZIP or default was changed.
+
+
 **Latest implementation update:** K20 is agreed and K21 definitions are delivered. [K21/K22 production API and current blockers](k21-k22-live-integration.md) and the [agreed v2 contract](../contracts/expansion-v2.md) supersede earlier pending-confirmation/candidate-only status. The public validator now supports explicit agreed v2 context; native launch integration remains blocked. Existing reviewed ZIPs are unchanged historical snapshots and do not contain these later files.
 
 

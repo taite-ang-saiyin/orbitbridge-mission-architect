@@ -36,3 +36,8 @@ The new validator test currently asserts native rejection for all five v2 preset
 The validator now spans multiple files. Include the full [source inventory](../../ke1-expansion/evidence/k21-k22-live/validation-source-files.json) when coordinating producer fingerprints with SE; hashing only mission_validator.gd misses its dependencies. That historical inventory records local observed file bytes. Git line-ending normalization can change raw digests; use the actual checked-out/deployed bytes or the explicitly agreed normalization, and preserve historical execution-key preimage bytes. Do not regenerate old keys to conceal a difference.
 
 Please return your branch/commit, exact adapter/init entry points, state/event versions, evidence/sample paths, native v2 results and remaining integration failures. This is an implementation handoff, not a request for another K20 vote.
+
+
+## New K23/K24 evidence
+
+See the [current five-mission report](../../ke1-expansion/k23-five-mission-readiness.md) and [current Communication cases](../../ke1-expansion/k24-communication-current.md). 636 + 711 new checks passed on the current KE1 source. Stock Forest and Survey need a design/operation improvement to return 60 MB; the tested fast-radio player designs return 60 MB without changing presets. Communication physics trials remain explicitly v1-labelled while native v2 rejects. These are new local branch edits; no commit/push or teammate message was performed for this task.

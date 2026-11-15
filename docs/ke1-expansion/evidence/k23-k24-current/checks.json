@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-15",
+  "base_branch": "ke1-expand",
+  "base_commit": "3ec299d20a9b244b56888fc99f89eec4b1bea17f",
+  "godot": "4.7.2",
+  "k20_agreed": true,
+  "k23_checks": {
+    "passed": 636,
+    "failed": 0
+  },
+  "k24_checks": {
+    "passed": 711,
+    "failed": 0
+  },
+  "new_checks_passed": 1347,
+  "v2_stock_setups_ready": 5,
+  "native_v2_stock_launches_blocked": 5,
+  "exact_legacy_stock_policy_runs": 6,
+  "legacy_radio_redesign_runs": 2,
+  "labelled_communication_v1_physics_trials": 5,
+  "official_new_goal_scores_claimed": false,
+  "production_sources_or_defaults_changed": false,
+  "full_51_program_runner_rerun": false,
+  "prior_full_runner_evidence": "49 programs passed from fresh checkout of 3ec299d; inherited, not rerun in this task",
+  "remote_heads_inspected": {
+    "main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+    "ke1-expand": "3ec299d20a9b244b56888fc99f89eec4b1bea17f",
+    "feature/hpc-ke3-goal-evidence-v1": "345e5bdecd41d716ba3f580ae615628edf00f6ca",
+    "feature/hpc-simulator": "e71aaf8712b9b9438247cb514467bb33bc015989",
+    "features/KE2": "cb458c7d9c9b3b2484e8111dbbec4ea1468f51b8",
+    "se": "0d9e275fc270630c74324f29c11281f9883909a2"
+  },
+  "source_file_sha256": {
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+    "scripts/integration/mission_results.gd": "b8a6adaf51e4e79bbee231969c3722c31190c128c12a18abda92b11d9b5be33f",
+    "scripts/evaluation/mission_evaluator.gd": "c14ad4fc3a4f4e54daf64853b7c5327710b970952ae9d4552e575892486fe873",
+    "scripts/evaluation/mission_feedback.gd": "4b205791851ec17440800d98ef631051f379d6fffd3f854ccaa8110ff6f3429c",
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "scripts/core/mission_validator.gd": "d17b1289c52523a96d8a57722a5e48cee2f8827772e5cb3072d5be976e20144e",
+    "scripts/core/mission_validator_v1.gd": "f7f298d81517023057bdaf5c234de5a11044f162bcf4fcbbadc4525b9859304f",
+    "scripts/core/mission_validator_v2.gd": "48805d37bb38cd0b0c91e2b75ca93be0816ab1e20375fba9bba2d9667037e96d",
+    "scripts/core/mission_config_v2_agreed_rules.gd": "f037e408e70ad36862862eb5945280fac962c75405aaf7a13322ce24677748ec",
+    "scripts/core/mission_v2_context.gd": "b708300bb6c759c563492c0ce2572567fa639684ca56c07bd0513366675afe48",
+    "scripts/core/mission_presets_v2.gd": "3521153612426341b11a66bbc89286057ce1584714fc8cb4f2e5d0c5cf769ac1",
+    "scripts/core/mission_capabilities_v2.gd": "b24d18b20abd2b3a0dd7fb50f6746c7d0bea3d87c6ead3b0c121d43eaf1e1f15",
+    "data/mission_presets_v2.json": "d7b912bc4ed44d2a6e0c83818afb3bbb5adaca50bc93826da7b8e108b9f14e7b",
+    "data/mission_capabilities_v2.json": "f5dc1abbe0c544149836260433a035101c191b5be5cf94fac0cf6cda02730c72",
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+    "data/launchers.json": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+    "data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "tests/integration/test_k23_five_mission_readiness.gd": "84fd531c51642eaa47c0e732fee7bd48dcc2b90e29c59e33e0a14cfaf5070c6a",
+    "tests/integration/test_k24_communication_current.gd": "452158606e705c5bd971bc2907be81eec33784bd4630e2393593bccc6c262d70"
+  },
+  "environment_notes": "Offline Godot runs completed with root-certificate-store warning; editor import could not save user editor settings.",
+  "parallel_boot_splash_update": {
+    "scope": "Concurrent boot-splash settings/image, preserved outside this task; copied only into isolated audit checkout",
+    "changed_existing": {
+      "project.godot": "9a77cb2888fc35ffaa1953071ff8f1fca69592cf3059a7cf22658ce4a4f44cf9"
+    },
+    "new_external_files": {
+      "assets/ui/loading_splash.png": "c54e71a8501f6d60d25e79fb384dc0c5fca590e3d25cd4ee01171aea59367453"
+    },
+    "overwrite_original": false,
+    "audits_rerun_with_settings": true,
+    "visual_acceptance_claimed": false
+  }
+}
