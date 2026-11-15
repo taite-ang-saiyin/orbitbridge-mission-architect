@@ -12,7 +12,7 @@ var sidebar: VBoxContainer
 var flow_error: AcceptDialog
 var retry_restore: Dictionary = {}
 var design_lab_restore: Dictionary = {}
-var comparison_provider: Callable
+var comparison_provider: Callable = preload("res://scripts/evaluation/recorded_comparison.gd").compare
 var sidebar_rail: PanelContainer
 var scoped_language: Node
 var start_return_index: int = -1
@@ -59,11 +59,6 @@ func _ready():
 	status.text = "ORBITBRIDGE     •     MISSION LAB"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
-	var home_button = Button.new()
-	home_button.name = "SetupHome"
-	home_button.text = "Home"
-	home_button.pressed.connect(request_screen.bind(0))
-	header.add_child(home_button)
 	var menu = MenuButton.new()
 	menu.name = "SettingsMenu"
 	menu.hide()
@@ -239,7 +234,7 @@ func show_screen(index: int):
 			return
 		on_terminal_state(state.active_run_state)
 	clear_screen()
-	for entry in [["SettingsMenu", index in [4, 5]], ["SetupStatus", index not in [4, 5]], ["SetupHome", index not in [4, 5]]]:
+	for entry in [["SettingsMenu", true], ["SetupStatus", index not in [4, 5]]]:
 		var control = find_child(entry[0], true, false)
 		if control != null: control.visible = entry[1]
 	shell.show()
@@ -384,7 +379,7 @@ func show_execution_result(execution_key: String) -> Dictionary:
 	state.run_design = result.execution.trace.config.duplicate(true)
 	state.active_run_state = result.execution.trace.final_state.duplicate(true)
 	show_screen(5)
-	current.show_execution(result.execution.trace.duplicate(true))
+	current.show_execution(result.execution.trace.duplicate(true), false)
 	return result
 
 func modify_execution(execution_key: String) -> Dictionary:
@@ -417,6 +412,9 @@ func run_design_b(origin_execution_key: String) -> Dictionary:
 
 func comparison_inputs(b_execution_key: String) -> Dictionary:
 	return preload("res://scripts/integration/design_lab.gd").comparison_inputs(state, b_execution_key)
+
+func comparison_available() -> bool:
+	return comparison_provider.is_valid()
 
 func compare_executions(b_execution_key: String) -> Dictionary:
 	return preload("res://scripts/integration/design_lab.gd").compare(state, b_execution_key, comparison_provider)

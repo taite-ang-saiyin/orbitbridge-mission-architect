@@ -12,7 +12,11 @@ static func eligible(session: Dictionary, execution_key: String) -> Dictionary:
 	var packet: Dictionary = stored.execution
 	var trace: Dictionary = packet.trace
 	if trace.final_state.get("run_status") != "completed": return failure("RUN_NOT_COMPLETED", "Only completed runs can be saved or compared.")
-	if not packet.evaluation.get("ok", false): return failure("EVALUATION_UNAVAILABLE", "This execution does not have a valid evaluated result.")
+	if not packet.evaluation.get("ok", false):
+		var error: Dictionary = packet.evaluation.get("error", {})
+		var objective: String = trace.get("config", {}).get("mission", {}).get("objective", "")
+		if objective not in ["survey", "communication", "weather_monitoring"] or error.get("field_path") != "config.mission.objective" or not preload("res://core/MissionStepEngine.gd").get_available_actions(trace.final_state).get("ok", false):
+			return failure("EVALUATION_UNAVAILABLE", "This execution does not have valid recorded measurements.")
 	for field in ["catalogs_snapshot", "draft_snapshot", "versions", "frames", "action_plan", "policy"]:
 		if not trace.has(field): return failure("EXECUTION_INCOMPLETE", "Recorded execution is missing " + field + ".")
 	if trace.frames.is_empty() or trace.action_plan.size() != int(trace.final_state.get("total_steps", -1)):

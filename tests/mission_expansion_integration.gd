@@ -27,7 +27,7 @@ func run() -> void:
 		root.add_child(app)
 		app.preferences.language = "my"
 		app.show_screen(0)
-		assert(not app.find_child("SettingsMenu", true, false).visible)
+		assert(app.find_child("SettingsMenu", true, false).visible)
 		for frame in 5: await process_frame
 		app.current.presets[draft.objective].pressed.emit()
 		for frame in 5: await process_frame

@@ -53,6 +53,7 @@ var _selected_execution_trace: Dictionary = {}
 var _lab_response: Dictionary = {}
 var _lab_error: Dictionary = {}
 var _lab_feedback: String = ""
+var _auto_pair_enabled: bool = false
 var report_surface: PanelContainer
 var result_hero: BoxContainer
 var goal_verdicts: Array[Label] = []
@@ -106,12 +107,14 @@ func columns() -> HBoxContainer:
 	content.add_child(row)
 	return row
 func actions(back: int, next: int, text: String = "Continue"):
-	var row = HBoxContainer.new()
+	var row = HFlowContainer.new()
+	row.add_theme_constant_override("h_separation", 8)
+	row.add_theme_constant_override("v_separation", 8)
 	add_child(row)
 	if back >= 0:
 		UI.button(row, "Back", func(): navigate.emit(back))
 	if screen_id == "DebriefCompare":
-		design_lab_shortcut = UI.button(row, "Compare / try Design B", open_design_lab)
+		design_lab_shortcut = UI.button(row, "Design comparison", open_design_lab)
 		design_lab_shortcut.name = "OpenDesignLab"
 		design_lab_shortcut.custom_minimum_size.y = 44
 		design_lab_shortcut.add_theme_stylebox_override("normal", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("1b555d"), Color("399fa9")))
@@ -119,7 +122,14 @@ func actions(back: int, next: int, text: String = "Continue"):
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
 	var forward = UI.button(row, text + "  >", func(): navigate.emit(next))
-	if screen_id == "DebriefCompare": forward.name = "AnotherMission"
+	if screen_id == "DebriefCompare":
+		forward.name = "AnotherMission"
+		for button in row.get_children():
+			if button is Button:
+				button.add_theme_font_size_override("font_size", 18)
+				button.custom_minimum_size.y = 44
+				button.custom_minimum_size.x = clampf(button.get_theme_font("font").get_string_size(button.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x + 28, 90, 280)
+				button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 func choice(parent: Node, title: String, key: String, options: Array):
 	UI.label(parent, title, 13, "9cb0c8")
 	var select = OptionButton.new()
@@ -210,10 +220,10 @@ func debrief():
 	hero_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hero_copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hero.add_child(hero_copy)
-	flight_name = UI.label(hero_copy, "", 16, "8ea9bb")
-	run_identity = UI.label(hero_copy, "", 11, "8ea9bb")
-	outcome_title = UI.label(hero_copy, "", 24, "b9f4e7")
-	outcome_badge = UI.label(hero_copy, "", 12, "f4d38b")
+	flight_name = UI.label(hero_copy, "", 18, "8ea9bb")
+	run_identity = UI.label(hero_copy, "", 16, "8ea9bb")
+	outcome_title = UI.label(hero_copy, "", 28, "b9f4e7")
+	outcome_badge = UI.label(hero_copy, "", 16, "f4d38b")
 	results = UI.label(hero_copy, "", 18, "c2d9e6")
 	var score_group = VBoxContainer.new()
 	score_group.add_theme_constant_override("separation", 8)
@@ -267,10 +277,10 @@ func debrief():
 		heading.add_theme_constant_override("separation", 10)
 		goal_headings.append(heading)
 		goal.add_child(heading)
-		var title = UI.label(heading, caption, 14, "c2d9e6")
+		var title = UI.label(heading, caption, 18, "c2d9e6")
 		goal_labels.append(title)
 		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var value = UI.label(heading, "", 14)
+		var value = UI.label(heading, "", 20)
 		value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		goal_cards.append(value)
 		var bar = ProgressBar.new()
@@ -350,22 +360,29 @@ func debrief():
 	resized.connect(_fit_results)
 	report_scroll.resized.connect(_fit_results)
 	_fit_results.call_deferred()
-	show_actual_run(maxi(0, history.size() - 1))
+	show_actual_run(maxi(0, history.size() - 1), true)
 	select_report_tab(0)
 	actions(4, 0, "Another mission")
 
 func open_design_lab() -> void:
+	if _lab_response.is_empty() and design_lab.inputs.get("a_saved") and not design_lab.inputs.get("b", {}).is_empty(): _lab_compare()
 	select_report_tab(3)
 	_reveal_design_lab.call_deferred()
 
 func _reveal_design_lab() -> void:
 	if not is_instance_valid(design_lab): return
+	if not _lab_response.is_empty():
+		report_scroll.ensure_control_visible(design_lab.status_label)
+		design_lab.status_label.focus_mode = Control.FOCUS_ALL
+		design_lab.status_label.grab_focus()
+		return
 	report_scroll.ensure_control_visible(design_lab.modify_button.get_parent())
-	var primary: Button = design_lab.modify_button if not design_lab.modify_button.disabled else design_lab.save_button
+	var primary: Button = design_lab.compare_button if not design_lab.compare_button.disabled else (design_lab.save_button if not design_lab.save_button.disabled else design_lab.modify_button)
 	if not primary.disabled: primary.grab_focus()
 
 func select_report_tab(index: int) -> void:
 	report_tabs.current_tab = index
+	if is_instance_valid(result_hero): result_hero.visible = index != 3
 	for i in report_sections.size(): report_sections[i].visible = i == index
 	report_scroll.scroll_vertical = 0
 
@@ -376,14 +393,14 @@ func _history_cell(parent: Node,value: String) -> void:
 func _fit_results() -> void:
 	if not is_inside_tree() or is_queued_for_deletion(): return
 	if is_instance_valid(report_body): report_body.custom_minimum_size.x = minf(1000, maxf(280, report_scroll.size.x - 78))
-	if is_instance_valid(result_hero): result_hero.vertical = report_scroll.size.x < 600
+	if is_instance_valid(result_hero): result_hero.vertical = report_scroll.size.x < 820
 	if is_instance_valid(overview_layout): overview_layout.vertical = report_scroll.size.x < 960
-	for i in goal_headings.size(): goal_headings[i].vertical = report_scroll.size.x < 600 or goal_labels[i].text.length() > 32
+	for i in goal_headings.size(): goal_headings[i].vertical = report_scroll.size.x < 600 or goal_labels[i].text.length() > 24
 	if is_instance_valid(score_gauge):
 		var compact: bool = get_viewport_rect().size.y < 800
 		score_gauge.custom_minimum_size = Vector2(104,104) if compact else Vector2(118,118)
 		report_body.add_theme_constant_override("separation", 10 if compact else 14)
-		outcome_title.add_theme_font_size_override("font_size", 22 if compact else 24)
+		outcome_title.add_theme_font_size_override("font_size", 28)
 		report_surface.get_theme_stylebox("panel").set_content_margin_all(14 if compact else 18)
 		experiment_panel.get_theme_stylebox("panel").set_content_margin_all(12)
 		hero_copy.add_theme_constant_override("separation", 4 if compact else 8)
@@ -417,16 +434,17 @@ func _request_same_retry() -> void:
 	retry_requested.emit()
 func get_presentation_model() -> Dictionary:
 	return _presentation_model.duplicate(true)
-func show_actual_run(index: int):
+func show_actual_run(index: int, auto_compare: bool = false):
 	var history: Array = result_history()
 	if history.is_empty():
 		outcome_title.text = "Your results will appear here"
 		results.text = "Finish a flight to see how you did."
 		return
 	var trace: Dictionary = history[clampi(index, 0, history.size() - 1)]
-	show_execution(trace)
+	show_execution(trace, auto_compare)
 
-func show_execution(trace: Dictionary) -> void:
+func show_execution(trace: Dictionary, auto_compare: bool = true) -> void:
+	_auto_pair_enabled = auto_compare
 	_selected_execution_trace = trace.duplicate(true)
 	_lab_response.clear()
 	_lab_error.clear()
@@ -441,7 +459,7 @@ func show_execution(trace: Dictionary) -> void:
 	data_goal_value.text = "%s / %s MB" % [player.data, player.data_goal]
 	COPY.raw(flight_name, "text", str(trace.config.mission.get("title", "Your flight")))
 	score_label.text = player.score
-	score_label.add_theme_font_size_override("font_size", 13 if report_score_unavailable(_presentation_model) else 16)
+	score_label.add_theme_font_size_override("font_size", 18)
 	score_label.tooltip_text = "Mission score"
 	score_gauge.set_score(_presentation_model.get("report", {}).get("score"), Color(outcome_color))
 	var report: Dictionary = _presentation_model.get("report", {})
@@ -475,6 +493,7 @@ func show_execution(trace: Dictionary) -> void:
 	for button in [retry_button, same_mission_button]:
 		button.tooltip_text = "" if selected_is_latest else "Return to the latest flight to modify or retry."
 	refresh_design_lab()
+	_open_pair_after_flight.call_deferred(trace.duplicate(true))
 	COPY.pieces(credits, "text", LANGUAGE.credit_parts(_presentation_model))
 	for link in source_links.get_children():
 		source_links.remove_child(link)
@@ -521,7 +540,7 @@ func refresh_design_lab() -> void:
 	var candidate: Dictionary = {}
 	var key: String = str(_presentation_model.get("execution_key", ""))
 	var selected: Dictionary = controller.get_execution(key)
-	if selected.get("ok") and _presentation_model.get("state") == "report":
+	if selected.get("ok") and _presentation_model.get("state") in ["report", "evaluation_error"]:
 		candidate = DESIGN_LAB.record(selected.execution.trace, _presentation_model.report)
 	var b: Dictionary = candidate if candidate.get("execution_key") != a.get("execution_key") else {}
 	if _lab_response.get("a_execution_key") != a.get("execution_key") or _lab_response.get("b_execution_key") != b.get("execution_key"): _lab_response.clear()
@@ -530,7 +549,7 @@ func refresh_design_lab() -> void:
 	design_lab.set_inputs({"a":a, "b":b, "candidate":candidate,
 		"a_saved":not a.is_empty(), "storage_available":true,
 		"modify_saved_available":not a.is_empty(), "modify_current_available":not retry_button.disabled,
-		"comparison_available":controller.has_method("compare_executions"),
+		"comparison_available":controller.comparison_available(),
 		"comparison":_lab_response, "error":error, "feedback":_lab_feedback})
 
 func _lab_result(reply: Dictionary, success: String = "") -> bool:
@@ -588,7 +607,15 @@ func _lab_open(key: String) -> void:
 func render_goal_progress(trace: Dictionary, model: Dictionary, supplied_details: Dictionary = {}) -> void:
 	# Optional details are a view input only; runtime never creates pending-goal configs.
 	_goal_progress = GOAL_PROGRESS.build(model, trace, supplied_details)
-	COPY.bind(run_identity, "text", "Flight {0}", [_goal_progress.get("run_id", {"copy":"Unavailable"})])
+	var run_id: String = str(trace.get("final_state", {}).get("run_id", ""))
+	var number: int = run_id.get_slice("_", run_id.get_slice_count("_") - 1).to_int()
+	var caption: String = "Design B · Flight {0}" if trace.has("comparison_context") else "Flight {0}"
+	var controller: Node = _lab_controller()
+	if controller != null:
+		var saved: Dictionary = controller.get_saved_design_a()
+		if saved.get("execution") != null and saved.execution.execution_key == _presentation_model.get("execution_key"): caption = "Design A · Flight {0}"
+	COPY.bind(run_identity, "text", caption, [number if number > 0 else {"copy":"Unavailable"}])
+	COPY.raw(run_identity, "tooltip_text", run_id)
 	COPY.raw(qa_notice, "text", str(_goal_progress.get("fixture_label", "")))
 	qa_notice.visible = not qa_notice.text.is_empty()
 	for i in 2:
@@ -662,7 +689,9 @@ func result_history() -> Array:
 	var history: Array = []
 	var ids: Array = []
 	for record in state.get("evaluation_store", {}).get("history", []):
-		history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation, "events": record.state.event_log.duplicate(true)})
+		var stored: Dictionary = preload("res://scripts/integration/mission_results.gd").get_execution(state, str(record.get("execution_key", "")))
+		if stored.ok: history.append(stored.execution.trace.duplicate(true))
+		else: history.append({"config": record.state.config_snapshot, "final_state": record.state, "validation": record.validation, "events": record.state.event_log.duplicate(true)})
 		ids.append(record.state.run_id)
 	for trace in state.get("run_history", []):
 		if ids.has(trace.final_state.run_id): continue
@@ -671,3 +700,14 @@ func result_history() -> Array:
 			display.final_state = state.active_run_state.duplicate(true)
 		history.append(display)
 	return history
+
+func _open_pair_after_flight(trace: Dictionary) -> void:
+	if not _auto_pair_enabled or not is_inside_tree() or _presentation_model.get("execution_key") != preload("res://scripts/integration/mission_results.gd").input_key(trace): return
+	var origin: Dictionary = trace.get("comparison_context", {})
+	if origin.is_empty(): return
+	var controller: Node = _lab_controller()
+	if controller == null: return
+	var saved: Dictionary = controller.get_saved_design_a()
+	if saved.get("execution") == null or saved.execution.execution_key != origin.get("saved_a"): return
+	_lab_compare()
+	open_design_lab()

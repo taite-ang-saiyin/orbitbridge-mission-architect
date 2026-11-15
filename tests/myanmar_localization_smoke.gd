@@ -94,7 +94,7 @@ func run() -> void:
 	expect(raw_dialog.dialog_text == raw_copy and raw_dialog.get_label().text == raw_copy, "Native dialog data survives English restoration")
 	raw_dialog.queue_free()
 	var settings_menu: MenuButton = app.find_child("SettingsMenu", true, false)
-	expect(not settings_menu.visible, "Setup keeps its existing header layout")
+	expect(settings_menu.visible, "Setup exposes the shared hamburger menu")
 	app.show_screen(5)
 	await settle()
 	expect(settings_menu.visible, "Results exposes its page-specific settings menu")

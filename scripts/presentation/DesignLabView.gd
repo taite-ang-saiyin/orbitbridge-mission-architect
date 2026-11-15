@@ -29,6 +29,8 @@ var status_label: Label
 var explanation: Label
 var identities: Label
 var changes: Label
+var stacked: VBoxContainer
+var stacked_cells: Dictionary = {}
 var grid: GridContainer
 var cells: Dictionary = {}
 var save_button: Button
@@ -42,17 +44,19 @@ var pending_expected_a_key: String = ""
 var pending_candidate: Dictionary = {}
 var confirmed_expected_a_key: String = ""
 var view_a_button: Button
+var manage_button: MenuButton
 var view_b_button: Button
 var _confirmation_focus: Control
 
 func _ready() -> void:
 	add_theme_constant_override("separation", 12)
-	UI.label(self, "A / B DESIGN LAB", 15, "b9f4e7")
-	notice = UI.label(self, session_notice(OS.has_feature("web")), 12, "f4d38b")
+	UI.label(self, "A / B DESIGN COMPARISON", 20, "b9f4e7")
+	notice = UI.label(self, session_notice(OS.has_feature("web")), 16, "f4d38b")
 	fixture_notice = UI.label(self, "", 14, "f4d38b")
-	status_label = UI.label(self, "", 17, "b9f4e7")
-	explanation = UI.label(self, "", 13)
-	identities = UI.label(self, "", 12, "8ea9bb")
+	status_label = UI.label(self, "", 20, "b9f4e7")
+	explanation = UI.label(self, "", 18)
+	identities = UI.label(self, "", 16, "8ea9bb")
+	identities.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 	grid = GridContainer.new()
 	grid.name = "DesignComparison"
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -66,12 +70,33 @@ func _ready() -> void:
 		var row: Array[Label] = []
 		for i in 3: row.append(_cell("Unavailable", "e6edf8", 75))
 		cells[definition[0]] = row
-	changes = UI.label(self, "", 14)
+	stacked = VBoxContainer.new()
+	stacked.add_theme_constant_override("separation", 18)
+	add_child(stacked)
+	for definition in METRICS:
+		var card = VBoxContainer.new()
+		card.add_theme_constant_override("separation", 8)
+		stacked.add_child(card)
+		UI.label(card, definition[1], 18, "8ea9bb")
+		var values = HBoxContainer.new()
+		values.add_theme_constant_override("separation", 12)
+		card.add_child(values)
+		var labels: Array[Label] = []
+		for title in ["A", "B", "B − A"]:
+			var column = VBoxContainer.new()
+			column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			values.add_child(column)
+			UI.label(column, title, 16, "8ea9bb")
+			labels.append(UI.label(column, "Unavailable", 18))
+		stacked_cells[definition[0]] = labels
+	resized.connect(_responsive)
+	_responsive.call_deferred()
+	changes = UI.label(self, "", 18)
 	var actions = HFlowContainer.new()
 	actions.add_theme_constant_override("h_separation", 10)
 	actions.add_theme_constant_override("v_separation", 8)
 	add_child(actions)
-	save_button = UI.button(actions, "Save as A", func(): _save(false))
+	save_button = UI.button(actions, "Save A and create B", func(): _save(false))
 	replace_button = UI.button(actions, "Replace A…", func(): _confirm("replace"))
 	modify_button = UI.button(actions, "Modify design", _modify)
 	compare_button = UI.button(actions, "Compare A and B", func():
@@ -79,7 +104,17 @@ func _ready() -> void:
 	clear_button = UI.button(actions, "Clear A…", func(): _confirm("clear"))
 	view_a_button = UI.button(actions, "Open A's Debrief", func(): _view("a"))
 	view_b_button = UI.button(actions, "Open B's Debrief", func(): _view("b"))
-	for button in actions.get_children(): button.custom_minimum_size.y = 44
+	manage_button = MenuButton.new()
+	manage_button.text = "Saved A…"
+	manage_button.get_popup().add_item("Replace A…", 0)
+	manage_button.get_popup().add_item("Clear A…", 1)
+	manage_button.get_popup().id_pressed.connect(func(id): _confirm("replace" if id == 0 else "clear"))
+	actions.add_child(manage_button)
+	for button in actions.get_children():
+		button.custom_minimum_size.y = 44
+		button.add_theme_font_size_override("font_size", 18)
+		button.custom_minimum_size.x = clampf(button.get_theme_font("font").get_string_size(button.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x + 28, 140, 300)
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	# Keep Save / Continue / Compare reachable before the long measurement table.
 	move_child(actions, 4)
 	confirmation = ConfirmationDialog.new()
@@ -92,7 +127,7 @@ func _ready() -> void:
 	refresh()
 
 func _cell(value: String, color: String, width: float) -> Label:
-	var label: Label = UI.label(grid, value, 14, color)
+	var label: Label = UI.label(grid, value, 18, color)
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.custom_minimum_size.x = width
 	return label
@@ -124,7 +159,7 @@ static func signed(value: Variant) -> String:
 
 static func completed(record: Dictionary) -> bool:
 	var report: Dictionary = dictionary(record.get("report"))
-	return record.get("run_id") is String and not record.run_id.is_empty() and record.get("mission_id") is String and not record.mission_id.is_empty() and record.get("execution_key") is String and not record.execution_key.is_empty() and record.get("phase") == "finished" and record.get("run_status") == "completed" and report.get("run_status") == "completed" and report.get("run_id") == record.run_id and report.get("mission_id") == record.mission_id
+	return record.get("run_id") is String and not record.run_id.is_empty() and record.get("mission_id") is String and not record.mission_id.is_empty() and record.get("execution_key") is String and not record.execution_key.is_empty() and record.get("phase") == "finished" and record.get("run_status") == "completed" and (record.get("measurements_only") == true or (report.get("run_status") == "completed" and report.get("run_id") == record.run_id and report.get("mission_id") == record.mission_id))
 
 func set_inputs(value: Dictionary) -> void:
 	inputs = value.duplicate(true)
@@ -164,12 +199,9 @@ func refresh() -> void:
 	var interpretation: Variant = comparison.get("interpretation", comparison.get("explanation")) if binding else null
 	var parts: Array = [{"raw":interpretation}] if interpretation is String and not interpretation.is_empty() else ["Save a completed flight as A, then continue with one design change. Both Debriefs remain available."]
 	if state == "comparison" and not (interpretation is String and not interpretation.is_empty()): parts = ["Interpretation: Unavailable"]
-	if state == "comparison" and comparison.get("limitations") is Array:
-		parts.append("\nLimitations\n")
-		for limitation in comparison.limitations:
-			if limitation is String and not limitation.is_empty(): parts.append({"raw":limitation + "\n"})
+	explanation.tooltip_text = "\n".join(comparison.get("limitations", [])) if binding else ""
 	if inputs.get("storage_available") != true: parts = ["Saved-design services are unavailable on this build. Completed run measurements remain readable."]
-	if saved and state == "pending": status_label.text = "Design A saved · ready for your next experiment"
+	if saved and state == "pending": status_label.text = "Ready to compare A and B" if ready else "Design A saved · create Design B"
 	if inputs.get("feedback") is String and not inputs.feedback.is_empty(): parts = [inputs.feedback]
 	var error: Dictionary = dictionary(inputs.get("error"))
 	if not error.is_empty():
@@ -190,7 +222,7 @@ func refresh() -> void:
 	COPY.pieces(explanation, "text", parts)
 	COPY.raw(fixture_notice, "text", str(inputs.get("fixture_label", "")) if preview else "")
 	fixture_notice.visible = preview
-	COPY.bind(identities, "text", "A (saved): {0}\nB: {1}" if saved else "A candidate (not saved): {0}\nB: {1}", [a.get("run_id", {"copy":"Unavailable"}), b.get("run_id", {"copy":"Unavailable"})])
+	COPY.bind(identities, "text", "Design A · {0}\nDesign B · {1}" if saved else "Save this flight as A to start a comparison.", [a.get("config", {}).get("mission", {}).get("title", "Unavailable"), b.get("config", {}).get("mission", {}).get("title", "Not flown yet")])
 	COPY.bind(identities, "tooltip_text", "A mission: {0}\nA execution: {1}\nB mission: {2}\nB execution: {3}", [a.get("mission_id", {"copy":"Unavailable"}), a.get("execution_key", {"copy":"Unavailable"}), b.get("mission_id", {"copy":"Unavailable"}), b.get("execution_key", {"copy":"Unavailable"})])
 	var show_supplied: bool = eligible or example
 	for definition in METRICS:
@@ -201,7 +233,7 @@ func refresh() -> void:
 		cells[name][0].text = _value(name, av, a)
 		cells[name][1].text = _value(name, bv, b)
 		# Deltas are supplied values only; never calculate a substitute comparison.
-		cells[name][2].text = signed(supplied.get("delta")) if show_supplied else "Unavailable"
+		cells[name][2].text = ("Not scored" if av == "Not scored" else ("Unchanged" if av == bv else "%s → %s" % [av, bv])) if name == "outcome" and show_supplied else (signed(supplied.get("delta")) if show_supplied else "Unavailable")
 		cells[name][2].tooltip_text = str(supplied.get("delta_unit", definition[2]))
 		if numeric(supplied.get("delta")) and show_supplied and not str(supplied.get("delta_unit", definition[2])).is_empty():
 			cells[name][2].text += " " + str(supplied.get("delta_unit", definition[2]))
@@ -209,6 +241,10 @@ func refresh() -> void:
 			if name != "outcome" and not "Unavailable" in cell.text: COPY.raw(cell, "text", cell.text)
 			else: COPY.bind(cell, "text", "{0}", [{"copy":cell.text}])
 			COPY.raw(cell, "tooltip_text", cell.tooltip_text)
+	for name in cells:
+		for index in 3:
+			stacked_cells[name][index].set_meta("ke3_copy_text", cells[name][index].get_meta("ke3_copy_text", {}))
+			stacked_cells[name][index].text = cells[name][index].text
 	var changed: Variant = comparison.get("changed_parts") if show_supplied else null
 	var part_lines: Array[String] = []
 	if changed is Array:
@@ -221,8 +257,16 @@ func refresh() -> void:
 	replace_button.disabled = not storage or not saved or not completed(candidate) or candidate.get("run_id") == a.get("run_id")
 	clear_button.disabled = not storage or not saved
 	modify_button.disabled = preview or (inputs.get("modify_saved_available") != true and inputs.get("modify_current_available") != true)
-	modify_button.text = "Continue Design B" if saved else "Modify current design"
+	modify_button.text = ("Try another B" if ready else "Create Design B") if saved else "Modify current design"
+	compare_button.text = "Refresh comparison" if state == "comparison" else "Show comparison"
 	compare_button.disabled = preview or inputs.get("comparison_available") != true or not saved or not ready
+	save_button.visible = not saved
+	compare_button.visible = saved and ready and state != "comparison"
+	replace_button.hide()
+	clear_button.hide()
+	manage_button.visible = saved
+	manage_button.get_popup().set_item_disabled(0, replace_button.disabled)
+	manage_button.get_popup().set_item_disabled(1, clear_button.disabled)
 	view_a_button.disabled = preview or not saved or not completed(a)
 	view_b_button.disabled = preview or not completed(b)
 	model = {"state":state, "eligible":eligible, "a_saved":saved, "preview":preview, "comparison":comparison.duplicate(true), "a":a.duplicate(true), "b":b.duplicate(true), "error":error.duplicate(true), "heading":status_label.text}
@@ -286,23 +330,23 @@ func get_model() -> Dictionary:
 
 static func record(trace: Dictionary, report: Dictionary) -> Dictionary:
 	var final: Dictionary = dictionary(trace.get("final_state"))
-	var validation: Dictionary = dictionary(dictionary(trace.get("validation")).get("metrics"))
 	var config: Dictionary = dictionary(trace.get("config"))
 	# The v1 capture counter is a qualifying count only for Imaging.
-	var imaging: bool = dictionary(config.get("mission")).get("objective") == "imaging"
+	var objective: String = dictionary(config.get("mission")).get("objective", "")
+	var unscored: bool = report.is_empty() and objective in ["survey", "communication", "weather_monitoring"] and preload("res://scripts/presentation/GoalProgress.gd").verified_native_trace(trace)
+	var measured: Dictionary = preload("res://scripts/evaluation/recorded_comparison.gd").measurements(trace, {"ok":not report.is_empty(),"report":report})
+	var required: Variant = config.get("mission", {}).get("required_observations")
+	if objective in ["communication", "weather_monitoring"]: required = final.get("goal_progress", {}).get("required_count")
+	if objective == "survey": required = config.mission.get("target_regions", [config.mission.target_region]).size()
 	return {
 		"run_id":final.get("run_id"), "mission_id":final.get("mission_id"),
 		"execution_key":Results.input_key(trace), "scenario_id":final.get("scenario_id"),
 		"scenario_version":dictionary(final.get("scenario_snapshot")).get("scenario_version"),
 		"phase":final.get("phase"), "run_status":final.get("run_status"),
 		"config":config.duplicate(true), "report":report.duplicate(true),
-		"required_count":report.get("required_observations") if imaging else null,
-		"metrics":{
-			"outcome":report.get("status"), "score":report.get("score"),
-			"qualifying_count":report.get("observations_completed") if imaging else null,
-			"returned_data_mb":report.get("returned_data_mb"),
-			"total_cost_credits":validation.get("total_cost_credits"),
-			"total_mass_g":validation.get("total_mass_g")}}
+		"required_count":required, "measurements_only":unscored,
+		"metrics":measured}
+
 
 static func from_session(session: Dictionary, selected: Dictionary) -> Dictionary:
 	var store: Dictionary = dictionary(session.get("evaluation_store"))
@@ -318,3 +362,9 @@ static func from_session(session: Dictionary, selected: Dictionary) -> Dictionar
 	var b: Dictionary = current if current.get("run_id") != a.get("run_id") else {}
 	# Automatic baseline lookup is not an explicit Save A service. No independent store.
 	return {"a":a, "b":b, "candidate":current, "a_saved":false, "comparison":dictionary(current.get("report")).get("comparison"), "storage_available":false, "comparison_available":false, "modify_current_available":session.get("run_trace", {}).get("final_state", {}).get("run_id") == current.get("run_id") and completed(current)}
+
+func _responsive() -> void:
+	if not is_instance_valid(stacked): return
+	var narrow: bool = size.x < 640
+	grid.visible = not narrow
+	stacked.visible = narrow

@@ -90,7 +90,9 @@ func check() -> void:
 	var inputs: Dictionary = app.comparison_inputs(b_key)
 	expect(inputs.ok and inputs.mode == "controlled_design", "Matching recorded scenario and requested action plan")
 	expect(inputs.b.trace.requested_action_plan == original.trace.action_plan, "B reruns A's requests, not its resource outcomes")
-	expect(not app.compare_executions(b_key).ok, "Missing KE2 provider is explicit, never fake scoring")
+	expect(app.compare_executions(b_key).ok, "Recorded comparison provider is connected")
+	app.comparison_provider = Callable()
+	expect(not app.compare_executions(b_key).ok, "Missing provider remains explicit")
 	app.comparison_provider = func(pair): return {"ok":true,"comparison":{"a_execution_key":pair.a.execution_key,"b_execution_key":pair.b.execution_key,"test_provider":true}}
 	expect(app.compare_executions(b_key).ok, "Execution-bound Compare callback")
 	app.comparison_provider = func(_pair): return {"ok":true,"comparison":{"a_execution_key":"foreign","b_execution_key":b_key}}
