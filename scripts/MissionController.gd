@@ -1,5 +1,6 @@
 extends Control
 const SCREENS = ["MissionControl", "MissionCreator", "SpacecraftBuilder", "FlightReadiness", "MissionOperations", "DebriefCompare"]
+enum MenuAction { LANGUAGE, START_PAGE }
 var state = preload("res://data/mock/DesignCatalog.gd").DEFAULTS.duplicate(true)
 var preferences = preload("res://scripts/settings/PrototypeSettings.gd").DEFAULTS.duplicate()
 var shell: Control
@@ -14,6 +15,8 @@ var design_lab_restore: Dictionary = {}
 var comparison_provider: Callable
 var sidebar_rail: PanelContainer
 var scoped_language: Node
+var start_return_index: int = -1
+var start_return_execution: String = ""
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -40,7 +43,9 @@ func _ready():
 	margin.add_child(layout)
 	var title = Label.new()
 	title.text = "OrbitBridge\nMission Architect"
-	title.add_theme_font_size_override("font_size", 20)
+	title.add_theme_font_size_override("font_size", 14)
+	title.custom_minimum_size.y = 64
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var mark = TextureRect.new()
 	mark.texture = preload("res://assets/ui/icons/orbit-mark.svg")
 	mark.custom_minimum_size = Vector2(46, 46)
@@ -51,20 +56,23 @@ func _ready():
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(mark)
 	header.add_child(title)
-	var status = Label.new()
-	status.text = "ORBITBRIDGE     •     MISSION LAB"
-	status.add_theme_color_override("font_color", Color("33e5e9"))
-	header.add_child(status)
-	var language_button = Button.new()
-	language_button.name = "LanguageSettings"
-	language_button.text = "Language"
-	language_button.custom_minimum_size = Vector2(76, 44)
-	language_button.pressed.connect(open_language_settings.bind(language_button))
-	header.add_child(language_button)
-	var home_button = Button.new()
-	home_button.text = "Home"
-	home_button.pressed.connect(request_screen.bind(0))
-	header.add_child(home_button)
+	var menu = MenuButton.new()
+	menu.name = "SettingsMenu"
+	menu.icon = preload("res://assets/ui/icons/menu.svg")
+	menu.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	menu.tooltip_text = "Settings"
+	menu.accessibility_name = "Settings"
+	menu.focus_mode = Control.FOCUS_ALL
+	menu.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	menu.custom_minimum_size = Vector2(44, 44)
+	menu.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(menu)
+	var choices = menu.get_popup()
+	choices.add_theme_stylebox_override("panel", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("0a2033"), Color("345b76")))
+	choices.add_theme_constant_override("v_separation", 12)
+	choices.add_item("Language", MenuAction.LANGUAGE)
+	choices.add_item("Start page", MenuAction.START_PAGE)
+	choices.id_pressed.connect(_select_settings_action.bind(menu))
 	host = Control.new()
 	host.name = "ScreenHost"
 	host.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -117,6 +125,13 @@ func _ready():
 	show_home()
 	if "--verify-demo" in OS.get_cmdline_user_args(): verify_demo.call_deferred()
 
+func _select_settings_action(id: int, menu: MenuButton) -> void:
+	match id:
+		MenuAction.LANGUAGE:
+			open_language_settings.call_deferred(menu)
+		MenuAction.START_PAGE:
+			return_to_start()
+
 func fit_shell():
 	var padding = 18 if size.x >= 1250 else 12
 	for side in ["left", "right", "top", "bottom"]:
@@ -134,9 +149,34 @@ func show_home():
 	landing_host.show()
 	current = preload("res://scenes/screens/home/Home.tscn").instantiate()
 	current.preferences = preferences
-	current.start_requested.connect(show_screen.bind(0))
+	current.resume_available = start_return_index >= 0
+	current.start_requested.connect(resume_from_start)
 	current.quit_requested.connect(func(): get_tree().quit())
 	landing_host.add_child(current)
+
+func return_to_start() -> void:
+	if is_instance_valid(current) and current.screen_id in SCREENS:
+		start_return_index = SCREENS.find(current.screen_id)
+		start_return_execution = str(current.get_presentation_model().get("execution_key", "")) if current.has_method("get_presentation_model") else ""
+		if current.screen_id == "MissionOperations": current.pause()
+	show_home()
+
+func resume_from_start() -> void:
+	if start_return_index == 5 and not start_return_execution.is_empty():
+		show_execution_result(start_return_execution)
+	elif start_return_index == 4:
+		var snapshot: Dictionary = state.get("active_run_state", {}).duplicate(true)
+		if snapshot.get("phase") == "finished":
+			show_screen(5)
+			return
+		show_screen(4)
+		# Resume the exact native frame, avoiding proportional-clock rounding.
+		if current.screen_id == "MissionOperations":
+			for index in current.DATA.frames.size():
+				if current.DATA.frames[index].state == snapshot:
+					current.select_event(index)
+					break
+	else: show_screen(start_return_index if start_return_index >= 0 else 0)
 
 func request_screen(index: int) -> void:
 	# Review player setup without bypassing live-run edit and result guards.
@@ -408,13 +448,35 @@ func open_language_settings(origin: Control) -> void:
 	dialog.title = "Settings"
 	var panel = preload("res://scenes/ui/settings/SettingsPanel.tscn").instantiate()
 	panel.values = preferences
+	# The dialog supplies the border and title for the shared settings content.
+	panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	panel.get_node("Margin/Content/Title").hide()
+	panel.get_node("Margin/Content/Heading").hide()
+	panel.custom_minimum_size.x = 0
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	panel.settings_changed.connect(func(): scoped_language.refresh())
 	panel.closed.connect(dialog.queue_free)
 	dialog.canceled.connect(dialog.queue_free)
-	dialog.add_child(panel)
+	var scroll = ScrollContainer.new()
+	scroll.name = "SettingsScroll"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	dialog.add_child(scroll)
+	scroll.add_child(panel)
+	panel.minimum_size_changed.connect(func(): _fit_language_settings.call_deferred(dialog, panel))
 	dialog.tree_exited.connect(func():
 		if is_instance_valid(origin): origin.grab_focus())
 	add_child(dialog)
 	dialog.get_ok_button().hide()
-	dialog.popup_centered(Vector2i(mini(520, int(size.x) - 40), mini(620, int(size.y) - 60)))
+	dialog.popup_centered(Vector2i(mini(460, int(size.x) - 48), 1))
+	_fit_language_settings.call_deferred(dialog, panel)
 	panel.language.grab_focus()
+
+func _fit_language_settings(dialog: AcceptDialog, panel: Control) -> void:
+	if not is_instance_valid(dialog) or not is_instance_valid(panel) or dialog.is_queued_for_deletion(): return
+	var width = mini(460, int(size.x) - 48)
+	var height = mini(ceili(panel.get_combined_minimum_size().y) + 48, int(size.y) - 80)
+	var wanted = Vector2i(width, maxi(200, height))
+	if dialog.size != wanted:
+		dialog.size = wanted
+		dialog.move_to_center()

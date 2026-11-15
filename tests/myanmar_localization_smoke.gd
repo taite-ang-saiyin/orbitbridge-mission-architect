@@ -93,8 +93,8 @@ func run() -> void:
 	app.scoped_language.refresh()
 	expect(raw_dialog.dialog_text == raw_copy and raw_dialog.get_label().text == raw_copy, "Native dialog data survives English restoration")
 	raw_dialog.queue_free()
-	var language_button: Button = app.find_child("LanguageSettings", true, false)
-	language_button.pressed.emit()
+	var settings_menu: MenuButton = app.find_child("SettingsMenu", true, false)
+	settings_menu.get_popup().id_pressed.emit(app.MenuAction.LANGUAGE)
 	await settle()
 	var escape = InputEventKey.new()
 	escape.keycode = KEY_ESCAPE
@@ -104,7 +104,7 @@ func run() -> void:
 	escape.pressed = false
 	root.push_input(escape)
 	expect(app.get_node_or_null("LanguageSettingsDialog") == null, "Escape destroys language modal so it can reopen")
-	language_button.pressed.emit()
+	settings_menu.get_popup().id_pressed.emit(app.MenuAction.LANGUAGE)
 	await settle()
 	expect(app.get_node_or_null("LanguageSettingsDialog") != null, "Active-screen language selector reopens after Escape")
 	app.get_node("LanguageSettingsDialog").queue_free()
