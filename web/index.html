@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+		<title>OrbitBridge: Mission Architect</title>
+		<style>
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	color: white;
+	background-color: black;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+	display: block;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#status, #status-splash, #status-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+#status, #status-splash {
+	top: 0;
+	bottom: 0;
+}
+
+#status {
+	background-color: #030710;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	visibility: hidden;
+	opacity: 1;
+	transition: opacity 0.35s ease;
+}
+
+#status-splash {
+	max-height: 100%;
+	max-width: 100%;
+	margin: auto;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-progress, #status-notice {
+	display: none;
+}
+
+#status-footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 3.5rem 1.5rem 2.25rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.55rem;
+	background: linear-gradient(to top, rgba(3, 7, 16, 0.9), rgba(3, 7, 16, 0.48) 55%, transparent);
+	pointer-events: none;
+}
+
+#status-label {
+	color: #bae6fd;
+	font-family: 'Noto Sans', 'Segoe UI', Arial, sans-serif;
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+#status-tip {
+	color: rgba(226, 232, 240, 0.82);
+	font-family: 'Noto Sans', 'Segoe UI', Arial, sans-serif;
+	font-size: 0.78rem;
+	text-align: center;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+}
+
+#status-progress {
+	position: static;
+	width: 42%;
+	max-width: 520px;
+	min-width: 220px;
+	height: 8px;
+	margin: 0 auto;
+	appearance: none;
+	-webkit-appearance: none;
+	border: none;
+	border-radius: 999px;
+	background: rgba(3, 7, 16, 0.78);
+	box-shadow: 0 0 0 1px rgba(125, 211, 252, 0.3), 0 4px 16px rgba(0, 0, 0, 0.6);
+	overflow: hidden;
+}
+
+#status-progress::-webkit-progress-bar {
+	background: rgba(3, 7, 16, 0.72);
+	border-radius: 999px;
+}
+
+#status-progress::-webkit-progress-value {
+	background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+	border-radius: 999px;
+	box-shadow: 0 0 12px rgba(56, 189, 248, 0.75);
+}
+
+#status-progress::-moz-progress-bar {
+	background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+	border-radius: 999px;
+}
+
+#status-notice {
+	background-color: #5b3943;
+	border-radius: 0.5rem;
+	border: 1px solid #9b3943;
+	color: #e0e0e0;
+	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+	line-height: 1.3;
+	margin: 0 2rem;
+	overflow: hidden;
+	padding: 1rem;
+	text-align: center;
+	z-index: 1;
+}
+		</style>
+		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png?v=2" />
+<link rel="apple-touch-icon" href="index.apple-touch-icon.png?v=2"/>
+
+	</head>
+	<body>
+		<canvas id="canvas">
+			Your browser does not support the canvas tag.
+		</canvas>
+
+		<noscript>
+			Your browser does not support JavaScript.
+		</noscript>
+
+		<div id="status">
+			<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="index.png" alt="">
+			<div id="status-footer">
+				<div id="status-label">LOADING MISSION SYSTEMS...</div>
+				<progress id="status-progress"></progress>
+				<div id="status-tip">Tip: Keep 1U CubeSat mass under 1,330 g to pass Flight Readiness.</div>
+			</div>
+			<div id="status-notice"></div>
+		</div>
+
+		<script src="index.js"></script>
+		<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":18268480,"index.wasm":37902138},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_THREADS_ENABLED = false;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const APP_TITLE = 'OrbitBridge: Mission Architect';
+	document.title = APP_TITLE;
+	const titleEl = document.querySelector('title');
+	if (titleEl && typeof MutationObserver !== 'undefined') {
+		new MutationObserver(() => {
+			if (document.title !== APP_TITLE) {
+				document.title = APP_TITLE;
+			}
+		}).observe(titleEl, { childList: true, characterData: true, subtree: true });
+	}
+	const statusOverlay = document.getElementById('status');
+	const statusFooter = document.getElementById('status-footer');
+	const statusLabel = document.getElementById('status-label');
+	const statusProgress = document.getElementById('status-progress');
+	const statusNotice = document.getElementById('status-notice');
+
+	let initializing = true;
+	let statusMode = '';
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			initializing = false;
+			statusOverlay.style.opacity = '0';
+			setTimeout(() => {
+				statusOverlay.remove();
+			}, 360);
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusFooter.style.display = mode === 'progress' ? 'flex' : 'none';
+		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		if (err instanceof Error) {
+			setStatusNotice(err.message);
+		} else if (typeof err === 'string') {
+			setStatusNotice(err);
+		} else {
+			setStatusNotice('An unknown error occurred.');
+		}
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+
+	if (missing.length !== 0) {
+		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
+			let serviceWorkerRegistrationPromise;
+			try {
+				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+			} catch (err) {
+				serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
+			}
+			// There's a chance that installing the service worker would fix the issue
+			Promise.race([
+				serviceWorkerRegistrationPromise.then((registration) => {
+					if (registration != null) {
+						return Promise.reject(new Error('Service worker already exists.'));
+					}
+					return registration;
+				}).then(() => engine.installServiceWorker()),
+				// For some reason, `getRegistration()` can stall
+				new Promise((resolve) => {
+					setTimeout(() => resolve(), 2000);
+				}),
+			]).then(() => {
+				// Reload if there was no error.
+				window.location.reload();
+			}).catch((err) => {
+				console.error('Error while registering service worker:', err);
+			});
+		} else {
+			// Display the message as usual
+			const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+			displayFailureNotice(missingMsg + missing.join('\n'));
+		}
+	} else {
+		setStatusMode('progress');
+		engine.startGame({
+			'onProgress': function (current, total) {
+				if (current > 0 && total > 0) {
+					statusProgress.value = current;
+					statusProgress.max = total;
+					const pct = Math.min(100, Math.round((current / total) * 100));
+					statusLabel.textContent = 'LOADING MISSION SYSTEMS · ' + pct + '%';
+				} else {
+					statusProgress.removeAttribute('value');
+					statusProgress.removeAttribute('max');
+					statusLabel.textContent = 'INITIALIZING ENGINE...';
+				}
+			},
+		}).then(() => {
+			setStatusMode('hidden');
+		}, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>
+
