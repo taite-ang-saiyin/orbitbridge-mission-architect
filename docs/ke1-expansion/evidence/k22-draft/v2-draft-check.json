@@ -1,0 +1,3376 @@
+{
+  "base_main": "dce75db",
+  "checker_revision": "k22-v2-review-1",
+  "examples": {
+    "advanced_imaging": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1300
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 1.2,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 104,
+        "total_mass_g": 1300
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "budget_shortfall": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs exceed the budget.",
+          "passed": false,
+          "status": "fail"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "BUDGET_EXCEEDED",
+          "field_path": "mission.budget_credits",
+          "message": "Parts plus launch cost 89 credits; budget is 88 credits.",
+          "suggested_fix": "Choose cheaper parts/launch or increase the mission budget."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "budget_zero": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.budget_credits",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "captures_over_limit": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_observations",
+          "message": "Use a finite whole number in the proposed range 1-20.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "communication": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "contact_count_boolean": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "contact_count_fraction": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "contact_count_negative": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "contact_count_string": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "contact_count_zero": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "contacts_over_total_steps": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Contacts cannot exceed the selected frozen scenario's total steps.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "duplicate_mb": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_returned_data_mb",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "duplicate_targets": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions",
+          "message": "Use distinct target strings and this objective's allowed target count.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "duration_over_limit": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.duration_orbits",
+          "message": "Use a finite whole number in the proposed range 1-12.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "estuary_watch": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "heavy_part_combination": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass does not meet the selected profile rule.",
+          "passed": false,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "fail",
+          "threshold_g": 1330,
+          "total_mass_g": 1380
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "PROFILE_MASS_EXCEEDED",
+          "field_path": "design.launch_profile_id",
+          "message": "Spacecraft mass is 1380 g; this profile requires mass < 1330 g.",
+          "source_id": "cubesat_101_1u_sample",
+          "suggested_fix": "Choose lighter parts or a suitable alternative launch profile."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 96,
+        "total_mass_g": 1380
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "mb_zero": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_returned_data_mb",
+          "message": "Use positive finite decimal MB.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "missing_contact_count": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Required field is missing.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "missing_goal": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal",
+          "message": "Required field is missing.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "missing_radio": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "MISSING_COMPONENT",
+          "field_path": "design.radio_id",
+          "message": "Required field is missing.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "new_goal_two_targets": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions",
+          "message": "Use distinct target strings and this objective's allowed target count.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "old_preset_revision": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_revision",
+          "message": "Use the selected preset's published revision.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "polar_ice_survey": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "preset_objective_mismatch": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective",
+          "message": "Objective must match authored preset lineage.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "primary_target_mismatch": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_region",
+          "message": "Primary target must equal the first selected target.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "survey_delivery_over_quota": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target",
+          "message": "Per-target deliveries cannot exceed the available capture quota.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "survey_two_targets": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "title_whitespace": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.title",
+          "message": "Use a trimmed nonempty string.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "tropical_forest_watch": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "unknown_objective": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective",
+          "message": "Choose a proposed registered objective.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "unknown_part": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "UNKNOWN_COMPONENT",
+          "field_path": "design.radio_id",
+          "message": "Choose an existing part ID.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "unknown_preset": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_id",
+          "message": "Choose a registered authored preset identity.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "unknown_root_key": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "extra_goal",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "weather_monitoring": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_valid": true,
+      "draft_only": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "review_valid": true,
+      "warnings": []
+    },
+    "weather_visits_over_capture_quota": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Visits cannot exceed duration or capture quota; delivery semantics remain pending.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "weather_visits_over_duration": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Visits cannot exceed duration or capture quota; delivery semantics remain pending.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "withdrawn_instrument_capability": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INSTRUMENT_OBJECTIVE_UNSUPPORTED",
+          "field_path": "design.instrument_id",
+          "message": "The review context does not declare this instrument/objective combination.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "wrong_goal_counter": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "wrong_goal_kind": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.kind",
+          "message": "Use the goal kind matching the objective.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    },
+    "wrong_part_slot": {
+      "checker_revision": "k22-v2-review-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid draft input and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_valid": false,
+      "draft_only": true,
+      "errors": [
+        {
+          "code": "WRONG_COMPONENT_CATEGORY",
+          "field_path": "design.radio_id",
+          "message": "Choose a part in the correct slot.",
+          "suggested_fix": "Review the K20 proposal; do not use this checker to approve launch."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "metrics": null,
+      "pending_decisions": [
+        "Weather delivery",
+        "transmission steps versus windows",
+        "custom/edit identity",
+        "capability registration",
+        "evidence/scoring/envelope versions",
+        "exact proposed bounds ratification"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "review_valid": false,
+      "warnings": []
+    }
+  },
+  "failed": 0,
+  "passed": 466,
+  "production_launch_enabled": false
+}

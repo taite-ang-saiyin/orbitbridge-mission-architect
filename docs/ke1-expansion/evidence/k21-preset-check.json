@@ -1,0 +1,83 @@
+{
+  "base_main": "dce75db",
+  "failed": 0,
+  "new_goals_playable": false,
+  "passed": 60,
+  "stock_setups": {
+    "communication": {
+      "logical_goal_evaluated": false,
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "physical_setup_ready": true
+    },
+    "estuary_watch": {
+      "logical_goal_evaluated": false,
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "physical_setup_ready": true
+    },
+    "polar_ice_survey": {
+      "logical_goal_evaluated": false,
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "physical_setup_ready": true
+    },
+    "tropical_forest_watch": {
+      "logical_goal_evaluated": false,
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "physical_setup_ready": true
+    },
+    "weather_monitoring": {
+      "logical_goal_evaluated": false,
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "physical_setup_ready": true
+    }
+  }
+}

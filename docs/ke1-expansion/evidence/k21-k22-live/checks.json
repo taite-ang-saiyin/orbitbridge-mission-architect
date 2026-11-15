@@ -1,0 +1,20 @@
+{
+  "status": "K21_COMPLETE_K22_VALIDATION_IMPLEMENTED_NATIVE_INTEGRATION_PENDING",
+  "date": "2026-11-15",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "godot": "4.7.2",
+  "contract_revision": "expansion-goals-v2-agreed-1",
+  "registry_revision": "five-presets-agreed-1",
+  "capability_revision": "v2-capabilities-agreed-1",
+  "active_programs_passed": 49,
+  "active_programs_failed": 0,
+  "new_preset_checks_passed": 97,
+  "new_validation_checks_passed": 373,
+  "original_v1_logic_preserved": true,
+  "all_five_native_v2_launches_rejected_without_state": true,
+  "hpc_adapter_changed": false,
+  "runtime_ui_changed": false,
+  "public_browser_tested": false,
+  "regression_note": "Unsupported-version test updated from numeric 2 to 3 because 2 now has an explicit validation path; malformed/missing-context v2 remains rejected.",
+  "environment_notes": "Offline checks completed with root-certificate-store warnings; import could not save user editor settings."
+}

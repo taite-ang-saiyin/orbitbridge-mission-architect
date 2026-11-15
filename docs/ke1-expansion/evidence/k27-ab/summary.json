@@ -1,0 +1,26 @@
+{
+  "A": {
+    "cost_credits": 82,
+    "mass_g": 1060,
+    "minimum_energy_wh": 21.777777778,
+    "remaining_energy_wh": 21.777777778,
+    "returned_data_mb": 15.4666666656,
+    "run_id": "run_k27_A",
+    "score": 82,
+    "status": "partial"
+  },
+  "B": {
+    "cost_credits": 89,
+    "mass_g": 1120,
+    "minimum_energy_wh": 20.8111111114,
+    "remaining_energy_wh": 20.8111111114,
+    "returned_data_mb": 24.0,
+    "run_id": "run_k27_B",
+    "score": 100,
+    "status": "success"
+  },
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "failed": 0,
+  "passed": 36,
+  "scope": "SUPPORTED_V1_IMAGING_EXAMPLES_NOT_NEW_GOAL_INTEGRATION"
+}

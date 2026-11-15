@@ -1,0 +1,20 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+CASE valid_1060g: ready=true; mass=1060; errors=[]
+CASE valid_near_limit_1320g: ready=true; mass=1320; errors=[]
+CASE overweight_1380g: ready=false; mass=1380; errors=["PROFILE_MASS_EXCEEDED"]
+CASE alternative_1380g: ready=true; mass=1380; errors=[]
+CASE budget_exceeded: ready=false; mass=1060; errors=["BUDGET_EXCEEDED"]
+CASE incompatible_launcher_profile: ready=false; mass=1060; errors=["LAUNCH_ORBIT_INCOMPATIBLE"]
+CASE missing_radio: ready=false; mass=<null>; errors=["MISSING_COMPONENT"]
+CASE unknown_instrument: ready=false; mass=<null>; errors=["UNKNOWN_COMPONENT"]
+CASE budget_equal: ready=true; mass=1060; errors=[]
+CASE valid_low_eq: ready=true; mass=1060; errors=[]
+CASE strict_boundary_1329g: ready=true; mass=1329; errors=[]
+CASE strict_boundary_1330g: ready=false; mass=1330; errors=["PROFILE_MASS_EXCEEDED"]
+CASE strict_boundary_1331g: ready=false; mass=1331; errors=["PROFILE_MASS_EXCEEDED"]
+CASE alternative_boundary_5000g: ready=true; mass=5000; errors=[]
+CASE alternative_boundary_5001g: ready=false; mass=5001; errors=["PROFILE_MASS_EXCEEDED", "LAUNCHER_CAPACITY_EXCEEDED"]
+KE1 K09/K10 saved fixtures: 470 checks passed; 0 failed.

@@ -1,0 +1,14 @@
+{
+  "status": "PROPOSED_SEMANTIC_EXPECTATIONS_NOT_KE2_REPORTS",
+  "same_run_evidence_required": true,
+  "minimum_complete_observations_per_target": 1,
+  "checks_for_goal_review": [
+    "retained overall capture quota",
+    "retained aggregate returned MB",
+    "at least one fully returned observation for every selected target"
+  ],
+  "missing_and_partial_case_expectation": "Must not receive Survey success under the proposed goal even though aggregate capture and data thresholds are met. Exact partial/failure label and score await KE2.",
+  "scoring": null,
+  "hpc_acceptance": "pending",
+  "k20_agreement": "pending"
+}

@@ -1,0 +1,36 @@
+{
+  "status": "KE1_REVIEW_PROPOSAL_NOT_RUNTIME_COMPARATOR",
+  "pair_id": "k27-imaging-radio-pair-1",
+  "scope": "Existing supported v1 Imaging only. This is not a sixth preset or final five-goal A/B agreement.",
+  "allowed_differing_config_fields": [
+    "design.radio_id"
+  ],
+  "must_match": [
+    "schema_version",
+    "full mission including title, target order, capture/data goals, duration and budget",
+    "every design selection except intended radio_id",
+    "actual ordered accepted actions",
+    "scenario/catalog snapshot and source versions",
+    "engine/validator/evaluator source revision",
+    "initial energy/storage/packets",
+    "completed terminal status with bound reports"
+  ],
+  "must_differ": [
+    "run_id"
+  ],
+  "future_v2_must_also_match": [
+    "contract_revision",
+    "preset_id",
+    "preset_revision",
+    "full mission.goal"
+  ],
+  "do_not_match_by": [
+    "title alone",
+    "preset_id alone",
+    "automatic baseline alone"
+  ],
+  "changed_operations": "exclude from hardware-only pair or explicitly label design + operations; final product behavior awaits KE2/SE",
+  "aborted_incomplete_or_unavailable": "not an eligible scored controlled pair; show unavailable instead of inventing zero",
+  "save_a": "explicit owned immutable snapshot; running B/cancel must not change A; SE implementation pending integration",
+  "report_comparison_field": "leave actual current KE2 report.comparison null; no new official comparison schema implemented"
+}

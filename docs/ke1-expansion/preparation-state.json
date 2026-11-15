@@ -1,0 +1,15 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "branch": "ke1-expanded-scope-preparation",
+  "carried_missing_docs": [],
+  "status": "prepared_and_example_audited",
+  "authorization": "documentation_and_resources_only",
+  "preserve_source_branch": "deploy",
+  "existing_ke1_branches": [
+    "ke1",
+    "ke1-sunday"
+  ],
+  "workspace_folder": "OrbitBridge-KE1-Expanded",
+  "source_checkout_folder": "orbitbridge-mission-architect",
+  "backup_relative_to_project": "../KE1-Planning-Backups/ke1-planning-backup-20261114.zip"
+}

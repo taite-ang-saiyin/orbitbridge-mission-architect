@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+SYNTHETIC CASE ready_step_2 => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 2, "energy_wh": 8, "stored_mb": 2, "returned_mb": 0, "observations_completed": 0, "observations_requested": 3, "contact_on": false, "lifecycle": "ready" }
+SYNTHETIC CASE observe_allowed => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 3, "energy_wh": 7, "stored_mb": 3, "returned_mb": 0, "observations_completed": 1, "observations_requested": 3, "contact_on": false, "lifecycle": "ready" }
+SYNTHETIC CASE contact_on => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 4, "energy_wh": 7, "stored_mb": 3, "returned_mb": 0, "observations_completed": 1, "observations_requested": 3, "contact_on": true, "lifecycle": "ready" }
+SYNTHETIC CASE downlink_contact_on => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 5, "energy_wh": 6, "stored_mb": 1, "returned_mb": 2, "observations_completed": 1, "observations_requested": 3, "contact_on": true, "lifecycle": "ready" }
+SYNTHETIC CASE downlink_no_contact => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 3, "energy_wh": 7, "stored_mb": 3, "returned_mb": 0, "observations_completed": 1, "observations_requested": 3, "contact_on": false, "lifecycle": "ready" }
+SYNTHETIC CASE power_save => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 4, "energy_wh": 8, "stored_mb": 3, "returned_mb": 0, "observations_completed": 1, "observations_requested": 3, "contact_on": false, "lifecycle": "ready" }
+SYNTHETIC CASE terminal => { "accepted": true, "error": "" } expected={ "accepted": true, "step": 8, "energy_wh": 5, "stored_mb": 1, "returned_mb": 2, "observations_completed": 1, "observations_requested": 3, "contact_on": false, "lifecycle": "terminal" }
+SYNTHETIC CASE report_success => { "accepted": true, "error": "" } expected={ "accepted": true, "status": "success", "observations_completed": 3, "observations_requested": 3, "returned_mb": 4, "return_threshold_mb": 4 }
+SYNTHETIC CASE report_partial => { "accepted": true, "error": "" } expected={ "accepted": true, "status": "partial", "observations_completed": 1, "observations_requested": 3, "returned_mb": 2, "return_threshold_mb": 4 }
+SYNTHETIC CASE report_failure => { "accepted": true, "error": "" } expected={ "accepted": true, "status": "failed", "observations_completed": 0, "observations_requested": 3, "returned_mb": 0, "return_threshold_mb": 4 }
+SYNTHETIC CASE report_missing => { "accepted": true, "error": "" } expected={ "accepted": true, "report_present": false }
+SYNTHETIC CASE report_stale_run => { "accepted": false, "error": "stale_run_id" } expected={ "accepted": false, "error": "stale_run_id" }
+SYNTHETIC CASE report_dangling_event => { "accepted": true, "error": "" } expected={ "accepted": true, "status": "partial", "observations_completed": 1, "observations_requested": 3, "returned_mb": 2, "return_threshold_mb": 4 }
+SYNTHETIC FIXTURE SUITE: 254 checks; 0 failures
+FIXTURE PASS

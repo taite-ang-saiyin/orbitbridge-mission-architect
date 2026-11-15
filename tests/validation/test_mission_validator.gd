@@ -115,7 +115,8 @@ func _test_shape_failures() -> void:
 		var changed: Dictionary = config.duplicate(true)
 		changed["design"]["bus_id"] = value
 		_expect_issue(Validator.validate(changed, catalogs), "INVALID_VALUE", "design.bus_id", "Bad ID type/text")
-	for value in [0, 2, true, "1", 1.5, INF, NAN]:
+	# Numeric 2 now has an explicit v2 path; 3 remains an unsupported version.
+	for value in [0, 3, true, "1", 1.5, INF, NAN]:
 		var changed: Dictionary = config.duplicate(true)
 		changed["schema_version"] = value
 		_expect_issue(Validator.validate(changed, catalogs), "INVALID_SCHEMA", "schema_version", "Wrong schema version")

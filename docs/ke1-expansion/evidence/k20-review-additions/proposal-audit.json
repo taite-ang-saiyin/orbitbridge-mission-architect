@@ -1,0 +1,373 @@
+{
+  "status": "DOCUMENT_FIXTURE_QA_ONLY_NOT_RUNTIME_ACCEPTANCE",
+  "review_revision": "k20-review-additions-1",
+  "cases_checked": 40,
+  "failed": 0,
+  "cases": [
+    {
+      "id": "estuary_watch",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "tropical_forest_watch",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "polar_ice_survey",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "communication",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "weather_monitoring",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "survey_two_targets",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "advanced_imaging",
+      "proposal_expectation_consistent": true,
+      "expected_issues": []
+    },
+    {
+      "id": "missing_goal",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal"
+        }
+      ]
+    },
+    {
+      "id": "missing_contact_count",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "wrong_goal_kind",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.kind"
+        }
+      ]
+    },
+    {
+      "id": "wrong_goal_counter",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_distinct_orbits"
+        }
+      ]
+    },
+    {
+      "id": "duplicate_mb",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_returned_data_mb"
+        }
+      ]
+    },
+    {
+      "id": "contact_count_zero",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "contact_count_boolean",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "contact_count_string",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "contact_count_fraction",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "contact_count_negative",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "captures_over_limit",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_observations"
+        }
+      ]
+    },
+    {
+      "id": "duration_over_limit",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.duration_orbits"
+        }
+      ]
+    },
+    {
+      "id": "budget_zero",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.budget_credits"
+        }
+      ]
+    },
+    {
+      "id": "mb_zero",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_returned_data_mb"
+        }
+      ]
+    },
+    {
+      "id": "weather_visits_over_duration",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits"
+        }
+      ]
+    },
+    {
+      "id": "weather_visits_over_capture_quota",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits"
+        }
+      ]
+    },
+    {
+      "id": "contacts_over_total_steps",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ]
+    },
+    {
+      "id": "survey_delivery_over_quota",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target"
+        }
+      ]
+    },
+    {
+      "id": "unknown_root_key",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "extra_goal"
+        }
+      ]
+    },
+    {
+      "id": "unknown_preset",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_id"
+        }
+      ]
+    },
+    {
+      "id": "old_preset_revision",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_revision"
+        }
+      ]
+    },
+    {
+      "id": "unknown_part",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "UNKNOWN_COMPONENT",
+          "field_path": "design.radio_id"
+        }
+      ]
+    },
+    {
+      "id": "wrong_part_slot",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "WRONG_COMPONENT_CATEGORY",
+          "field_path": "design.radio_id"
+        }
+      ]
+    },
+    {
+      "id": "missing_radio",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "MISSING_COMPONENT",
+          "field_path": "design.radio_id"
+        }
+      ]
+    },
+    {
+      "id": "duplicate_targets",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions"
+        }
+      ]
+    },
+    {
+      "id": "primary_target_mismatch",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_region"
+        }
+      ]
+    },
+    {
+      "id": "new_goal_two_targets",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions"
+        }
+      ]
+    },
+    {
+      "id": "preset_objective_mismatch",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective"
+        }
+      ]
+    },
+    {
+      "id": "unknown_objective",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective"
+        }
+      ]
+    },
+    {
+      "id": "title_whitespace",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.title"
+        }
+      ]
+    },
+    {
+      "id": "heavy_part_combination",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "PROFILE_MASS_EXCEEDED",
+          "field_path": "design.launch_profile_id"
+        }
+      ]
+    },
+    {
+      "id": "budget_shortfall",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "BUDGET_EXCEEDED",
+          "field_path": "mission.budget_credits"
+        }
+      ]
+    },
+    {
+      "id": "withdrawn_instrument_capability",
+      "proposal_expectation_consistent": true,
+      "expected_issues": [
+        {
+          "code": "INSTRUMENT_OBJECTIVE_UNSUPPORTED",
+          "field_path": "design.instrument_id"
+        }
+      ]
+    }
+  ]
+}

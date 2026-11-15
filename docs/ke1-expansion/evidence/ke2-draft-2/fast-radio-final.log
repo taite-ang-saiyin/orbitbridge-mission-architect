@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+KE2 fast-radio follow-up: 265 passed; 0 failed.
+2_captures: [7, 10] / MB [19.333333332, 4.666666668] / total 24.0
+1_captures: [7] / MB [12.0] / total 12.0

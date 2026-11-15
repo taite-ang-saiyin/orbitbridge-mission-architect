@@ -1,0 +1,35 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "contract_revision": "expansion-goals-v2-draft-2",
+  "registry_revision": "five-presets-candidate-2",
+  "communication_preset_revision": 2,
+  "hpc_confirmation": "pending",
+  "se_confirmation": "pending",
+  "ke2_status": "support for relayed choices; package receipt and full report/scoring decisions not recorded",
+  "tests": {
+    "catalog": {
+      "passed": 70,
+      "failed": 0
+    },
+    "starter": {
+      "passed": 265,
+      "failed": 0
+    },
+    "existing_validator": {
+      "passed": 294,
+      "failed": 0
+    }
+  },
+  "total_checks_passed": 629,
+  "original_v1_presets_preserved": true,
+  "other_preset_values_preserved": true,
+  "independent_trace_inspection": "passed",
+  "new_objectives_enabled": false,
+  "official_new_goal_score": null,
+  "executed_input_sha256": {
+    "data/mission_presets.json": "fcb523cd28e766e58547b6371a197b80b2aaba2203c52fd055e6a321e47ed0d7",
+    "scripts/core/mission_preset_catalog.gd": "32e7a0fc6a6eebab75f866c4b265dbc2add0074ccfef4afffdcb865b57d002f5",
+    "tests/validation/test_mission_presets.gd": "7269c3decefa7df5e92e5302722213cd4cf804fc7a1bab7b48d085599a47975f",
+    "docs/ke1-expansion/tools/check_communication_starter.gd": "aa3f192c5c7d5a0efb0287e06bd839fddb9e4174d73eb201870a2ba639cb65f5"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "draft_only": true,
+  "failed": 0,
+  "loaded_context": {
+    "new_objectives_currently_enabled": false,
+    "proposed_instrument_objectives": {
+      "instrument_advanced": [
+        "imaging",
+        "survey",
+        "communication",
+        "weather_monitoring"
+      ],
+      "instrument_basic": [
+        "imaging",
+        "survey",
+        "communication",
+        "weather_monitoring"
+      ]
+    },
+    "status": "PROPOSED_NOT_REGISTERED_FOR_NEW_OBJECTIVES"
+  },
+  "passed": 83,
+  "production_enabled": false
+}

@@ -1,0 +1,25 @@
+{
+  "status": "CANDIDATE_ONLY_NOT_LIVE_LAUNCH_APPROVAL",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "candidate_revision": "k22-v2-validator-candidate-1",
+  "date": "2026-11-15",
+  "godot": "4.7.2",
+  "programs": {
+    "candidate": 327,
+    "test_mission_validator": 294,
+    "test_mission_readiness": 671,
+    "test_mission_fixtures": 470,
+    "test_mission_presets": 70,
+    "test_mission_config_v2_draft": 466,
+    "test_mission_capability_draft_loader": 83,
+    "test_hpc": 48
+  },
+  "passed": 2429,
+  "failed": 0,
+  "live_runtime_changed": false,
+  "pending_confirmation_owners": [
+    "HPC"
+  ],
+  "public_browser_tested": false,
+  "environment_notes": "Offline tests completed with a root-certificate-store warning; editor imports could not save user editor settings."
+}

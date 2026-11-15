@@ -1,0 +1,442 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "backup_file": "ke1-planning-backup-20261114.zip",
+  "files": [
+    {
+      "archive_path": "current-project/AGENTS.md",
+      "bytes": 6046,
+      "sha256": "5b85cab65fb8cdf7fb3bbbf80367fa5c9c98d59c48c6c0928a0d87b6dc6f8c46"
+    },
+    {
+      "archive_path": "current-project/tasks.md",
+      "bytes": 10364,
+      "sha256": "0aa557fac500ad0dc5b601ad0273fa40c3477c1a4368bb199e14b1305ba3edcb"
+    },
+    {
+      "archive_path": "current-project/GEMINI.md",
+      "bytes": 1005,
+      "sha256": "7bf0ea31ead3e377f9fc6dc97a401870d401d44d9494d20e1c3264af5df9274a"
+    },
+    {
+      "archive_path": "current-project/README.md",
+      "bytes": 10925,
+      "sha256": "69839390b189cfc1b4d54b43f97aeba2500aa0c5a76adea054a5f22fcb7a329d"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/action-blocked.event.example.json",
+      "bytes": 322,
+      "sha256": "c09675f4b0d32fbde614ddb896e5ee6ae4c2f9a5f004333b2e6e10421133623c"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/agreed-behavior-cases.example.json",
+      "bytes": 3226,
+      "sha256": "70b8adb546d9b57ec0834defb455a1390acba583f344b0bfd370a912deb33d92"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/completed-report.evidence-events.example.json",
+      "bytes": 365,
+      "sha256": "cd696165b1ab4b63cf6c48d71f699a002fc29717cc062392088bbc6267374db6"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/evaluation-aborted.example.json",
+      "bytes": 598,
+      "sha256": "a246a7ee7c42577828e86870cee0e74da592af1a72daf23d327be282df57136e"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/evaluation-completed.example.json",
+      "bytes": 1045,
+      "sha256": "b3a00cfa3d9e7546f93a6ede13f74734f7deca245dfd4a581a43a528f5785afe"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/evaluation-nonterminal-error.example.json",
+      "bytes": 317,
+      "sha256": "e898138cc6399e222b718a4eeedd4b63ec51bd1f181ad7f017bb42a4aa137648"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/evaluation-top-level-error.example.json",
+      "bytes": 268,
+      "sha256": "e69ab372749eb6af21f74788a09aff7d9915c268d2f9ed72eb49d2a4abfdd5fa"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/fields-and-statuses.md",
+      "bytes": 3513,
+      "sha256": "49cfcb69934e6e691a94b8c6d03e388e3e47e232ae6963c834eef82ad840ff03"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/mission-config-invalid-goals.example.json",
+      "bytes": 596,
+      "sha256": "162186e30867b5f43b9dd4785d6ce2e54764a8e8a89321658bea77ef2802ee71"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/mission-config-overmass.example.json",
+      "bytes": 606,
+      "sha256": "95225a7be44b2ceedb55436f123b60fcb6ffaf0d313f46989dac8104f9fd7431"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/mission-config.example.json",
+      "bytes": 597,
+      "sha256": "e6c38d040e2796803460081c71431c2abafb884678fa475a6fb591b9781d195f"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/mission-report-aborted.example.json",
+      "bytes": 532,
+      "sha256": "0e8e7397e991b7e534bd555eb073e71c7ff11961bcd63939f12b78a03cd029b0"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/mission-report-completed.example.json",
+      "bytes": 957,
+      "sha256": "6d2f8a4c923f560c4ea9f5527315635b1470cf5e15fb23e2c68aaa27dfbecee6"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/mission-state.example.json",
+      "bytes": 812,
+      "sha256": "ee488f805a1e064eb484a1149189ff03a464acc0b0c1317c6a00c41f76fdd56b"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/readiness-policies.md",
+      "bytes": 2689,
+      "sha256": "6d1fb66b4820f833ff62f852015d766b0b6a189f4a16f86b0fc13f41262acde8"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/README.md",
+      "bytes": 4496,
+      "sha256": "8b747963895459c1dffe495dcf30310aa72a692d4d392d7b22db2c1c8cf9853d"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/reference-ids.json",
+      "bytes": 2470,
+      "sha256": "83f3323c7a4b62469863823567a9dead30b4b2889f742e71a3eae2f54eb6c216"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/request-action-blocked.example.json",
+      "bytes": 1286,
+      "sha256": "af448b4cfa972bfec0827ce2afd126039dbca684022d1042cb31956f8a857a51"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/scoring-cases.example.json",
+      "bytes": 2727,
+      "sha256": "0fcd3f7b07636cdcbff29d18e61dbe8de7fb4a1c29c4e439fe5d83333d763b28"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/unit-conversions.example.json",
+      "bytes": 506,
+      "sha256": "b0f2739a44daac2d5c8bfe151cd20799a9bf8478f59f9593db0c4f3f6034d5bf"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/validation-invalid-goals.example.json",
+      "bytes": 2006,
+      "sha256": "885fb07e006adbde7fbe801fede64b7df390daa15b22006bde6a6ad52f10d446"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/validation-overmass.example.json",
+      "bytes": 2167,
+      "sha256": "a40b48d4957e684328f3a14b17bcbfa74181621422f20bd4e3a3db9b85511d8b"
+    },
+    {
+      "archive_path": "current-project/docs/contracts/v1-draft/validation-ready.example.json",
+      "bytes": 1818,
+      "sha256": "8ffd55b9e86f6e358710ff423e7adcf2898e0a429544d555a0af22c63914439d"
+    },
+    {
+      "archive_path": "current-project/docs/contracts.md",
+      "bytes": 24604,
+      "sha256": "307497dc0b8a38361ae17464d4d15675404abaa82988aa7371ee917f45b5c829"
+    },
+    {
+      "archive_path": "current-project/docs/DESIGN_WORKBENCH.md",
+      "bytes": 7543,
+      "sha256": "9da4d35b6ab06c3fcb57721bc3df8aa76ad83d09bba4fe6af91b8689c1e3e94b"
+    },
+    {
+      "archive_path": "current-project/docs/FLIGHT_READINESS.md",
+      "bytes": 3700,
+      "sha256": "dfcc8ebd41adfe00a833665743e4b17a316576f7cc22dcb2ac08e0e4dc52b4ea"
+    },
+    {
+      "archive_path": "current-project/docs/handoff/alternate_profile_result.json",
+      "bytes": 1878,
+      "sha256": "8a988df3ca6c7e6c857b4d98be2309e15a66febc323ad341aee42a20732b21d0"
+    },
+    {
+      "archive_path": "current-project/docs/handoff/handoff-check-log.txt",
+      "bytes": 2935,
+      "sha256": "7b43ae00672a1a68b8c29056db14d741f453dcd7c7aeec0d6ac99c6290064d57"
+    },
+    {
+      "archive_path": "current-project/docs/handoff/manifest.json",
+      "bytes": 5005,
+      "sha256": "a1d79674f3357252b24ad17d3830fd706a8118a88b5f1051431cf743c75516de"
+    },
+    {
+      "archive_path": "current-project/docs/handoff/overweight_1u_result.json",
+      "bytes": 2153,
+      "sha256": "3b84e7e81f398dafc67370007cdcc8e5bde7c897db8270d66bc6a976ee5dc0cd"
+    },
+    {
+      "archive_path": "current-project/docs/handoff/valid_1u_result.json",
+      "bytes": 1825,
+      "sha256": "8e47644672f3d8cd507696b1a9cc8475bc33e77f3791807ba35e8f110c94ff99"
+    },
+    {
+      "archive_path": "current-project/docs/handoff/validation-test-log.txt",
+      "bytes": 1714,
+      "sha256": "e9bf4076eae249b13b0ca0f79696c0be471445d419fbc00d9359ff4a3459e851"
+    },
+    {
+      "archive_path": "current-project/docs/HOME.md",
+      "bytes": 3474,
+      "sha256": "bfaf0cdb3392c91ebef24823df1779c42e202c0437eae40dc0b5cc82de658f4e"
+    },
+    {
+      "archive_path": "current-project/docs/HOME_BACKGROUND_PROMPT.md",
+      "bytes": 1506,
+      "sha256": "feebd2260ee77651c716cd5b0a6fc352f880b4c5d561186b27d905ffec25dd58"
+    },
+    {
+      "archive_path": "current-project/docs/hpc-integration.md",
+      "bytes": 9455,
+      "sha256": "bd43135b6bb731cbb6565049da6cf6dc6a2fa311c03a086c383b764290094076"
+    },
+    {
+      "archive_path": "current-project/docs/hpc-ke2-abort-bundle-v0.1.json",
+      "bytes": 192743,
+      "sha256": "4283f1dc663736b46462cbbb452f5fd1c5ab91cf0caa892c3e7c21f55c60697b"
+    },
+    {
+      "archive_path": "current-project/docs/hpc-ke3-ops-trace-v0.1.json",
+      "bytes": 68102,
+      "sha256": "2aefca15b2e8797063815f42550679fe822af05db1280fea6ed3f9e140991a97"
+    },
+    {
+      "archive_path": "current-project/docs/hpc-ke3-ops-trace-v0.2.json",
+      "bytes": 69670,
+      "sha256": "2b9bd242bb21b95594fc31aa23b7dda7df45c62aa975b73ada5c9943c8af72ad"
+    },
+    {
+      "archive_path": "current-project/docs/integration-evidence/controller-reference-reproduction.json",
+      "bytes": 66469,
+      "sha256": "cdb120664f1fc6e1d60656449173d683e2c6b3030b3921e93578af334318b1f9"
+    },
+    {
+      "archive_path": "current-project/docs/integration-evidence/controller_evaluation_smoke.gd.log",
+      "bytes": 1068,
+      "sha256": "fb8940c0bb92b9c87002b82ccc4aa0abd5b0cc683f16b20b65fd52b15d405e7b"
+    },
+    {
+      "archive_path": "current-project/docs/integration-evidence/integration_smoke.gd.log",
+      "bytes": 386,
+      "sha256": "bdebe094137678c8670ec22943e3cb08470e5829e81a2bc43a2727f2ced5bb09"
+    },
+    {
+      "archive_path": "current-project/docs/integration-evidence/operations_smoke.gd.log",
+      "bytes": 936,
+      "sha256": "72f29bf1e572c5626683f3fd2190843d88b8ac6eaffc0cad7b2aa618dd5763a9"
+    },
+    {
+      "archive_path": "current-project/docs/integration-evidence/prototype_smoke.gd.log",
+      "bytes": 391,
+      "sha256": "97141b9c1404e492fe1fcbaa7bb9a041cf4779322033d7aa809d8e6592fcd936"
+    },
+    {
+      "archive_path": "current-project/docs/integration-evidence/test_mission_evaluator.gd.log",
+      "bytes": 8027,
+      "sha256": "8e4596394866025a7cc1f3c6d95483d1bb2c77cb7228f484019826b05ec832db"
+    },
+    {
+      "archive_path": "current-project/docs/k05-k06-progress.md",
+      "bytes": 4780,
+      "sha256": "b41e5ef2c97894f746a84c67641ce38c7c322a9110113586300d8c0bc8a3dd88"
+    },
+    {
+      "archive_path": "current-project/docs/k07-k08-progress.md",
+      "bytes": 6445,
+      "sha256": "37a1abea61cfb9cd260ac32d7164a50295db55716bc78df84d38d84a14ae4077"
+    },
+    {
+      "archive_path": "current-project/docs/k09-k10-progress.md",
+      "bytes": 2947,
+      "sha256": "f2d59423e6c68a72c6861206adf9f01d4f92ef8202770016382fecdd3b11d3e9"
+    },
+    {
+      "archive_path": "current-project/docs/k12-k13-progress.md",
+      "bytes": 7292,
+      "sha256": "46c17d0d7aae1883d77801d1e9f5428e343bb49e15bf11e903a0977e6092c4e1"
+    },
+    {
+      "archive_path": "current-project/docs/k13a-k14-progress.md",
+      "bytes": 5512,
+      "sha256": "0f1d8f7ebce36846451dcf24204a70ada309942bd02f659abf45425e87d5002b"
+    },
+    {
+      "archive_path": "current-project/docs/k14-team-review.md",
+      "bytes": 3464,
+      "sha256": "1206f6c8c86786b32acb4dbb800d3d0fb59acf04c8bd67b006d49c4c7fd23c4a"
+    },
+    {
+      "archive_path": "current-project/docs/k15-integration.md",
+      "bytes": 4023,
+      "sha256": "f2afddb6ffa921aa095dafdbf4900c4221a973730c23519cfe57da8ad7299dfc"
+    },
+    {
+      "archive_path": "current-project/docs/ke1-handoff.md",
+      "bytes": 12366,
+      "sha256": "49b137972a9e9941bf51b6dd61a9b1020a40b61e421217a28b8c58a2dac92ecb"
+    },
+    {
+      "archive_path": "current-project/docs/kickoff-progress.md",
+      "bytes": 2130,
+      "sha256": "992a1ce12ada37ed7b6519512ea50ca69285b716590906c201cc20282ec2488b"
+    },
+    {
+      "archive_path": "current-project/docs/kickoff.md",
+      "bytes": 6734,
+      "sha256": "d8dd50a5e63e7b79c43689faab0219e3ba55ec7b02419b0e1de1cfb5ef28bdb3"
+    },
+    {
+      "archive_path": "current-project/docs/LOGIC_INTEGRATION.md",
+      "bytes": 14228,
+      "sha256": "4198606cc2548ae6e633262b0ece9202a44f2e6e593a1eca98d283d0fe7a3a72"
+    },
+    {
+      "archive_path": "current-project/docs/MISSION_OPERATIONS.md",
+      "bytes": 4791,
+      "sha256": "a659ad6deec69a5491703cfaf11c47c0e211d957a01e9e4894b915f0068e4e66"
+    },
+    {
+      "archive_path": "current-project/docs/OPERATIONS_ART_PROMPT.md",
+      "bytes": 1168,
+      "sha256": "5fca02f0bb25994c07484565b2852339278ae972fafe3ef759ecf9e9736cad60"
+    },
+    {
+      "archive_path": "current-project/docs/pre-kickoff-review.md",
+      "bytes": 9981,
+      "sha256": "749260e9624e7721b20b10cd6ffa0af8f8a3868de6dbaa5bd2fb1cdabdc3a6fb"
+    },
+    {
+      "archive_path": "current-project/docs/PROJECT_STRUCTURE.md",
+      "bytes": 4888,
+      "sha256": "11117bc354242cc7489c15b33d4be8c43719e85f53b3621b3cd5bda42f3ef829"
+    },
+    {
+      "archive_path": "current-project/docs/REFERENCE_ART_PROMPTS.md",
+      "bytes": 2298,
+      "sha256": "2ac31445487d6d859185a00b6447bf1020c476509b6d3516c440c4a574433a7b"
+    },
+    {
+      "archive_path": "current-project/docs/references/NASA_CubeSat_101.pdf",
+      "bytes": 4445718,
+      "sha256": "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592"
+    },
+    {
+      "archive_path": "current-project/docs/SATELLITE_BUILDER.md",
+      "bytes": 5423,
+      "sha256": "fb1ffd07f01443cd8fad98d390b7b20f1bc3296c059cb6f498cf150bf032b197"
+    },
+    {
+      "archive_path": "current-project/docs/se-main-merge.md",
+      "bytes": 3011,
+      "sha256": "a727921b3a97a5fdea402a51e176c1c6ebb7533ed59938e00f047e81d82328b5"
+    },
+    {
+      "archive_path": "current-project/docs/SE_KE2_CONTROLLER_HANDOFF.md",
+      "bytes": 5389,
+      "sha256": "4ef38cb82985d1e43ddf9591b148cf0e9d57e06abcae03f6e034d4c8515386bc"
+    },
+    {
+      "archive_path": "current-project/docs/sources.md",
+      "bytes": 6533,
+      "sha256": "06407c385a4bf1c14c88e87c63834982375b6c9b1cf84d87322606e736ee4f7d"
+    },
+    {
+      "archive_path": "current-project/docs/sunday-blockers.md",
+      "bytes": 2868,
+      "sha256": "c9b29b80168f9d089e7c22de05db46a1f16d4cb295907a05c826ec9b6f195d1e"
+    },
+    {
+      "archive_path": "current-project/docs/team-agreement.md",
+      "bytes": 32744,
+      "sha256": "234087dbfe631de97b98e081f19daf73525446e47326193395d5ecdc573d4291"
+    },
+    {
+      "archive_path": "current-project/docs/tool-setup.md",
+      "bytes": 9577,
+      "sha256": "e4655a9c5f0eebd3ac9832b2b92103cde4d2453b42fadf41f6eb3f93084298f3"
+    },
+    {
+      "archive_path": "current-project/docs/validation-plan.md",
+      "bytes": 6725,
+      "sha256": "3cf02b995b7bcb480db36a20099adc92bfa111033798c8f55397c447259a3150"
+    },
+    {
+      "archive_path": "current-project/docs/verification/k15-merge-checks.json",
+      "bytes": 5960,
+      "sha256": "ac2d6834f8eb278602d65b851cabd50f428e3cde742dfe8e49638503033a2020"
+    },
+    {
+      "archive_path": "current-project/docs/verification/se-main-merge-checks.json",
+      "bytes": 5504,
+      "sha256": "73becbe23c1e725948eb9e42c1b2f7ad93b336a5cdb77d974356fbe70c380e32"
+    },
+    {
+      "archive_path": "current-project/docs/verification/windows-demo-checks.json",
+      "bytes": 11089,
+      "sha256": "d5475da5c34a21fc11b45dfbbb61c467372f66fb6c60b35d63a0009a46d98c30"
+    },
+    {
+      "archive_path": "current-project/docs/windows-demo-readme.txt",
+      "bytes": 2178,
+      "sha256": "41d128a75ec917471252fc8974054b80aea3573848481ebf9647b0cc3bcc256e"
+    },
+    {
+      "archive_path": "original-ke1/AGENTS.md",
+      "bytes": 4801,
+      "sha256": "fe403c10f882915e93b0a3743eed2c1f84fdf0615a88cf3d6e7b6b9768447170"
+    },
+    {
+      "archive_path": "original-ke1/tasks.md",
+      "bytes": 5122,
+      "sha256": "8e134de066517ca50c1b6fa643d1ea7bdfdff9798bccc3b590938a179938c43e"
+    },
+    {
+      "archive_path": "original-ke1/GEMINI.md",
+      "bytes": 534,
+      "sha256": "b5b9688f2f57ea968a6322adc93037317d25d89fe0ca65852dfd8867bccd41b5"
+    },
+    {
+      "archive_path": "original-ke1/README.md",
+      "bytes": 3440,
+      "sha256": "9fbf6ab157590b6cc56d8d5bbfdde793cde631e574034092c99b74d25301532c"
+    },
+    {
+      "archive_path": "original-ke1/docs/contracts.md",
+      "bytes": 7563,
+      "sha256": "29104057eca86247bac015e06d09a9b52e26bdcb7f115cd259049d2f224c6432"
+    },
+    {
+      "archive_path": "original-ke1/docs/kickoff.md",
+      "bytes": 4650,
+      "sha256": "c6c6ba2e130052dedbe9dd47cd7dc4ee5180cb85da6af03f6be544f5b2a8f656"
+    },
+    {
+      "archive_path": "original-ke1/docs/references/NASA_CubeSat_101.pdf",
+      "bytes": 4445718,
+      "sha256": "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592"
+    },
+    {
+      "archive_path": "original-ke1/docs/sources.md",
+      "bytes": 5244,
+      "sha256": "ad527d4a8dc1473ea0483d14d490b3fbd34e6bd3e5c888dc4202b784d2bb52ca"
+    },
+    {
+      "archive_path": "original-ke1/docs/tool-setup.md",
+      "bytes": 4737,
+      "sha256": "c415217ff602dd062bb28973d734cd7666517c8a7cbbbbeeaabe7ea39ea6319b"
+    },
+    {
+      "archive_path": "original-ke1/docs/validation-plan.md",
+      "bytes": 4134,
+      "sha256": "c5d804cf6c267f54f6addc20f815ea5bd5c8e012e1b3a579f8a363e513f22019"
+    }
+  ],
+  "backup_folder_relative_to_project": "../KE1-Planning-Backups"
+}

@@ -1,0 +1,27 @@
+{
+  "document_status": "PROPOSED_NOT_RUNTIME_SCHEMA",
+  "a_file": "design-a.v1.json",
+  "b_file": "design-b-radio.v1.json",
+  "intentional_changes": [
+    "design.radio_id"
+  ],
+  "fixed": [
+    "preset_id",
+    "mission",
+    "orbit_id",
+    "catalog_version",
+    "scenario_version",
+    "engine_version",
+    "policy_or_action_plan"
+  ],
+  "policy": "Observe First",
+  "required_evidence": [
+    "separate_run_ids",
+    "immutable_configs",
+    "catalog_and_scenario_snapshots",
+    "action_history",
+    "actual_reports",
+    "resource_samples"
+  ],
+  "performance_claim": null
+}

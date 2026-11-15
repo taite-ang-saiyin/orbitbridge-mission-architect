@@ -1,0 +1,366 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "checks": [
+    {
+      "label": "Runtime-extended catalogs load",
+      "passed": true
+    },
+    {
+      "label": "Exactly five preset entries",
+      "passed": true
+    },
+    {
+      "label": "Current v1 setup passes: estuary_watch",
+      "passed": true
+    },
+    {
+      "label": "Validation preserves inputs: estuary_watch",
+      "passed": true
+    },
+    {
+      "label": "Preserve actual existing preset defaults: estuary_watch",
+      "passed": true
+    },
+    {
+      "label": "Current v1 setup passes: tropical_forest_watch",
+      "passed": true
+    },
+    {
+      "label": "Validation preserves inputs: tropical_forest_watch",
+      "passed": true
+    },
+    {
+      "label": "Preserve actual existing preset defaults: tropical_forest_watch",
+      "passed": true
+    },
+    {
+      "label": "Current v1 setup passes: polar_ice_survey",
+      "passed": true
+    },
+    {
+      "label": "Validation preserves inputs: polar_ice_survey",
+      "passed": true
+    },
+    {
+      "label": "Preserve actual existing preset defaults: polar_ice_survey",
+      "passed": true
+    },
+    {
+      "label": "Current v1 setup passes: communication",
+      "passed": true
+    },
+    {
+      "label": "Validation preserves inputs: communication",
+      "passed": true
+    },
+    {
+      "label": "Current v1 setup passes: weather_monitoring",
+      "passed": true
+    },
+    {
+      "label": "Validation preserves inputs: weather_monitoring",
+      "passed": true
+    },
+    {
+      "label": "A/B input ready: design-a.v1.json",
+      "passed": true
+    },
+    {
+      "label": "A/B input ready: design-b-radio.v1.json",
+      "passed": true
+    },
+    {
+      "label": "A/B pair changes only design.radio_id",
+      "passed": true
+    },
+    {
+      "label": "Current adapter builds scenario for prepared inputs",
+      "passed": true
+    },
+    {
+      "label": "Prepared revisit plan reaches two orbits and 12 MB",
+      "passed": true
+    },
+    {
+      "label": "Same-orbit captures do not create two visits",
+      "passed": true
+    },
+    {
+      "label": "Current Observe First exposes the repeat-visit policy gap",
+      "passed": true
+    },
+    {
+      "label": "Prepared communication plan reaches two positive contacts and 12 MB",
+      "passed": true
+    }
+  ],
+  "configs": {
+    "communication": {
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    },
+    "design-a.v1.json": {
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    },
+    "design-b-radio.v1.json": {
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "ready_to_launch": true
+    },
+    "estuary_watch": {
+      "errors": [],
+      "expected_existing_config": {
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "coastal_region",
+          "target_regions": [
+            "coastal_region"
+          ],
+          "title": "Estuary Watch"
+        },
+        "schema_version": 1.0
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    },
+    "polar_ice_survey": {
+      "errors": [],
+      "expected_existing_config": {
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "objective": "survey",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "arctic_ice",
+          "target_regions": [
+            "arctic_ice"
+          ],
+          "title": "Polar Ice Survey"
+        },
+        "schema_version": 1.0
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    },
+    "tropical_forest_watch": {
+      "errors": [],
+      "expected_existing_config": {
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "low_eq",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "tropical_forest",
+          "target_regions": [
+            "tropical_forest"
+          ],
+          "title": "Tropical Forest Watch"
+        },
+        "schema_version": 1.0
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    },
+    "weather_monitoring": {
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true
+    }
+  },
+  "failed": 0,
+  "passed": 23,
+  "plans": {
+    "communication": {
+      "capture_steps": [
+        1,
+        6
+      ],
+      "completed": true,
+      "observations": 2,
+      "observed_orbit_indices": [
+        0
+      ],
+      "official_new_goal_score": null,
+      "positive_transmit_steps": [
+        7,
+        10,
+        17,
+        20
+      ],
+      "returned_mb": 24.0,
+      "unavailable_plan_actions": [
+        {
+          "action": "transmit",
+          "step": 27
+        }
+      ]
+    },
+    "weather_observe_first": {
+      "capture_steps": [
+        1,
+        6
+      ],
+      "completed": true,
+      "observations": 2,
+      "observed_orbit_indices": [
+        0
+      ],
+      "official_new_goal_score": null,
+      "positive_transmit_steps": [
+        7,
+        10,
+        17,
+        20
+      ],
+      "returned_mb": 24.0,
+      "unavailable_plan_actions": []
+    },
+    "weather_revisit": {
+      "capture_steps": [
+        1,
+        11
+      ],
+      "completed": true,
+      "observations": 2,
+      "observed_orbit_indices": [
+        0,
+        1
+      ],
+      "official_new_goal_score": null,
+      "positive_transmit_steps": [
+        7,
+        17
+      ],
+      "returned_mb": 15.4666666656,
+      "unavailable_plan_actions": []
+    },
+    "weather_same_orbit": {
+      "capture_steps": [
+        1,
+        6
+      ],
+      "completed": true,
+      "observations": 2,
+      "observed_orbit_indices": [
+        0
+      ],
+      "official_new_goal_score": null,
+      "positive_transmit_steps": [
+        7,
+        17
+      ],
+      "returned_mb": 15.4666666656,
+      "unavailable_plan_actions": []
+    }
+  }
+}

@@ -1,0 +1,3080 @@
+{
+  "accepted_actions": [
+    {
+      "action": "power_save",
+      "step_index": 0
+    },
+    {
+      "action": "observe",
+      "step_index": 1
+    },
+    {
+      "action": "power_save",
+      "step_index": 2
+    },
+    {
+      "action": "power_save",
+      "step_index": 3
+    },
+    {
+      "action": "power_save",
+      "step_index": 4
+    },
+    {
+      "action": "power_save",
+      "step_index": 5
+    },
+    {
+      "action": "observe",
+      "step_index": 6
+    },
+    {
+      "action": "transmit",
+      "step_index": 7
+    },
+    {
+      "action": "power_save",
+      "step_index": 8
+    },
+    {
+      "action": "power_save",
+      "step_index": 9
+    },
+    {
+      "action": "transmit",
+      "step_index": 10
+    },
+    {
+      "action": "power_save",
+      "step_index": 11
+    },
+    {
+      "action": "power_save",
+      "step_index": 12
+    },
+    {
+      "action": "power_save",
+      "step_index": 13
+    },
+    {
+      "action": "power_save",
+      "step_index": 14
+    },
+    {
+      "action": "power_save",
+      "step_index": 15
+    },
+    {
+      "action": "power_save",
+      "step_index": 16
+    },
+    {
+      "action": "power_save",
+      "step_index": 17
+    },
+    {
+      "action": "power_save",
+      "step_index": 18
+    },
+    {
+      "action": "power_save",
+      "step_index": 19
+    },
+    {
+      "action": "power_save",
+      "step_index": 20
+    },
+    {
+      "action": "power_save",
+      "step_index": 21
+    },
+    {
+      "action": "power_save",
+      "step_index": 22
+    },
+    {
+      "action": "power_save",
+      "step_index": 23
+    },
+    {
+      "action": "power_save",
+      "step_index": 24
+    },
+    {
+      "action": "power_save",
+      "step_index": 25
+    },
+    {
+      "action": "power_save",
+      "step_index": 26
+    },
+    {
+      "action": "power_save",
+      "step_index": 27
+    },
+    {
+      "action": "power_save",
+      "step_index": 28
+    },
+    {
+      "action": "power_save",
+      "step_index": 29
+    }
+  ],
+  "catalogs_snapshot": {
+    "components": [
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "baseline_power_w": 2.0,
+        "category": "bus",
+        "cost_credits": 12.0,
+        "display_name": "Basic bus",
+        "id": "bus_basic",
+        "mass_g": 300.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "baseline_power_w": 1.2,
+        "category": "bus",
+        "cost_credits": 20.0,
+        "display_name": "Lightweight bus",
+        "id": "bus_light",
+        "mass_g": 220.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "instrument",
+        "cost_credits": 16.0,
+        "data_per_observation_mb": 12.0,
+        "display_name": "Basic imaging camera",
+        "id": "instrument_basic",
+        "mass_g": 180.0,
+        "observe_power_w": 4.0,
+        "supported_objectives": [
+          "imaging",
+          "survey"
+        ]
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "instrument",
+        "cost_credits": 30.0,
+        "data_per_observation_mb": 24.0,
+        "display_name": "Advanced imaging camera",
+        "id": "instrument_advanced",
+        "mass_g": 500.0,
+        "observe_power_w": 8.0,
+        "supported_objectives": [
+          "imaging",
+          "survey"
+        ]
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "solar",
+        "cost_credits": 10.0,
+        "display_name": "Standard solar panel",
+        "generation_power_w": 3.0,
+        "id": "solar_standard",
+        "mass_g": 160.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "solar",
+        "cost_credits": 17.0,
+        "display_name": "Large solar panel",
+        "generation_power_w": 6.0,
+        "id": "solar_large",
+        "mass_g": 280.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_wh": 25.0,
+        "category": "battery",
+        "cost_credits": 14.0,
+        "display_name": "Standard battery",
+        "id": "battery_standard",
+        "initial_charge_fraction": 1.0,
+        "mass_g": 250.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_wh": 50.0,
+        "category": "battery",
+        "cost_credits": 24.0,
+        "display_name": "Large battery",
+        "id": "battery_large",
+        "initial_charge_fraction": 1.0,
+        "mass_g": 450.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "radio",
+        "cost_credits": 8.0,
+        "display_name": "Basic radio",
+        "downlink_mb_per_hour": 48.0,
+        "id": "radio_basic",
+        "mass_g": 120.0,
+        "transmit_power_w": 3.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "category": "radio",
+        "cost_credits": 15.0,
+        "display_name": "Fast radio",
+        "downlink_mb_per_hour": 120.0,
+        "id": "radio_fast",
+        "mass_g": 180.0,
+        "transmit_power_w": 6.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_mb": 64.0,
+        "category": "storage",
+        "cost_credits": 7.0,
+        "display_name": "Standard storage",
+        "id": "storage_standard",
+        "mass_g": 50.0
+      },
+      {
+        "assumption_id": "orbitbridge_training_components_v1",
+        "capacity_mb": 256.0,
+        "category": "storage",
+        "cost_credits": 12.0,
+        "display_name": "Large storage",
+        "id": "storage_large",
+        "mass_g": 100.0
+      }
+    ],
+    "contract_revision": "v1.0-agreed",
+    "launch_profiles": [
+      {
+        "assumption_id": "illustrative_profile_compatibility_v1",
+        "display_name": "CubeSat 101 sample 1U check",
+        "id": "cubesat_1u_sample",
+        "mass_rule": {
+          "comparator": "<",
+          "source_id": "cubesat_101_1u_sample",
+          "threshold_g": 1330.0,
+          "value_kind": "source_backed"
+        },
+        "source_locator": "CubeSat 101, Appendix C item 6, printed p.79 / PDF p.87. Only this mass check is adapted; this is not flight certification.",
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ]
+      },
+      {
+        "assumption_id": "illustrative_small_sat_profile_v1",
+        "display_name": "Illustrative small-satellite profile",
+        "id": "illustrative_alternative",
+        "mass_rule": {
+          "assumption_id": "illustrative_small_sat_mass_limit_v1",
+          "comparator": "<=",
+          "threshold_g": 5000.0,
+          "value_kind": "illustrative"
+        },
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ]
+      }
+    ],
+    "launchers": [
+      {
+        "assumption_id": "illustrative_small_launcher_v1",
+        "cost_credits": 15.0,
+        "display_name": "Small training launcher",
+        "id": "small",
+        "max_payload_g_by_orbit": {
+          "high_inc": 1500.0,
+          "low_eq": 2000.0
+        },
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ],
+        "supported_profile_ids": [
+          "cubesat_1u_sample"
+        ]
+      },
+      {
+        "assumption_id": "illustrative_medium_launcher_v1",
+        "cost_credits": 35.0,
+        "display_name": "Medium training launcher",
+        "id": "medium",
+        "max_payload_g_by_orbit": {
+          "high_inc": 5000.0,
+          "low_eq": 6000.0
+        },
+        "supported_orbit_ids": [
+          "low_eq",
+          "high_inc"
+        ],
+        "supported_profile_ids": [
+          "cubesat_1u_sample",
+          "illustrative_alternative"
+        ]
+      }
+    ],
+    "objective_ids": [
+      "imaging",
+      "survey"
+    ],
+    "orbit_catalog": {
+      "orbits": [
+        {
+          "altitude_km": 400.0,
+          "ground_contact_windows": [
+            8.0
+          ],
+          "id": "low_eq",
+          "inclination_deg": 0.0,
+          "label": "Low equatorial",
+          "step_duration_hours": 0.1538888889,
+          "steps_per_orbit": 10.0,
+          "sunlight_windows": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0
+          ],
+          "target_windows": {
+            "antarctic_region": [],
+            "arctic_ice": [],
+            "coastal_region": [],
+            "equator": [
+              2.0,
+              5.0
+            ],
+            "equatorial_ocean": [
+              5.0
+            ],
+            "temperate_land": [],
+            "tropical_forest": [
+              2.0
+            ]
+          },
+          "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+        },
+        {
+          "altitude_km": 600.0,
+          "ground_contact_windows": [
+            0.0,
+            7.0
+          ],
+          "id": "high_inc",
+          "inclination_deg": 97.8,
+          "label": "High-inclination training orbit",
+          "step_duration_hours": 0.1611111111,
+          "steps_per_orbit": 10.0,
+          "sunlight_windows": [
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "target_windows": {
+            "antarctic_region": [
+              0.0,
+              7.0
+            ],
+            "arctic_ice": [
+              0.0,
+              7.0
+            ],
+            "coastal_region": [
+              2.0,
+              5.0
+            ],
+            "equator": [
+              1.0,
+              6.0
+            ],
+            "equatorial_ocean": [
+              1.0,
+              6.0
+            ],
+            "temperate_land": [
+              2.0,
+              5.0
+            ],
+            "tropical_forest": [
+              1.0,
+              6.0
+            ]
+          },
+          "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+        }
+      ],
+      "scenario_version": "orbit-presets-v1",
+      "schema_version": 1.0,
+      "targets": [
+        {
+          "description": "Fictional teaching target.",
+          "id": "equator",
+          "label": "Equatorial estuary"
+        },
+        {
+          "id": "tropical_forest",
+          "label": "Tropical Forest"
+        },
+        {
+          "id": "equatorial_ocean",
+          "label": "Equatorial Ocean"
+        },
+        {
+          "id": "coastal_region",
+          "label": "Coastal Region"
+        },
+        {
+          "id": "temperate_land",
+          "label": "Temperate Land"
+        },
+        {
+          "id": "arctic_ice",
+          "label": "Arctic Ice"
+        },
+        {
+          "id": "antarctic_region",
+          "label": "Antarctic Region"
+        }
+      ],
+      "unit_conventions": {
+        "data_unit": "decimal_mb",
+        "kilobytes_per_megabyte": 1000.0,
+        "step_duration": "hours"
+      }
+    },
+    "orbit_ids": [
+      "low_eq",
+      "high_inc"
+    ],
+    "schema_version": 1,
+    "target_region_ids": [
+      "equator",
+      "tropical_forest",
+      "equatorial_ocean",
+      "coastal_region",
+      "temperate_land",
+      "arctic_ice",
+      "antarctic_region"
+    ]
+  },
+  "config": {
+    "design": {
+      "battery_id": "battery_standard",
+      "bus_id": "bus_basic",
+      "instrument_id": "instrument_basic",
+      "launch_profile_id": "cubesat_1u_sample",
+      "launcher_id": "small",
+      "orbit_id": "high_inc",
+      "radio_id": "radio_fast",
+      "solar_id": "solar_standard",
+      "storage_id": "storage_standard"
+    },
+    "mission": {
+      "budget_credits": 100.0,
+      "duration_orbits": 3.0,
+      "objective": "imaging",
+      "required_observations": 2.0,
+      "required_returned_data_mb": 24.0,
+      "target_region": "equator",
+      "target_regions": [
+        "equator"
+      ],
+      "title": "Radio trade-off lab"
+    },
+    "schema_version": 1.0
+  },
+  "evaluation": {
+    "ok": true,
+    "report": {
+      "comparison": null,
+      "data_return_completion_ratio": 1.0,
+      "explanation": "Both mission requirements were met. 2/2.0 observations captured and 24.0/24.0 MB received on Earth. 0.0 MB remain onboard.",
+      "mission_id": "mission_k27_radio_lab",
+      "next_experiment": "Keep the scenario and targets fixed and change one operation on the next attempt.",
+      "observation_completion_ratio": 1.0,
+      "observations_completed": 2,
+      "required_observations": 2.0,
+      "required_returned_data_mb": 24.0,
+      "returned_data_mb": 24.0,
+      "root_causes": [],
+      "run_id": "run_k27_B",
+      "run_status": "completed",
+      "schema_version": 1,
+      "score": 100,
+      "source_ids": [],
+      "status": "success"
+    }
+  },
+  "evaluation_key": "7d5f79872abead1284500d2ec82d1fff71beff26d66b834a3f0355a20b912334",
+  "events": [
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_000",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 0,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 0,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "observe",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 12.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.483333333299999,
+      "delta_observations": 1,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 12.0,
+      "energy_change_wh": -0.483333333299999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.9666666666,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_001",
+      "message": "Observation captured; 12.000 MB stored.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 1,
+      "stored_data_mb": 12.0,
+      "target_id": "equator",
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_002",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 2,
+      "stored_data_mb": 12.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_003",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 3,
+      "stored_data_mb": 12.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_004",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 4,
+      "stored_data_mb": 12.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_005",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 5,
+      "stored_data_mb": 12.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "observe",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 12.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.483333333300003,
+      "delta_observations": 1,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 12.0,
+      "energy_change_wh": -0.483333333300003,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.9666666666,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_006",
+      "message": "Observation captured; 12.000 MB stored.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 0.0,
+      "run_id": "run_k27_B",
+      "step_index": 6,
+      "stored_data_mb": 24.0,
+      "target_id": "equator",
+      "type": "action_accepted"
+    },
+    {
+      "action": "transmit",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 19.333333332,
+      "delta_energy_wh": -1.2888888888,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 19.333333332,
+      "delta_stored_data_mb": -19.333333332,
+      "energy_change_wh": -1.2888888888,
+      "energy_clamped": false,
+      "energy_consumed_wh": 1.2888888888,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_007",
+      "message": "Ground station received 19.333 MB.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 19.333333332,
+      "run_id": "run_k27_B",
+      "step_index": 7,
+      "stored_data_mb": 4.666666668,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_008",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 19.333333332,
+      "run_id": "run_k27_B",
+      "step_index": 8,
+      "stored_data_mb": 4.666666668,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_009",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 19.333333332,
+      "run_id": "run_k27_B",
+      "step_index": 9,
+      "stored_data_mb": 4.666666668,
+      "type": "action_accepted"
+    },
+    {
+      "action": "transmit",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 4.666666668,
+      "delta_energy_wh": -1.2888888888,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 4.666666668,
+      "delta_stored_data_mb": -4.666666668,
+      "energy_change_wh": -1.2888888888,
+      "energy_clamped": false,
+      "energy_consumed_wh": 1.2888888888,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_010",
+      "message": "Ground station received 4.667 MB.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 10,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_011",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 11,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_012",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 12,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_013",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 13,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_014",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 14,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_015",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 15,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_016",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 16,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_017",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 17,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_018",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 18,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_019",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 19,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_020",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 20,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_021",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 21,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_022",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 22,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_023",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 23,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_024",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 24,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_025",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 25,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": 0.161111111099999,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": 0.161111111099999,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.4833333333,
+      "event_id": "evt_026",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 26,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_027",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 27,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_028",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 28,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "power_save",
+      "code": "ACTION_ACCEPTED",
+      "data_added_mb": 0.0,
+      "data_transmitted_mb": 0.0,
+      "delta_energy_wh": -0.322222222200001,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "energy_change_wh": -0.322222222200001,
+      "energy_clamped": false,
+      "energy_consumed_wh": 0.3222222222,
+      "energy_generated_wh": 0.0,
+      "event_id": "evt_029",
+      "message": "Power-save step completed using baseline bus load.",
+      "mission_id": "mission_k27_radio_lab",
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "run_id": "run_k27_B",
+      "step_index": 29,
+      "stored_data_mb": 0.0,
+      "type": "action_accepted"
+    },
+    {
+      "action": "",
+      "code": "MISSION_FINISHED",
+      "delta_energy_wh": 0.0,
+      "delta_observations": 0,
+      "delta_returned_data_mb": 0.0,
+      "delta_stored_data_mb": 0.0,
+      "event_id": "evt_030",
+      "message": "The final mission step is complete.",
+      "mission_id": "mission_k27_radio_lab",
+      "run_id": "run_k27_B",
+      "step_index": 30,
+      "type": "mission_finished"
+    }
+  ],
+  "final_state": {
+    "available_actions": {
+      "observe": {
+        "allowed": false,
+        "blocked_code": "MISSION_FINISHED",
+        "reason": "No action is available because the mission has finished."
+      },
+      "power_save": {
+        "allowed": false,
+        "blocked_code": "MISSION_FINISHED",
+        "reason": "No action is available because the mission has finished."
+      },
+      "transmit": {
+        "allowed": false,
+        "blocked_code": "MISSION_FINISHED",
+        "reason": "No action is available because the mission has finished."
+      }
+    },
+    "battery_capacity_wh": 25.0,
+    "config_snapshot": {
+      "design": {
+        "battery_id": "battery_standard",
+        "bus_id": "bus_basic",
+        "instrument_id": "instrument_basic",
+        "launch_profile_id": "cubesat_1u_sample",
+        "launcher_id": "small",
+        "orbit_id": "high_inc",
+        "radio_id": "radio_fast",
+        "solar_id": "solar_standard",
+        "storage_id": "storage_standard"
+      },
+      "mission": {
+        "budget_credits": 100.0,
+        "duration_orbits": 3.0,
+        "objective": "imaging",
+        "required_observations": 2.0,
+        "required_returned_data_mb": 24.0,
+        "target_region": "equator",
+        "target_regions": [
+          "equator"
+        ],
+        "title": "Radio trade-off lab"
+      },
+      "schema_version": 1.0
+    },
+    "data_packets": [],
+    "energy_wh": 20.8111111114,
+    "event_log": [
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_000",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 0,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 0,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "observe",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 12.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.483333333299999,
+        "delta_observations": 1,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 12.0,
+        "energy_change_wh": -0.483333333299999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.9666666666,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_001",
+        "message": "Observation captured; 12.000 MB stored.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 1,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 1,
+        "stored_data_mb": 12.0,
+        "target_id": "equator",
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_002",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 1,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 2,
+        "stored_data_mb": 12.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_003",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 1,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 3,
+        "stored_data_mb": 12.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_004",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 1,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 4,
+        "stored_data_mb": 12.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_005",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 1,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 5,
+        "stored_data_mb": 12.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "observe",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 12.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.483333333300003,
+        "delta_observations": 1,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 12.0,
+        "energy_change_wh": -0.483333333300003,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.9666666666,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_006",
+        "message": "Observation captured; 12.000 MB stored.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 0.0,
+        "run_id": "run_k27_B",
+        "step_index": 6,
+        "stored_data_mb": 24.0,
+        "target_id": "equator",
+        "type": "action_accepted"
+      },
+      {
+        "action": "transmit",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 19.333333332,
+        "delta_energy_wh": -1.2888888888,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 19.333333332,
+        "delta_stored_data_mb": -19.333333332,
+        "energy_change_wh": -1.2888888888,
+        "energy_clamped": false,
+        "energy_consumed_wh": 1.2888888888,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_007",
+        "message": "Ground station received 19.333 MB.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 19.333333332,
+        "run_id": "run_k27_B",
+        "step_index": 7,
+        "stored_data_mb": 4.666666668,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_008",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 19.333333332,
+        "run_id": "run_k27_B",
+        "step_index": 8,
+        "stored_data_mb": 4.666666668,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_009",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 19.333333332,
+        "run_id": "run_k27_B",
+        "step_index": 9,
+        "stored_data_mb": 4.666666668,
+        "type": "action_accepted"
+      },
+      {
+        "action": "transmit",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 4.666666668,
+        "delta_energy_wh": -1.2888888888,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 4.666666668,
+        "delta_stored_data_mb": -4.666666668,
+        "energy_change_wh": -1.2888888888,
+        "energy_clamped": false,
+        "energy_consumed_wh": 1.2888888888,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_010",
+        "message": "Ground station received 4.667 MB.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 10,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_011",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 11,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_012",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 12,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_013",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 13,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_014",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 14,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_015",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 15,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_016",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 16,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_017",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 17,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_018",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 18,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_019",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 19,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_020",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 20,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_021",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 21,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_022",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 22,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_023",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 23,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_024",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 24,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_025",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 25,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": 0.161111111099999,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": 0.161111111099999,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.4833333333,
+        "event_id": "evt_026",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 26,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_027",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 27,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_028",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 28,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "power_save",
+        "code": "ACTION_ACCEPTED",
+        "data_added_mb": 0.0,
+        "data_transmitted_mb": 0.0,
+        "delta_energy_wh": -0.322222222200001,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "energy_change_wh": -0.322222222200001,
+        "energy_clamped": false,
+        "energy_consumed_wh": 0.3222222222,
+        "energy_generated_wh": 0.0,
+        "event_id": "evt_029",
+        "message": "Power-save step completed using baseline bus load.",
+        "mission_id": "mission_k27_radio_lab",
+        "observations_completed": 2,
+        "returned_data_mb": 24.0,
+        "run_id": "run_k27_B",
+        "step_index": 29,
+        "stored_data_mb": 0.0,
+        "type": "action_accepted"
+      },
+      {
+        "action": "",
+        "code": "MISSION_FINISHED",
+        "delta_energy_wh": 0.0,
+        "delta_observations": 0,
+        "delta_returned_data_mb": 0.0,
+        "delta_stored_data_mb": 0.0,
+        "event_id": "evt_030",
+        "message": "The final mission step is complete.",
+        "mission_id": "mission_k27_radio_lab",
+        "run_id": "run_k27_B",
+        "step_index": 30,
+        "type": "mission_finished"
+      }
+    ],
+    "in_ground_contact": false,
+    "in_target_access": false,
+    "is_sunlit": false,
+    "mission_id": "mission_k27_radio_lab",
+    "next_event_sequence": 31,
+    "observations_by_target": {
+      "equator": 2
+    },
+    "observations_completed": 2,
+    "observations_delivered_by_target": {
+      "equator": 2
+    },
+    "phase": "finished",
+    "returned_data_by_target_mb": {
+      "equator": 24.0
+    },
+    "returned_data_mb": 24.0,
+    "run_id": "run_k27_B",
+    "run_status": "completed",
+    "scenario_id": "high_inc",
+    "scenario_snapshot": {
+      "contract_revision": "v1.0-agreed",
+      "launch_profiles": [
+        {
+          "assumption_id": "illustrative_profile_compatibility_v1",
+          "display_name": "CubeSat 101 sample 1U check",
+          "id": "cubesat_1u_sample",
+          "mass_rule": {
+            "comparator": "<",
+            "source_id": "cubesat_101_1u_sample",
+            "threshold_g": 1330.0,
+            "value_kind": "source_backed"
+          },
+          "source_locator": "CubeSat 101, Appendix C item 6, printed p.79 / PDF p.87. Only this mass check is adapted; this is not flight certification.",
+          "supported_orbit_ids": [
+            "low_eq",
+            "high_inc"
+          ]
+        },
+        {
+          "assumption_id": "illustrative_small_sat_profile_v1",
+          "display_name": "Illustrative small-satellite profile",
+          "id": "illustrative_alternative",
+          "mass_rule": {
+            "assumption_id": "illustrative_small_sat_mass_limit_v1",
+            "comparator": "<=",
+            "threshold_g": 5000.0,
+            "value_kind": "illustrative"
+          },
+          "supported_orbit_ids": [
+            "low_eq",
+            "high_inc"
+          ]
+        }
+      ],
+      "launchers": [
+        {
+          "assumption_id": "illustrative_small_launcher_v1",
+          "cost_credits": 15.0,
+          "display_name": "Small training launcher",
+          "id": "small",
+          "max_payload_g_by_orbit": {
+            "high_inc": 1500.0,
+            "low_eq": 2000.0
+          },
+          "supported_orbit_ids": [
+            "low_eq",
+            "high_inc"
+          ],
+          "supported_profile_ids": [
+            "cubesat_1u_sample"
+          ]
+        },
+        {
+          "assumption_id": "illustrative_medium_launcher_v1",
+          "cost_credits": 35.0,
+          "display_name": "Medium training launcher",
+          "id": "medium",
+          "max_payload_g_by_orbit": {
+            "high_inc": 5000.0,
+            "low_eq": 6000.0
+          },
+          "supported_orbit_ids": [
+            "low_eq",
+            "high_inc"
+          ],
+          "supported_profile_ids": [
+            "cubesat_1u_sample",
+            "illustrative_alternative"
+          ]
+        }
+      ],
+      "objectives": [
+        {
+          "id": "imaging"
+        },
+        {
+          "id": "survey"
+        }
+      ],
+      "orbits": [
+        {
+          "altitude_km": 400.0,
+          "ground_contact_windows": [
+            8.0
+          ],
+          "id": "low_eq",
+          "inclination_deg": 0.0,
+          "label": "Low equatorial",
+          "step_duration_hours": 0.1538888889,
+          "steps_per_orbit": 10.0,
+          "sunlight_windows": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0
+          ],
+          "target_windows": {
+            "antarctic_region": [],
+            "arctic_ice": [],
+            "coastal_region": [],
+            "equator": [
+              2.0,
+              5.0
+            ],
+            "equatorial_ocean": [
+              5.0
+            ],
+            "temperate_land": [],
+            "tropical_forest": [
+              2.0
+            ]
+          },
+          "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+        },
+        {
+          "altitude_km": 600.0,
+          "ground_contact_windows": [
+            0.0,
+            7.0
+          ],
+          "id": "high_inc",
+          "inclination_deg": 97.8,
+          "label": "High-inclination training orbit",
+          "step_duration_hours": 0.1611111111,
+          "steps_per_orbit": 10.0,
+          "sunlight_windows": [
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "target_windows": {
+            "antarctic_region": [
+              0.0,
+              7.0
+            ],
+            "arctic_ice": [
+              0.0,
+              7.0
+            ],
+            "coastal_region": [
+              2.0,
+              5.0
+            ],
+            "equator": [
+              1.0,
+              6.0
+            ],
+            "equatorial_ocean": [
+              1.0,
+              6.0
+            ],
+            "temperate_land": [
+              2.0,
+              5.0
+            ],
+            "tropical_forest": [
+              1.0,
+              6.0
+            ]
+          },
+          "window_model": "Authored deterministic gameplay windows; not a real coverage prediction."
+        }
+      ],
+      "parts": [
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "baseline_power_w": 2.0,
+          "category": "bus",
+          "cost_credits": 12.0,
+          "display_name": "Basic bus",
+          "id": "bus_basic",
+          "idle_w": 2.0,
+          "kind": "bus",
+          "mass_g": 300.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "baseline_power_w": 1.2,
+          "category": "bus",
+          "cost_credits": 20.0,
+          "display_name": "Lightweight bus",
+          "id": "bus_light",
+          "idle_w": 1.2,
+          "kind": "bus",
+          "mass_g": 220.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "category": "instrument",
+          "cost_credits": 16.0,
+          "data_per_observation_mb": 12.0,
+          "display_name": "Basic imaging camera",
+          "id": "instrument_basic",
+          "kind": "instrument",
+          "mass_g": 180.0,
+          "observe_power_w": 4.0,
+          "observe_w": 4.0,
+          "packet_mb": 12.0,
+          "supported_objectives": [
+            "imaging",
+            "survey"
+          ]
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "category": "instrument",
+          "cost_credits": 30.0,
+          "data_per_observation_mb": 24.0,
+          "display_name": "Advanced imaging camera",
+          "id": "instrument_advanced",
+          "kind": "instrument",
+          "mass_g": 500.0,
+          "observe_power_w": 8.0,
+          "observe_w": 8.0,
+          "packet_mb": 24.0,
+          "supported_objectives": [
+            "imaging",
+            "survey"
+          ]
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "category": "solar",
+          "cost_credits": 10.0,
+          "display_name": "Standard solar panel",
+          "generation_power_w": 3.0,
+          "id": "solar_standard",
+          "kind": "solar",
+          "mass_g": 160.0,
+          "output_w": 3.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "category": "solar",
+          "cost_credits": 17.0,
+          "display_name": "Large solar panel",
+          "generation_power_w": 6.0,
+          "id": "solar_large",
+          "kind": "solar",
+          "mass_g": 280.0,
+          "output_w": 6.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "capacity_wh": 25.0,
+          "category": "battery",
+          "cost_credits": 14.0,
+          "display_name": "Standard battery",
+          "id": "battery_standard",
+          "initial_charge_fraction": 1.0,
+          "kind": "battery",
+          "mass_g": 250.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "capacity_wh": 50.0,
+          "category": "battery",
+          "cost_credits": 24.0,
+          "display_name": "Large battery",
+          "id": "battery_large",
+          "initial_charge_fraction": 1.0,
+          "kind": "battery",
+          "mass_g": 450.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "category": "radio",
+          "cost_credits": 8.0,
+          "display_name": "Basic radio",
+          "downlink_mb_per_hour": 48.0,
+          "id": "radio_basic",
+          "kind": "radio",
+          "mass_g": 120.0,
+          "transmit_power_w": 3.0,
+          "transmit_w": 3.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "category": "radio",
+          "cost_credits": 15.0,
+          "display_name": "Fast radio",
+          "downlink_mb_per_hour": 120.0,
+          "id": "radio_fast",
+          "kind": "radio",
+          "mass_g": 180.0,
+          "transmit_power_w": 6.0,
+          "transmit_w": 6.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "capacity_mb": 64.0,
+          "category": "storage",
+          "cost_credits": 7.0,
+          "display_name": "Standard storage",
+          "id": "storage_standard",
+          "kind": "storage",
+          "mass_g": 50.0
+        },
+        {
+          "assumption_id": "orbitbridge_training_components_v1",
+          "capacity_mb": 256.0,
+          "category": "storage",
+          "cost_credits": 12.0,
+          "display_name": "Large storage",
+          "id": "storage_large",
+          "kind": "storage",
+          "mass_g": 100.0
+        }
+      ],
+      "scenario_version": "orbit-presets-v1",
+      "schema_version": 1,
+      "targets": [
+        {
+          "description": "Fictional teaching target.",
+          "id": "equator",
+          "label": "Equatorial estuary"
+        },
+        {
+          "id": "tropical_forest",
+          "label": "Tropical Forest"
+        },
+        {
+          "id": "equatorial_ocean",
+          "label": "Equatorial Ocean"
+        },
+        {
+          "id": "coastal_region",
+          "label": "Coastal Region"
+        },
+        {
+          "id": "temperate_land",
+          "label": "Temperate Land"
+        },
+        {
+          "id": "arctic_ice",
+          "label": "Arctic Ice"
+        },
+        {
+          "id": "antarctic_region",
+          "label": "Antarctic Region"
+        }
+      ],
+      "unit_conventions": {
+        "data_unit": "decimal_mb",
+        "kilobytes_per_megabyte": 1000.0,
+        "step_duration": "hours"
+      }
+    },
+    "schema_version": 1,
+    "step_index": 30,
+    "storage_capacity_mb": 64.0,
+    "stored_data_mb": 0.0,
+    "terminal_reason": null,
+    "total_steps": 30
+  },
+  "inputs_preserved": true,
+  "minimum_energy_wh": 20.8111111114,
+  "ok": true,
+  "plan": {
+    "blocked_scheduled_action": "fail the audit; do not substitute a different operation",
+    "id": "k27-fixed-radio-plan-1",
+    "indexing": "zero-based pre-action step",
+    "notice": "Both radios retain data at the second transmit step. All requested actions are accepted in both runs, preserving the exact actual action sequence.",
+    "observe_steps": [
+      1.0,
+      6.0
+    ],
+    "other_steps": "power_save",
+    "transmit_steps": [
+      7.0,
+      10.0
+    ]
+  },
+  "resources_bounded": true,
+  "result_context": {
+    "applicable_source_credits": [
+      {
+        "actual_use": "Recorded KE1 mass check: 1120 g < 1330 g, profile cubesat_1u_sample.",
+        "alternate_url": "https://www.nasa.gov/wp-content/uploads/2017/03/nasa_csli_CubeSat_101_508.pdf",
+        "applicable_profile": {
+          "label": "OrbitBridge sample 1U educational profile",
+          "profile_id": "cubesat_1u_sample",
+          "scope": "Apply only to this selected educational profile. Other profiles use their own rules. This historical example is not a universal satellite mass limit or flight certification."
+        },
+        "attribution_text": "NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge's sample 1U educational profile: modeled spacecraft mass < 1.33 kg (< 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.",
+        "credit_scope": "readiness",
+        "criterion": {
+          "boundary_expectations": [
+            {
+              "mass_check_passed": true,
+              "mass_g": 1329.0
+            },
+            {
+              "mass_check_passed": false,
+              "mass_g": 1330.0
+            },
+            {
+              "mass_check_passed": false,
+              "mass_g": 1331.0
+            }
+          ],
+          "boundary_verification_scope": "KE1 recorded validator boundary tests at 55d4f33. KE2 independently reran the existing 470-check readiness fixture suite at candidate 14c0f97, including 1329/1330/1331 g and alternate-profile cases. Boundary masses use private test catalog copies. Builder and exported-build cases T11/T12 remain pending. Passing this mass check does not establish overall launch readiness.",
+          "conversion": "1 kg = 1000 g; preserve the strict comparator.",
+          "conversion_factor": 1000.0,
+          "converted": {
+            "comparator": "<",
+            "unit": "g",
+            "value": 1330.0
+          },
+          "input_representation": "integer grams",
+          "original": {
+            "comparator": "<",
+            "unit": "kg",
+            "value": 1.33
+          },
+          "quantity": "total modeled spacecraft mass",
+          "source_text": "Mass (< 1.33 kg)"
+        },
+        "document_revision": "October 2017",
+        "implementation": {
+          "builder_display": {
+            "owner": "SE",
+            "required_display": "Actual total mass in g, strict < 1330 g threshold, mass-check result, sample-profile label, and source credit.",
+            "status": "pending_owner_handoff",
+            "verified_path": null
+          },
+          "contract_examples": [
+            "res://docs/contracts/v1-draft/validation-ready.example.json",
+            "res://docs/contracts/v1-draft/validation-overmass.example.json"
+          ],
+          "credits_display": {
+            "binding": "set_inputs(context, state, report)",
+            "owner": "KE3",
+            "source_context": "res://data/ke3-results-verification/preview-source/ke3/debrief_screen.gd",
+            "status": "verified_in_owner_recorded_preview",
+            "verified_path": "res://ke3/debrief_screen.gd"
+          },
+          "example_note": "Examples establish the agreed source/profile IDs and expected fields; they are not executed validator evidence.",
+          "profile_catalog": {
+            "intended_path": "res://data/launch_profiles.json",
+            "owner": "KE1",
+            "path_present_in_checkout": false,
+            "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+            "status": "owner_handoff_reviewed"
+          },
+          "validator": {
+            "intended_path": "res://scripts/core/mission_validator.gd",
+            "owner": "KE1",
+            "path_present_in_checkout": false,
+            "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+            "status": "owner_handoff_reviewed",
+            "verified_entry_point": "MissionValidator.validate(config, catalogs)"
+          }
+        },
+        "local_reference": "res://docs/references/NASA_CubeSat_101.pdf",
+        "local_reference_sha256": "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592",
+        "locator": {
+          "appendix": "C - Templates",
+          "checklist_revision_date": "2014-02-20",
+          "item": 6.0,
+          "locator_note": "Item 6 is within Appendix C; Appendix 6 is not the document's appendix identifier.",
+          "pdf_page": 87.0,
+          "pdf_page_index": 86.0,
+          "pdf_total_pages": 96.0,
+          "printed_page": 79.0,
+          "section": "CubeSat Acceptance Checklists",
+          "subsection": "1U CubeSat Acceptance Checklist"
+        },
+        "nasa_organization": "NASA CubeSat Launch Initiative (CSLI)",
+        "source_id": "cubesat_101_1u_sample",
+        "title": "CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers",
+        "url": "https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf",
+        "use_status": "documented_rule_awaiting_gameplay_verification",
+        "verification": {
+          "access_note": "The primary science.nasa.gov URL opened successfully during this review; docs/sources.md records an earlier timeout.",
+          "export_status": "not_verified",
+          "gameplay_status": "not_verified",
+          "independent_boundary_verification": {
+            "candidate_commit": "14c0f973c140e9644650e94e769b6b1b3dfb3951",
+            "checks_failed": 0.0,
+            "checks_passed": 470.0,
+            "exit_code": 0.0,
+            "godot_version": "4.7.2.stable.mono.official.ed1daf0bf",
+            "log": "tmp/ke2-prompt10-readiness-fixtures.log",
+            "reviewer": "KE2",
+            "runner": "res://tests/validation/test_mission_fixtures.gd",
+            "scope": "Actual validator and catalogs, with private test-only bus mass overrides for exact boundaries. Interactive Builder, launch controls and exports remain pending.",
+            "source_sha256": {
+              "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+              "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+              "tests/fixtures/ke1_readiness_cases.json": "c760c958ee105ca44f40c70e82c8c08dfd51ada1b24a465db31bc952825c83c6",
+              "tests/validation/test_mission_fixtures.gd": "ebc22107335fd57da5cbe482bdf1a20c3d33c7e896a05c0c9d51c407debb222d"
+            },
+            "verified_on": "2026-11-14",
+            "worktree": "tmp/se-ke2-integration"
+          },
+          "method": "Opened both official NASA PDFs, checked the table of contents and checklist text, and visually inspected the complete local PDF page 87.",
+          "pending_evidence": "SE Builder/profile-switch/Launch checks, original partial/abort packets through the selected-release Results route, and source-credit display/link access in the selected export.",
+          "report_linkage_status": "not_integrated",
+          "rule_conversion_status": "verified",
+          "scoped_credit_metadata_status": "verified_in_owner_recorded_preview",
+          "source_status": "verified",
+          "validator_evidence": {
+            "alternate_profile_scope": "illustrative_alternative uses <= 5000 g, source_id null, and assumption_id illustrative_small_sat_mass_limit_v1.",
+            "case_count": 15.0,
+            "case_manifest": "tests/fixtures/ke1_readiness_cases.json",
+            "catalog_loader": "OrbitBridgeCatalogLoader.load_catalogs(base_path = res://data)",
+            "owner": "KE1",
+            "owner_reported_exit_code": 0.0,
+            "recorded_checks_failed": 0.0,
+            "recorded_checks_passed": 470.0,
+            "recorded_log": "docs/handoff/validation-test-log.txt",
+            "review_scope": "KE2 inspected the pinned validator, case manifest, test runner, and recorded log. An independent KE2 boundary-suite rerun remains pending.",
+            "reviewed_cases": [
+              "strict_boundary_1329g",
+              "strict_boundary_1330g",
+              "strict_boundary_1331g",
+              "alternative_1380g",
+              "alternative_boundary_5000g",
+              "alternative_boundary_5001g"
+            ],
+            "runner": "tests/validation/test_mission_fixtures.gd",
+            "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193"
+          },
+          "validator_status": "owner_test_evidence_reviewed",
+          "verified_on": "2026-11-14",
+          "visible_credit_status": "verified_in_owner_recorded_preview"
+        }
+      }
+    ],
+    "attribution_notice": "Credits apply to the recorded readiness check and emitted feedback vocabulary. Orbital windows and gameplay rates are authored educational values.",
+    "config": {
+      "design": {
+        "battery_id": "battery_standard",
+        "bus_id": "bus_basic",
+        "instrument_id": "instrument_basic",
+        "launch_profile_id": "cubesat_1u_sample",
+        "launcher_id": "small",
+        "orbit_id": "high_inc",
+        "radio_id": "radio_fast",
+        "solar_id": "solar_standard",
+        "storage_id": "storage_standard"
+      },
+      "mission": {
+        "budget_credits": 100.0,
+        "duration_orbits": 3.0,
+        "objective": "imaging",
+        "required_observations": 2.0,
+        "required_returned_data_mb": 24.0,
+        "target_region": "equator",
+        "target_regions": [
+          "equator"
+        ],
+        "title": "Radio trade-off lab"
+      },
+      "schema_version": 1.0
+    },
+    "execution_key": "7d5f79872abead1284500d2ec82d1fff71beff26d66b834a3f0355a20b912334",
+    "mission_id": "mission_k27_radio_lab",
+    "profile_metadata": {
+      "credit": "NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge's sample 1U educational profile: modeled spacecraft mass < 1.33 kg (< 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.",
+      "label": "OrbitBridge sample 1U educational profile",
+      "source_label": "CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers"
+    },
+    "run_id": "run_k27_B",
+    "source_metadata": {
+      "cubesat_101_1u_sample": {
+        "alternate_url": "https://www.nasa.gov/wp-content/uploads/2017/03/nasa_csli_CubeSat_101_508.pdf",
+        "applicable_profile": {
+          "label": "OrbitBridge sample 1U educational profile",
+          "profile_id": "cubesat_1u_sample",
+          "scope": "Apply only to this selected educational profile. Other profiles use their own rules. This historical example is not a universal satellite mass limit or flight certification."
+        },
+        "attribution_text": "NASA CubeSat Launch Initiative, CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers (October 2017), Appendix C, item 6, printed p. 79 (PDF p. 87). Reference for OrbitBridge's sample 1U educational profile: modeled spacecraft mass < 1.33 kg (< 1330 g). This profile-specific educational criterion is not a universal satellite limit or flight certification.",
+        "criterion": {
+          "boundary_expectations": [
+            {
+              "mass_check_passed": true,
+              "mass_g": 1329.0
+            },
+            {
+              "mass_check_passed": false,
+              "mass_g": 1330.0
+            },
+            {
+              "mass_check_passed": false,
+              "mass_g": 1331.0
+            }
+          ],
+          "boundary_verification_scope": "KE1 recorded validator boundary tests at 55d4f33. KE2 independently reran the existing 470-check readiness fixture suite at candidate 14c0f97, including 1329/1330/1331 g and alternate-profile cases. Boundary masses use private test catalog copies. Builder and exported-build cases T11/T12 remain pending. Passing this mass check does not establish overall launch readiness.",
+          "conversion": "1 kg = 1000 g; preserve the strict comparator.",
+          "conversion_factor": 1000.0,
+          "converted": {
+            "comparator": "<",
+            "unit": "g",
+            "value": 1330.0
+          },
+          "input_representation": "integer grams",
+          "original": {
+            "comparator": "<",
+            "unit": "kg",
+            "value": 1.33
+          },
+          "quantity": "total modeled spacecraft mass",
+          "source_text": "Mass (< 1.33 kg)"
+        },
+        "document_revision": "October 2017",
+        "implementation": {
+          "builder_display": {
+            "owner": "SE",
+            "required_display": "Actual total mass in g, strict < 1330 g threshold, mass-check result, sample-profile label, and source credit.",
+            "status": "pending_owner_handoff",
+            "verified_path": null
+          },
+          "contract_examples": [
+            "res://docs/contracts/v1-draft/validation-ready.example.json",
+            "res://docs/contracts/v1-draft/validation-overmass.example.json"
+          ],
+          "credits_display": {
+            "binding": "set_inputs(context, state, report)",
+            "owner": "KE3",
+            "source_context": "res://data/ke3-results-verification/preview-source/ke3/debrief_screen.gd",
+            "status": "verified_in_owner_recorded_preview",
+            "verified_path": "res://ke3/debrief_screen.gd"
+          },
+          "example_note": "Examples establish the agreed source/profile IDs and expected fields; they are not executed validator evidence.",
+          "profile_catalog": {
+            "intended_path": "res://data/launch_profiles.json",
+            "owner": "KE1",
+            "path_present_in_checkout": false,
+            "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+            "status": "owner_handoff_reviewed"
+          },
+          "validator": {
+            "intended_path": "res://scripts/core/mission_validator.gd",
+            "owner": "KE1",
+            "path_present_in_checkout": false,
+            "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193",
+            "status": "owner_handoff_reviewed",
+            "verified_entry_point": "MissionValidator.validate(config, catalogs)"
+          }
+        },
+        "local_reference": "res://docs/references/NASA_CubeSat_101.pdf",
+        "local_reference_sha256": "57d2783457cb94b69136476ca341ddf4c7dc23bf61682606e37a048e9e5ae592",
+        "locator": {
+          "appendix": "C - Templates",
+          "checklist_revision_date": "2014-02-20",
+          "item": 6.0,
+          "locator_note": "Item 6 is within Appendix C; Appendix 6 is not the document's appendix identifier.",
+          "pdf_page": 87.0,
+          "pdf_page_index": 86.0,
+          "pdf_total_pages": 96.0,
+          "printed_page": 79.0,
+          "section": "CubeSat Acceptance Checklists",
+          "subsection": "1U CubeSat Acceptance Checklist"
+        },
+        "nasa_organization": "NASA CubeSat Launch Initiative (CSLI)",
+        "source_id": "cubesat_101_1u_sample",
+        "title": "CubeSat 101: Basic Concepts and Processes for First-Time CubeSat Developers",
+        "url": "https://science.nasa.gov/wp-content/uploads/2023/06/nasa_csli_cubesat_101_508.pdf",
+        "use_status": "documented_rule_awaiting_gameplay_verification",
+        "verification": {
+          "access_note": "The primary science.nasa.gov URL opened successfully during this review; docs/sources.md records an earlier timeout.",
+          "export_status": "not_verified",
+          "gameplay_status": "not_verified",
+          "independent_boundary_verification": {
+            "candidate_commit": "14c0f973c140e9644650e94e769b6b1b3dfb3951",
+            "checks_failed": 0.0,
+            "checks_passed": 470.0,
+            "exit_code": 0.0,
+            "godot_version": "4.7.2.stable.mono.official.ed1daf0bf",
+            "log": "tmp/ke2-prompt10-readiness-fixtures.log",
+            "reviewer": "KE2",
+            "runner": "res://tests/validation/test_mission_fixtures.gd",
+            "scope": "Actual validator and catalogs, with private test-only bus mass overrides for exact boundaries. Interactive Builder, launch controls and exports remain pending.",
+            "source_sha256": {
+              "data/launch_profiles.json": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+              "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+              "tests/fixtures/ke1_readiness_cases.json": "c760c958ee105ca44f40c70e82c8c08dfd51ada1b24a465db31bc952825c83c6",
+              "tests/validation/test_mission_fixtures.gd": "ebc22107335fd57da5cbe482bdf1a20c3d33c7e896a05c0c9d51c407debb222d"
+            },
+            "verified_on": "2026-11-14",
+            "worktree": "tmp/se-ke2-integration"
+          },
+          "method": "Opened both official NASA PDFs, checked the table of contents and checklist text, and visually inspected the complete local PDF page 87.",
+          "pending_evidence": "SE Builder/profile-switch/Launch checks, original partial/abort packets through the selected-release Results route, and source-credit display/link access in the selected export.",
+          "report_linkage_status": "not_integrated",
+          "rule_conversion_status": "verified",
+          "scoped_credit_metadata_status": "verified_in_owner_recorded_preview",
+          "source_status": "verified",
+          "validator_evidence": {
+            "alternate_profile_scope": "illustrative_alternative uses <= 5000 g, source_id null, and assumption_id illustrative_small_sat_mass_limit_v1.",
+            "case_count": 15.0,
+            "case_manifest": "tests/fixtures/ke1_readiness_cases.json",
+            "catalog_loader": "OrbitBridgeCatalogLoader.load_catalogs(base_path = res://data)",
+            "owner": "KE1",
+            "owner_reported_exit_code": 0.0,
+            "recorded_checks_failed": 0.0,
+            "recorded_checks_passed": 470.0,
+            "recorded_log": "docs/handoff/validation-test-log.txt",
+            "review_scope": "KE2 inspected the pinned validator, case manifest, test runner, and recorded log. An independent KE2 boundary-suite rerun remains pending.",
+            "reviewed_cases": [
+              "strict_boundary_1329g",
+              "strict_boundary_1330g",
+              "strict_boundary_1331g",
+              "alternative_1380g",
+              "alternative_boundary_5000g",
+              "alternative_boundary_5001g"
+            ],
+            "runner": "tests/validation/test_mission_fixtures.gd",
+            "source_commit": "55d4f336e72a68ff31cf37e44f65a98c1cdcc193"
+          },
+          "validator_status": "owner_test_evidence_reviewed",
+          "verified_on": "2026-11-14",
+          "visible_credit_status": "verified_in_owner_recorded_preview"
+        }
+      },
+      "nasa_design_develop_science_missions_2025": {
+        "applicable_profile": "Educational mission-segment vocabulary across profiles; no numeric requirement or unit conversion is derived from this reference.",
+        "attribution_text": "Mission-segment terminology adapted from NASA, Design and Develop Science Missions, Julie Levri, March 26, 2025, slide 8. OrbitBridge's feedback mappings and corrective actions are educational adaptations.",
+        "author": "Julie Levri",
+        "criterion": null,
+        "implementation": {
+          "actual_use": "NO_LINK_WINDOW feedback uses ground; LOW_BATTERY, STORAGE_FULL, and TARGET_NOT_VISIBLE feedback use space. The source also describes launch and user segments; current feedback rules do not emit those two labels.",
+          "evidence_paths": [
+            "res://docs/sources.md",
+            "res://tests/test_mission_evaluator.gd",
+            "res://docs/handoffs/ke2-hpc-report-v0.1.json"
+          ],
+          "limits": "Code-to-segment assignments and corrective templates are OrbitBridge educational adaptations. NASA does not specify these simulator reason codes, verdicts, or score formula.",
+          "path": "res://scripts/evaluation/mission_feedback.gd",
+          "symbols": [
+            "RULES",
+            "build_feedback",
+            "explain_event"
+          ]
+        },
+        "locator": {
+          "pdf_page": 8.0,
+          "pdf_page_index": 7.0,
+          "section": "Mission segments",
+          "slide": 8.0
+        },
+        "nasa_organization": "NASA, Access to Space for All Systems Engineering Webinar Series",
+        "publication_date": "2025-03-26",
+        "source_id": "nasa_design_develop_science_missions_2025",
+        "source_id_scope": "Ledger-local bibliographic ID; coordinate before adding it to shared report source_ids or reference-ids.json.",
+        "title": "Design and Develop Science Missions",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/250323-design-and-develop-science-mission.pdf?emrc=a454cf",
+        "use_status": "segment_vocabulary_adapted_in_feedback_code",
+        "verification": {
+          "code_adaptation_status": "verified_by_inspection",
+          "export_status": "not_verified",
+          "gameplay_status": "full_lifecycle_not_verified",
+          "method": "Opened the official NASA PDF and checked slide 8 against the current feedback code and recorded report's ground-segment cause.",
+          "recorded_test_evidence": "Prior Prompt 5 log records 143 passing evaluator/feedback checks; the existing HPC report metadata records 146 passing recorded-trace checks. These tests were not rerun for this ledger-only task.",
+          "report_linkage_status": "not_integrated",
+          "scoped_credit_metadata_status": "verified_in_owner_recorded_preview",
+          "source_status": "verified",
+          "verified_on": "2026-11-14",
+          "visible_credit_status": "verified_in_owner_recorded_preview"
+        }
+      },
+      "nasa_goddard_mission_design_lab": {
+        "applicable_profile": "Planning reference for future design trade studies; no sourced numeric game values or unit conversions.",
+        "attribution_text": "Planning reference: NASA Goddard Space Flight Center, Engineering and Technology Directorate, Mission Design Lab, sections Tailored Trade Study and MDL Disciplines. No implemented NASA trade-study tool is claimed.",
+        "criterion": null,
+        "implementation": {
+          "actual_use": "Consulted during project planning. The existing notes propose subsystem comparisons. No implemented MDL trade-study feature or use of NASA engineering tools was established by this review.",
+          "documented_use_path": "res://docs/sources.md",
+          "status": "not_integrated",
+          "verified_path": null
+        },
+        "locator": {
+          "page": null,
+          "sections": [
+            "Tailored Trade Study",
+            "MDL Disciplines"
+          ]
+        },
+        "nasa_organization": "NASA Goddard Space Flight Center, Engineering and Technology Directorate, Integrated Design Center",
+        "source_id": "nasa_goddard_mission_design_lab",
+        "source_id_scope": "Ledger-local background-reference ID; not an agreed runtime source ID.",
+        "title": "Mission Design Lab",
+        "url": "https://etd.gsfc.nasa.gov/capabilities/integrated-design-center/mission-design-lab/",
+        "use_status": "planning_reference_only",
+        "verification": {
+          "export_status": "not_verified",
+          "gameplay_status": "not_integrated",
+          "method": "Opened the official NASA Goddard page and checked its trade-study and subsystem-analysis descriptions against the existing planning notes.",
+          "report_linkage_status": "not_integrated",
+          "source_status": "verified",
+          "verified_on": "2026-11-14",
+          "visible_credit_status": "not_verified"
+        }
+      }
+    }
+  },
+  "telemetry": [
+    {
+      "energy_wh": 24.6777777778,
+      "observations_completed": 0,
+      "returned_data_mb": 0.0,
+      "step_index": 1,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 24.1944444445,
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "step_index": 2,
+      "stored_data_mb": 12.0
+    },
+    {
+      "energy_wh": 24.3555555556,
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "step_index": 3,
+      "stored_data_mb": 12.0
+    },
+    {
+      "energy_wh": 24.5166666667,
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "step_index": 4,
+      "stored_data_mb": 12.0
+    },
+    {
+      "energy_wh": 24.6777777778,
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "step_index": 5,
+      "stored_data_mb": 12.0
+    },
+    {
+      "energy_wh": 24.8388888889,
+      "observations_completed": 1,
+      "returned_data_mb": 0.0,
+      "step_index": 6,
+      "stored_data_mb": 12.0
+    },
+    {
+      "energy_wh": 24.3555555556,
+      "observations_completed": 2,
+      "returned_data_mb": 0.0,
+      "step_index": 7,
+      "stored_data_mb": 24.0
+    },
+    {
+      "energy_wh": 23.0666666668,
+      "observations_completed": 2,
+      "returned_data_mb": 19.333333332,
+      "step_index": 8,
+      "stored_data_mb": 4.666666668
+    },
+    {
+      "energy_wh": 22.7444444446,
+      "observations_completed": 2,
+      "returned_data_mb": 19.333333332,
+      "step_index": 9,
+      "stored_data_mb": 4.666666668
+    },
+    {
+      "energy_wh": 22.4222222224,
+      "observations_completed": 2,
+      "returned_data_mb": 19.333333332,
+      "step_index": 10,
+      "stored_data_mb": 4.666666668
+    },
+    {
+      "energy_wh": 21.1333333336,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 11,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.2944444447,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 12,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.4555555558,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 13,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.6166666669,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 14,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.777777778,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 15,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.9388888891,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 16,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 22.1000000002,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 17,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.777777778,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 18,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.4555555558,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 19,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.1333333336,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 20,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 20.8111111114,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 21,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 20.9722222225,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 22,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.1333333336,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 23,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.2944444447,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 24,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.4555555558,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 25,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.6166666669,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 26,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.777777778,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 27,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.4555555558,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 28,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 21.1333333336,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 29,
+      "stored_data_mb": 0.0
+    },
+    {
+      "energy_wh": 20.8111111114,
+      "observations_completed": 2,
+      "returned_data_mb": 24.0,
+      "step_index": 30,
+      "stored_data_mb": 0.0
+    }
+  ],
+  "validation": {
+    "checks": {
+      "budget": {
+        "message": "Design and launch costs fit the budget.",
+        "passed": true,
+        "status": "pass"
+      },
+      "catalog_references": {
+        "message": "All selected IDs were found in their proper categories.",
+        "passed": true,
+        "status": "pass"
+      },
+      "essential_power": {
+        "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+        "passed": true,
+        "status": "pass"
+      },
+      "input_schema": {
+        "message": "Mission fields are valid.",
+        "passed": true,
+        "status": "pass"
+      },
+      "launch_orbit": {
+        "message": "Profile, launcher and orbit are compatible.",
+        "passed": true,
+        "status": "pass"
+      },
+      "launcher_capacity": {
+        "message": "Spacecraft fits the launcher capacity for this orbit.",
+        "passed": true,
+        "status": "pass"
+      },
+      "profile_mass": {
+        "comparator": "<",
+        "message": "Spacecraft mass meets the selected profile rule.",
+        "passed": true,
+        "profile_id": "cubesat_1u_sample",
+        "source_id": "cubesat_101_1u_sample",
+        "status": "pass",
+        "threshold_g": 1330,
+        "total_mass_g": 1120
+      },
+      "target_orbit": {
+        "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+        "passed": true,
+        "status": "pass"
+      }
+    },
+    "errors": [],
+    "metrics": {
+      "baseline_power_w": 2.0,
+      "battery_capacity_wh": 25.0,
+      "data_per_observation_mb": 12.0,
+      "downlink_mb_per_hour": 120.0,
+      "initial_energy_wh": 25.0,
+      "solar_generation_power_w": 3.0,
+      "storage_capacity_mb": 64.0,
+      "total_cost_credits": 89,
+      "total_mass_g": 1120
+    },
+    "ready_to_launch": true,
+    "schema_version": 1,
+    "warnings": []
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "document_status": "PROPOSED_NOT_RUNTIME_SCHEMA",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "assumption_id": "five_preset_expansion_proposal_v2",
+  "notice": "Five presets; preserve three existing and add only Communication and Weather. New goals and Survey scoring are not implemented by this registry.",
+  "presets": [
+    {
+      "preset_id": "estuary_watch",
+      "display_name": "Estuary Watch",
+      "status": "existing_card",
+      "legacy_config_file": "legacy-configs/estuary_watch.v1.json",
+      "logical_goal": {
+        "kind": "imaging",
+        "required_observations": 5,
+        "required_returned_data_mb": 60
+      },
+      "goal_support": "aggregate_imaging_supported"
+    },
+    {
+      "preset_id": "tropical_forest_watch",
+      "display_name": "Tropical Forest Watch",
+      "status": "existing_card",
+      "legacy_config_file": "legacy-configs/tropical_forest_watch.v1.json",
+      "logical_goal": {
+        "kind": "imaging",
+        "required_observations": 5,
+        "required_returned_data_mb": 60
+      },
+      "goal_support": "aggregate_imaging_supported"
+    },
+    {
+      "preset_id": "polar_ice_survey",
+      "display_name": "Polar Ice Survey",
+      "status": "existing_card",
+      "legacy_config_file": "legacy-configs/polar_ice_survey.v1.json",
+      "logical_goal": {
+        "kind": "survey_delivery",
+        "minimum_complete_deliveries_per_target": 1,
+        "required_observations": 5,
+        "required_returned_data_mb": 60
+      },
+      "goal_support": "requires_owner_implementation"
+    },
+    {
+      "preset_id": "communication",
+      "display_name": "Communication",
+      "status": "new_proposed",
+      "legacy_config_file": "legacy-configs/communication.v1.json",
+      "logical_goal": {
+        "kind": "communication_contacts",
+        "required_positive_contact_steps": 2,
+        "required_returned_data_mb": 12
+      },
+      "goal_support": "requires_owner_implementation"
+    },
+    {
+      "preset_id": "weather_monitoring",
+      "display_name": "Weather Monitoring",
+      "status": "new_proposed",
+      "legacy_config_file": "legacy-configs/weather_monitoring.v1.json",
+      "logical_goal": {
+        "kind": "weather_revisit",
+        "region_id": "equator",
+        "required_distinct_orbits": 2,
+        "required_returned_data_mb": 12
+      },
+      "goal_support": "requires_owner_implementation"
+    }
+  ],
+  "superseded_for_current_review_by": "data/mission_presets.json and docs/ke1-expansion/k20-interface-review.md"
+}

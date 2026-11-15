@@ -1,0 +1,78 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "date": "2026-11-15",
+  "result": "passed",
+  "scope": "Independent Python inspection of raw native-engine evidence; not official new-goal evaluation or owner acceptance.",
+  "trace_checks": [
+    "same-run stable unique events",
+    "all accepted pre-action steps exactly once",
+    "frozen config matches input",
+    "contact and target windows match frozen orbit",
+    "event and final-state MB agree",
+    "selected-target distinct-orbit counts",
+    "all eight readiness gates",
+    "blocked attempts carry zero returned data"
+  ],
+  "trace_cases_verified": [
+    "communication_fast_radio_one_contact_shortfall",
+    "communication_high_inc_two_packets",
+    "communication_ke2_low_eq_one_packet",
+    "communication_two_contacts_data_shortfall_control",
+    "weather_current_downlink_first",
+    "weather_current_observe_first",
+    "weather_explicit_revisit",
+    "weather_other_target_does_not_count_control",
+    "weather_revisit_complete_delivery",
+    "weather_revisit_no_return_control",
+    "weather_same_orbit_control"
+  ],
+  "audit_checks_passed": 1740,
+  "regression_programs": {
+    "test_hpc": {
+      "result": "passed",
+      "log_file": "test_hpc.log"
+    },
+    "test_simulator": {
+      "result": "passed",
+      "log_file": "test_simulator.log"
+    },
+    "prediction_multitarget_smoke": {
+      "result": "passed",
+      "log_file": "prediction_multitarget_smoke.log"
+    }
+  },
+  "source_sha256": {
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+    "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+    "scripts/core/catalog_loader.gd": "36e1ecfbe8cdcccd0c0250618994a5628757172dd89c216c2172eb8ab76311ff",
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70",
+    "data/mock/DesignCatalog.gd": "3734f55de574092a4a4a963a77625839fa0dcf626bd4ef49b3d1fc63786ba9a0",
+    "docs/ke1-expansion/examples/k24-k25-action-plans.json": "2c7ce7ef1d281a0e86661017109da734a692a7406b5a97d5556f5d27c936e0d3",
+    "docs/ke1-expansion/examples/legacy-configs/communication.v1.json": "7d0f1007579ff69ca947879855d8274a31a22c17238252152623e3bd48cc19cc",
+    "docs/ke1-expansion/examples/legacy-configs/weather_monitoring.v1.json": "336911d251cadb59d774b59c204b561af267cdcde8cf6eb54a3965316834149f",
+    "docs/ke1-expansion/tools/check_contact_revisit.gd": "0d2c9e19e32339c9132dc04d1832f02d792083e9e76f5c93b847d770a9111f5b",
+    "docs/ke1-expansion/k20-interface-review.md": "9bc353ec64e1619280b531c21e5d8f939cde87be22ebb5b6f30f2a0bdd2d95c2"
+  },
+  "record_sha256": {
+    "communication_fast_radio_one_contact_shortfall.json": "5659527c2b8eb322f618a58915d39bfb7a0293b56168ff05d91990a5671089d9",
+    "communication_high_inc_two_packets.json": "867f4a65fb4f916911cce6ab1bd03ddb9bf9c3dbfabf1eeab24d5bc093a069fa",
+    "communication_ke2_low_eq_one_packet.json": "2e7be18754d3bfa78c47212324caf5611fcd5e32d0ec8d13280fc8655502083f",
+    "communication_two_contacts_data_shortfall_control.json": "2074ad57466e81cc05a5f2ac337493396a755155f053f88d872a3721b5f63459",
+    "summary.json": "f8b9744f30d1b9c19e0e7067fe48d51d011a9e9dfcd22813875e9c6fd27d6de4",
+    "weather_current_downlink_first.json": "e87b9850e4e5709822ff5f78f34ee144001c1fe8edda881c8e3f0d199b7fffca",
+    "weather_current_observe_first.json": "6e6465496a42567a99051b4ecb90b2e4b5dd0402986f35142ca2f326145e8a9a",
+    "weather_explicit_revisit.json": "e4df99def8bf533b998229e2059100120ec66c5cc8f9c2761e4f4c81935170ff",
+    "weather_other_target_does_not_count_control.json": "185d057ad8cb889393826fbc460660a74b9cb347484755e5985259529ea280d5",
+    "weather_revisit_complete_delivery.json": "b445388934250d19ecfc78222924f7e0c9dfa7480bd1f28fe15cf8154faf9e21",
+    "weather_revisit_no_return_control.json": "f6ce737898ffc78584ab0b87621644a8e1ee0f29b1a7c32bb3a8a5853f250c5c",
+    "weather_same_orbit_control.json": "a2804b357234c7706db8b180088f5fed652312cdc7e2b56fe2c055911dc7293a"
+  },
+  "hpc_confirmation": "pending",
+  "k20_agreement": "pending",
+  "new_objectives_enabled": false
+}

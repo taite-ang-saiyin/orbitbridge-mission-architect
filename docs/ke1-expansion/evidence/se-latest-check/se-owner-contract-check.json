@@ -1,0 +1,38 @@
+{
+  "cases": {
+    "launcher_and_profile": {
+      "a_preserved": true,
+      "comparison_inputs_accepted": true,
+      "expected_under_components_only_policy": "both boundaries reject",
+      "launch_b_accepted": true,
+      "physical_ready": true
+    },
+    "launcher_only": {
+      "a_preserved": true,
+      "comparison_inputs_accepted": true,
+      "expected_under_components_only_policy": "both boundaries reject",
+      "launch_b_accepted": true,
+      "physical_ready": true
+    },
+    "profile_only": {
+      "a_preserved": true,
+      "comparison_inputs_accepted": true,
+      "expected_under_components_only_policy": "both boundaries reject",
+      "launch_b_accepted": true,
+      "physical_ready": true
+    }
+  },
+  "creator": {
+    "goal": {
+      "kind": "imaging"
+    },
+    "objective": "Survey Target Regions",
+    "preset_id": "estuary_watch",
+    "scope": "authored five-preset transition proposal; final custom identity still pending",
+    "transition_consistent_or_blocked": false
+  },
+  "failed": 7,
+  "launch_policy_under_test": "B launcher/profile fixed to match existing UI; final owner decision pending",
+  "passed": 31,
+  "scope": "SE_PATCH_REVIEW_NOT_MAIN_ACCEPTANCE"
+}

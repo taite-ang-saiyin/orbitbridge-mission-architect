@@ -1,0 +1,12 @@
+{
+  "status": "CONTENT_AUDIT_NOT_RENDERED_UI_TEST",
+  "cards": 5,
+  "registry_ids_and_titles_match": true,
+  "nonempty_strings": true,
+  "weather_alternatives_removed": true,
+  "missing_metrics_label": "Unavailable",
+  "copy_revision": "five-mission-copy-candidate-2",
+  "pending_confirmation_owners": [
+    "HPC"
+  ]
+}

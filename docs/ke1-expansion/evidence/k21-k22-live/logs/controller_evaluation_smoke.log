@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+REFERENCE REPRODUCTION se_reference_reproduction_01: {"comparison":null,"data_return_completion_ratio":0.25777777776,"explanation":"1/4.0 observations captured and 7.7333333328/30.0 MB received on Earth. 4.2666666672 MB remain onboard. Available events do not establish the cause of the shortfall.","mission_id":"se_reference_mission","next_experiment":"Retry with one change to observation timing and review the event timeline.","observation_completion_ratio":0.25,"observations_completed":1,"required_observations":4.0,"required_returned_data_mb":30.0,"returned_data_mb":7.7333333328,"root_causes":[],"run_id":"se_reference_reproduction_01","run_status":"completed","schema_version":1,"score":25,"source_ids":[],"status":"partial"}
+PASS controller Launch/terminal/Results/Retry/Abort/New Mission; one report per ID; history, source validation and baseline retained

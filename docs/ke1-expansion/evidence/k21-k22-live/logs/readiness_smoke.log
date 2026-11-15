@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Readiness content (1220.0, 878.0) available (1228.0, 674.0)
+PASS: readiness state, eight expandable checks, warning details, layout, back and launch at (1440, 900)
+PASS: readiness state, eight expandable checks, warning details, layout, back and launch at (1280, 720)
+PASS: readiness state, eight expandable checks, warning details, layout, back and launch at (1024, 768)
+Readiness content (1380.0, 818.0) available (1388.0, 674.0)
+PASS: readiness state, eight expandable checks, warning details, layout, back and launch at (1920, 1080)
+Readiness content (1220.0, 878.0) available (1228.0, 674.0)
+PASS: readiness state, eight expandable checks, warning details, layout, back and launch at (3360, 2100)
+PASS: flexible content bounds, coverage text and selected profile mass limit

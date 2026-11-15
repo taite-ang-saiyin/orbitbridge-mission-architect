@@ -1,0 +1,63 @@
+PASS validation/test_mission_validator.gd
+KE1 K05/K06: 294 checks passed; 0 failed.
+PASS validation/test_mission_readiness.gd
+KE1 K07/K08: 671 checks passed; 0 failed.
+PASS validation/test_mission_fixtures.gd
+KE1 K09/K10 saved fixtures: 470 checks passed; 0 failed.
+PASS validation/test_mission_presets.gd
+PASS validation/test_mission_config_v2_draft.gd
+K22 draft v2 checker: 466 checks passed; 0 failed.
+PASS validation/test_mission_capability_draft_loader.gd
+Draft capability loader: 83 checks passed; 0 failed.
+PASS validation/test_mission_validator_v2_candidate.gd
+K22 v2 candidate validator: 327 checks passed; 0 failed.
+PASS validation/test_mission_presets_v2.gd
+PASS validation/test_mission_validator_v2.gd
+K22 live v2 validation: 373 checks passed; 0 failed.
+PASS test_hpc.gd
+HPC Team Contract v1 tests passed: 48
+PASS test_simulator.gd
+PASS test_mission_evaluator.gd
+Evaluator checks: 207 passed, 0 failed, 5 pending.
+PASS integration/test_mission_flow.gd
+K12/K13 mission flow: 32 checks passed; 0 failed.
+PASS integration/test_screen_flow.gd
+Merged screen edge cases: 19 checks passed; 0 failed.
+PASS acceptance/test_k14_acceptance.gd
+K14 scenarios: 48 checks passed; 0 failed.
+PASS mission_review_smoke.gd
+PASS creator_earth_framing_smoke.gd
+PASS earth_station_smoke.gd
+PASS compact_antenna_smoke.gd
+PASS acrimsat_hull_smoke.gd
+PASS home_smoke.gd
+PASS responsive_layout_smoke.gd
+PASS 3d/preview_smoke.gd
+PASS integration_smoke.gd
+PASS controller_evaluation_smoke.gd
+PASS creator_builder_catalog_smoke.gd
+PASS expanded_missions_smoke.gd
+PASS mission_control_smoke.gd
+PASS prediction_multitarget_smoke.gd
+PASS design_workflow_smoke.gd
+PASS modular_reference_smoke.gd
+PASS operations_smoke.gd
+PASS prototype_smoke.gd
+PASS readiness_smoke.gd
+PASS satellite_builder_smoke.gd
+PASS satellite_selection_smoke.gd
+PASS ke2_results_integration.gd
+PASS ke3_report_binding_check.gd
+PASS ke3_team_integration_check.gd
+PASS ke3_power_launcher_check.gd
+PASS a03_operations_check.gd
+PASS a05_debrief_check.gd
+PASS a06_retry_check.gd
+PASS mission_fixture_check.gd
+PASS ke2_recorded_debrief_check.gd
+PASS ke2_validated_debrief_check.gd
+PASS integration/test_ke3_merge.gd
+KE3 merged intents: 25 checks passed; 0 failed.
+PASS player_ui_check.gd
+PASS debrief_summary_check.gd
+All 49 active check programs passed. Historical mock-prototype checks are archived separately.

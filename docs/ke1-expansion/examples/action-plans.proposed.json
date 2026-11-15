@@ -1,0 +1,36 @@
+{
+  "document_status": "PROPOSED_CURRENT_ENGINE_AUDIT_ONLY",
+  "step_indexing": "zero-based pre-action step; orbit_index=floor(step_index/10)",
+  "assumption_id": "authored_high_inc_windows_v1",
+  "weather": {
+    "config_file": "legacy-configs/weather_monitoring.v1.json",
+    "observe_steps": [
+      1,
+      11
+    ],
+    "transmit_steps": [
+      7,
+      17
+    ],
+    "all_other_steps": "power_save",
+    "intended_goal": "same equator region observed in two distinct orbits; returned MB >=12"
+  },
+  "communication": {
+    "config_file": "legacy-configs/communication.v1.json",
+    "observe_steps": [
+      1,
+      6
+    ],
+    "transmit_steps": [
+      7,
+      10,
+      17,
+      20,
+      27
+    ],
+    "all_other_steps": "power_save",
+    "intended_goal": "at least two accepted positive downlink steps; returned MB >=12"
+  },
+  "notice": "HPC must review and own production policies/events; this is a fixed training schedule, not real orbital planning.",
+  "when_scheduled_action_unavailable": "power_save; do not count a failed or zero-data transmission"
+}

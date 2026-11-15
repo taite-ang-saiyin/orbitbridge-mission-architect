@@ -1,0 +1,2833 @@
+{
+  "cases": {
+    "advanced_imaging": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1300
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 1.2,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 104,
+        "total_mass_g": 1300
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "budget_shortfall": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs exceed the budget.",
+          "passed": false,
+          "status": "fail"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [
+        {
+          "code": "BUDGET_EXCEEDED",
+          "field_path": "mission.budget_credits",
+          "message": "Parts plus launch cost 89 credits; budget is 88 credits.",
+          "suggested_fix": "Choose cheaper parts/launch or increase the mission budget."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "budget_zero": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.budget_credits",
+          "message": "Use a finite whole number in the agreed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "captures_over_limit": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_observations",
+          "message": "Use a finite whole number in the agreed range 1-20.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "communication": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_boolean": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the agreed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_fraction": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the agreed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_negative": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the agreed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_string": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the agreed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_zero": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the agreed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contacts_over_total_steps": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the configuration issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Contacts cannot exceed the selected frozen scenario's total steps.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "duplicate_mb": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_returned_data_mb",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "duplicate_targets": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions",
+          "message": "Use distinct target strings and this objective's allowed target count.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "duration_over_limit": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.duration_orbits",
+          "message": "Use a finite whole number in the agreed range 1-12.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "estuary_watch": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "heavy_part_combination": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass does not meet the selected profile rule.",
+          "passed": false,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "fail",
+          "threshold_g": 1330,
+          "total_mass_g": 1380
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [
+        {
+          "code": "PROFILE_MASS_EXCEEDED",
+          "field_path": "design.launch_profile_id",
+          "message": "Spacecraft mass is 1380 g; this profile requires mass < 1330 g.",
+          "source_id": "cubesat_101_1u_sample",
+          "suggested_fix": "Choose lighter parts or a suitable alternative launch profile."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 96,
+        "total_mass_g": 1380
+      },
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "mb_zero": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_returned_data_mb",
+          "message": "Use positive finite decimal MB.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "missing_contact_count": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Required field is missing.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "missing_goal": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal",
+          "message": "Required field is missing.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "missing_radio": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "MISSING_COMPONENT",
+          "field_path": "design.radio_id",
+          "message": "Required field is missing.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "new_goal_two_targets": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions",
+          "message": "Use distinct target strings and this objective's allowed target count.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "old_preset_revision": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the configuration issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_revision",
+          "message": "Use the selected preset's published revision.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "polar_ice_survey": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "preset_objective_mismatch": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the configuration issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective",
+          "message": "Objective must match authored preset lineage.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "primary_target_mismatch": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_region",
+          "message": "Primary target must equal the first selected target.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "survey_delivery_over_quota": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target",
+          "message": "This agreed revision supports exactly one complete delivery per target; higher minima need an explicit extension.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        },
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target",
+          "message": "Per-target deliveries cannot exceed the available capture quota.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "survey_two_targets": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "title_whitespace": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.title",
+          "message": "Use a trimmed nonempty string.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "tropical_forest_watch": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_objective": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective",
+          "message": "Choose a registered v2 objective.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_part": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the configuration issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "UNKNOWN_COMPONENT",
+          "field_path": "design.radio_id",
+          "message": "Choose an existing part ID.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_preset": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the configuration issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_id",
+          "message": "Choose a registered authored preset identity.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_root_key": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "extra_goal",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "weather_monitoring": {
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "errors": [],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": true,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "weather_visits_over_capture_quota": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Visits cannot exceed duration or capture quota.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "weather_visits_over_duration": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Visits cannot exceed duration or capture quota.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "withdrawn_instrument_capability": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the explicit agreed v2 context and catalogs.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INSTRUMENT_OBJECTIVE_UNSUPPORTED",
+          "field_path": "catalogs.mission_v2.registry.communication.design.instrument_id",
+          "message": "The agreed capability context does not support this instrument/objective combination.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "wrong_goal_counter": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "wrong_goal_kind": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the listed v2 fields.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "comparator": null,
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "profile_id": null,
+          "source_id": null,
+          "status": "not_evaluated",
+          "threshold_g": null,
+          "total_mass_g": null
+        },
+        "target_orbit": {
+          "message": "Waits for valid inputs and agreed v2 context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.kind",
+          "message": "Use the goal kind matching the objective.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "wrong_part_slot": {
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the configuration issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Configuration phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "errors": [
+        {
+          "code": "WRONG_COMPONENT_CATEGORY",
+          "field_path": "design.radio_id",
+          "message": "Choose a part in the correct slot.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "metrics": null,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    }
+  },
+  "contract_revision": "expansion-goals-v2-agreed-1",
+  "failed": 0,
+  "native_v2_launch_supported": false,
+  "passed": 373,
+  "presets": {
+    "communication": {
+      "native_result": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEMA_VERSION",
+          "message": "schema_version must be integer 1"
+        },
+        "ok": false
+      },
+      "validation": {
+        "checks": {
+          "budget": {
+            "message": "Design and launch costs fit the budget.",
+            "passed": true,
+            "status": "pass"
+          },
+          "catalog_references": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "essential_power": {
+            "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+            "passed": true,
+            "status": "pass"
+          },
+          "input_schema": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launch_orbit": {
+            "message": "Profile, launcher and orbit are compatible.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launcher_capacity": {
+            "message": "Spacecraft fits the launcher capacity for this orbit.",
+            "passed": true,
+            "status": "pass"
+          },
+          "profile_mass": {
+            "comparator": "<",
+            "message": "Spacecraft mass meets the selected profile rule.",
+            "passed": true,
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "status": "pass",
+            "threshold_g": 1330,
+            "total_mass_g": 1120
+          },
+          "target_orbit": {
+            "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "errors": [],
+        "metrics": {
+          "baseline_power_w": 2.0,
+          "battery_capacity_wh": 25.0,
+          "data_per_observation_mb": 12.0,
+          "downlink_mb_per_hour": 120.0,
+          "initial_energy_wh": 25.0,
+          "solar_generation_power_w": 3.0,
+          "storage_capacity_mb": 64.0,
+          "total_cost_credits": 89,
+          "total_mass_g": 1120
+        },
+        "ready_to_launch": true,
+        "schema_version": 1,
+        "warnings": []
+      }
+    },
+    "estuary_watch": {
+      "native_result": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEMA_VERSION",
+          "message": "schema_version must be integer 1"
+        },
+        "ok": false
+      },
+      "validation": {
+        "checks": {
+          "budget": {
+            "message": "Design and launch costs fit the budget.",
+            "passed": true,
+            "status": "pass"
+          },
+          "catalog_references": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "essential_power": {
+            "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+            "passed": true,
+            "status": "pass"
+          },
+          "input_schema": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launch_orbit": {
+            "message": "Profile, launcher and orbit are compatible.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launcher_capacity": {
+            "message": "Spacecraft fits the launcher capacity for this orbit.",
+            "passed": true,
+            "status": "pass"
+          },
+          "profile_mass": {
+            "comparator": "<",
+            "message": "Spacecraft mass meets the selected profile rule.",
+            "passed": true,
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "status": "pass",
+            "threshold_g": 1330,
+            "total_mass_g": 1060
+          },
+          "target_orbit": {
+            "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "errors": [],
+        "metrics": {
+          "baseline_power_w": 2.0,
+          "battery_capacity_wh": 25.0,
+          "data_per_observation_mb": 12.0,
+          "downlink_mb_per_hour": 48.0,
+          "initial_energy_wh": 25.0,
+          "solar_generation_power_w": 3.0,
+          "storage_capacity_mb": 64.0,
+          "total_cost_credits": 82,
+          "total_mass_g": 1060
+        },
+        "ready_to_launch": true,
+        "schema_version": 1,
+        "warnings": []
+      }
+    },
+    "polar_ice_survey": {
+      "native_result": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEMA_VERSION",
+          "message": "schema_version must be integer 1"
+        },
+        "ok": false
+      },
+      "validation": {
+        "checks": {
+          "budget": {
+            "message": "Design and launch costs fit the budget.",
+            "passed": true,
+            "status": "pass"
+          },
+          "catalog_references": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "essential_power": {
+            "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+            "passed": true,
+            "status": "pass"
+          },
+          "input_schema": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launch_orbit": {
+            "message": "Profile, launcher and orbit are compatible.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launcher_capacity": {
+            "message": "Spacecraft fits the launcher capacity for this orbit.",
+            "passed": true,
+            "status": "pass"
+          },
+          "profile_mass": {
+            "comparator": "<",
+            "message": "Spacecraft mass meets the selected profile rule.",
+            "passed": true,
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "status": "pass",
+            "threshold_g": 1330,
+            "total_mass_g": 1060
+          },
+          "target_orbit": {
+            "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "errors": [],
+        "metrics": {
+          "baseline_power_w": 2.0,
+          "battery_capacity_wh": 25.0,
+          "data_per_observation_mb": 12.0,
+          "downlink_mb_per_hour": 48.0,
+          "initial_energy_wh": 25.0,
+          "solar_generation_power_w": 3.0,
+          "storage_capacity_mb": 64.0,
+          "total_cost_credits": 82,
+          "total_mass_g": 1060
+        },
+        "ready_to_launch": true,
+        "schema_version": 1,
+        "warnings": []
+      }
+    },
+    "tropical_forest_watch": {
+      "native_result": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEMA_VERSION",
+          "message": "schema_version must be integer 1"
+        },
+        "ok": false
+      },
+      "validation": {
+        "checks": {
+          "budget": {
+            "message": "Design and launch costs fit the budget.",
+            "passed": true,
+            "status": "pass"
+          },
+          "catalog_references": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "essential_power": {
+            "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+            "passed": true,
+            "status": "pass"
+          },
+          "input_schema": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launch_orbit": {
+            "message": "Profile, launcher and orbit are compatible.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launcher_capacity": {
+            "message": "Spacecraft fits the launcher capacity for this orbit.",
+            "passed": true,
+            "status": "pass"
+          },
+          "profile_mass": {
+            "comparator": "<",
+            "message": "Spacecraft mass meets the selected profile rule.",
+            "passed": true,
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "status": "pass",
+            "threshold_g": 1330,
+            "total_mass_g": 1060
+          },
+          "target_orbit": {
+            "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "errors": [],
+        "metrics": {
+          "baseline_power_w": 2.0,
+          "battery_capacity_wh": 25.0,
+          "data_per_observation_mb": 12.0,
+          "downlink_mb_per_hour": 48.0,
+          "initial_energy_wh": 25.0,
+          "solar_generation_power_w": 3.0,
+          "storage_capacity_mb": 64.0,
+          "total_cost_credits": 82,
+          "total_mass_g": 1060
+        },
+        "ready_to_launch": true,
+        "schema_version": 1,
+        "warnings": []
+      }
+    },
+    "weather_monitoring": {
+      "native_result": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEMA_VERSION",
+          "message": "schema_version must be integer 1"
+        },
+        "ok": false
+      },
+      "validation": {
+        "checks": {
+          "budget": {
+            "message": "Design and launch costs fit the budget.",
+            "passed": true,
+            "status": "pass"
+          },
+          "catalog_references": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "essential_power": {
+            "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+            "passed": true,
+            "status": "pass"
+          },
+          "input_schema": {
+            "message": "Configuration phase passed.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launch_orbit": {
+            "message": "Profile, launcher and orbit are compatible.",
+            "passed": true,
+            "status": "pass"
+          },
+          "launcher_capacity": {
+            "message": "Spacecraft fits the launcher capacity for this orbit.",
+            "passed": true,
+            "status": "pass"
+          },
+          "profile_mass": {
+            "comparator": "<",
+            "message": "Spacecraft mass meets the selected profile rule.",
+            "passed": true,
+            "profile_id": "cubesat_1u_sample",
+            "source_id": "cubesat_101_1u_sample",
+            "status": "pass",
+            "threshold_g": 1330,
+            "total_mass_g": 1060
+          },
+          "target_orbit": {
+            "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+            "passed": true,
+            "status": "pass"
+          }
+        },
+        "errors": [],
+        "metrics": {
+          "baseline_power_w": 2.0,
+          "battery_capacity_wh": 25.0,
+          "data_per_observation_mb": 12.0,
+          "downlink_mb_per_hour": 48.0,
+          "initial_energy_wh": 25.0,
+          "solar_generation_power_w": 3.0,
+          "storage_capacity_mb": 64.0,
+          "total_cost_credits": 82,
+          "total_mass_g": 1060
+        },
+        "ready_to_launch": true,
+        "schema_version": 1,
+        "warnings": []
+      }
+    }
+  }
+}

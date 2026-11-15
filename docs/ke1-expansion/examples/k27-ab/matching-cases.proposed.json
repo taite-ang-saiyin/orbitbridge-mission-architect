@@ -1,0 +1,50 @@
+{
+  "status": "PROPOSED_EXPECTATIONS_NOT_IMPLEMENTED_COMPARATOR",
+  "cases": [
+    {
+      "id": "radio_only",
+      "change": "design.radio_id",
+      "expected": "eligible under proposal"
+    },
+    {
+      "id": "changed_data_goal",
+      "change": "mission.required_returned_data_mb",
+      "expected": "reject hardware-only pairing"
+    },
+    {
+      "id": "changed_budget",
+      "change": "mission.budget_credits",
+      "expected": "reject hardware-only pairing"
+    },
+    {
+      "id": "changed_orbit",
+      "change": "design.orbit_id",
+      "expected": "reject hardware-only pairing"
+    },
+    {
+      "id": "changed_goal_or_revision",
+      "change": "future v2 mission.goal or preset_revision",
+      "expected": "reject hardware-only pairing"
+    },
+    {
+      "id": "changed_actions",
+      "change": "actual accepted action sequence",
+      "expected": "exclude or label design + operations, never hardware-only"
+    },
+    {
+      "id": "same_run_id",
+      "change": "reused run_id",
+      "expected": "reject"
+    },
+    {
+      "id": "unavailable_score",
+      "change": "missing report or null/unavailable score",
+      "expected": "unavailable, not zero or a scored pair"
+    },
+    {
+      "id": "changed_snapshot",
+      "change": "catalog/scenario/engine version",
+      "expected": "reject hardware-only pairing"
+    }
+  ]
+}

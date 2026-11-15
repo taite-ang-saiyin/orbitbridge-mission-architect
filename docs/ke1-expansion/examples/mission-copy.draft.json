@@ -1,0 +1,102 @@
+{
+  "copy_revision": "five-mission-copy-candidate-2",
+  "status": "NON_HPC_AGREED_NOT_WIRED_TO_UI",
+  "registry_revision": "five-presets-candidate-2",
+  "assumption_id": "orbitbridge_training_components_v1",
+  "cards": [
+    {
+      "preset_id": "estuary_watch",
+      "title": "Estuary Watch",
+      "purpose": "Collect coastal images and send them to Earth.",
+      "goal_label": "Return the required image data",
+      "lesson": "A useful image must also reach Earth.",
+      "scope_notice": "Authored coastal training region; no flood-warning service.",
+      "values_source": "Read numeric targets from the frozen mission config; never duplicate thresholds in this copy file.",
+      "launch_status": "Preserve current supported behavior",
+      "goal_id": "imaging",
+      "scored_requirements": "Required captures and returned MB."
+    },
+    {
+      "preset_id": "tropical_forest_watch",
+      "title": "Tropical Forest Watch",
+      "purpose": "Collect images of a tropical forest region and send them to Earth.",
+      "goal_label": "Return the required image data",
+      "lesson": "Target access, storage, energy and radio capacity work together.",
+      "scope_notice": "No real deforestation detection is computed.",
+      "values_source": "Read numeric targets from the frozen mission config; never duplicate thresholds in this copy file.",
+      "launch_status": "Preserve current supported behavior",
+      "goal_id": "imaging",
+      "scored_requirements": "Required captures and returned MB."
+    },
+    {
+      "preset_id": "polar_ice_survey",
+      "title": "Polar Ice Survey",
+      "purpose": "Send complete images from every selected Survey target to Earth.",
+      "goal_label": "Fully returned images per target",
+      "lesson": "Taking an image and delivering the whole image are different.",
+      "scope_notice": "Regional training scenario; the production Survey evaluator still needs implementation.",
+      "values_source": "Read numeric targets from the frozen mission config; never duplicate thresholds in this copy file.",
+      "launch_status": "Preserve current supported behavior",
+      "goal_id": "survey",
+      "scored_requirements": "Overall captures and returned MB, plus one fully delivered observation for every selected target. A partly returned image does not complete a target."
+    },
+    {
+      "preset_id": "communication",
+      "title": "Communication",
+      "purpose": "Create test image data and send it during ground contact.",
+      "goal_label": "Successful transmission steps",
+      "lesson": "A fast radio still needs available data, ground contact and energy.",
+      "scope_notice": "Counts distinct accepted transmission steps returning positive MB. Two steps in one contact window count twice; repeated evidence for one step counts once. No real RF link-budget model.",
+      "values_source": "Read numeric targets from the frozen mission config; never duplicate thresholds in this copy file.",
+      "launch_status": "Pending integration",
+      "goal_id": "communication",
+      "capture_quota_role": "Supplies test data and limits captures. Meeting the capture quota is not an extra success condition.",
+      "scored_requirements": "Required successful transmission steps and returned MB."
+    },
+    {
+      "preset_id": "weather_monitoring",
+      "title": "Weather Monitoring",
+      "purpose": "Observe the same region on different orbits and return data.",
+      "goal_label": "Different-orbit observations and returned data",
+      "lesson": "Repeat visits need a suitable operation plan.",
+      "scope_notice": "Accepted captures on distinct revolutions plus total returned MB. Each visit image does not need complete delivery. Repeat observation only; no forecast, live feed or atmospheric sensor model.",
+      "values_source": "Read numeric targets from the frozen mission config; never duplicate thresholds in this copy file.",
+      "launch_status": "Pending integration",
+      "goal_id": "weather_monitoring",
+      "capture_quota_role": "Limits captures. Success uses qualifying different-revolution visits and returned MB, without an extra capture-quota target.",
+      "scored_requirements": "Required distinct selected-region revolution visits and returned MB."
+    }
+  ],
+  "messages": {
+    "new_mission_unavailable": "This mission is waiting for simulator confirmation and integration. It cannot launch yet.",
+    "score_unavailable": "Score unavailable for this goal.",
+    "metric_unavailable": "Unavailable",
+    "saved_a": "Design A is saved for comparison. Running B keeps A unchanged.",
+    "b_locked_setup": "Keep the mission, orbit, launcher and launch profile the same. Change spacecraft parts for Design B.",
+    "session_storage": "Saved runs are kept in this session. Refreshing or starting a new mission can clear them.",
+    "stale_review": "Your design changed. Review it again before launch.",
+    "operations_label_design": "Design",
+    "operations_label_changed": "Design + operations",
+    "operations_label_unknown": "Operations unknown",
+    "operations_explanation": "The same requested operating plan may lead to different accepted actions because the hardware changed. Changing the requested plan is Design + operations.",
+    "missing_evidence": "The required run evidence is missing. A score cannot be calculated.",
+    "abort_score": "Run aborted. No score."
+  },
+  "part_explanations": {
+    "instrument": "Controls the data created by an observation. A heavier instrument may exceed your selected launch profile.",
+    "radio": "Changes how quickly stored data can be sent during ground contact. A faster radio still needs power and data to send.",
+    "storage": "Holds captured data until it is sent. More space alone does not return data to Earth.",
+    "battery": "Stores energy for actions when generation is insufficient. Check the actual energy trace.",
+    "solar": "Produces energy under this simplified scenario. More generation does not create target or contact opportunities.",
+    "bus": "Adds spacecraft structure and baseline demand. Include it once in mass and cost.",
+    "launcher_profile": "The selected launcher and profile set independent compatibility and mass limits. Use the actual validator reason; passing mass alone does not approve launch."
+  },
+  "source_policy": "All component figures, credits, windows and goal rules here are illustrative gameplay assumptions. Preserve the existing source ledger/profile-specific credit. This copy supplies no new NASA-verified measurements.",
+  "pending_confirmation_owners": [
+    "HPC"
+  ],
+  "weather_rule": {
+    "meaning": "Accepted captures of the selected region on distinct revolutions, plus the required total returned MB. Complete delivery of each visit image is not required.",
+    "evidence_status": "Rule agreed by non-HPC owners; HPC must confirm accepted-event timing and revolution mapping."
+  }
+}

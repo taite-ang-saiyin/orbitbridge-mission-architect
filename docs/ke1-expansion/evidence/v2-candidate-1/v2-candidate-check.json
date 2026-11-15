@@ -1,0 +1,3509 @@
+{
+  "candidate_revision": "k22-v2-validator-candidate-1",
+  "cases": {
+    "advanced_imaging": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1300
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_light",
+          "instrument_id": "instrument_advanced",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 120.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "imaging"
+          },
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "coastal_region",
+          "target_regions": [
+            "coastal_region"
+          ],
+          "title": "Estuary Watch"
+        },
+        "preset_id": "estuary_watch",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 1.2,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 104,
+        "total_mass_g": 1300
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "budget_shortfall": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs exceed the budget.",
+          "passed": false,
+          "status": "fail"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_fast",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 88.0,
+          "duration_orbits": 3.0,
+          "goal": {
+            "kind": "communication_contacts",
+            "required_positive_contact_steps": 2.0
+          },
+          "objective": "communication",
+          "required_observations": 2.0,
+          "required_returned_data_mb": 12.0,
+          "target_region": "equator",
+          "target_regions": [
+            "equator"
+          ],
+          "title": "Communication"
+        },
+        "preset_id": "communication",
+        "preset_revision": 2.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [
+        {
+          "code": "BUDGET_EXCEEDED",
+          "field_path": "mission.budget_credits",
+          "message": "Parts plus launch cost 89 credits; budget is 88 credits.",
+          "suggested_fix": "Choose cheaper parts/launch or increase the mission budget."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "budget_zero": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.budget_credits",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "captures_over_limit": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_observations",
+          "message": "Use a finite whole number in the proposed range 1-20.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "communication": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_fast",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 3.0,
+          "goal": {
+            "kind": "communication_contacts",
+            "required_positive_contact_steps": 2.0
+          },
+          "objective": "communication",
+          "required_observations": 2.0,
+          "required_returned_data_mb": 12.0,
+          "target_region": "equator",
+          "target_regions": [
+            "equator"
+          ],
+          "title": "Communication"
+        },
+        "preset_id": "communication",
+        "preset_revision": 2.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_boolean": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_fraction": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_negative": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_string": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contact_count_zero": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Use a finite whole number in the proposed range 1-9007199254740991.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "contacts_over_total_steps": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Contacts cannot exceed the selected frozen scenario's total steps.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "duplicate_mb": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_returned_data_mb",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "duplicate_targets": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions",
+          "message": "Use distinct target strings and this objective's allowed target count.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "duration_over_limit": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.duration_orbits",
+          "message": "Use a finite whole number in the proposed range 1-12.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "estuary_watch": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "imaging"
+          },
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "coastal_region",
+          "target_regions": [
+            "coastal_region"
+          ],
+          "title": "Estuary Watch"
+        },
+        "preset_id": "estuary_watch",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "heavy_part_combination": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass does not meet the selected profile rule.",
+          "passed": false,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "fail",
+          "threshold_g": 1330,
+          "total_mass_g": 1380
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_advanced",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "imaging"
+          },
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "coastal_region",
+          "target_regions": [
+            "coastal_region"
+          ],
+          "title": "Estuary Watch"
+        },
+        "preset_id": "estuary_watch",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [
+        {
+          "code": "PROFILE_MASS_EXCEEDED",
+          "field_path": "design.launch_profile_id",
+          "message": "Spacecraft mass is 1380 g; this profile requires mass < 1330 g.",
+          "source_id": "cubesat_101_1u_sample",
+          "suggested_fix": "Choose lighter parts or a suitable alternative launch profile."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 24.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 96,
+        "total_mass_g": 1380
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "mb_zero": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_returned_data_mb",
+          "message": "Use positive finite decimal MB.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "missing_contact_count": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_positive_contact_steps",
+          "message": "Required field is missing.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "missing_goal": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal",
+          "message": "Required field is missing.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "missing_radio": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "MISSING_COMPONENT",
+          "field_path": "design.radio_id",
+          "message": "Required field is missing.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "new_goal_two_targets": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions",
+          "message": "Use distinct target strings and this objective's allowed target count.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "old_preset_revision": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_revision",
+          "message": "Use the selected preset's published revision.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "polar_ice_survey": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "survey_delivery",
+            "minimum_complete_observations_per_target": 1.0
+          },
+          "objective": "survey",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "arctic_ice",
+          "target_regions": [
+            "arctic_ice"
+          ],
+          "title": "Polar Ice Survey"
+        },
+        "preset_id": "polar_ice_survey",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "preset_objective_mismatch": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective",
+          "message": "Objective must match authored preset lineage.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "primary_target_mismatch": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_region",
+          "message": "Primary target must equal the first selected target.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "survey_delivery_over_quota": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target",
+          "message": "This agreed revision supports exactly one complete delivery per target; higher minima need an explicit extension.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        },
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target",
+          "message": "Per-target deliveries cannot exceed the available capture quota.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "survey_two_targets": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "survey_delivery",
+            "minimum_complete_observations_per_target": 1.0
+          },
+          "objective": "survey",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "arctic_ice",
+          "target_regions": [
+            "arctic_ice",
+            "antarctic_region"
+          ],
+          "title": "Polar Ice Survey"
+        },
+        "preset_id": "polar_ice_survey",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "title_whitespace": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.title",
+          "message": "Use a trimmed nonempty string.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "tropical_forest_watch": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "low_eq",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 6.0,
+          "goal": {
+            "kind": "imaging"
+          },
+          "objective": "imaging",
+          "required_observations": 5.0,
+          "required_returned_data_mb": 60.0,
+          "target_region": "tropical_forest",
+          "target_regions": [
+            "tropical_forest"
+          ],
+          "title": "Tropical Forest Watch"
+        },
+        "preset_id": "tropical_forest_watch",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_objective": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective",
+          "message": "Choose a proposed registered objective.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_part": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "UNKNOWN_COMPONENT",
+          "field_path": "design.radio_id",
+          "message": "Choose an existing part ID.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_preset": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_id",
+          "message": "Choose a registered authored preset identity.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "unknown_root_key": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "extra_goal",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "weather_monitoring": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "config_snapshot": {
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "design": {
+          "battery_id": "battery_standard",
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc",
+          "radio_id": "radio_basic",
+          "solar_id": "solar_standard",
+          "storage_id": "storage_standard"
+        },
+        "mission": {
+          "budget_credits": 100.0,
+          "duration_orbits": 3.0,
+          "goal": {
+            "kind": "weather_revisit",
+            "required_distinct_orbits": 2.0
+          },
+          "objective": "weather_monitoring",
+          "required_observations": 2.0,
+          "required_returned_data_mb": 12.0,
+          "target_region": "equator",
+          "target_regions": [
+            "equator"
+          ],
+          "title": "Weather Monitoring"
+        },
+        "preset_id": "weather_monitoring",
+        "preset_revision": 1.0,
+        "schema_version": 2.0
+      },
+      "config_valid": true,
+      "errors": [],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": true,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "weather_visits_over_capture_quota": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Visits cannot exceed duration or capture quota.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "weather_visits_over_duration": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Visits cannot exceed duration or capture quota.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "withdrawn_instrument_capability": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INSTRUMENT_OBJECTIVE_UNSUPPORTED",
+          "field_path": "design.instrument_id",
+          "message": "The review context does not declare this instrument/objective combination.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "wrong_goal_counter": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_distinct_orbits",
+          "message": "Unrecognized configuration field.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "wrong_goal_kind": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.kind",
+          "message": "Use the goal kind matching the objective.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    },
+    "wrong_part_slot": {
+      "candidate_only": true,
+      "candidate_revision": "k22-v2-validator-candidate-1",
+      "checks": {
+        "budget": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "catalog_references": {
+          "message": "Correct the draft review issues.",
+          "passed": false,
+          "status": "fail"
+        },
+        "essential_power": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "input_schema": {
+          "message": "Draft review phase passed.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "launcher_capacity": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "profile_mass": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        },
+        "target_orbit": {
+          "message": "Waits for valid configuration and context.",
+          "passed": null,
+          "status": "not_evaluated"
+        }
+      },
+      "config_snapshot": null,
+      "config_valid": false,
+      "errors": [
+        {
+          "code": "WRONG_COMPONENT_CATEGORY",
+          "field_path": "design.radio_id",
+          "message": "Choose a part in the correct slot.",
+          "suggested_fix": "Correct the configuration or explicit validation context; launch approval is separate."
+        }
+      ],
+      "launch_blockers": [
+        {
+          "code": "HPC_CONFIRMATION_PENDING",
+          "field_path": "schema_version",
+          "message": "HPC confirmation of the v2 simulator/evidence contract is pending.",
+          "suggested_fix": "Keep v2 launches blocked until HPC confirms the contract."
+        },
+        {
+          "code": "V2_INTEGRATION_PENDING",
+          "field_path": "schema_version",
+          "message": "This candidate is not connected to live validation, simulation, evaluation or UI.",
+          "suggested_fix": "Integrate and test the coordinated v2 path before enabling launch."
+        }
+      ],
+      "metrics": null,
+      "pending_confirmation_owners": [
+        "HPC"
+      ],
+      "physical_setup_ready": false,
+      "ready_to_launch": false,
+      "schema_version": 1,
+      "warnings": []
+    }
+  },
+  "failed": 0,
+  "live_v2_launch_enabled": false,
+  "passed": 327,
+  "pending_confirmation_owners": [
+    "HPC"
+  ]
+}

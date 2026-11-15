@@ -1,0 +1,187 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "cases": {
+    "polar_ice_fast_radio_design_variant": {
+      "captures_by_target": {
+        "arctic_ice": 5
+      },
+      "complete_deliveries_by_target": {
+        "arctic_ice": 5
+      },
+      "current_evaluation": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": "config.mission.objective",
+          "message": "Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+          "run_id": "run_k26_polar_ice_fast_radio_design_variant",
+          "suggested_fix": "Use the supported imaging evaluation or coordinate the Survey scoring extension."
+        },
+        "ok": false
+      },
+      "proposed_conditions": {
+        "all_targets_fully_delivered_at_least_once": true,
+        "capture_met": true,
+        "data_met": true,
+        "minimum_per_target": 1,
+        "official_score": null,
+        "owner_confirmation": "pending"
+      },
+      "returned_by_target_mb": {
+        "arctic_ice": 60.0
+      },
+      "returned_mb": 60.0,
+      "stored_mb": 0.0,
+      "trace_file": "polar_ice_fast_radio_design_variant.json"
+    },
+    "stock_polar_ice_data_shortfall": {
+      "captures_by_target": {
+        "arctic_ice": 5
+      },
+      "complete_deliveries_by_target": {
+        "arctic_ice": 4
+      },
+      "current_evaluation": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": "config.mission.objective",
+          "message": "Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+          "run_id": "run_k26_stock_polar_ice_data_shortfall",
+          "suggested_fix": "Use the supported imaging evaluation or coordinate the Survey scoring extension."
+        },
+        "ok": false
+      },
+      "proposed_conditions": {
+        "all_targets_fully_delivered_at_least_once": true,
+        "capture_met": true,
+        "data_met": false,
+        "minimum_per_target": 1,
+        "official_score": null,
+        "owner_confirmation": "pending"
+      },
+      "returned_by_target_mb": {
+        "arctic_ice": 54.1333333296
+      },
+      "returned_mb": 54.1333333296,
+      "stored_mb": 5.86666667039999,
+      "trace_file": "stock_polar_ice_data_shortfall.json"
+    },
+    "two_targets_complete": {
+      "captures_by_target": {
+        "antarctic_region": 1,
+        "arctic_ice": 1
+      },
+      "complete_deliveries_by_target": {
+        "antarctic_region": 1,
+        "arctic_ice": 1
+      },
+      "current_evaluation": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": "config.mission.objective",
+          "message": "Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+          "run_id": "run_k26_two_targets_complete",
+          "suggested_fix": "Use the supported imaging evaluation or coordinate the Survey scoring extension."
+        },
+        "ok": false
+      },
+      "proposed_conditions": {
+        "all_targets_fully_delivered_at_least_once": true,
+        "capture_met": true,
+        "data_met": true,
+        "minimum_per_target": 1,
+        "official_score": null,
+        "owner_confirmation": "pending"
+      },
+      "returned_by_target_mb": {
+        "antarctic_region": 12.0,
+        "arctic_ice": 12.0
+      },
+      "returned_mb": 24.0,
+      "stored_mb": 0.0,
+      "trace_file": "two_targets_complete.json"
+    },
+    "two_targets_second_partial": {
+      "captures_by_target": {
+        "antarctic_region": 1,
+        "arctic_ice": 1
+      },
+      "complete_deliveries_by_target": {
+        "arctic_ice": 1
+      },
+      "current_evaluation": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": "config.mission.objective",
+          "message": "Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+          "run_id": "run_k26_two_targets_second_partial",
+          "suggested_fix": "Use the supported imaging evaluation or coordinate the Survey scoring extension."
+        },
+        "ok": false
+      },
+      "proposed_conditions": {
+        "all_targets_fully_delivered_at_least_once": false,
+        "capture_met": true,
+        "data_met": true,
+        "minimum_per_target": 1,
+        "official_score": null,
+        "owner_confirmation": "pending"
+      },
+      "returned_by_target_mb": {
+        "antarctic_region": 7.7333333328,
+        "arctic_ice": 12.0
+      },
+      "returned_mb": 19.7333333328,
+      "stored_mb": 4.2666666672,
+      "trace_file": "two_targets_second_partial.json"
+    },
+    "two_targets_second_unreturned": {
+      "captures_by_target": {
+        "antarctic_region": 1,
+        "arctic_ice": 1
+      },
+      "complete_deliveries_by_target": {
+        "arctic_ice": 1
+      },
+      "current_evaluation": {
+        "error": {
+          "code": "INVALID_EVALUATION_INPUT",
+          "field_path": "config.mission.objective",
+          "message": "Survey requires per-target delivery evaluation beyond the agreed v1 aggregate goals.",
+          "run_id": "run_k26_two_targets_second_unreturned",
+          "suggested_fix": "Use the supported imaging evaluation or coordinate the Survey scoring extension."
+        },
+        "ok": false
+      },
+      "proposed_conditions": {
+        "all_targets_fully_delivered_at_least_once": false,
+        "capture_met": true,
+        "data_met": true,
+        "minimum_per_target": 1,
+        "official_score": null,
+        "owner_confirmation": "pending"
+      },
+      "returned_by_target_mb": {
+        "arctic_ice": 12.0
+      },
+      "returned_mb": 12.0,
+      "stored_mb": 12.0,
+      "trace_file": "two_targets_second_unreturned.json"
+    }
+  },
+  "failed": 0,
+  "official_survey_score": null,
+  "passed": 95,
+  "status": "PREPARATION_EVIDENCE_ONLY_OWNER_REVIEW_PENDING",
+  "stock_preset_opportunity_bound": {
+    "all_capture_windows_overlap_contact": true,
+    "contact_slots": 12,
+    "hpc_review": "pending",
+    "maximum_remaining_transmit_slots": 7,
+    "preset_changed": false,
+    "radio_mb_per_contact_step": 7.7333333328,
+    "required_capture_slots": 5.0,
+    "required_returned_data_mb": 60.0,
+    "returned_mb_upper_bound_after_all_captures": 54.1333333296,
+    "source": "frozen native scenario + current one-action-per-step model"
+  }
+}

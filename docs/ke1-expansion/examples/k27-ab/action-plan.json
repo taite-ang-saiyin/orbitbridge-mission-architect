@@ -1,0 +1,15 @@
+{
+  "id": "k27-fixed-radio-plan-1",
+  "observe_steps": [
+    1,
+    6
+  ],
+  "transmit_steps": [
+    7,
+    10
+  ],
+  "other_steps": "power_save",
+  "indexing": "zero-based pre-action step",
+  "blocked_scheduled_action": "fail the audit; do not substitute a different operation",
+  "notice": "Both radios retain data at the second transmit step. All requested actions are accepted in both runs, preserving the exact actual action sequence."
+}

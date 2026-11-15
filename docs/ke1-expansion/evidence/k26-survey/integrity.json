@@ -1,0 +1,55 @@
+{
+  "status": "PREPARATION_VERIFIED_NOT_OWNER_APPROVAL",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "date": "2026-11-15",
+  "native_checks_passed": 95,
+  "native_checks_failed": 0,
+  "traces_verified": [
+    {
+      "case": "polar_ice_fast_radio_design_variant",
+      "independent_fifo_delivery_reconstruction": "passed",
+      "same_run_event_and_window_checks": "passed",
+      "official_score": null
+    },
+    {
+      "case": "stock_polar_ice_data_shortfall",
+      "independent_fifo_delivery_reconstruction": "passed",
+      "same_run_event_and_window_checks": "passed",
+      "official_score": null
+    },
+    {
+      "case": "two_targets_complete",
+      "independent_fifo_delivery_reconstruction": "passed",
+      "same_run_event_and_window_checks": "passed",
+      "official_score": null
+    },
+    {
+      "case": "two_targets_second_partial",
+      "independent_fifo_delivery_reconstruction": "passed",
+      "same_run_event_and_window_checks": "passed",
+      "official_score": null
+    },
+    {
+      "case": "two_targets_second_unreturned",
+      "independent_fifo_delivery_reconstruction": "passed",
+      "same_run_event_and_window_checks": "passed",
+      "official_score": null
+    }
+  ],
+  "original_stock_config_preserved": true,
+  "fast_variant_changes_only_radio": true,
+  "stock_data_shortfall_bound_verified": true,
+  "hpc_confirmation": "pending",
+  "ke2_survey_scoring": "pending",
+  "k20_agreement": "pending",
+  "new_objective_score_claimed": false,
+  "native_audit_source_sha256": "59fcb15d90039ba8ae2c454956f6a8667d0ac87f141917c0a1525b710cb204a5",
+  "records_sha256": {
+    "polar_ice_fast_radio_design_variant.json": "7798f8dcf5b8cddf5297f39e6dc5babc52ebf5aca5ae70a038f2e45da757e5cf",
+    "stock_polar_ice_data_shortfall.json": "50eb792bbf2862d6100ccc82e18aae9e5ecda03bae587e7f1012f8bb394ceb34",
+    "summary.json": "44f0aa594328e8bf1a6fe58a1a5ba482ff75e67afc998369738116cf2e1e1e4d",
+    "two_targets_complete.json": "97eb48551781498decd2f6790d5929725dea5e141651395825fbf6e0fc8f93fb",
+    "two_targets_second_partial.json": "8c50c2c104719375555bb1ca00926ea6eb7b70fe1b7545db2df397b18b4bd5a2",
+    "two_targets_second_unreturned.json": "f1542dc44fd0111bcc60a52d2d629654f2967aae4ca77ebb984cae29e3cde380"
+  }
+}

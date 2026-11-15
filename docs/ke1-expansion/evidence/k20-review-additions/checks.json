@@ -1,0 +1,31 @@
+{
+  "review_revision": "k20-review-additions-1",
+  "contract_revision": "expansion-goals-v2-draft-2",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "date": "2026-11-15",
+  "proposal_only_examples": {
+    "candidate_valid": 7,
+    "invalid_or_context": 33,
+    "checked": 40,
+    "failed": 0,
+    "production_v2_acceptance_claimed": false
+  },
+  "native_engine_physical_checks": {
+    "passed": 110,
+    "failed": 0,
+    "examples_checked": 9,
+    "weather_decision_traces": 2,
+    "new_objective_scores": null
+  },
+  "weather_delivery_decision": "PENDING",
+  "contact_step_vs_window_decision": "PENDING",
+  "exact_rule_and_capability_acceptance": "PENDING",
+  "hpc_confirmation": "PENDING",
+  "se_final_confirmation": "PENDING",
+  "scoring_and_envelope_versions": "PENDING",
+  "candidate_registry_changed": false,
+  "production_validator_changed": false,
+  "shared_agreements_changed": false,
+  "proposal_audit_source_sha256": "d0ccd31f49e9a05e02fa138b15576e05f6323a272b4df9da7ef5d2e8ca3e812c",
+  "native_audit_source_sha256": "569a05d640a594ed5c8550b24fd1511da61fdc20d950e283a0d06f9d4e7c3c07"
+}

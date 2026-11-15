@@ -1,0 +1,27 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "status": "V1_PAIR_VERIFIED_EXPANDED_COMPARISON_PENDING",
+  "native_checks_passed": 36,
+  "native_failures": 0,
+  "independent_pair_and_report_integrity": "passed",
+  "same_accepted_operation_sequence": true,
+  "only_config_change": "design.radio_id",
+  "reports": "actual current Imaging reports",
+  "production_comparator_implemented": false,
+  "se_save_a_cancel_ui_tested": false,
+  "k20_agreement": "pending",
+  "ke2_se_comparison_agreement": "pending",
+  "source_sha256": {
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "core/OrbitPlanner.gd": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+    "scripts/integration/mission_results.gd": "b8a6adaf51e4e79bbee231969c3722c31190c128c12a18abda92b11d9b5be33f",
+    "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+    "scripts/evaluation/mission_evaluator.gd": "c14ad4fc3a4f4e54daf64853b7c5327710b970952ae9d4552e575892486fe873",
+    "data/components.json": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70"
+  },
+  "native_audit_sha256": "8739fb2f830a2e1520c1a9cfd5603bd0c9dc260cd25d9f59d62a86dde58e59fc"
+}

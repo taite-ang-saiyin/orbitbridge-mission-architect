@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+FAIL: launcher_only: launch_b rejects changes locked by the B UI
+FAIL: launcher_only: comparison_inputs rejects launch setup changes independently
+FAIL: profile_only: launch_b rejects changes locked by the B UI
+FAIL: profile_only: comparison_inputs rejects launch setup changes independently
+FAIL: launcher_and_profile: launch_b rejects changes locked by the B UI
+FAIL: launcher_and_profile: comparison_inputs rejects launch setup changes independently
+FAIL: Creator goal-type change updates matching lineage/goal or refuses the edit
+SE owner-contract preparation: 31 checks passed; 7 failed.

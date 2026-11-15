@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: live resizing Home at (1440, 900)
+PASS: live resizing Home at (1024, 768)
+PASS: live resizing Home at (1920, 1080)
+PASS: live resizing Home at (3360, 2100)
+PASS: live resizing Home at (1280, 720)
+PASS: live resizing Home at (1440, 900)
+PASS: live resizing MissionCreator at (1440, 900)
+PASS: live resizing MissionCreator at (1024, 768)
+PASS: live resizing MissionCreator at (1920, 1080)
+PASS: live resizing MissionCreator at (3360, 2100)
+PASS: live resizing MissionCreator at (1280, 720)
+PASS: live resizing MissionCreator at (1440, 900)
+PASS: live resizing SpacecraftBuilder at (1440, 900)
+PASS: live resizing SpacecraftBuilder at (1024, 768)
+PASS: live resizing SpacecraftBuilder at (1920, 1080)
+PASS: live resizing SpacecraftBuilder at (3360, 2100)
+PASS: live resizing SpacecraftBuilder at (1280, 720)
+PASS: live resizing SpacecraftBuilder at (1440, 900)

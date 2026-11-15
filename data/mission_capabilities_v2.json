@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "capability_revision": "v2-capabilities-agreed-1",
+  "config_contract_revision": "expansion-goals-v2-agreed-1",
+  "notice": "Authoritative K20 training instrument capabilities for explicit config-v2 loading. References existing parts without changing physical values. Capability registration alone is not launch or science-outcome approval.",
+  "instruments": [
+    {
+      "instrument_id": "instrument_basic",
+      "objective_ids": [
+        "imaging",
+        "survey",
+        "communication",
+        "weather_monitoring"
+      ],
+      "assumption_id": "orbitbridge_training_components_v1"
+    },
+    {
+      "instrument_id": "instrument_advanced",
+      "objective_ids": [
+        "imaging",
+        "survey",
+        "communication",
+        "weather_monitoring"
+      ],
+      "assumption_id": "orbitbridge_training_components_v1"
+    }
+  ],
+  "status": "agreed"
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "capability_revision": "v2-capabilities-draft-1",
+  "config_contract_revision": "expansion-goals-v2-draft-2",
+  "approval_status": "draft_not_approved",
+  "production_enabled": false,
+  "notice": "Review-only instrument capability declarations. References current parts without duplicating physical values. No new objective is registered in the production catalog. Communication is test-payload return; Weather is repeat imagery, not forecasting.",
+  "instruments": [
+    {
+      "instrument_id": "instrument_basic",
+      "objective_ids": ["imaging", "survey", "communication", "weather_monitoring"],
+      "assumption_id": "orbitbridge_training_components_v1"
+    },
+    {
+      "instrument_id": "instrument_advanced",
+      "objective_ids": ["imaging", "survey", "communication", "weather_monitoring"],
+      "assumption_id": "orbitbridge_training_components_v1"
+    }
+  ]
+}

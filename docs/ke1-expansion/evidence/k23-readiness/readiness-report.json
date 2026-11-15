@@ -1,0 +1,702 @@
+{
+  "report_revision": "k23-five-mission-readiness-1",
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "status": "PREPARATION_REPORT_ONLY_ALL_V2_LAUNCH_APPROVALS_PENDING",
+  "report_only": true,
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "contract_revision": "expansion-goals-v2-draft-2",
+  "registry_revision": "five-presets-candidate-2",
+  "checker_revision": "k22-v2-review-1",
+  "ready_to_launch": false,
+  "game_tests_run_in_this_task": 0,
+  "evidence_reused_not_rerun": true,
+  "existing_k22_evidence_counts": {
+    "programs": 6,
+    "checks_passed": 2019,
+    "failed": 0,
+    "new_draft_checks": 466
+  },
+  "exact_five_candidates_match_recorded_input_files": true,
+  "all_five_physical_metrics_cross_checked_with_candidate2_evidence": true,
+  "existing_v1_behavior_changed": false,
+  "preset_values_changed": false,
+  "missions": [
+    {
+      "preset_id": "estuary_watch",
+      "display_name": "Estuary Watch",
+      "preset_revision": 1,
+      "candidate_config_v2_snapshot": {
+        "schema_version": 2,
+        "mission": {
+          "title": "Estuary Watch",
+          "objective": "imaging",
+          "target_region": "coastal_region",
+          "required_observations": 5,
+          "required_returned_data_mb": 60,
+          "duration_orbits": 6,
+          "budget_credits": 100,
+          "target_regions": [
+            "coastal_region"
+          ],
+          "goal": {
+            "kind": "imaging"
+          }
+        },
+        "design": {
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "solar_id": "solar_standard",
+          "battery_id": "battery_standard",
+          "radio_id": "radio_basic",
+          "storage_id": "storage_standard",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc"
+        },
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "preset_id": "estuary_watch",
+        "preset_revision": 1
+      },
+      "draft_config_valid": true,
+      "physical_setup_ready": true,
+      "readiness_checks_passed": 8,
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": false,
+      "v2_launch_approval": "PENDING",
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "legacy_preset_settings_preserved": true,
+      "preset_specific_mission_success_established_by_readiness": false,
+      "readiness_source": "docs/ke1-expansion/evidence/k22-draft/v2-draft-check.json#examples/estuary_watch",
+      "readiness_source_scope": "proposed checks plus physical v1 input; new objectives use private Imaging surrogates",
+      "existing_runtime_status": "Existing v1 Imaging path/scoring preserved; this report does not establish a completed run for this exact stock preset.",
+      "outcome_evidence": null,
+      "part_support": "Existing Imaging instrument capability; v2 migration/approval still pending."
+    },
+    {
+      "preset_id": "tropical_forest_watch",
+      "display_name": "Tropical Forest Watch",
+      "preset_revision": 1,
+      "candidate_config_v2_snapshot": {
+        "schema_version": 2,
+        "mission": {
+          "title": "Tropical Forest Watch",
+          "objective": "imaging",
+          "target_region": "tropical_forest",
+          "required_observations": 5,
+          "required_returned_data_mb": 60,
+          "duration_orbits": 6,
+          "budget_credits": 100,
+          "target_regions": [
+            "tropical_forest"
+          ],
+          "goal": {
+            "kind": "imaging"
+          }
+        },
+        "design": {
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "solar_id": "solar_standard",
+          "battery_id": "battery_standard",
+          "radio_id": "radio_basic",
+          "storage_id": "storage_standard",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "low_eq"
+        },
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "preset_id": "tropical_forest_watch",
+        "preset_revision": 1
+      },
+      "draft_config_valid": true,
+      "physical_setup_ready": true,
+      "readiness_checks_passed": 8,
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": false,
+      "v2_launch_approval": "PENDING",
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "legacy_preset_settings_preserved": true,
+      "preset_specific_mission_success_established_by_readiness": false,
+      "readiness_source": "docs/ke1-expansion/evidence/k22-draft/v2-draft-check.json#examples/tropical_forest_watch",
+      "readiness_source_scope": "proposed checks plus physical v1 input; new objectives use private Imaging surrogates",
+      "existing_runtime_status": "Existing v1 Imaging path/scoring preserved; this report does not establish a completed run for this exact stock preset.",
+      "outcome_evidence": null,
+      "part_support": "Existing Imaging instrument capability; v2 migration/approval still pending."
+    },
+    {
+      "preset_id": "polar_ice_survey",
+      "display_name": "Polar Ice Survey",
+      "preset_revision": 1,
+      "candidate_config_v2_snapshot": {
+        "schema_version": 2,
+        "mission": {
+          "title": "Polar Ice Survey",
+          "objective": "survey",
+          "target_region": "arctic_ice",
+          "required_observations": 5,
+          "required_returned_data_mb": 60,
+          "duration_orbits": 6,
+          "budget_credits": 100,
+          "target_regions": [
+            "arctic_ice"
+          ],
+          "goal": {
+            "kind": "survey_delivery",
+            "minimum_complete_observations_per_target": 1
+          }
+        },
+        "design": {
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "solar_id": "solar_standard",
+          "battery_id": "battery_standard",
+          "radio_id": "radio_basic",
+          "storage_id": "storage_standard",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc"
+        },
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "preset_id": "polar_ice_survey",
+        "preset_revision": 1
+      },
+      "draft_config_valid": true,
+      "physical_setup_ready": true,
+      "readiness_checks_passed": 8,
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": false,
+      "v2_launch_approval": "PENDING",
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "legacy_preset_settings_preserved": true,
+      "preset_specific_mission_success_established_by_readiness": false,
+      "readiness_source": "docs/ke1-expansion/evidence/k22-draft/v2-draft-check.json#examples/polar_ice_survey",
+      "readiness_source_scope": "proposed checks plus physical v1 input; new objectives use private Imaging surrogates",
+      "existing_runtime_status": "Existing v1 Survey setup/simulation preserved; current Survey evaluation unavailable.",
+      "part_support": "Existing runtime Survey capability; no new capability registration or scorer acceptance claimed.",
+      "outcome_evidence": {
+        "source": "docs/ke1-expansion/evidence/k26-survey/summary.json",
+        "stock_returned_mb": 54.1333333296,
+        "stock_required_mb": 60,
+        "stock_opportunity_bound": {
+          "all_capture_windows_overlap_contact": true,
+          "contact_slots": 12,
+          "hpc_review": "pending",
+          "maximum_remaining_transmit_slots": 7,
+          "preset_changed": false,
+          "radio_mb_per_contact_step": 7.7333333328,
+          "required_capture_slots": 5.0,
+          "required_returned_data_mb": 60.0,
+          "returned_mb_upper_bound_after_all_captures": 54.1333333296,
+          "source": "frozen native scenario + current one-action-per-step model"
+        },
+        "fast_radio_variant_returned_mb": 60.0,
+        "default_changed": false,
+        "official_survey_score": null
+      }
+    },
+    {
+      "preset_id": "communication",
+      "display_name": "Communication",
+      "preset_revision": 2,
+      "candidate_config_v2_snapshot": {
+        "schema_version": 2,
+        "mission": {
+          "title": "Communication",
+          "objective": "communication",
+          "target_region": "equator",
+          "required_observations": 2,
+          "required_returned_data_mb": 12,
+          "duration_orbits": 3,
+          "budget_credits": 100,
+          "target_regions": [
+            "equator"
+          ],
+          "goal": {
+            "kind": "communication_contacts",
+            "required_positive_contact_steps": 2
+          }
+        },
+        "design": {
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "solar_id": "solar_standard",
+          "battery_id": "battery_standard",
+          "radio_id": "radio_fast",
+          "storage_id": "storage_standard",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc"
+        },
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "preset_id": "communication",
+        "preset_revision": 2
+      },
+      "draft_config_valid": true,
+      "physical_setup_ready": true,
+      "readiness_checks_passed": 8,
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1120
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 120.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 89,
+        "total_mass_g": 1120
+      },
+      "ready_to_launch": false,
+      "v2_launch_approval": "PENDING",
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "legacy_preset_settings_preserved": null,
+      "preset_specific_mission_success_established_by_readiness": false,
+      "readiness_source": "docs/ke1-expansion/evidence/k22-draft/v2-draft-check.json#examples/communication",
+      "readiness_source_scope": "proposed checks plus physical v1 input; new objectives use private Imaging surrogates",
+      "existing_runtime_status": "Production new-objective launch blocked; no working v2 objective/evaluator path.",
+      "part_support": "Proposed Communication capability only; private physical input does not register it.",
+      "outcome_evidence": {
+        "source": "docs/ke1-expansion/evidence/ke2-draft-2/communication-fast-radio-check.json",
+        "scope": "labelled supported-v1 Imaging physical/action feasibility only",
+        "positive_steps": [
+          7,
+          10
+        ],
+        "returned_mb": 24.0,
+        "official_communication_score": null
+      }
+    },
+    {
+      "preset_id": "weather_monitoring",
+      "display_name": "Weather Monitoring",
+      "preset_revision": 1,
+      "candidate_config_v2_snapshot": {
+        "schema_version": 2,
+        "mission": {
+          "title": "Weather Monitoring",
+          "objective": "weather_monitoring",
+          "target_region": "equator",
+          "required_observations": 2,
+          "required_returned_data_mb": 12,
+          "duration_orbits": 3,
+          "budget_credits": 100,
+          "target_regions": [
+            "equator"
+          ],
+          "goal": {
+            "kind": "weather_revisit",
+            "required_distinct_orbits": 2
+          }
+        },
+        "design": {
+          "bus_id": "bus_basic",
+          "instrument_id": "instrument_basic",
+          "solar_id": "solar_standard",
+          "battery_id": "battery_standard",
+          "radio_id": "radio_basic",
+          "storage_id": "storage_standard",
+          "launch_profile_id": "cubesat_1u_sample",
+          "launcher_id": "small",
+          "orbit_id": "high_inc"
+        },
+        "contract_revision": "expansion-goals-v2-draft-2",
+        "preset_id": "weather_monitoring",
+        "preset_revision": 1
+      },
+      "draft_config_valid": true,
+      "physical_setup_ready": true,
+      "readiness_checks_passed": 8,
+      "checks": {
+        "budget": {
+          "message": "Design and launch costs fit the budget.",
+          "passed": true,
+          "status": "pass"
+        },
+        "catalog_references": {
+          "message": "All selected IDs were found in their proper categories.",
+          "passed": true,
+          "status": "pass"
+        },
+        "essential_power": {
+          "message": "Design meets the illustrative pre-launch power rule; mission energy is still simulated separately.",
+          "passed": true,
+          "status": "pass"
+        },
+        "input_schema": {
+          "message": "Mission fields are valid.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launch_orbit": {
+          "message": "Profile, launcher and orbit are compatible.",
+          "passed": true,
+          "status": "pass"
+        },
+        "launcher_capacity": {
+          "message": "Spacecraft fits the launcher capacity for this orbit.",
+          "passed": true,
+          "status": "pass"
+        },
+        "profile_mass": {
+          "comparator": "<",
+          "message": "Spacecraft mass meets the selected profile rule.",
+          "passed": true,
+          "profile_id": "cubesat_1u_sample",
+          "source_id": "cubesat_101_1u_sample",
+          "status": "pass",
+          "threshold_g": 1330,
+          "total_mass_g": 1060
+        },
+        "target_orbit": {
+          "message": "HPC metadata provides observation opportunities for this target; individual actions still depend on the current step.",
+          "passed": true,
+          "status": "pass"
+        }
+      },
+      "metrics": {
+        "baseline_power_w": 2.0,
+        "battery_capacity_wh": 25.0,
+        "data_per_observation_mb": 12.0,
+        "downlink_mb_per_hour": 48.0,
+        "initial_energy_wh": 25.0,
+        "solar_generation_power_w": 3.0,
+        "storage_capacity_mb": 64.0,
+        "total_cost_credits": 82,
+        "total_mass_g": 1060
+      },
+      "ready_to_launch": false,
+      "v2_launch_approval": "PENDING",
+      "launch_blockers": [
+        {
+          "code": "V2_DRAFT_ONLY",
+          "field_path": "schema_version",
+          "message": "This separate checker cannot approve launch.",
+          "suggested_fix": "Use the agreed production validation/launch path after integration."
+        },
+        {
+          "code": "K20_DECISIONS_PENDING",
+          "field_path": "mission.goal",
+          "message": "Goal semantics, identity, capabilities and owner versions remain under review.",
+          "suggested_fix": "Resolve and record owner decisions before production integration."
+        }
+      ],
+      "legacy_preset_settings_preserved": null,
+      "preset_specific_mission_success_established_by_readiness": false,
+      "readiness_source": "docs/ke1-expansion/evidence/k22-draft/v2-draft-check.json#examples/weather_monitoring",
+      "readiness_source_scope": "proposed checks plus physical v1 input; new objectives use private Imaging surrogates",
+      "existing_runtime_status": "Production new-objective launch blocked; Weather visit/delivery semantics and scorer pending.",
+      "part_support": "Proposed Weather capability only; no forecast/instrument approval claimed.",
+      "outcome_evidence": {
+        "source": "docs/ke1-expansion/evidence/k20-review-additions/physical-qa.json",
+        "scope": "labelled v1 Imaging action feasibility, not Weather scoring",
+        "complete_return_plan_mb": 24,
+        "capture_only_ambiguity_plan_mb": 12,
+        "weather_delivery_definition": "PENDING",
+        "current_automatic_policies_visit_only_one_orbit": true,
+        "official_weather_score": null
+      }
+    }
+  ],
+  "blockers": [
+    "K20 exact rules, W1/C1, custom/edit identity and capability source not ratified",
+    "HPC evidence/policy/version confirmation pending",
+    "KE2 Survey/Communication/Weather scoring and report/comparison agreement pending",
+    "SE/HPC v2 production mapping, review snapshots, launch/storage integration pending",
+    "KE3 integrated display and final acceptance pending"
+  ],
+  "source_sha256": {
+    "data/mission_presets.json": "fcb523cd28e766e58547b6371a197b80b2aaba2203c52fd055e6a321e47ed0d7",
+    "docs/ke1-expansion/evidence/k22-draft/v2-draft-check.json": "5521581b8df577683180a9d0dbe34b045c10d10886f64dbe63dfcff540444479",
+    "docs/ke1-expansion/evidence/k22-draft/verification.json": "d4ce868e008c922a692801ab964569586c2ef4acfe7bcc62c913199049baf410",
+    "scripts/core/mission_config_v2_draft_checker.gd": "0314d2c717f4ff61048000c8c807a870b0c338bd4aea31b5499cfb007842102c",
+    "tests/validation/test_mission_config_v2_draft.gd": "3d7f26ec3e1a173388378e57a5b022e9e1f62fac5c3262643e9826ec066f74f7",
+    "docs/ke1-expansion/evidence/ke2-draft-2/mission-presets-check.json": "75dfcfb7de6b21fa64810e6cc774e52c8d6f0aa147cf81c3109ce68e435a5c3d",
+    "docs/ke1-expansion/evidence/ke2-draft-2/communication-fast-radio-check.json": "64341aaa4529175ddac5e44bab094527026c5a21bbca483958605064057445e3",
+    "docs/ke1-expansion/evidence/k26-survey/summary.json": "44f0aa594328e8bf1a6fe58a1a5ba482ff75e67afc998369738116cf2e1e1e4d",
+    "docs/ke1-expansion/evidence/k20-review-additions/physical-qa.json": "34d43190f50e476ec6719899251bd55f4b0c88e295d5a3fc54cfe6d8a291000f",
+    "docs/ke1-expansion/evidence/k24-k25/summary.json": "f8b9744f30d1b9c19e0e7067fe48d51d011a9e9dfcd22813875e9c6fd27d6de4",
+    "data/components.json": "0ac0b09adbb8753f05185b9b1199f895fc7e37dea1ff012b7d21e0c450d9ecdd",
+    "data/orbits.json": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+    "data/mission_scenarios.json": "01732ca3489dabe52451d946662945468eb6b4fe77f1bd96f5bd85ae1375ce70",
+    "scripts/core/mission_validator.gd": "b8df6310f78a0cde9dc6636a923ba79d0f58e765552fe606aff61e34590e5734",
+    "scripts/core/catalog_loader.gd": "36e1ecfbe8cdcccd0c0250618994a5628757172dd89c216c2172eb8ab76311ff",
+    "scripts/integration/mission_runtime.gd": "91a94d470605d51feff35cf88f82fc6525ed6f31d02c504f62e1546a3295c7d0",
+    "core/MissionStepEngine.gd": "1ff7ee1dfafa10b028564a417fa3a1c217ec69ff6056a69f08abc7772de130d7",
+    "core/HPCContractAdapter.gd": "75e0561b1c2d87c61f58b32849815abc56995c651cee140cf945ea4466f54d1b",
+    "docs/ke1-expansion/examples/k20-review/candidate-valid/estuary_watch.json": "e0656df306d1847231bbb25b0762b808c502906a01b939feb7916c5f06f21999",
+    "docs/ke1-expansion/examples/k20-review/candidate-valid/tropical_forest_watch.json": "0c8687db3fc6023d02e5b49182e15c0123e7e34a4a053d16522766ec8abda623",
+    "docs/ke1-expansion/examples/k20-review/candidate-valid/polar_ice_survey.json": "131eb7a612ac8015aa39c21628688e6157f60ac7b717b02ea09338fdd59f64ab",
+    "docs/ke1-expansion/examples/k20-review/candidate-valid/communication.json": "b0d404a3ae6911c58704d138073591443aefcd5e79c38535c380a1903cdce9ab",
+    "docs/ke1-expansion/examples/k20-review/candidate-valid/weather_monitoring.json": "3183c238eb82cc8aa8485c1d069c5c93224a61345eda0ce656769397ba7c1a02"
+  }
+}

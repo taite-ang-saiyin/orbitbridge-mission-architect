@@ -1,0 +1,26 @@
+{
+  "status": "OPEN_SE_IMPLEMENTATION_ISSUES",
+  "tested_se": "0d9e275fc270630c74324f29c11281f9883909a2",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "date": "2026-11-15",
+  "saved_a": {
+    "passed": 76,
+    "failed": 0
+  },
+  "execution_record": {
+    "passed": 19,
+    "failed": 0,
+    "scope": "synthetic/native fixtures, not eight historical cases"
+  },
+  "new_owner_contract": {
+    "passed": 31,
+    "failed": 7,
+    "issue_groups": 2
+  },
+  "se_source_modified": false,
+  "se_merged": false,
+  "pending_confirmation_owners": [
+    "HPC"
+  ],
+  "public_browser_tested": false
+}

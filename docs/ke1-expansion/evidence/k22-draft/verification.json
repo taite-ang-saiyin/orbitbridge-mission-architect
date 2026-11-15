@@ -1,0 +1,28 @@
+{
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "checker_revision": "k22-v2-review-1",
+  "programs_passed": 6,
+  "checks_passed": 2019,
+  "failures": 0,
+  "executed_program_counts": {
+    "draft-check-final": 466,
+    "validator-final": 294,
+    "readiness-final": 671,
+    "fixtures-final": 470,
+    "presets-final": 70,
+    "hpc-final": 48
+  },
+  "document_examples_checked": 40,
+  "all_draft_launch_results_false": true,
+  "production_validator_changed": false,
+  "native_runtime_changed": false,
+  "v1_regression_checks_passed": 1553,
+  "live_v2_launch_supported": false,
+  "k20_decisions": "pending",
+  "schema_and_capability_rules": "proposed_not_ratified",
+  "source_sha256": {
+    "scripts/core/mission_config_v2_draft_checker.gd": "0314d2c717f4ff61048000c8c807a870b0c338bd4aea31b5499cfb007842102c",
+    "tests/validation/test_mission_config_v2_draft.gd": "3d7f26ec3e1a173388378e57a5b022e9e1f62fac5c3262643e9826ec066f74f7"
+  },
+  "test_evidence_sha256": "5521581b8df577683180a9d0dbe34b045c10d10886f64dbe63dfcff540444479"
+}

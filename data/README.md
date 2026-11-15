@@ -33,3 +33,27 @@ HPC owns data/orbits.json, step_duration_hours and access/contact windows. Its f
 K05/K06 field/lookup/catalog work is now extended by K07/K08 totals and all required readiness checks. Ready designs have metrics and ready_to_launch=true only when every check passes. Valid metrics remain visible on feasibility failures; unsafe/invalid inputs keep metrics null. Missing/unusable orbit data produces a blocking issue and a not_evaluated target check. Source-linked mass fields also satisfy K09. Catalog lookup alone is never permission to launch.
 
 The old docs/contracts/v1-draft payloads remain hand-authored interface mocks. Their totals are not calculated from this catalog, and instrument_boundary_heavy is a documentation-only boundary fixture, not a production part. The real advanced instrument is instrument_advanced.
+
+
+## Five-preset candidate registry (K21)
+
+`mission_presets.json` registers Estuary Watch, Tropical Forest Watch, Polar Ice Survey, Communication and Weather Monitoring. Its registry format is version 1, while `candidate_config_v2` contains an unapproved goal-bearing config proposal. `scripts/core/mission_preset_catalog.gd` validates and returns independent copies of these definitions.
+
+This catalog is not connected to Mission Control or the current runtime. `existing_v1_config()` returns unchanged inputs only for the three existing presets, with Survey's unavailable scoring labelled explicitly. New Communication/Weather definitions return `GOAL_EXTENSION_PENDING` instead of an Imaging fallback. Stock design checks establish physical readiness only; they do not validate new mission outcomes.
+
+See [the K20 review](../docs/ke1-expansion/k20-interface-review.md), [progress](../docs/ke1-expansion/k20-k21-progress.md) and `tests/validation/test_mission_presets.gd`. Keep the agreed v1 contract/catalogs unchanged until the draft is reviewed and K22 plus runtime/evaluator support are integrated.
+
+Review update: `five-presets-candidate-2` uses `expansion-goals-v2-draft-2`. Communication preset revision 2 uses the fast radio (1120 g / 89 credits); the other presets keep prior values and revision 1. HPC and SE confirmation remain pending. See `docs/ke1-expansion/ke2-review-package.md`.
+
+
+## Separate capability review file
+
+`mission_capabilities_v2.draft.json` is a proposed-only declaration referencing existing instrument IDs and assumption labels. Its loader is explicit and isolated; production catalogs do not import it. File schema version 1 is independent of MissionConfig v2. See [review API and tests](../docs/ke1-expansion/k22-capability-loader.md). New objectives remain blocked.
+
+
+The separate [v2 candidate validator](../docs/ke1-expansion/k22-v2-candidate-validator.md) consumes the explicit capability document and full v2 config. It does not register objectives in the live catalogs or enable launch; HPC confirmation and coordinated integration remain pending.
+
+
+## Agreed config-v2 data
+
+Use `mission_presets_v2.json` and `mission_capabilities_v2.json` through `scripts/core/mission_v2_context.gd` for explicit v2 validation. These are the agreed K20 rules. Earlier mission_presets.json / mission_capabilities_v2.draft.json remain historical review fixtures. The new sidecar preserves legacy physical/catalog values; no new goal falls back to Imaging. See [K21/K22 API, tests and current launch limitations](../docs/ke1-expansion/k21-k22-live-integration.md).

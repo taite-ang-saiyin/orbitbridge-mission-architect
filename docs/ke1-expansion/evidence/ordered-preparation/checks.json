@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-15",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "godot": "4.7.2",
+  "main_checks_passed": 2102,
+  "main_checks_failed": 0,
+  "programs": {
+    "test_mission_validator": 294,
+    "test_mission_readiness": 671,
+    "test_mission_fixtures": 470,
+    "test_mission_presets": 70,
+    "test_mission_config_v2_draft": 466,
+    "test_mission_capability_draft_loader": 83,
+    "test_hpc": 48
+  },
+  "se_tested_commit": "9c58aad20cc3f6e3b93f923dc20ab222de0fbf17",
+  "se_existing_saved_a_checks": {
+    "passed": 73,
+    "failed": 0
+  },
+  "se_new_owner_contract_checks": {
+    "passed": 31,
+    "failed": 7,
+    "status": "OPEN_GAPS_UNDER_PROPOSED_CONTRACT"
+  },
+  "se_local_review_commit_5abc659_tested": false,
+  "production_v2_enabled": false,
+  "browser_tested": false,
+  "environment_notes": "Godot could not read the sandbox root certificate store; offline checks completed. Editor settings could not be saved during imports."
+}

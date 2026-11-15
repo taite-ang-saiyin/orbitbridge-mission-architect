@@ -1,0 +1,81 @@
+{
+  "status": "ENGINE_FEASIBILITY_ONLY_PENDING_HPC_AND_K20",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "notice": "These are supported v1 Imaging training inputs, not enabled Communication or Weather objectives. All windows and hardware values are illustrative gameplay assumptions. New-goal counts below are offline diagnostics, never official scores.",
+  "indexing": "Zero-based pre-action event.step_index. Derive orbit index using steps_per_orbit from the frozen scenario's selected orbit, never a fixed divisor.",
+  "default_action": "power_save",
+  "unavailable_scheduled_action": "Record the blocked attempt, verify no time/resource change, then power_save. Never count it as a contact or visit.",
+  "cases": [
+    {
+      "id": "communication_high_inc_two_packets",
+      "goal_family": "communication", "config_file": "legacy-configs/communication.v1.json",
+      "observe_steps": [1, 6], "transmit_steps": [7, 10, 17, 20, 27],
+      "blocked_probes": {"0": "transmit", "2": "transmit"},
+      "expected": {"positive_steps": [7, 10, 17, 20], "visit_orbits": [0], "returned_mb": 24, "count_met": true, "data_met": true}
+    },
+    {
+      "id": "communication_ke2_low_eq_one_packet",
+      "goal_family": "communication", "config_file": "legacy-configs/communication.v1.json",
+      "orbit_id": "low_eq", "required_observations": 1,
+      "observe_steps": [2], "transmit_steps": [8, 18, 28],
+      "expected": {"positive_steps": [8, 18], "visit_orbits": [0], "returned_mb": 12, "count_met": true, "data_met": true}
+    },
+    {
+      "id": "communication_fast_radio_one_contact_shortfall",
+      "goal_family": "communication", "config_file": "legacy-configs/communication.v1.json",
+      "radio_id": "radio_fast", "required_observations": 1,
+      "observe_steps": [1], "transmit_steps": [7, 10, 17],
+      "expected": {"positive_steps": [7], "visit_orbits": [0], "returned_mb": 12, "count_met": false, "data_met": true}
+    },
+    {
+      "id": "communication_two_contacts_data_shortfall_control",
+      "goal_family": "communication", "config_file": "legacy-configs/communication.v1.json",
+      "required_returned_data_mb": 24,
+      "observe_steps": [1, 6], "transmit_steps": [7, 10],
+      "expected": {"positive_steps": [7, 10], "visit_orbits": [0], "returned_mb": 15.4666666656, "count_met": true, "data_met": false}
+    },
+    {
+      "id": "weather_explicit_revisit",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "observe_steps": [1, 11], "transmit_steps": [7, 17],
+      "expected": {"positive_steps": [7, 17], "visit_orbits": [0, 1], "returned_mb": 15.4666666656, "count_met": true, "data_met": true}
+    },
+    {
+      "id": "weather_revisit_complete_delivery",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "observe_steps": [1, 11], "transmit_steps": [7, 10, 17, 20],
+      "expected": {"positive_steps": [7, 10, 17, 20], "visit_orbits": [0, 1], "returned_mb": 24, "count_met": true, "data_met": true}
+    },
+    {
+      "id": "weather_same_orbit_control",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "observe_steps": [1, 6], "transmit_steps": [7, 10, 17, 20],
+      "expected": {"positive_steps": [7, 10, 17, 20], "visit_orbits": [0], "returned_mb": 24, "count_met": false, "data_met": true}
+    },
+    {
+      "id": "weather_current_observe_first",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "runtime_policy": "Observe First",
+      "expected": {"positive_steps": [7, 10, 17, 20], "visit_orbits": [0], "returned_mb": 24, "count_met": false, "data_met": true}
+    },
+    {
+      "id": "weather_current_downlink_first",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "runtime_policy": "Downlink First",
+      "expected": {"positive_steps": [7, 10, 17, 20], "visit_orbits": [0], "returned_mb": 24, "count_met": false, "data_met": true}
+    },
+    {
+      "id": "weather_revisit_no_return_control",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "observe_steps": [1, 11], "transmit_steps": [],
+      "expected": {"positive_steps": [], "visit_orbits": [0, 1], "returned_mb": 0, "count_met": true, "data_met": false}
+    },
+    {
+      "id": "weather_other_target_does_not_count_control",
+      "goal_family": "weather", "config_file": "legacy-configs/weather_monitoring.v1.json",
+      "target_regions": ["equator", "tropical_forest"],
+      "observe_steps": [1, 11], "transmit_steps": [7, 17],
+      "expected": {"positive_steps": [7, 17], "visit_orbits": [0], "returned_mb": 15.4666666656, "count_met": false, "data_met": true}
+    }
+  ]
+}

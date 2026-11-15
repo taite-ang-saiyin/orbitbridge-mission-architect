@@ -1,0 +1,175 @@
+{
+  "status": "K26_PREPARATION_ONLY_HPC_AND_KE2_CONFIRMATION_PENDING",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "notice": "Actual supported v1 Survey configs and fixed engine schedules. The v2 counterpart is a draft edited-mission example, not production acceptance or an update to stock preset defaults. All windows/physical values are illustrative.",
+  "proposed_minimum_complete_observations_per_target": 1,
+  "indexing": "zero-based pre-action indices",
+  "other_steps": "power_save",
+  "cases": [
+    {
+      "id": "two_targets_complete",
+      "config_file": "two-target-survey.v1.json",
+      "observe_steps": [
+        0,
+        17
+      ],
+      "transmit_steps": [
+        7,
+        10,
+        20,
+        27
+      ],
+      "expected": {
+        "captures": {
+          "arctic_ice": 1,
+          "antarctic_region": 1
+        },
+        "complete_deliveries": {
+          "arctic_ice": 1,
+          "antarctic_region": 1
+        },
+        "returned_by_target_mb": {
+          "arctic_ice": 12,
+          "antarctic_region": 12
+        },
+        "returned_mb": 24,
+        "stored_mb": 0,
+        "capture_goal_met": true,
+        "data_goal_met": true,
+        "per_target_goal_met": true
+      }
+    },
+    {
+      "id": "two_targets_second_unreturned",
+      "config_file": "two-target-survey.v1.json",
+      "observe_steps": [
+        0,
+        17
+      ],
+      "transmit_steps": [
+        7,
+        10
+      ],
+      "expected": {
+        "captures": {
+          "arctic_ice": 1,
+          "antarctic_region": 1
+        },
+        "complete_deliveries": {
+          "arctic_ice": 1,
+          "antarctic_region": 0
+        },
+        "returned_by_target_mb": {
+          "arctic_ice": 12,
+          "antarctic_region": 0
+        },
+        "returned_mb": 12,
+        "stored_mb": 12,
+        "capture_goal_met": true,
+        "data_goal_met": true,
+        "per_target_goal_met": false
+      }
+    },
+    {
+      "id": "two_targets_second_partial",
+      "config_file": "two-target-survey.v1.json",
+      "observe_steps": [
+        0,
+        17
+      ],
+      "transmit_steps": [
+        7,
+        10,
+        20
+      ],
+      "expected": {
+        "captures": {
+          "arctic_ice": 1,
+          "antarctic_region": 1
+        },
+        "complete_deliveries": {
+          "arctic_ice": 1,
+          "antarctic_region": 0
+        },
+        "returned_by_target_mb": {
+          "arctic_ice": 12,
+          "antarctic_region": 7.7333333328
+        },
+        "returned_mb": 19.7333333328,
+        "stored_mb": 4.2666666672,
+        "capture_goal_met": true,
+        "data_goal_met": true,
+        "per_target_goal_met": false
+      }
+    },
+    {
+      "id": "stock_polar_ice_data_shortfall",
+      "config_file": "polar-ice-stock.v1.json",
+      "observe_steps": [
+        0,
+        7,
+        10,
+        17,
+        20
+      ],
+      "transmit_steps": [
+        27,
+        30,
+        37,
+        40,
+        47,
+        50,
+        57
+      ],
+      "expected": {
+        "captures": {
+          "arctic_ice": 5
+        },
+        "complete_deliveries": {
+          "arctic_ice": 4
+        },
+        "returned_by_target_mb": {
+          "arctic_ice": 54.1333333296
+        },
+        "returned_mb": 54.1333333296,
+        "stored_mb": 5.8666666704,
+        "capture_goal_met": true,
+        "data_goal_met": false,
+        "per_target_goal_met": true
+      }
+    },
+    {
+      "id": "polar_ice_fast_radio_design_variant",
+      "config_file": "polar-ice-fast-radio-variant.v1.json",
+      "observe_steps": [
+        0,
+        7,
+        10,
+        17,
+        20
+      ],
+      "transmit_steps": [
+        27,
+        30,
+        37,
+        40
+      ],
+      "expected": {
+        "captures": {
+          "arctic_ice": 5
+        },
+        "complete_deliveries": {
+          "arctic_ice": 5
+        },
+        "returned_by_target_mb": {
+          "arctic_ice": 60
+        },
+        "returned_mb": 60,
+        "stored_mb": 0,
+        "capture_goal_met": true,
+        "data_goal_met": true,
+        "per_target_goal_met": true
+      }
+    }
+  ]
+}
