@@ -13,6 +13,10 @@ config_version=5
 config/name="OrbitBridge"
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0.015, 0.03, 0.06, 1)
+boot_splash/show_image=true
+boot_splash/image="res://assets/ui/loading_splash.png"
+boot_splash/fullsize=true
 config/icon="res://icon.svg"
 
 [display]
