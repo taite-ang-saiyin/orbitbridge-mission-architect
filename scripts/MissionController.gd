@@ -1,5 +1,6 @@
 extends Control
 const SCREENS = ["MissionControl", "MissionCreator", "SpacecraftBuilder", "FlightReadiness", "MissionOperations", "DebriefCompare"]
+enum MenuAction { LANGUAGE, START_PAGE }
 var state = preload("res://data/mock/DesignCatalog.gd").DEFAULTS.duplicate(true)
 var preferences = preload("res://scripts/settings/PrototypeSettings.gd").DEFAULTS.duplicate()
 var shell: Control
@@ -10,7 +11,12 @@ var shell_footer: Label
 var sidebar: VBoxContainer
 var flow_error: AcceptDialog
 var retry_restore: Dictionary = {}
+var design_lab_restore: Dictionary = {}
+var comparison_provider: Callable = preload("res://scripts/evaluation/recorded_comparison.gd").compare
 var sidebar_rail: PanelContainer
+var scoped_language: Node
+var start_return_index: int = -1
+var start_return_execution: String = ""
 func _ready():
 	preload("res://scripts/ui/DesktopWindow.gd").configure(get_window())
 	theme = preload("res://ui/theme/WorkbenchTheme.gd").build()
@@ -49,13 +55,28 @@ func _ready():
 	header.add_child(mark)
 	header.add_child(title)
 	var status = Label.new()
+	status.name = "SetupStatus"
 	status.text = "ORBITBRIDGE     •     MISSION LAB"
 	status.add_theme_color_override("font_color", Color("33e5e9"))
 	header.add_child(status)
-	var home_button = Button.new()
-	home_button.text = "Home"
-	home_button.pressed.connect(request_screen.bind(0))
-	header.add_child(home_button)
+	var menu = MenuButton.new()
+	menu.name = "SettingsMenu"
+	menu.hide()
+	menu.icon = preload("res://assets/ui/icons/menu.svg")
+	menu.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	menu.tooltip_text = "Settings"
+	menu.accessibility_name = "Settings"
+	menu.focus_mode = Control.FOCUS_ALL
+	menu.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	menu.custom_minimum_size = Vector2(44, 44)
+	menu.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(menu)
+	var choices = menu.get_popup()
+	choices.add_theme_stylebox_override("panel", preload("res://ui/theme/WorkbenchTheme.gd").box(Color("0a2033"), Color("345b76")))
+	choices.add_theme_constant_override("v_separation", 12)
+	choices.add_item("Language", MenuAction.LANGUAGE)
+	choices.add_item("Start page", MenuAction.START_PAGE)
+	choices.id_pressed.connect(_select_settings_action.bind(menu))
 	host = Control.new()
 	host.name = "ScreenHost"
 	host.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -102,8 +123,18 @@ func _ready():
 	flow_error = AcceptDialog.new()
 	flow_error.title = "Mission check"
 	add_child(flow_error)
+	scoped_language = preload("res://scripts/settings/ScopedLanguage.gd").new()
+	scoped_language.controller = self
+	add_child(scoped_language)
 	show_home()
 	if "--verify-demo" in OS.get_cmdline_user_args(): verify_demo.call_deferred()
+
+func _select_settings_action(id: int, menu: MenuButton) -> void:
+	match id:
+		MenuAction.LANGUAGE:
+			open_language_settings.call_deferred(menu)
+		MenuAction.START_PAGE:
+			return_to_start()
 
 func fit_shell():
 	var padding = 18 if size.x >= 1250 else 12
@@ -122,9 +153,34 @@ func show_home():
 	landing_host.show()
 	current = preload("res://scenes/screens/home/Home.tscn").instantiate()
 	current.preferences = preferences
-	current.start_requested.connect(show_screen.bind(0))
+	current.resume_available = start_return_index >= 0
+	current.start_requested.connect(resume_from_start)
 	current.quit_requested.connect(func(): get_tree().quit())
 	landing_host.add_child(current)
+
+func return_to_start() -> void:
+	if is_instance_valid(current) and current.screen_id in SCREENS:
+		start_return_index = SCREENS.find(current.screen_id)
+		start_return_execution = str(current.get_presentation_model().get("execution_key", "")) if current.has_method("get_presentation_model") else ""
+		if current.screen_id == "MissionOperations": current.pause()
+	show_home()
+
+func resume_from_start() -> void:
+	if start_return_index == 5 and not start_return_execution.is_empty():
+		show_execution_result(start_return_execution)
+	elif start_return_index == 4:
+		var snapshot: Dictionary = state.get("active_run_state", {}).duplicate(true)
+		if snapshot.get("phase") == "finished":
+			show_screen(5)
+			return
+		show_screen(4)
+		# Resume the exact native frame, avoiding proportional-clock rounding.
+		if current.screen_id == "MissionOperations":
+			for index in current.DATA.frames.size():
+				if current.DATA.frames[index].state == snapshot:
+					current.select_event(index)
+					break
+	else: show_screen(start_return_index if start_return_index >= 0 else 0)
 
 func request_screen(index: int) -> void:
 	# Review player setup without bypassing live-run edit and result guards.
@@ -144,6 +200,9 @@ func request_screen(index: int) -> void:
 	show_screen(index)
 
 func show_screen(index: int):
+	if state.has("design_lab_route") and index in [0, 1]:
+		show_flow_error("Mission requirements are fixed for Design B. Cancel Design B to leave this draft.")
+		return
 	if index == -1:
 		show_home()
 		return
@@ -158,18 +217,26 @@ func show_screen(index: int):
 			if not is_instance_valid(current) or current.screen_id != "FlightReadiness": show_screen(3)
 			return
 		if not state.has("run_trace") or state.run_trace.config != review.config or state.run_trace.policy != state.policy:
-			var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
+			var launched: Dictionary
+			if state.has("design_lab_route"):
+				launched = preload("res://scripts/integration/design_lab.gd").launch_b(state, str(state.design_lab_route.origin_execution_key))
+			else: launched = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 			if not launched.ok:
 				show_flow_error(launched.error.message)
 				return
 	if index == 4 and state.has("run_trace"): state.run_design = state.run_trace.config.duplicate(true)
-	if index == 4: retry_restore.clear()
+	if index == 4:
+		retry_restore.clear()
+		design_lab_restore.clear()
 	if index == 5:
 		if not state.has("active_run_state") or state.active_run_state.phase != "finished":
 			show_flow_error("Finish the mission before viewing a result.")
 			return
 		on_terminal_state(state.active_run_state)
 	clear_screen()
+	for entry in [["SettingsMenu", true], ["SetupStatus", index not in [4, 5]]]:
+		var control = find_child(entry[0], true, false)
+		if control != null: control.visible = entry[1]
 	shell.show()
 	landing_host.hide()
 	var path = "res://scenes/screens/mission_control/MissionControl.tscn" if index == 0 else "res://scenes/screens/" + SCREENS[index] + ".tscn"
@@ -191,6 +258,12 @@ func show_screen(index: int):
 		var cancel = Button.new()
 		cancel.text = "Cancel Retry"
 		cancel.pressed.connect(cancel_retry)
+		current.previous.get_parent().add_child(cancel)
+
+	if not design_lab_restore.is_empty() and index in [2, 3]:
+		var cancel = Button.new()
+		cancel.text = "Cancel Design B"
+		cancel.pressed.connect(func(): cancel_design_b(str(state.design_lab_route.origin_execution_key)))
 		current.previous.get_parent().add_child(cancel)
 
 func _input(event: InputEvent) -> void:
@@ -233,6 +306,7 @@ func start_new_mission() -> void:
 		show_flow_error("Finish or stop the current mission before starting a new one.")
 		return
 	retry_restore.clear()
+	design_lab_restore.clear()
 	preload("res://data/mock/DesignCatalog.gd").reset(state)
 	state.name = "Untitled Mission"
 	show_screen(1)
@@ -279,3 +353,140 @@ func verify_demo() -> void:
 		result.failed += packaged.failed
 	print("Windows demo verification: %d checks passed; %d failed." % [result.passed, result.failed])
 	get_tree().quit(0 if result.failed == 0 else 1)
+
+
+# v2 SE hooks: KE3 supplies an execution key from the selected result, never a title.
+func get_execution(execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/mission_results.gd").get_execution(state, execution_key)
+
+func save_design_a(execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").save_a(state, execution_key)
+
+func get_saved_design_a() -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").saved_a(state)
+
+func replace_design_a(execution_key: String, expected_a_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").replace_a(state, execution_key, expected_a_execution_key)
+
+func clear_design_a(expected_a_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").clear_a(state, expected_a_execution_key)
+
+func show_execution_result(execution_key: String) -> Dictionary:
+	if is_operating(): return preload("res://scripts/integration/design_lab.gd").failure("RUN_ACTIVE", "Finish the current run first.")
+	var result: Dictionary = get_execution(execution_key)
+	if not result.ok: return result
+	state.run_trace = result.execution.trace.duplicate(true)
+	state.run_design = result.execution.trace.config.duplicate(true)
+	state.active_run_state = result.execution.trace.final_state.duplicate(true)
+	show_screen(5)
+	current.show_execution(result.execution.trace.duplicate(true), false)
+	return result
+
+func modify_execution(execution_key: String) -> Dictionary:
+	if not design_lab_restore.is_empty() or not retry_restore.is_empty():
+		return preload("res://scripts/integration/design_lab.gd").failure("DRAFT_ACTIVE", "Cancel the existing draft first.")
+	var result: Dictionary = preload("res://scripts/integration/design_lab.gd").modify_execution(state, execution_key)
+	if not result.ok: return result
+	design_lab_restore = state.duplicate(true)
+	design_lab_restore.run_trace = result.execution.trace.duplicate(true)
+	design_lab_restore.run_design = result.execution.trace.config.duplicate(true)
+	design_lab_restore.active_run_state = result.execution.trace.final_state.duplicate(true)
+	state = result.draft
+	show_screen(2)
+	return {"ok":true,"origin_execution_key":execution_key}
+
+func cancel_design_b(origin_execution_key: String) -> Dictionary:
+	if is_operating() or design_lab_restore.is_empty() or state.get("design_lab_route", {}).get("origin_execution_key") != origin_execution_key:
+		return preload("res://scripts/integration/design_lab.gd").failure("EXECUTION_MISMATCH", "No cancellable draft matches this execution.")
+	state = design_lab_restore.duplicate(true)
+	design_lab_restore.clear()
+	return show_execution_result(origin_execution_key)
+
+func run_design_b(origin_execution_key: String) -> Dictionary:
+	if not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
+		return preload("res://scripts/integration/design_lab.gd").failure("REVIEW_REQUIRED", "Review the mission requirements before launch.")
+	if is_operating(): return preload("res://scripts/integration/design_lab.gd").failure("RUN_ACTIVE", "A run is already operating.")
+	var result: Dictionary = preload("res://scripts/integration/design_lab.gd").launch_b(state, origin_execution_key)
+	if result.ok: show_screen(4)
+	return result
+
+func comparison_inputs(b_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").comparison_inputs(state, b_execution_key)
+
+func comparison_available() -> bool:
+	return comparison_provider.is_valid()
+
+func compare_executions(b_execution_key: String) -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").compare(state, b_execution_key, comparison_provider)
+
+# KE3's Continue button uses this entry point, independent of selected Results.
+func continue_saved_design_a() -> Dictionary:
+	var saved: Dictionary = get_saved_design_a()
+	if not saved.ok: return saved
+	if saved.execution == null:
+		return preload("res://scripts/integration/design_lab.gd").failure("A_NOT_SAVED", "Save Design A before creating B.")
+	return modify_execution(saved.execution.execution_key)
+
+# A successful Save has already happened before this optional continuation offer.
+# KE3 may use its own popup with save_design_a / continue_saved_design_a instead.
+func offer_design_b(execution_key: String) -> Dictionary:
+	var saved: Dictionary = save_design_a(execution_key)
+	if not saved.ok: return saved
+	var dialog = ConfirmationDialog.new()
+	dialog.name = "DesignASavedDialog"
+	dialog.title = "Design A saved"
+	dialog.dialog_text = "Keep this result as your baseline. Modify the spacecraft and run Design B?\n\nSaved for this session only. Closing or refreshing clears the comparison."
+	dialog.ok_button_text = "Create Design B"
+	dialog.cancel_button_text = "Not now"
+	dialog.confirmed.connect(func():
+		var result: Dictionary = continue_saved_design_a()
+		if not result.ok: show_flow_error(result.error.message)
+		dialog.queue_free())
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered(Vector2i(480, 190))
+	return saved
+
+func export_saved_design_a() -> Dictionary:
+	return preload("res://scripts/integration/design_lab.gd").export_saved_a(state)
+
+# Reuse SE's existing language selector without leaving or recreating the page.
+func open_language_settings(origin: Control) -> void:
+	if get_node_or_null("LanguageSettingsDialog") != null: return
+	var dialog = AcceptDialog.new()
+	dialog.name = "LanguageSettingsDialog"
+	dialog.title = "Settings"
+	var panel = preload("res://scenes/ui/settings/SettingsPanel.tscn").instantiate()
+	panel.values = preferences
+	# The dialog supplies the border and title for the shared settings content.
+	panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	panel.get_node("Margin/Content/Title").hide()
+	panel.get_node("Margin/Content/Heading").hide()
+	panel.custom_minimum_size.x = 0
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel.settings_changed.connect(func(): scoped_language.refresh())
+	panel.closed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	var scroll = ScrollContainer.new()
+	scroll.name = "SettingsScroll"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	dialog.add_child(scroll)
+	scroll.add_child(panel)
+	panel.minimum_size_changed.connect(func(): _fit_language_settings.call_deferred(dialog, panel))
+	dialog.tree_exited.connect(func():
+		if is_instance_valid(origin): origin.grab_focus())
+	add_child(dialog)
+	dialog.get_ok_button().hide()
+	dialog.popup_centered(Vector2i(mini(460, int(size.x) - 48), 1))
+	_fit_language_settings.call_deferred(dialog, panel)
+	panel.language.grab_focus()
+
+func _fit_language_settings(dialog: AcceptDialog, panel: Control) -> void:
+	if not is_instance_valid(dialog) or not is_instance_valid(panel) or dialog.is_queued_for_deletion(): return
+	var width = mini(460, int(size.x) - 48)
+	var height = mini(ceili(panel.get_combined_minimum_size().y) + 48, int(size.y) - 80)
+	var wanted = Vector2i(width, maxi(200, height))
+	if dialog.size != wanted:
+		dialog.size = wanted
+		dialog.move_to_center()

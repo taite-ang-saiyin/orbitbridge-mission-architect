@@ -23,6 +23,10 @@ const SLOT_NAMES = {"bus": "Bus", "instrument": "Instrument", "solar": "Solar pa
 func _ready() -> void:
 	screen_id = "SpacecraftBuilder"
 	setup("03", "Satellite Builder", "Build your spacecraft: choose a body, solar wings and radio.", 1, 3, "Continue to Readiness")
+	if state.has("design_lab_route"):
+		var baseline = section(content, "EDITING DESIGN B · MISSION REQUIREMENTS FIXED")
+		UI.label(baseline, "Edit B's components below. Saved A remains unchanged.", 13, "8ca8bc")
+		UI.button(baseline, "Review saved A (read-only)", review_saved_a)
 	ADAPTER.ensure(state)
 	state.satellite_id = "kit"
 	workspace = row(content)
@@ -78,6 +82,8 @@ func _ready() -> void:
 	dropdown(launcher_controls, ["Small launcher", "Medium launcher"], "Medium launcher" if state.get("launcher_id") == "medium" else "Small launcher", func(value):
 		state.launcher_id = "medium" if value == "Medium launcher" else "small"
 		refresh())
+	if state.has("design_lab_route"):
+		lock_comparison_setup(mission_controls)
 	UI.label(box, "Drag to rotate · scroll to zoom. Expand for a closer look.", 12, "a9cbdc")
 	
 	
@@ -122,8 +128,9 @@ func reset_design() -> void:
 	state.satellite_id = "kit"
 	for key in ADAPTER.STARTER: state[key] = ADAPTER.STARTER[key]
 	state.erase("engineering_parts")
-	state.launch_profile_id = "cubesat_1u_sample"
-	state.launcher_id = "small"
+	if not state.has("design_lab_route"):
+		state.launch_profile_id = "cubesat_1u_sample"
+		state.launcher_id = "small"
 	state.erase("run_design")
 	refresh()
 func refresh() -> void:
@@ -298,3 +305,22 @@ func add_studio_preview(parent: Node, minimum: Vector2, expand: bool = false) ->
 	world_environment.environment = world_environment.environment.duplicate()
 	world_environment.environment.background_mode = Environment.BG_CLEAR_COLOR
 	return view
+
+func lock_comparison_setup(node: Node) -> void:
+	if node is OptionButton: node.disabled = true
+	for child in node.get_children(): lock_comparison_setup(child)
+
+func review_saved_a() -> void:
+	var key: String = str(state.get("design_lab_route", {}).get("origin_execution_key", ""))
+	var stored: Dictionary = preload("res://scripts/integration/mission_results.gd").get_execution(state, key)
+	if not stored.ok: return
+	var config: Dictionary = stored.execution.trace.config
+	var dialog = AcceptDialog.new()
+	dialog.title = "Design A · read-only"
+	var lines = PackedStringArray([str(config.mission.title), ""])
+	for slot in config.design: lines.append("%s: %s" % [slot, config.design[slot]])
+	preload("res://scripts/settings/MyanmarText.gd").raw(dialog, "dialog_text", "\n".join(lines))
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered(Vector2i(440, 320))

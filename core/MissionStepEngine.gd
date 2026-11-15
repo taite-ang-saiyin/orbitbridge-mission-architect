@@ -55,6 +55,20 @@ static func init_run(config: Dictionary, scenario: Dictionary, run_id: String, m
 		"config_snapshot": config.duplicate(true),
 		"scenario_snapshot": scenario.duplicate(true)
 	}
+	if int(config.get("schema_version", 0)) == 2:
+		state["goal_kind"] = str(resolved.goal_kind)
+		state["goal_required_count"] = int(resolved.goal_required_count)
+		state["goal_steps_per_orbit"] = int(plan.steps_per_orbit)
+		state["catalog_context"] = resolved.catalog_context.duplicate(true)
+		state["goal_progress"] = {
+			"kind": str(resolved.goal_kind),
+			"required_count": int(resolved.goal_required_count),
+			"actual_count": 0,
+			"qualifying_step_indices": [],
+			"qualifying_revolution_indices": [],
+			"evidence_event_ids": []
+		}
+		state["goal_evidence"] = []
 	_refresh_step_context(state, plan)
 	state.available_actions = _available_actions(state)
 	return {"ok": true, "state": state, "events": []}
@@ -235,6 +249,8 @@ static func request_action(state: Dictionary, action: String) -> Dictionary:
 		details.target_id = _observation_target(state, context_result.resolved, step)
 	var message: String = _success_message(action, data_added_mb, data_transmitted_mb)
 	var accepted: Dictionary = _make_event(next_state, event_sequence, current_index, action, "action_accepted", "ACTION_ACCEPTED", message, details)
+	if _is_v2(next_state):
+		_update_v2_goal_progress(next_state, accepted, action, current_index)
 	log.append(accepted)
 	var events: Array = [accepted]
 	event_sequence += 1
@@ -315,7 +331,78 @@ static func _context(state: Dictionary) -> Dictionary:
 	var plan: Dictionary = Planner.build_step_plan(str(config.design.orbit_id), resolved.target_ids, int(state.total_steps), catalog)
 	if not plan.ok:
 		return _error(str(plan.get("error_code", "INVALID_SCENARIO")), str(plan.get("error_message", "Could not rebuild the step plan.")))
+	if int(config.get("schema_version", 0)) == 2:
+		for key in ["goal_kind", "goal_required_count", "goal_steps_per_orbit", "catalog_context", "goal_progress", "goal_evidence"]:
+			if not state.has(key):
+				return _error("INVALID_MISSION_STATE", "MissionState is missing v2 field %s" % key)
+		if str(state.goal_kind) != str(resolved.goal_kind) or int(state.goal_required_count) != int(resolved.goal_required_count) or int(state.goal_steps_per_orbit) != int(plan.steps_per_orbit):
+			return _error("INVALID_MISSION_STATE", "v2 goal metadata is inconsistent with the launch snapshots")
+		if not state.goal_progress is Dictionary or not state.goal_evidence is Array or state.catalog_context != catalog:
+			return _error("INVALID_MISSION_STATE", "v2 goal evidence or catalog context is inconsistent with the launch snapshot")
+	if config.get("schema_version") == 2:
+		if not state.get("event_log") is Array:
+			return _error("INVALID_MISSION_STATE", "The complete flight log is required.")
+		var reconstructed: Dictionary = {"config_snapshot":config, "goal_steps_per_orbit":plan.steps_per_orbit,
+			"goal_progress":{"kind":resolved.goal_kind, "required_count":int(resolved.goal_required_count), "actual_count":0,
+				"qualifying_step_indices":[], "qualifying_revolution_indices":[], "evidence_event_ids":[]}, "goal_evidence":[]}
+		var ids: Array = []
+		var accepted_steps: Array = []
+		for item in state.event_log:
+			if not item is Dictionary or item.get("run_id") != state.run_id or item.get("mission_id") != state.mission_id or ids.has(item.get("event_id")):
+				return _error("INVALID_MISSION_STATE", "The flight log contains conflicting evidence.")
+			ids.append(item.get("event_id"))
+			if item.get("type") == "action_accepted":
+				if not Adapter._is_number(item.get("delta_returned_data_mb")) or not Adapter._is_integer(item.get("delta_observations")):
+					return _error("INVALID_MISSION_STATE", "Flight evidence contains invalid measurements.")
+				if not item.get("step_index") is int or item.step_index != accepted_steps.size() or item.step_index >= state.step_index:
+					return _error("INVALID_MISSION_STATE", "Accepted flight steps must be complete and ordered.")
+				accepted_steps.append(item.step_index)
+				_update_v2_goal_progress(reconstructed, item, str(item.get("action")), int(item.step_index))
+		if accepted_steps.size() != state.step_index or reconstructed.goal_progress != state.goal_progress or reconstructed.goal_evidence != state.goal_evidence:
+			return _error("INVALID_MISSION_STATE", "Goal progress does not match the recorded flight evidence.")
 	return {"ok": true, "catalog": catalog, "resolved": resolved, "plan": plan}
+
+static func _is_v2(state: Dictionary) -> bool:
+	return int(state.get("config_snapshot", {}).get("schema_version", 0)) == 2
+
+static func _update_v2_goal_progress(state: Dictionary, event: Dictionary, action: String, pre_action_step: int) -> void:
+	var progress: Dictionary = state.get("goal_progress", {}).duplicate(true)
+	var qualifying: bool = false
+	var revolution_index: int = -1
+	if str(progress.get("kind", "")) == "communication":
+		qualifying = action == "transmit" and float(event.get("delta_returned_data_mb", 0.0)) > 0.0
+		if qualifying:
+			var steps: Array = progress.get("qualifying_step_indices", []).duplicate()
+			if not steps.has(pre_action_step):
+				steps.append(pre_action_step)
+				progress.qualifying_step_indices = steps
+				progress.actual_count = steps.size()
+	elif str(progress.get("kind", "")) == "weather_monitoring":
+		qualifying = action == "observe" and str(event.get("target_id", "")) == str(state.config_snapshot.mission.target_region) and int(event.get("delta_observations", 0)) > 0
+		if qualifying:
+			revolution_index = floori(float(pre_action_step) / float(state.goal_steps_per_orbit))
+			var revolutions: Array = progress.get("qualifying_revolution_indices", []).duplicate()
+			if revolutions.has(revolution_index): qualifying = false
+			if not revolutions.has(revolution_index):
+				revolutions.append(revolution_index)
+				progress.qualifying_revolution_indices = revolutions
+				progress.actual_count = revolutions.size()
+	if qualifying:
+		var evidence: Array = progress.get("evidence_event_ids", []).duplicate()
+		evidence.append(str(event.event_id))
+		progress.evidence_event_ids = evidence
+		var record: Dictionary = {
+			"event_id": str(event.event_id),
+			"step_index": pre_action_step,
+			"action": action,
+			"delta_returned_data_mb": float(event.get("delta_returned_data_mb", 0.0)),
+			"target_id": str(event.get("target_id", "")),
+			"revolution_index": revolution_index
+		}
+		var goal_evidence: Array = state.get("goal_evidence", []).duplicate(true)
+		goal_evidence.append(record)
+		state.goal_evidence = goal_evidence
+	state.goal_progress = progress
 
 static func _evaluate(action: String, state: Dictionary, resolved: Dictionary, plan: Dictionary) -> Dictionary:
 	if not ACTIONS.has(action):

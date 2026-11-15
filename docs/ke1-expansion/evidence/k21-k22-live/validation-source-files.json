@@ -1,0 +1,14 @@
+{
+  "scope": "handoff source digests, not a saved-record schema migration",
+  "files_sha256": {
+    "scripts/core/mission_validator.gd": "d17b1289c52523a96d8a57722a5e48cee2f8827772e5cb3072d5be976e20144e",
+    "scripts/core/mission_validator_v1.gd": "f7f298d81517023057bdaf5c234de5a11044f162bcf4fcbbadc4525b9859304f",
+    "scripts/core/mission_validator_v2.gd": "48805d37bb38cd0b0c91e2b75ca93be0816ab1e20375fba9bba2d9667037e96d",
+    "scripts/core/mission_config_v2_agreed_rules.gd": "f037e408e70ad36862862eb5945280fac962c75405aaf7a13322ce24677748ec",
+    "scripts/core/mission_presets_v2.gd": "3521153612426341b11a66bbc89286057ce1584714fc8cb4f2e5d0c5cf769ac1",
+    "scripts/core/mission_capabilities_v2.gd": "b24d18b20abd2b3a0dd7fb50f6746c7d0bea3d87c6ead3b0c121d43eaf1e1f15",
+    "scripts/core/mission_v2_context.gd": "b708300bb6c759c563492c0ce2572567fa639684ca56c07bd0513366675afe48",
+    "scripts/core/catalog_loader.gd": "36e1ecfbe8cdcccd0c0250618994a5628757172dd89c216c2172eb8ab76311ff",
+    "scripts/core/validation_support.gd": "7a180d6c925a61942c61832306fe2c07f642785e028b89a808838c40de5815aa"
+  }
+}

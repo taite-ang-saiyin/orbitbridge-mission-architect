@@ -1,0 +1,267 @@
+{
+  "base": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "branch": "se",
+  "status": "local_uncommitted",
+  "godot": "4.7.2.stable.mono",
+  "programs": [
+    {
+      "test": "validation/test_mission_validator.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "validation/test_mission_readiness.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "validation/test_mission_fixtures.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "test_hpc.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "test_simulator.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "test_mission_evaluator.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration/test_mission_flow.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration/test_screen_flow.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "acceptance/test_k14_acceptance.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_review_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "creator_earth_framing_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "earth_station_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "compact_antenna_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "acrimsat_hull_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "home_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "responsive_layout_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "3d/preview_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "controller_evaluation_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "se_design_lab_hooks.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "creator_builder_catalog_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "expanded_missions_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_control_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "prediction_multitarget_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "design_workflow_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "modular_reference_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "operations_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "prototype_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "readiness_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "satellite_builder_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "satellite_selection_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke2_results_integration.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke3_report_binding_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke3_team_integration_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke3_power_launcher_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "a03_operations_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "a05_debrief_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "a06_retry_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_fixture_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke2_recorded_debrief_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke2_validated_debrief_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration/test_ke3_merge.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "player_ui_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "debrief_summary_check.gd",
+      "passed": true,
+      "exit": 0
+    }
+  ],
+  "final_followup": [
+    {
+      "test": "se_design_lab_hooks.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_review_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "readiness_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "satellite_builder_smoke.gd",
+      "passed": true,
+      "exit": 0
+    }
+  ],
+  "focused_checks_passed": 73,
+  "source_sha256": {
+    "scripts/MissionController.gd": "40418978811d65f63412a7bfad4f8f5b4a0852821a3b03d0cc906c2e4012b32f",
+    "scripts/integration/design_lab.gd": "bb8a0cd5c276870a41acb9ed170250be59c97a0032956cb89bc6b53587c3b418",
+    "scripts/integration/mission_results.gd": "9269e5d1bf059e1a3e825c4c528ba1093659d1059831c9c708d0b780898bc5f9",
+    "scripts/integration/mission_review.gd": "01c3c76560cdaafa631ee08dd048e133f314eaae7f7aedf515087c8966e878f4",
+    "scripts/integration/mission_runtime.gd": "41ba2eac7b89e1f0d2b6b39140b6a0a7a85678af57c6db341e7d2c79472a4c66",
+    "scripts/prototype/Screen.gd": "a6757b6e15b85809d12e44a59677eff0765e09fa1fe23b06b31560376369511b",
+    "scripts/screens/FlightReadiness.gd": "7885c58bac0ecbbc8a0438e9459df52be3a5e0bd00ccced6d1d4b5944e5865e6",
+    "scripts/screens/SpacecraftBuilder.gd": "b5b8fbf062792ac152e82dacbc118ba2c457af6b373772bd4cbeba75d03361db",
+    "tests/se_design_lab_hooks.gd": "7da2df5df1b56653f631c3b68bb06ee42f769343ef358686be7da1de74075116",
+    "tests/run_all_checks.ps1": "bfaf433b029ad7435bd9e19c9ffcf59856c607d76db77ed5251e172eb5011c5c"
+  },
+  "new_mission_values_added": false,
+  "production_v2_acceptance": false,
+  "browser_tested": false,
+  "published": false
+}

@@ -10,18 +10,25 @@ static func publish(session: Dictionary, native_state: Dictionary, evaluate: Cal
 		var previous_key: Variant = store.get("bindings",{}).get(id)
 		if previous_key != null and previous_key != _native_key(session,native_state):
 			return {"ok":false,"error":{"code":"EXECUTION_MISMATCH","message":"Run ID already belongs to another input snapshot.","suggested_fix":"Use a distinct run identity for this execution."}}
+		var archived: Dictionary = _archive_execution(store, _execution_trace(session, native_state), {"ok":true,"report":store.reports[id]})
+		if not archived.ok: return archived
 		return {"ok": true, "report": store.reports[id].duplicate(true), "existing": true}
-	var bound_trace: Dictionary = {"config":native_state.get("config_snapshot",{}).duplicate(true), "final_state":native_state.duplicate(true), "events":native_state.get("event_log",[]).duplicate(true), "validation":{}}
+	var bound_trace: Dictionary = _execution_trace(session, native_state)
 	for trace in session.get("run_history", []):
 		if trace.final_state.run_id == id and trace.config == bound_trace.config: bound_trace.validation = trace.validation.duplicate(true)
 	var reply: Dictionary = evaluate.call(native_state.duplicate(true)) if evaluate.is_valid() else evaluate_trace(bound_trace)
 	if not reply.get("ok", false):
+		if native_state.get("phase") == "finished":
+			var archived: Dictionary = _archive_execution(store, bound_trace, reply)
+			if not archived.ok: return archived
 		store.errors[id] = reply.get("error", {"message": "Evaluation failed.", "suggested_fix": "Restore a valid terminal HPC state."}).duplicate(true)
 		return reply
 	if not reply.get("report") is Dictionary or reply.report.get("run_id") != id or reply.report.get("mission_id") != native_state.get("mission_id"):
 		var error: Dictionary = {"code":"STALE_EVALUATION", "message":"Evaluator reply does not match the requested run/mission.", "suggested_fix":"Provide the report for this exact native run."}
 		store.errors[id] = error.duplicate(true)
 		return {"ok":false,"error":error}
+	var archived: Dictionary = _archive_execution(store, bound_trace, reply)
+	if not archived.ok: return archived
 	var record: Dictionary = {"report": reply.report.duplicate(true), "state": native_state.duplicate(true), "validation": bound_trace.validation.duplicate(true), "execution_key":input_key(bound_trace)}
 	if bound_trace.get("result_context") is Dictionary:
 		record.result_context = bound_trace.result_context.duplicate(true)
@@ -143,10 +150,7 @@ static func _input_error(final: Dictionary, field: String, message: String) -> D
 	}}
 
 static func _native_key(session: Dictionary, native: Dictionary) -> String:
-	var trace: Dictionary = {"config":native.get("config_snapshot",{}), "final_state":native, "events":native.get("event_log",[]), "validation":{}}
-	for item in session.get("run_history",[]):
-		if item.final_state.run_id == native.get("run_id") and item.config == trace.config: trace.validation = item.validation
-	return input_key(trace)
+	return input_key(_execution_trace(session, native))
 
 ## Optional externally returned packet binding. Caller supplies verified file hashes;
 ## report data remains unchanged and packet loading stays outside runtime.
@@ -169,3 +173,60 @@ static func bind_packet(trace: Dictionary, reply: Dictionary, metadata: Dictiona
 		if report.get(field) != final.get(field): return {"ok":false,"error":{"code":"STALE_REPORT","message":"Report counters/status differ from this execution."}}
 	var record: Dictionary = {"state":final.duplicate(true),"validation":trace.validation.duplicate(true),"report":report.duplicate(true),"execution_key":key,"source_credit_metadata":metadata.get("source_credit_metadata",{}).duplicate(true)}
 	return {"ok":true,"store":{"reports":{final.run_id:report.duplicate(true)},"errors":{},"bindings":{final.run_id:key},"history":[record],"baseline":null}}
+
+
+# Complete, execution-keyed evidence for the v2 Design Lab. Legacy baseline remains
+# a compatibility candidate only; it is never treated as a deliberate saved A.
+static func _execution_trace(session: Dictionary, native: Dictionary) -> Dictionary:
+	var source: Dictionary = {}
+	for trace in session.get("run_history", []):
+		if trace.get("final_state", {}).get("run_id") == native.get("run_id") and trace.get("config") == native.get("config_snapshot"):
+			source = trace.duplicate(true)
+			break
+	if source.is_empty():
+		for packet in session.get("evaluation_store", {}).get("executions", {}).values():
+			if packet.get("run_id") == native.get("run_id"):
+				source = packet.trace.duplicate(true)
+				break
+	source.config = native.get("config_snapshot", {}).duplicate(true)
+	source.final_state = native.duplicate(true)
+	source.events = native.get("event_log", []).duplicate(true)
+	if not source.has("validation"): source.validation = {}
+	for derived in ["evaluation", "evaluation_key", "result_context"]: source.erase(derived)
+	return source
+
+static func _archive_execution(store: Dictionary, trace: Dictionary, evaluation: Dictionary) -> Dictionary:
+	if trace.get("final_state", {}).get("phase") != "finished": return {"ok":true}
+	var supplied_context: Variant = trace.get("result_context")
+	trace = trace.duplicate(true)
+	for derived in ["evaluation", "evaluation_key", "result_context"]: trace.erase(derived)
+	var key: String = input_key(trace)
+	var packet: Dictionary = {"execution_key":key, "run_id":trace.final_state.get("run_id"), "mission_id":trace.final_state.get("mission_id"), "trace":trace.duplicate(true), "evaluation":evaluation.duplicate(true)}
+	if not store.has("executions"): store.executions = {}
+	packet.result_context = supplied_context.duplicate(true) if supplied_context is Dictionary else store.executions.get(key, {}).get("result_context", {}).duplicate(true)
+	packet.content_digest = _packet_digest(packet)
+	if store.executions.has(key):
+		if store.executions[key].content_digest != packet.content_digest:
+			return {"ok":false,"error":{"code":"IMMUTABLE_EXECUTION_MISMATCH","message":"The recorded execution evidence cannot be replaced.","suggested_fix":"Use the original execution snapshot or start a new run."}}
+	else: store.executions[key] = packet.duplicate(true)
+	return {"ok":true,"execution_key":key}
+
+static func _packet_digest(packet: Dictionary) -> String:
+	return JSON.stringify([packet.get("execution_key"),packet.get("run_id"),packet.get("mission_id"),packet.get("trace"),packet.get("evaluation"),packet.get("result_context")], "", true, true).sha256_text()
+
+static func get_execution(session: Dictionary, execution_key: String) -> Dictionary:
+	var packet: Variant = session.get("evaluation_store", {}).get("executions", {}).get(execution_key)
+	if not packet is Dictionary:
+		return {"ok":false,"error":{"code":"EXECUTION_NOT_FOUND","message":"This execution is not stored in the current session."}}
+	if packet.get("content_digest") != _packet_digest(packet) or packet.get("execution_key") != input_key(packet.get("trace", {})):
+		return {"ok":false,"error":{"code":"EXECUTION_TAMPERED","message":"Stored execution evidence has changed."}}
+	return {"ok":true,"execution":packet.duplicate(true)}
+
+static func execution_keys(session: Dictionary) -> Array:
+	return session.get("evaluation_store", {}).get("executions", {}).keys().duplicate()
+
+# Portable export is separate from the unchanged in-memory packet/key format.
+static func export_execution_record(session: Dictionary, execution_key: String) -> Dictionary:
+	var stored: Dictionary = get_execution(session, execution_key)
+	if not stored.ok: return stored
+	return preload("res://scripts/integration/execution_record.gd").encode(stored.execution)

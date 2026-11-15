@@ -127,7 +127,7 @@ func build_flow(parent: Node) -> void:
 
 func build_quick_start(parent: Node) -> void:
 	var box = panel(parent, "♧  QUICK START")
-	quick_start = UI.button(box, "＋  Create New Mission  →\nDesign a custom satellite mission", new_mission)
+	quick_start = UI.button(box, "+  Create New Mission  →\nDesign a custom satellite mission", new_mission)
 	quick_start.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	quick_start.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	accent(quick_start)
@@ -141,20 +141,31 @@ func build_quick_start(parent: Node) -> void:
 func build_presets(parent: Node) -> void:
 	var box = panel(parent, "◇  MISSION PRESETS")
 	for entry in [["Estuary Watch", "Coastal · Imaging", "Coastal Region", "Capture Imagery", "Polar – 600 km", "coast"], ["Tropical Forest Watch", "Equatorial · Imaging", "Tropical Forest", "Capture Imagery", "LEO – 400 km", "forest"], ["Polar Ice Survey", "Polar · Survey", "Arctic Ice", "Survey Target Regions", "Polar – 600 km", "ice"]]:
-		var line = HBoxContainer.new()
-		line.add_theme_constant_override("separation", 8)
-		box.add_child(line)
-		var thumbnail = preload("res://ui/components/TargetThumbnail.gd").new()
-		thumbnail.terrain = entry[5]
-		thumbnail.custom_minimum_size = Vector2(64, 58)
-		line.add_child(thumbnail)
-		var button = UI.button(line, entry[0] + "  →\n" + entry[1], apply_preset.bind(entry))
-		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.custom_minimum_size.y = 58
-		button.add_theme_font_size_override("font_size", 12)
-		presets[entry[0]] = button
+		presets[entry[0]] = preset_card(box, entry[0], entry[1], apply_preset.bind(entry))
+	for entry in [["communication", "Communication", "Equatorial · Downlink", "ocean"], ["weather_monitoring", "Weather Monitoring", "Equatorial · Revisit", "land"]]:
+		var button = preset_card(box, entry[1], entry[2], func():
+			if state.get("active_run_state", {}).get("phase") == "operating": return
+			Catalog.reset(state)
+			var selected: Dictionary = Runtime.select_preset(state, entry[0])
+			if selected.ok: navigate.emit(1))
+		button.tooltip_text = "Complete the mission goal and return the required data to Earth."
+		presets[entry[1]] = button
+
+func preset_card(parent: Node, title: String, subtitle: String, action: Callable) -> Button:
+	var line = HBoxContainer.new()
+	line.add_theme_constant_override("separation", 8)
+	parent.add_child(line)
+	var thumbnail = preload("res://ui/components/MissionThumbnail.gd").new()
+	thumbnail.mission = title
+	thumbnail.custom_minimum_size = Vector2(64, 58)
+	line.add_child(thumbnail)
+	var button = UI.button(line, title + "  →\n" + subtitle, action)
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.custom_minimum_size.y = 58
+	button.add_theme_font_size_override("font_size", 12)
+	return button
 
 func apply_preset(entry: Array) -> void:
 	if state.get("active_run_state", {}).get("phase") == "operating": return

@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "mission": {
+    "title": "Estuary Watch",
+    "objective": "imaging",
+    "target_region": "coastal_region",
+    "required_observations": 5,
+    "required_returned_data_mb": 60,
+    "duration_orbits": 6,
+    "budget_credits": 100,
+    "target_regions": [
+      "coastal_region"
+    ],
+    "goal": {
+      "kind": "imaging"
+    }
+  },
+  "design": {
+    "bus_id": "bus_basic",
+    "instrument_id": "instrument_basic",
+    "solar_id": "solar_standard",
+    "battery_id": "battery_standard",
+    "radio_id": "radio_basic",
+    "storage_id": "storage_standard",
+    "launch_profile_id": "cubesat_1u_sample",
+    "launcher_id": "small",
+    "orbit_id": "high_inc"
+  },
+  "contract_revision": "expansion-goals-v2-draft-2",
+  "preset_id": "communication",
+  "preset_revision": 2
+}

@@ -19,7 +19,7 @@ func _run() -> void:
 	helper.fresh(app)
 	app.show_screen(0)
 	await settle()
-	_check(app.current.presets.size() == 3 and app.current.earth.stage.orbit_paths.size() == 2, "SE dashboard retains presets and real orbit presentation")
+	_check(app.current.presets.size() == 5 and app.current.presets.has("Communication") and app.current.presets.has("Weather Monitoring") and app.current.earth.stage.orbit_paths.size() == 2, "SE dashboard retains all five presets and real orbit presentation")
 	app.show_screen(2)
 	await settle()
 	helper.choose(app.current, "instrument", "instrument_advanced")

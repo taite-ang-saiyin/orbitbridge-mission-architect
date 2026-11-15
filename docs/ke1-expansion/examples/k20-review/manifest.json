@@ -1,0 +1,414 @@
+{
+  "review_revision": "k20-review-additions-1",
+  "status": "PROPOSED_EXPECTATIONS_NOT_PRODUCTION_RESULTS",
+  "cases": [
+    {
+      "id": "estuary_watch",
+      "file": "candidate-valid/estuary_watch.json",
+      "proposed_issues": [],
+      "note": "Candidate-valid under proposed rules and capability adoption; not accepted by current v1 production validator."
+    },
+    {
+      "id": "tropical_forest_watch",
+      "file": "candidate-valid/tropical_forest_watch.json",
+      "proposed_issues": [],
+      "note": "Candidate-valid under proposed rules and capability adoption; not accepted by current v1 production validator."
+    },
+    {
+      "id": "polar_ice_survey",
+      "file": "candidate-valid/polar_ice_survey.json",
+      "proposed_issues": [],
+      "note": "Candidate-valid under proposed rules and capability adoption; not accepted by current v1 production validator."
+    },
+    {
+      "id": "communication",
+      "file": "candidate-valid/communication.json",
+      "proposed_issues": [],
+      "note": "Candidate-valid under proposed rules and capability adoption; not accepted by current v1 production validator."
+    },
+    {
+      "id": "weather_monitoring",
+      "file": "candidate-valid/weather_monitoring.json",
+      "proposed_issues": [],
+      "note": "Candidate-valid under proposed rules and capability adoption; not accepted by current v1 production validator."
+    },
+    {
+      "id": "survey_two_targets",
+      "file": "candidate-valid/survey_two_targets.json",
+      "proposed_issues": [],
+      "note": "Candidate-valid under proposed rules and capability adoption; not accepted by current v1 production validator."
+    },
+    {
+      "id": "advanced_imaging",
+      "file": "candidate-valid/advanced_imaging.json",
+      "proposed_issues": [],
+      "note": "1300 g / 104 credits; alternate allowed-part combination, subject to current physical verification."
+    },
+    {
+      "id": "missing_goal",
+      "file": "invalid/missing_goal.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "missing_contact_count",
+      "file": "invalid/missing_contact_count.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "wrong_goal_kind",
+      "file": "invalid/wrong_goal_kind.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "wrong_goal_counter",
+      "file": "invalid/wrong_goal_counter.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_distinct_orbits"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "duplicate_mb",
+      "file": "invalid/duplicate_mb.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "mission.goal.required_returned_data_mb"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "contact_count_zero",
+      "file": "invalid/contact_count_zero.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "contact_count_boolean",
+      "file": "invalid/contact_count_boolean.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "contact_count_string",
+      "file": "invalid/contact_count_string.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "contact_count_fraction",
+      "file": "invalid/contact_count_fraction.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "contact_count_negative",
+      "file": "invalid/contact_count_negative.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "captures_over_limit",
+      "file": "invalid/captures_over_limit.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_observations"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "duration_over_limit",
+      "file": "invalid/duration_over_limit.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.duration_orbits"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "budget_zero",
+      "file": "invalid/budget_zero.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.budget_credits"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "mb_zero",
+      "file": "invalid/mb_zero.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.required_returned_data_mb"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "weather_visits_over_duration",
+      "file": "invalid/weather_visits_over_duration.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "weather_visits_over_capture_quota",
+      "file": "invalid/weather_visits_over_capture_quota.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_distinct_orbits"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "contacts_over_total_steps",
+      "file": "invalid/contacts_over_total_steps.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.required_positive_contact_steps"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "survey_delivery_over_quota",
+      "file": "invalid/survey_delivery_over_quota.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.goal.minimum_complete_observations_per_target"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "unknown_root_key",
+      "file": "invalid/unknown_root_key.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_SCHEMA",
+          "field_path": "extra_goal"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "unknown_preset",
+      "file": "invalid/unknown_preset.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_id"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "old_preset_revision",
+      "file": "invalid/old_preset_revision.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "preset_revision"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "unknown_part",
+      "file": "invalid/unknown_part.json",
+      "proposed_issues": [
+        {
+          "code": "UNKNOWN_COMPONENT",
+          "field_path": "design.radio_id"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "wrong_part_slot",
+      "file": "invalid/wrong_part_slot.json",
+      "proposed_issues": [
+        {
+          "code": "WRONG_COMPONENT_CATEGORY",
+          "field_path": "design.radio_id"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "missing_radio",
+      "file": "invalid/missing_radio.json",
+      "proposed_issues": [
+        {
+          "code": "MISSING_COMPONENT",
+          "field_path": "design.radio_id"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "duplicate_targets",
+      "file": "invalid/duplicate_targets.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "primary_target_mismatch",
+      "file": "invalid/primary_target_mismatch.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_region"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "new_goal_two_targets",
+      "file": "invalid/new_goal_two_targets.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.target_regions"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "preset_objective_mismatch",
+      "file": "invalid/preset_objective_mismatch.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "unknown_objective",
+      "file": "invalid/unknown_objective.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.objective"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "title_whitespace",
+      "file": "invalid/title_whitespace.json",
+      "proposed_issues": [
+        {
+          "code": "INVALID_VALUE",
+          "field_path": "mission.title"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "heavy_part_combination",
+      "file": "invalid/heavy_part_combination.json",
+      "proposed_issues": [
+        {
+          "code": "PROFILE_MASS_EXCEEDED",
+          "field_path": "design.launch_profile_id"
+        }
+      ],
+      "note": "Shape/reference-valid, but current physical readiness fails at 1380 g."
+    },
+    {
+      "id": "budget_shortfall",
+      "file": "invalid/budget_shortfall.json",
+      "proposed_issues": [
+        {
+          "code": "BUDGET_EXCEEDED",
+          "field_path": "mission.budget_credits"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "withdrawn_instrument_capability",
+      "file": "invalid/withdrawn_instrument_capability.json",
+      "proposed_issues": [
+        {
+          "code": "INSTRUMENT_OBJECTIVE_UNSUPPORTED",
+          "field_path": "design.instrument_id"
+        }
+      ],
+      "note": "Config unchanged; context withdraws Communication capability from selected instrument. Proposed new capability check, not implemented.",
+      "context": {
+        "remove_objective_from_instrument": "communication"
+      }
+    }
+  ]
+}

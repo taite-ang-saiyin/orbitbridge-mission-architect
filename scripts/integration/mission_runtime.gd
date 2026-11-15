@@ -1,6 +1,7 @@
 extends RefCounted
 ## Explicit UI-to-contract boundary. Visual meshes never supply physical specifications.
 static var next_run_sequence: int = 0
+const CONTRACT_FIELDS = ["schema_version", "contract_revision", "preset_id", "preset_revision", "goal"]
 const Loader = preload("res://scripts/core/catalog_loader.gd")
 const Validator = preload("res://scripts/core/mission_validator.gd")
 const Adapter = preload("res://core/HPCContractAdapter.gd")
@@ -50,6 +51,41 @@ static func load_game_catalogs() -> Dictionary:
 static func _scenario_error(message: String) -> Dictionary:
 	return {"ok": false, "catalogs": {}, "errors": [{"code": "INVALID_SCHEMA", "field_path": "scenario_extension", "message": message, "suggested_fix": "Restore data/mission_scenarios.json."}]}
 
+static func select_preset(draft: Dictionary, preset_id: String) -> Dictionary:
+	var loaded: Dictionary = preload("res://scripts/core/mission_v2_context.gd").load_context(load_game_catalogs().get("catalogs", {}))
+	if not loaded.ok: return loaded
+	var selected: Dictionary = preload("res://scripts/core/mission_presets_v2.gd").config_for(loaded.catalogs.mission_v2.registry, preset_id)
+	if not selected.ok: return selected
+	var config: Dictionary = selected.config
+	var entry: Dictionary = {}
+	for item in loaded.catalogs.mission_v2.registry.presets:
+		if item.id == preset_id: entry = item
+	for field in ["schema_version", "contract_revision", "preset_id", "preset_revision"]: draft[field] = config[field]
+	draft.goal = config.mission.goal.duplicate(true)
+	draft.name = config.mission.title
+	draft.objective = entry.ui_defaults.objective_label
+	draft.targets = entry.ui_defaults.target_labels.duplicate()
+	draft.target = draft.targets[0]
+	draft.target_limit = draft.targets.size()
+	draft.orbit = entry.ui_defaults.orbit_label
+	draft.observations = config.mission.required_observations
+	draft.required_returned_data_mb = config.mission.required_returned_data_mb
+	draft.duration = config.mission.duration_orbits
+	draft.budget = config.mission.budget_credits
+	draft.radio_id = "dev_radio_2" if config.design.radio_id == "radio_fast" else "dev_radio_1"
+	draft.launcher_id = config.design.launcher_id
+	draft.launch_profile_id = config.design.launch_profile_id
+	draft.engineering_parts = {}
+	for category in ["bus", "instrument", "solar", "battery", "radio", "storage"]: draft.engineering_parts[category] = config.design[category + "_id"]
+	draft.erase("mission_review_snapshot")
+	return {"ok":true}
+
+static func catalogs_for(config: Dictionary) -> Dictionary:
+	var loaded: Dictionary = load_game_catalogs()
+	if loaded.ok and config.get("schema_version") == 2:
+		return preload("res://scripts/core/mission_v2_context.gd").load_context(loaded.catalogs)
+	return loaded
+
 static func orbit_for(draft: Dictionary) -> Dictionary:
 	var loaded: Dictionary = Loader.load_catalogs()
 	if not loaded.ok or not loaded.catalogs.get("orbit_catalog") is Dictionary: return {}
@@ -60,7 +96,7 @@ static func orbit_for(draft: Dictionary) -> Dictionary:
 static func config_for(draft: Dictionary) -> Dictionary:
 	var body: Array = BODIES.get(draft.get("body_id", "dev_body_1"), ["", "", "", ""])
 	var targets: Array = draft.get("targets", [])
-	return {"schema_version": 1, "mission": {
+	var config: Dictionary = {"schema_version": draft.get("schema_version", 1), "mission": {
 		"title": draft.get("name", ""), "objective": {"Capture Imagery": "imaging", "Survey Target Regions": "survey"}.get(draft.get("objective"), "unsupported"),
 		"target_region": TARGETS.get(targets[0], "unsupported") if not targets.is_empty() else "unsupported",
 		"target_regions": targets.map(func(t): return TARGETS.get(t, "unsupported")),
@@ -73,6 +109,16 @@ static func config_for(draft: Dictionary) -> Dictionary:
 		"launch_profile_id": draft.get("launch_profile_id", "cubesat_1u_sample"),
 		"launcher_id": draft.get("launcher_id", "small"), "orbit_id": ORBITS.get(draft.get("orbit"), "unsupported")})}
 
+	# Preserve supplied contract data; KE1/HPC still decide acceptance and values.
+	if config.schema_version != 1:
+		config.mission.objective = {"Capture Imagery":"imaging", "Survey Target Regions":"survey", "Communication":"communication", "Weather Monitoring":"weather_monitoring"}.get(draft.get("objective"), draft.get("objective", "unsupported"))
+	for field in ["contract_revision", "preset_id", "preset_revision"]:
+		if draft.has(field): config[field] = draft[field]
+	if draft.has("goal"):
+		var goal: Variant = draft.goal
+		config.mission.goal = goal.duplicate(true) if goal is Dictionary or goal is Array else goal
+	return config
+
 static func _engineering_design(draft: Dictionary, design: Dictionary) -> Dictionary:
 	var selected: Dictionary = draft.get("engineering_parts", {})
 	for category in ["bus", "instrument", "solar", "battery", "radio", "storage"]:
@@ -80,8 +126,8 @@ static func _engineering_design(draft: Dictionary, design: Dictionary) -> Dictio
 	return design
 
 static func review(draft: Dictionary) -> Dictionary:
-	var loaded: Dictionary = load_game_catalogs()
 	var config: Dictionary = config_for(draft)
+	var loaded: Dictionary = catalogs_for(config)
 	if not loaded.ok:
 		return {"config": config, "ready_to_launch": false, "metrics": null, "checks": {}, "errors": loaded.errors, "warnings": []}
 	var result: Dictionary = Validator.validate(config, loaded.catalogs)
@@ -90,17 +136,19 @@ static func review(draft: Dictionary) -> Dictionary:
 
 static var next_mission_sequence: int = 0
 
-static func launch(draft: Dictionary, previous: Dictionary = {}) -> Dictionary:
+static func launch(draft: Dictionary, previous: Dictionary = {}, options: Dictionary = {}) -> Dictionary:
 	var loaded: Dictionary
 	var config: Dictionary
 	if previous.has("catalogs_snapshot") and previous.has("draft_snapshot"):
+		for key in CONTRACT_FIELDS:
+			draft.erase(key)
 		for key in previous.draft_snapshot:
 			var value: Variant = previous.draft_snapshot[key]
 			draft[key] = value.duplicate(true) if value is Dictionary or value is Array else value
 		loaded = {"ok": true, "catalogs": previous.catalogs_snapshot.duplicate(true)}
 		config = previous.config.duplicate(true)
 	else:
-		loaded = load_game_catalogs()
+		loaded = {"ok":true,"catalogs":options.catalogs_snapshot.duplicate(true)} if options.has("catalogs_snapshot") else catalogs_for(config_for(draft))
 		config = config_for(draft)
 	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}, "errors": loaded.errors}
 	var sequence: int = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
@@ -116,12 +164,18 @@ static func launch(draft: Dictionary, previous: Dictionary = {}) -> Dictionary:
 	var reviewed: Dictionary = started.validation_result.duplicate(true)
 	reviewed.config = config.duplicate(true)
 	var snapshots: Dictionary = {}
-	for key in ["name", "description", "objective", "targets", "target_limit", "target", "observations", "required_returned_data_mb", "duration", "budget", "orbit", "launcher", "policy", "component", "components", "satellite_id", "body_id", "wings_id", "radio_id", "engineering_parts", "launch_profile_id", "launcher_id"]:
+	for key in ["name", "description", "objective", "targets", "target_limit", "target", "observations", "required_returned_data_mb", "duration", "budget", "orbit", "launcher", "policy", "component", "components", "satellite_id", "body_id", "wings_id", "radio_id", "engineering_parts", "launch_profile_id", "launcher_id", "schema_version", "contract_revision", "preset_id", "preset_revision", "goal", "required_contact_steps", "required_orbit_visits", "mission_review_snapshot"]:
 		if draft.has(key):
 			var value: Variant = draft[key]
 			snapshots[key] = value.duplicate(true) if value is Dictionary or value is Array else value
 	var trace: Dictionary = {"config": config.duplicate(true), "validation": reviewed,
 		"policy": draft.get("policy", "Observe First"), "catalogs_snapshot": loaded.catalogs.duplicate(true), "draft_snapshot": snapshots}
+	trace.versions = {"simulator_sha256":_code_hash("res://core/MissionStepEngine.gd"), "validator_sha256":_validator_hash(), "evaluator_sha256":_code_hash("res://scripts/evaluation/mission_evaluator.gd"), "adapter_sha256":_code_hash("res://core/HPCContractAdapter.gd"), "runner_sha256":_code_hash("res://scripts/integration/mission_runtime.gd"), "catalog_sha256":JSON.stringify(loaded.catalogs,"",true,true).sha256_text()}
+	if config.schema_version == 2 and config.mission.objective in ["communication", "weather_monitoring"]:
+		trace.versions.goal_evaluator_sha256 = _code_hash("res://scripts/evaluation/mission_goal_evaluator.gd")
+	trace.manual_actions = []
+	if options.has("comparison_context"): trace.comparison_context = options.comparison_context.duplicate(true)
+	if options.has("action_plan"): trace.requested_action_plan = options.action_plan.duplicate(true)
 	var completed: Dictionary = _finish_trace(trace, started.state, [{"state": started.state.duplicate(true), "events": []}])
 	if not completed.ok: return completed
 	draft.run_sequence = sequence
@@ -136,16 +190,38 @@ static func _finish_trace(trace: Dictionary, current: Dictionary, frames: Array)
 		var order: Array = ["transmit", "observe"] if trace.policy == "Downlink First" else ["observe", "transmit"]
 		for candidate in order:
 			if current.available_actions[candidate].allowed:
+				# Weather's automatic policy reserves later captures for later orbits.
+				# Explicit/manual action requests still go unchanged to the engine.
+				if candidate == "observe" and trace.config.mission.objective == "weather_monitoring":
+					var orbit_index: int = floori(float(current.step_index) / float(current.goal_steps_per_orbit))
+					if current.goal_progress.qualifying_revolution_indices.has(orbit_index): continue
 				action = candidate
 				break
+		if trace.has("requested_action_plan"):
+			var step: int = int(current.step_index)
+			var plan: Array = trace.requested_action_plan
+			if step >= plan.size() or plan[step].get("step_index") != step:
+				return {"ok":false,"error":{"message":"The comparison action plan does not cover this step."}}
+			action = str(plan[step].action)
 		var reply: Dictionary = StepEngine.request_action(current, action)
 		if not reply.get("ok", false): return reply
 		current = reply.state
 		frames.append({"state": current.duplicate(true), "events": reply.events.duplicate(true)})
+		if not reply.allowed:
+			# Preserve the rejected request as evidence, then advance safely. The same
+			# intended request remains the controlled input; no A outcomes are replayed.
+			reply = StepEngine.request_action(current, "power_save")
+			if not reply.get("ok", false): return reply
+			if not reply.allowed: return {"ok":false,"error":{"message":"The controlled action plan cannot advance this step safely."}}
+			current = reply.state
+			frames.append({"state":current.duplicate(true),"events":reply.events.duplicate(true)})
 	if current.phase != "finished": return {"ok": false, "error": {"message": "Mission policy did not finish within its step bound."}}
 	trace.frames = frames
 	trace.final_state = current.duplicate(true)
 	trace.events = current.event_log.duplicate(true)
+	trace.action_plan = []
+	for event in trace.events:
+		if event.get("type") == "action_accepted": trace.action_plan.append({"step_index":event.step_index,"action":event.action})
 	return {"ok": true, "trace": trace}
 
 static func _remember(draft: Dictionary, trace: Dictionary) -> void:
@@ -170,6 +246,8 @@ static func take_action(draft: Dictionary, action: String) -> Dictionary:
 	var reply: Dictionary = StepEngine.request_action(current, action)
 	if not reply.get("ok", false): return reply
 	var trace: Dictionary = draft.run_trace.duplicate(true)
+	if not trace.has("manual_actions"): trace.manual_actions = []
+	trace.manual_actions.append({"step_index":current.step_index,"action":action,"allowed":reply.allowed})
 	var frames: Array = []
 	for frame in trace.frames:
 		if frame.state.step_index <= current.step_index: frames.append(frame.duplicate(true))
@@ -179,3 +257,14 @@ static func take_action(draft: Dictionary, action: String) -> Dictionary:
 	_remember(draft, completed.trace)
 	draft.active_run_state = reply.state.duplicate(true)
 	return {"ok": true, "allowed": reply.allowed, "state": reply.state.duplicate(true)}
+
+static func _code_hash(path: String) -> Variant:
+	return FileAccess.get_sha256(path) if FileAccess.file_exists(path) else null
+
+# Bind exact dependency bytes in the existing producer field; historical records
+# keep their original version values and key preimages.
+static func _validator_hash() -> String:
+	var paths = ["mission_validator.gd", "mission_validator_v1.gd", "mission_validator_v2.gd", "mission_config_v2_agreed_rules.gd", "mission_presets_v2.gd", "mission_capabilities_v2.gd", "mission_v2_context.gd", "catalog_loader.gd", "validation_support.gd"]
+	var hashes: Array = []
+	for path in paths: hashes.append([path, _code_hash("res://scripts/core/" + path)])
+	return JSON.stringify(hashes).sha256_text()

@@ -17,19 +17,27 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 	var mission: Dictionary = config.get("mission", {})
 	var id: String = str(final.get("run_id", ""))
 	var report: Dictionary = store.get("reports", {}).get(id, {})
-	var model: Dictionary = {"state":"pending", "text":"", "credits":"", "report":{}}
+	var model: Dictionary = {"state":"pending", "text":"", "credits":"", "report":{}, "execution_key":preload("res://scripts/integration/mission_results.gd").input_key(trace)}
 	var heading: String = "%s / %s\n%s" % [text(final.get("run_id")), text(final.get("run_status")), text(mission.get("title"))]
 	if not report.is_empty():
 		var matches: bool = report.get("run_id") == final.get("run_id") and report.get("mission_id") == final.get("mission_id")
+		if report.has("objective") and report.objective != mission.get("objective"): matches = false
 		var expected_key: Variant = store.get("bindings",{}).get(id)
 		if expected_key != null and expected_key != preload("res://scripts/integration/mission_results.gd").input_key(trace): matches = false
 		for key in ["required_observations", "required_returned_data_mb"]:
 			if report.has(key) and report[key] != mission.get(key): matches = false
 		for key in ["observations_completed", "returned_data_mb", "run_status"]:
 			if report.has(key) and report[key] != final.get(key): matches = false
+		if mission.get("objective") in ["communication", "weather_monitoring"] and report.get("goal_progress") is Array and not report.goal_progress.is_empty():
+			if not _matches_expanded_goals(report, mission, final): matches = false
 		if not matches:
 			model.state = "stale_report"
 			model.text = heading + "\n\nReport unavailable: run/mission, goals or counters do not match this run."
+		elif mission.get("objective") in ["communication", "weather_monitoring"] and (not report.get("goal_progress") is Array or report.goal_progress.is_empty()):
+			# A v1 aggregate Imaging score cannot certify an expanded objective.
+			# Require the native goal report rather than an aggregate Imaging proxy.
+			model.state = "unsupported_report"
+			model.text = heading + "\n\nObjective-specific report Unavailable. The supplied aggregate report has no qualifying contact/orbit progress."
 		else:
 			model.state = "report"
 			model.report = report.duplicate(true)
@@ -57,17 +65,20 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 								model.text += "\nEvidence: %s | Step %s | %s" % [event_id, text(event.get("step_index")), text(event.get("message"))]
 	if model.state == "pending":
 		var error: Dictionary = store.get("errors", {}).get(id, {})
+		model.evaluation_error = error.duplicate(true)
 		model.state = "evaluation_error" if not error.is_empty() else "pending"
 		model.text = heading + "\n\nEvaluation unavailable\n%s\n%s" % [text(error.get("message", "Finish or abort playback before requesting evaluation.")), text(error.get("suggested_fix", "Return to Operations and finish or abort the run."))]
+	var progress = preload("res://scripts/presentation/GoalProgress.gd")
+	var native_verified: bool = model.state != "stale_report" and progress.verified_native_trace(trace)
 	for target_id in mission.get("target_regions", [mission.get("target_region", "")]):
 		if str(target_id).is_empty(): continue
-		var captured: Variant = final.get("observations_by_target", {}).get(target_id, 0) if final.has("observations_by_target") else null
-		var returned: Variant = final.get("returned_data_by_target_mb", {}).get(target_id, 0.0) if final.has("returned_data_by_target_mb") else null
+		var captured: Variant = null if model.state == "stale_report" else progress.target_measurement(final, "observations_by_target", target_id, native_verified)
+		var returned: Variant = null if model.state == "stale_report" else progress.target_measurement(final, "returned_data_by_target_mb", target_id, native_verified)
 		model.text += "\n%s: %s captures, %s MB returned" % [str(target_id).replace("_", " ").capitalize(), text(captured), text(returned)]
 		if mission.get("objective") == "survey":
-			var delivered: Variant = final.get("observations_delivered_by_target", {}).get(target_id, 0) if final.has("observations_delivered_by_target") else null
+			var delivered: Variant = null if model.state == "stale_report" else progress.target_measurement(final, "observations_delivered_by_target", target_id, native_verified)
 			model.text += " / %s complete observations delivered" % text(delivered)
-	model.text += "\n\nHPC battery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
+	model.text += "\n\nBattery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
 	# Launch credit is bound to the executed validation, independent of report source_ids.
 	var mass: Dictionary = trace.get("validation", {}).get("checks", {}).get("profile_mass", {})
 	model.readiness_credit = mass.duplicate(true)
@@ -88,3 +99,16 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 		model.credits += "\n\nScope: %s (display metadata; not report source_ids)\n%s\n%s\n%s\nActual use: %s" % [text(credit.get("credit_scope")),text(credit.get("title")),text(credit.get("attribution_text")),text(credit.get("url")),text(credit.get("actual_use"))]
 	if not has_feedback: model.credits += "\n\nFeedback-vocabulary credit metadata: Unavailable"
 	return model.duplicate(true)
+
+static func _matches_expanded_goals(report: Dictionary, mission: Dictionary, final: Dictionary) -> bool:
+	if report.get("schema_version") != 2 or report.get("objective") != mission.get("objective"): return false
+	var native: Variant = final.get("goal_progress")
+	if not native is Dictionary or not mission.get("goal") is Dictionary: return false
+	var rows: Dictionary = {}
+	for row in report.goal_progress:
+		if not row is Dictionary or not row.get("id") is String or rows.has(row.id): return false
+		rows[row.id] = row
+	var primary: String = "positive_transmit_steps" if mission.objective == "communication" else "selected_target_revolution_visits"
+	var required: Variant = mission.goal.get("required_positive_contact_steps" if mission.objective == "communication" else "required_distinct_orbits")
+	if rows.size() != 2 or not rows.has(primary) or not rows.has("returned_data"): return false
+	return rows[primary].get("actual") == native.get("actual_count") and rows[primary].get("required") == required and rows[primary].get("evidence_event_ids") == native.get("evidence_event_ids") and rows.returned_data.get("actual") == final.get("returned_data_mb") and rows.returned_data.get("required") == mission.get("required_returned_data_mb")

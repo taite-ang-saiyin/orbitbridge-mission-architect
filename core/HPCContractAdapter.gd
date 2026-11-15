@@ -50,7 +50,7 @@ static func build_scenario(ke1_catalogs: Dictionary, orbit_data: Dictionary) -> 
 	var objectives: Array = []
 	for objective_id in ke1_catalogs.objective_ids:
 		objectives.append({"id": objective_id})
-	return {"ok": true, "scenario": {
+	var scenario: Dictionary = {
 		"schema_version": SCHEMA_VERSION,
 		"scenario_version": str(orbit_data.get("scenario_version", "")),
 		"contract_revision": str(ke1_catalogs.get("contract_revision", "")),
@@ -61,12 +61,20 @@ static func build_scenario(ke1_catalogs: Dictionary, orbit_data: Dictionary) -> 
 		"objectives": objectives,
 		"launch_profiles": ke1_catalogs.launch_profiles.duplicate(true),
 		"launchers": ke1_catalogs.launchers.duplicate(true)
-	}}
+	}
+	if ke1_catalogs.has("mission_v2"):
+		scenario.mission_catalogs = ke1_catalogs.duplicate(true)
+	return {"ok":true,"scenario":scenario}
 
 static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictionary:
+	if _is_integer(config.get("schema_version")) and config.schema_version == 2:
+		return _validate_config_v2(config, catalog)
+	return _validate_physical_config(config, catalog)
+
+static func _validate_physical_config(config: Dictionary, catalog: Dictionary, v2: bool = false) -> Dictionary:
 	if not config.has("schema_version"):
 		return _error("MISSING_FIELD", "schema_version is required")
-	if not _is_integer(config.schema_version) or int(config.schema_version) != SCHEMA_VERSION:
+	if not _is_integer(config.schema_version) or int(config.schema_version) != (2 if v2 else SCHEMA_VERSION):
 		return _error("UNSUPPORTED_SCHEMA_VERSION", "schema_version must be integer 1")
 	if config.has("contract_version") and str(config.contract_version) != CONTRACT_VERSION:
 		return _error("UNSUPPORTED_CONTRACT_VERSION", "contract_version must be %s when supplied" % CONTRACT_VERSION)
@@ -116,7 +124,7 @@ static func validate_config(config: Dictionary, catalog: Dictionary) -> Dictiona
 	if target.is_empty():
 		return _error("UNKNOWN_TARGET_ID", "mission.target_region '%s' is not in catalog.targets" % mission.target_region)
 	var objective: Dictionary = _find(catalog.get("objectives", []), str(mission.objective))
-	if objective.is_empty():
+	if objective.is_empty() and not v2:
 		return _error("UNKNOWN_OBJECTIVE_ID", "mission.objective '%s' is not in catalog.objectives" % mission.objective)
 	var orbit: Dictionary = _find(catalog.get("orbits", []), str(design.orbit_id))
 	if orbit.is_empty():
@@ -245,3 +253,26 @@ static func _is_integer(value: Variant) -> bool:
 
 static func _error(code: String, message: String) -> Dictionary:
 	return {"ok": false, "error_code": code, "error_message": message}
+
+# The agreed validator owns goal shape, identity, capabilities and physical readiness.
+# Reuse accounting resolution without converting the mission to a legacy objective.
+static func _validate_config_v2(config: Dictionary, catalog: Dictionary) -> Dictionary:
+	var source: Variant = catalog.get("mission_catalogs")
+	if not source is Dictionary:
+		return _error("V2_CONTEXT_MISSING", "The frozen mission catalog context is missing.")
+	var checked: Dictionary = preload("res://scripts/core/mission_validator.gd").validate(config, source)
+	if not checked.ready_to_launch:
+		return _error("MISSION_NOT_READY", "Resolve the mission readiness checks before launch.")
+	var rebuilt: Dictionary = build_scenario(source, source.get("orbit_catalog", {}))
+	if not rebuilt.ok or rebuilt.scenario != catalog:
+		return _error("INVALID_SCENARIO", "The scenario does not match its frozen mission catalogs.")
+	var objective: String = config.mission.objective
+	if objective not in ["communication", "weather_monitoring"]:
+		return _error("UNSUPPORTED_OBJECTIVE", "This version supports native expanded communication and weather missions only.")
+	var resolved: Dictionary = _validate_physical_config(config, catalog, true)
+	if not resolved.ok: return resolved
+	resolved.goal_kind = objective
+	resolved.goal_required_count = config.mission.goal["required_positive_contact_steps" if objective == "communication" else "required_distinct_orbits"]
+	resolved.goal_definition = config.mission.goal.duplicate(true)
+	resolved.catalog_context = catalog.duplicate(true)
+	return resolved

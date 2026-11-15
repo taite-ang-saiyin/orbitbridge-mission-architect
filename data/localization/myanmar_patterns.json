@@ -1,0 +1,18 @@
+[
+  [
+    "Spacecraft mass is ([0-9]+) g; this profile requires mass ([<=>]+) ([0-9]+) g\\.",
+    "အာကာသယာဉ် ဒြပ်ထု $1 g ဖြစ်သည်။ လိုအပ်ချက်: $2 $3 g။"
+  ],
+  [
+    "Spacecraft mass is ([0-9]+) g; launcher capacity for ([a-z_]+) is ([0-9]+) g\\.",
+    "အာကာသယာဉ် ဒြပ်ထု $1 g ဖြစ်သည်။ $2 အတွက် လွှတ်တင်ယာဉ် ခံနိုင်စွမ်းမှာ $3 g ဖြစ်သည်။"
+  ],
+  [
+    "Parts plus launch cost ([0-9]+) credits; budget is ([0-9]+) credits\\.",
+    "အစိတ်အပိုင်းနှင့် လွှတ်တင်မှု $1 ခရက်ဒစ် ဖြစ်သည်။ ဘတ်ဂျက်မှာ $2 ခရက်ဒစ် ဖြစ်သည်။"
+  ],
+  [
+    "Capture at least ([0-9.]+) observations and return at least ([0-9.]+) MB within ([0-9.]+) orbits\\.",
+    "$3 ပတ်အတွင်း အနည်းဆုံး $1 ကြိမ် ရိုက်ကူးပြီး $2 MB ကို ကမ္ဘာသို့ ပြန်ပို့ပါ။"
+  ]
+]

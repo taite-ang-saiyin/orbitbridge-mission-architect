@@ -27,6 +27,9 @@ func _ready() -> void:
 	screen_id = "FlightReadiness"
 	validation = preload("res://scripts/integration/mission_runtime.gd").review(state)
 	setup("04 / PREFLIGHT REVIEW", "Flight Readiness", "Review system checks, resolve warnings, and prepare your mission for launch.", 2, 4, "Launch Mission")
+	if state.has("design_lab_route"):
+		next_button.text = "Launch Design B"
+		UI.label(content, "DESIGN B · Saved A remains unchanged", 13, "6adacb")
 	main_columns = flexible_row(content)
 	workspace = main_columns
 	checklist = section(main_columns, "READINESS CHECKLIST")
@@ -55,6 +58,8 @@ func _ready() -> void:
 	readiness_label.add_theme_color_override("font_color", Color("23ed82") if result.can_proceed else Color("ff7777"))
 	warning_label.text = "All checks passed. Your spacecraft is ready to launch." if result.blockers.is_empty() else UI.user_message("\n".join(result.blockers.values()))
 	next_button.disabled = not result.can_proceed
+	if state.get("schema_version", 1) == 2 and state.objective not in ["Communication", "Weather Monitoring"]:
+		warning_label.text += "\nThis mission can fly. Scoring is not available yet."
 	if state.objective == "Survey Target Regions": warning_label.text += "\nSurvey can fly, but its score will be unavailable."
 	for connection in next_button.pressed.get_connections():
 		next_button.pressed.disconnect(connection.callable)
@@ -66,6 +71,9 @@ func _ready() -> void:
 			return
 		if not preload("res://scripts/integration/mission_review.gd").is_confirmed(state):
 			navigate.emit(2)
+			return
+		if state.has("design_lab_route"):
+			navigate.emit(4)
 			return
 		var launched: Dictionary = preload("res://scripts/integration/mission_runtime.gd").launch(state)
 		if launched.ok: navigate.emit(4)

@@ -1,0 +1,267 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "base_commit": "9c58aad",
+  "branch": "se",
+  "godot": "4.7.2.stable.mono.official.ed1daf0bf",
+  "bundle_sha256": "9706a60fcac55039bf9899fe6b77f59417ec58f64caf8fd917e70fdea9800ca2",
+  "bundle_manifest_entries_verified": 176,
+  "bundle_manifest_mismatches": 0,
+  "regression_programs": [
+    {
+      "test": "validation/test_mission_validator.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "validation/test_mission_readiness.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "validation/test_mission_fixtures.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "test_hpc.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "test_simulator.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "test_mission_evaluator.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration/test_mission_flow.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration/test_screen_flow.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "acceptance/test_k14_acceptance.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_review_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "creator_earth_framing_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "earth_station_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "compact_antenna_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "acrimsat_hull_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "home_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "responsive_layout_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "3d/preview_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "controller_evaluation_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "se_design_lab_hooks.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "se_execution_record.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "creator_builder_catalog_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "expanded_missions_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_control_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "prediction_multitarget_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "design_workflow_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "modular_reference_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "operations_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "prototype_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "readiness_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "satellite_builder_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "satellite_selection_smoke.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke2_results_integration.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke3_report_binding_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke3_team_integration_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke3_power_launcher_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "a03_operations_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "a05_debrief_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "a06_retry_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "mission_fixture_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke2_recorded_debrief_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "ke2_validated_debrief_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "integration/test_ke3_merge.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "player_ui_check.gd",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "test": "debrief_summary_check.gd",
+      "passed": true,
+      "exit": 0
+    }
+  ],
+  "focused": {
+    "transport_checks_including_eight_historical_cases": 36,
+    "transport_failures": 0,
+    "saved_a_lifecycle_and_export_checks": 76,
+    "saved_a_failures": 0
+  },
+  "source_sha256": {
+    "scripts/MissionController.gd": "a26f999cbea4d60ee21df2cdc6c040ea4745d37a112aee7ef949dd4a471289bc",
+    "scripts/integration/design_lab.gd": "ba12329d4b7aaacd16ffdc77264ba55cbd9616a323bee06cac14316284804717",
+    "scripts/integration/mission_results.gd": "02b9596a438aa6f6fe1119a20491dd3dee8a06c339a53b3d3429ae9e52f057fc",
+    "scripts/integration/execution_record.gd": "916cc703c7f2509bcf303c439a8031898d02e6658ee2012b2762dac440a08e69",
+    "scripts/integration/report_contract.gd": "c6aa2af56cf93e9201d5321dffe7e40028b35dbaf29ebb587e2d06549b875dfb",
+    "tests/se_execution_record.gd": "326ed27b234b88a023475c4feecbcef20a0bd7d7e7404bf0c1eabd874c37e1b6",
+    "tests/se_design_lab_hooks.gd": "c08286574b72e7a329245a09052270bd275dd820c077a7f36ac126639cd904d1",
+    "tests/run_all_checks.ps1": "71abad5e6b9fcf36ced1844be8adac5f53e8d22c25afa7791283b8635428d46d"
+  },
+  "sample": {
+    "filename": "saved-a-record-v1.example.json",
+    "sha256": "8b6097d4642752979e3f53a08e8003feff0c7d08640f0ace9d85e92c4bdeaea0",
+    "run_id": "run_0dd1f5db98053050a0a24bc9_001",
+    "execution_key": "bb756d7f5cf2a6b594d3a2b052ca13a94827f842c5f0cd6d9a83423a0d089fcc",
+    "content_digest": "428b74c09d895c31b65a295bdf5861185654de8e21af93788ae4167a4f2c1212",
+    "legacy_report_fields": 17,
+    "retained_hashes_and_content_checked_in_python": true
+  },
+  "production_v2_evaluator_changed": false,
+  "ke3_presentation_changed": false,
+  "hpc_semantics_changed": false,
+  "browser_tested": false,
+  "deployed": false
+}

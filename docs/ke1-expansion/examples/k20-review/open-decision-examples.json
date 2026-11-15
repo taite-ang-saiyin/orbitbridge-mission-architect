@@ -1,0 +1,49 @@
+{
+  "status": "UNRESOLVED_NOT_OFFICIAL_RESULTS",
+  "weather": {
+    "observe_steps": [
+      1,
+      11
+    ],
+    "transmit_steps": [
+      7,
+      10
+    ],
+    "target_id": "equator",
+    "intended_return_mb": 12,
+    "accepted_capture_orbits": [
+      0,
+      1
+    ],
+    "draft2_capture_plus_aggregate_mb_interpretation": "would meet both proposed thresholds",
+    "complete_delivery_per_visit_alternative": "would miss a delivered visit because the second image is not returned",
+    "owner_decision": "PENDING"
+  },
+  "contacts": {
+    "source": "SYNTHETIC_SEMANTIC_EXAMPLE_NOT_HPC_TRACE",
+    "same_contact_window": "illustrative-window-A",
+    "events": [
+      {
+        "run_id": "synthetic_review_only",
+        "step_index": 8,
+        "type": "action_accepted",
+        "action": "transmit",
+        "delta_returned_data_mb": 6
+      },
+      {
+        "run_id": "synthetic_review_only",
+        "step_index": 9,
+        "type": "action_accepted",
+        "action": "transmit",
+        "delta_returned_data_mb": 6
+      }
+    ],
+    "positive_step_interpretation": 2,
+    "distinct_window_interpretation": 1,
+    "owner_decision": "PENDING"
+  },
+  "nonfinite_review_tests": [
+    "Inject NaN, positive infinity and negative infinity into in-memory numeric fields; expect INVALID_VALUE without arithmetic. JSON fixtures do not contain nonstandard NaN/Infinity tokens.",
+    "Reject numeric strings, booleans and fractional counts; do not coerce."
+  ]
+}

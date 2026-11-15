@@ -1,0 +1,155 @@
+{
+  "status": "PROPOSED_NOT_REGISTERED_FOR_NEW_OBJECTIVES",
+  "source": "current main dce75db catalogs + runtime Survey extension",
+  "components": [
+    {
+      "id": "bus_basic",
+      "category": "bus",
+      "display_name": "Basic bus",
+      "mass_g": 300,
+      "cost_credits": 12,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "baseline_power_w": 2
+    },
+    {
+      "id": "bus_light",
+      "category": "bus",
+      "display_name": "Lightweight bus",
+      "mass_g": 220,
+      "cost_credits": 20,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "baseline_power_w": 1.2
+    },
+    {
+      "id": "instrument_basic",
+      "category": "instrument",
+      "display_name": "Basic imaging camera",
+      "mass_g": 180,
+      "cost_credits": 16,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "observe_power_w": 4,
+      "data_per_observation_mb": 12,
+      "supported_objectives": [
+        "imaging"
+      ]
+    },
+    {
+      "id": "instrument_advanced",
+      "category": "instrument",
+      "display_name": "Advanced imaging camera",
+      "mass_g": 500,
+      "cost_credits": 30,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "observe_power_w": 8,
+      "data_per_observation_mb": 24,
+      "supported_objectives": [
+        "imaging"
+      ]
+    },
+    {
+      "id": "solar_standard",
+      "category": "solar",
+      "display_name": "Standard solar panel",
+      "mass_g": 160,
+      "cost_credits": 10,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "generation_power_w": 3
+    },
+    {
+      "id": "solar_large",
+      "category": "solar",
+      "display_name": "Large solar panel",
+      "mass_g": 280,
+      "cost_credits": 17,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "generation_power_w": 6
+    },
+    {
+      "id": "battery_standard",
+      "category": "battery",
+      "display_name": "Standard battery",
+      "mass_g": 250,
+      "cost_credits": 14,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "capacity_wh": 25,
+      "initial_charge_fraction": 1
+    },
+    {
+      "id": "battery_large",
+      "category": "battery",
+      "display_name": "Large battery",
+      "mass_g": 450,
+      "cost_credits": 24,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "capacity_wh": 50,
+      "initial_charge_fraction": 1
+    },
+    {
+      "id": "radio_basic",
+      "category": "radio",
+      "display_name": "Basic radio",
+      "mass_g": 120,
+      "cost_credits": 8,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "transmit_power_w": 3,
+      "downlink_mb_per_hour": 48
+    },
+    {
+      "id": "radio_fast",
+      "category": "radio",
+      "display_name": "Fast radio",
+      "mass_g": 180,
+      "cost_credits": 15,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "transmit_power_w": 6,
+      "downlink_mb_per_hour": 120
+    },
+    {
+      "id": "storage_standard",
+      "category": "storage",
+      "display_name": "Standard storage",
+      "mass_g": 50,
+      "cost_credits": 7,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "capacity_mb": 64
+    },
+    {
+      "id": "storage_large",
+      "category": "storage",
+      "display_name": "Large storage",
+      "mass_g": 100,
+      "cost_credits": 12,
+      "assumption_id": "orbitbridge_training_components_v1",
+      "capacity_mb": 256
+    }
+  ],
+  "proposed_instrument_objectives": {
+    "instrument_basic": [
+      "imaging",
+      "survey",
+      "communication",
+      "weather_monitoring"
+    ],
+    "instrument_advanced": [
+      "imaging",
+      "survey",
+      "communication",
+      "weather_monitoring"
+    ]
+  },
+  "current_disk_instrument_objectives": {
+    "instrument_basic": [
+      "imaging"
+    ],
+    "instrument_advanced": [
+      "imaging"
+    ]
+  },
+  "current_runtime_addition": {
+    "survey": [
+      "instrument_basic",
+      "instrument_advanced"
+    ]
+  },
+  "new_objectives_currently_enabled": false
+}

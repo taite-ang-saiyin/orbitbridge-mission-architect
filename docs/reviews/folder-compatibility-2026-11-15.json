@@ -1,0 +1,243 @@
+{
+  "date": "2026-11-15",
+  "integration_commit": "6731bb3",
+  "scope": "Review only; supplied implementation files and active game logic unchanged",
+  "folders": {
+    "features:KE2": {
+      "data/orbits.json": {
+        "matches": true,
+        "active_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "supplied_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      },
+      "data/components.json": {
+        "matches": true,
+        "active_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+        "supplied_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15"
+      },
+      "data/launch_profiles.json": {
+        "matches": true,
+        "active_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+        "supplied_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+      },
+      "data/launchers.json": {
+        "matches": true,
+        "active_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+        "supplied_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8"
+      },
+      "core/OrbitPlanner.gd": {
+        "matches": true,
+        "active_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+        "supplied_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157"
+      },
+      "core/MissionSimulator.gd": {
+        "matches": true,
+        "active_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+        "supplied_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24"
+      }
+    },
+    "hpc-ke3-goal-evidence-v1": {
+      "data/orbits.json": {
+        "matches": true,
+        "active_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "supplied_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      },
+      "data/components.json": {
+        "matches": true,
+        "active_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+        "supplied_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15"
+      },
+      "data/launch_profiles.json": {
+        "matches": true,
+        "active_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+        "supplied_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+      },
+      "data/launchers.json": {
+        "matches": true,
+        "active_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+        "supplied_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8"
+      },
+      "core/OrbitPlanner.gd": {
+        "matches": true,
+        "active_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+        "supplied_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157"
+      },
+      "core/MissionSimulator.gd": {
+        "matches": true,
+        "active_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+        "supplied_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24"
+      }
+    },
+    "hpc": {
+      "data/orbits.json": {
+        "matches": true,
+        "active_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "supplied_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      },
+      "data/components.json": {
+        "matches": true,
+        "active_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+        "supplied_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15"
+      },
+      "data/launch_profiles.json": {
+        "matches": true,
+        "active_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+        "supplied_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+      },
+      "data/launchers.json": {
+        "matches": true,
+        "active_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+        "supplied_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8"
+      },
+      "core/OrbitPlanner.gd": {
+        "matches": true,
+        "active_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+        "supplied_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157"
+      },
+      "core/MissionSimulator.gd": {
+        "matches": true,
+        "active_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+        "supplied_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24"
+      }
+    },
+    "ke1-expand": {
+      "data/orbits.json": {
+        "matches": true,
+        "active_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "supplied_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      },
+      "data/components.json": {
+        "matches": true,
+        "active_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+        "supplied_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15"
+      },
+      "data/launch_profiles.json": {
+        "matches": true,
+        "active_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+        "supplied_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+      },
+      "data/launchers.json": {
+        "matches": true,
+        "active_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+        "supplied_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8"
+      },
+      "data/mission_presets_v2.json": {
+        "matches": true,
+        "active_sha256": "d7b912bc4ed44d2a6e0c83818afb3bbb5adaca50bc93826da7b8e108b9f14e7b",
+        "supplied_sha256": "d7b912bc4ed44d2a6e0c83818afb3bbb5adaca50bc93826da7b8e108b9f14e7b"
+      },
+      "data/mission_capabilities_v2.json": {
+        "matches": true,
+        "active_sha256": "f5dc1abbe0c544149836260433a035101c191b5be5cf94fac0cf6cda02730c72",
+        "supplied_sha256": "f5dc1abbe0c544149836260433a035101c191b5be5cf94fac0cf6cda02730c72"
+      },
+      "scripts/core/mission_validator_v1.gd": {
+        "matches": true,
+        "active_sha256": "f7f298d81517023057bdaf5c234de5a11044f162bcf4fcbbadc4525b9859304f",
+        "supplied_sha256": "f7f298d81517023057bdaf5c234de5a11044f162bcf4fcbbadc4525b9859304f"
+      },
+      "scripts/core/mission_validator_v2.gd": {
+        "matches": true,
+        "active_sha256": "48805d37bb38cd0b0c91e2b75ca93be0816ab1e20375fba9bba2d9667037e96d",
+        "supplied_sha256": "48805d37bb38cd0b0c91e2b75ca93be0816ab1e20375fba9bba2d9667037e96d"
+      },
+      "core/OrbitPlanner.gd": {
+        "matches": true,
+        "active_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+        "supplied_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157"
+      },
+      "core/MissionSimulator.gd": {
+        "matches": true,
+        "active_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+        "supplied_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24"
+      }
+    },
+    "ke1": {
+      "data/orbits.json": {
+        "matches": true,
+        "active_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "supplied_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      },
+      "data/components.json": {
+        "matches": true,
+        "active_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+        "supplied_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15"
+      },
+      "data/launch_profiles.json": {
+        "matches": true,
+        "active_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+        "supplied_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+      },
+      "data/launchers.json": {
+        "matches": true,
+        "active_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+        "supplied_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8"
+      }
+    },
+    "ke3:v2-consumer-fixes": {
+      "data/orbits.json": {
+        "matches": true,
+        "active_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4",
+        "supplied_sha256": "0ed028a477998057ede2e6f79bd29d7d7569b32e6a9869d00c9826a0f8aa36d4"
+      },
+      "data/components.json": {
+        "matches": true,
+        "active_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15",
+        "supplied_sha256": "0a4373ccd12eb6f4a8cfe0c7041ff38d9042d327c195e3c04ccf54fb01084d15"
+      },
+      "data/launch_profiles.json": {
+        "matches": true,
+        "active_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef",
+        "supplied_sha256": "df3dc3117906134a625eb1786008fd01ebbd99f31eb7f51cec1fe5f03b7e4cef"
+      },
+      "data/launchers.json": {
+        "matches": true,
+        "active_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8",
+        "supplied_sha256": "2e7a5a8022652db397f7dbe6ebae2f54ef93ace5ddcfa3ad0c7cb21d477df2f8"
+      },
+      "core/OrbitPlanner.gd": {
+        "matches": true,
+        "active_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157",
+        "supplied_sha256": "a4423bc64e124e7fdf7d1a69eabedac302c455150ad680042de8b59752b2e157"
+      },
+      "core/MissionSimulator.gd": {
+        "matches": true,
+        "active_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24",
+        "supplied_sha256": "39a8afb558252411ab1e225626c83b7d95f16d6ac51f4194531d23f04d8e8b24"
+      }
+    }
+  },
+  "probes": {
+    "communication": {
+      "current_native_actual": 2,
+      "required": 2,
+      "supplied_adapter_accepts_agreed_config": false,
+      "candidate_error_field": "config.contract_revision",
+      "consumer_native_primary_known_without_mapping": false,
+      "consumer_accepts_inconsistent_99_of_99_goal": true
+    },
+    "weather_monitoring": {
+      "current_native_actual": 1,
+      "required": 2,
+      "policy": "Observe First",
+      "supplied_adapter_accepts_agreed_config": false,
+      "candidate_error_field": "config.contract_revision",
+      "consumer_native_primary_known_without_mapping": false,
+      "consumer_accepts_inconsistent_99_of_99_goal": true
+    }
+  },
+  "checks": {
+    "preset_context": {
+      "passed": 97,
+      "failed": 0
+    },
+    "mass_readiness_fixtures": {
+      "passed": 470,
+      "failed": 0
+    },
+    "supplied_v1_comparison_on_isolated_current_runtime": {
+      "passed": 34,
+      "failed": 0
+    },
+    "native_expansion_contract": "both objectives passed"
+  }
+}
