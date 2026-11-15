@@ -1,0 +1,92 @@
+{
+  "status": "PROPOSED_REVIEW_ONLY_NOT_RUNTIME",
+  "review_revision": "k20-review-additions-1",
+  "contract_revision": "expansion-goals-v2-draft-2",
+  "base_main": "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+  "root_required": [
+    "schema_version",
+    "contract_revision",
+    "preset_id",
+    "preset_revision",
+    "mission",
+    "design"
+  ],
+  "mission_required": [
+    "title",
+    "objective",
+    "target_region",
+    "required_observations",
+    "required_returned_data_mb",
+    "duration_orbits",
+    "budget_credits",
+    "goal"
+  ],
+  "mission_optional": [
+    "target_regions"
+  ],
+  "design_required": [
+    "bus_id",
+    "instrument_id",
+    "solar_id",
+    "battery_id",
+    "radio_id",
+    "storage_id",
+    "launch_profile_id",
+    "launcher_id",
+    "orbit_id"
+  ],
+  "whole_bounds": {
+    "required_observations": [
+      1,
+      20
+    ],
+    "duration_orbits": [
+      1,
+      12
+    ],
+    "budget_credits": [
+      1,
+      9007199254740991
+    ]
+  },
+  "goals": {
+    "imaging": {
+      "kind": "imaging",
+      "count": null,
+      "max_targets": 2
+    },
+    "survey": {
+      "kind": "survey_delivery",
+      "count": "minimum_complete_observations_per_target",
+      "minimum": 1,
+      "maximum": 20,
+      "max_targets": 2,
+      "relation": "count * selected_target_count <= capture_quota"
+    },
+    "communication": {
+      "kind": "communication_contacts",
+      "count": "required_positive_contact_steps",
+      "minimum": 1,
+      "maximum": 9007199254740991,
+      "max_targets": 1,
+      "relation": "count <= duration_orbits * frozen_steps_per_orbit"
+    },
+    "weather_monitoring": {
+      "kind": "weather_revisit",
+      "count": "required_distinct_orbits",
+      "minimum": 1,
+      "maximum": 12,
+      "max_targets": 1,
+      "relation": "count <= duration_orbits and count <= capture_quota; delivery semantics OPEN"
+    }
+  },
+  "pending": [
+    "team acceptance of these exact rules",
+    "W1 Weather delivery",
+    "C1 positive steps versus windows",
+    "instrument capability registration",
+    "event/orbit/packet semantics",
+    "scoring and envelope versions",
+    "custom mission identity/edit policy"
+  ]
+}

@@ -51,6 +51,41 @@ static func load_game_catalogs() -> Dictionary:
 static func _scenario_error(message: String) -> Dictionary:
 	return {"ok": false, "catalogs": {}, "errors": [{"code": "INVALID_SCHEMA", "field_path": "scenario_extension", "message": message, "suggested_fix": "Restore data/mission_scenarios.json."}]}
 
+static func select_preset(draft: Dictionary, preset_id: String) -> Dictionary:
+	var loaded: Dictionary = preload("res://scripts/core/mission_v2_context.gd").load_context(load_game_catalogs().get("catalogs", {}))
+	if not loaded.ok: return loaded
+	var selected: Dictionary = preload("res://scripts/core/mission_presets_v2.gd").config_for(loaded.catalogs.mission_v2.registry, preset_id)
+	if not selected.ok: return selected
+	var config: Dictionary = selected.config
+	var entry: Dictionary = {}
+	for item in loaded.catalogs.mission_v2.registry.presets:
+		if item.id == preset_id: entry = item
+	for field in ["schema_version", "contract_revision", "preset_id", "preset_revision"]: draft[field] = config[field]
+	draft.goal = config.mission.goal.duplicate(true)
+	draft.name = config.mission.title
+	draft.objective = entry.ui_defaults.objective_label
+	draft.targets = entry.ui_defaults.target_labels.duplicate()
+	draft.target = draft.targets[0]
+	draft.target_limit = draft.targets.size()
+	draft.orbit = entry.ui_defaults.orbit_label
+	draft.observations = config.mission.required_observations
+	draft.required_returned_data_mb = config.mission.required_returned_data_mb
+	draft.duration = config.mission.duration_orbits
+	draft.budget = config.mission.budget_credits
+	draft.radio_id = "dev_radio_2" if config.design.radio_id == "radio_fast" else "dev_radio_1"
+	draft.launcher_id = config.design.launcher_id
+	draft.launch_profile_id = config.design.launch_profile_id
+	draft.engineering_parts = {}
+	for category in ["bus", "instrument", "solar", "battery", "radio", "storage"]: draft.engineering_parts[category] = config.design[category + "_id"]
+	draft.erase("mission_review_snapshot")
+	return {"ok":true}
+
+static func catalogs_for(config: Dictionary) -> Dictionary:
+	var loaded: Dictionary = load_game_catalogs()
+	if loaded.ok and config.get("schema_version") == 2:
+		return preload("res://scripts/core/mission_v2_context.gd").load_context(loaded.catalogs)
+	return loaded
+
 static func orbit_for(draft: Dictionary) -> Dictionary:
 	var loaded: Dictionary = Loader.load_catalogs()
 	if not loaded.ok or not loaded.catalogs.get("orbit_catalog") is Dictionary: return {}
@@ -76,7 +111,7 @@ static func config_for(draft: Dictionary) -> Dictionary:
 
 	# Preserve supplied contract data; KE1/HPC still decide acceptance and values.
 	if config.schema_version != 1:
-		config.mission.objective = {"Capture Imagery":"imaging", "Survey Target Regions":"survey"}.get(draft.get("objective"), draft.get("objective", "unsupported"))
+		config.mission.objective = {"Capture Imagery":"imaging", "Survey Target Regions":"survey", "Communication":"communication", "Weather Monitoring":"weather_monitoring"}.get(draft.get("objective"), draft.get("objective", "unsupported"))
 	for field in ["contract_revision", "preset_id", "preset_revision"]:
 		if draft.has(field): config[field] = draft[field]
 	if draft.has("goal"):
@@ -91,8 +126,8 @@ static func _engineering_design(draft: Dictionary, design: Dictionary) -> Dictio
 	return design
 
 static func review(draft: Dictionary) -> Dictionary:
-	var loaded: Dictionary = load_game_catalogs()
 	var config: Dictionary = config_for(draft)
+	var loaded: Dictionary = catalogs_for(config)
 	if not loaded.ok:
 		return {"config": config, "ready_to_launch": false, "metrics": null, "checks": {}, "errors": loaded.errors, "warnings": []}
 	var result: Dictionary = Validator.validate(config, loaded.catalogs)
@@ -113,7 +148,7 @@ static func launch(draft: Dictionary, previous: Dictionary = {}, options: Dictio
 		loaded = {"ok": true, "catalogs": previous.catalogs_snapshot.duplicate(true)}
 		config = previous.config.duplicate(true)
 	else:
-		loaded = {"ok":true,"catalogs":options.catalogs_snapshot.duplicate(true)} if options.has("catalogs_snapshot") else load_game_catalogs()
+		loaded = {"ok":true,"catalogs":options.catalogs_snapshot.duplicate(true)} if options.has("catalogs_snapshot") else catalogs_for(config_for(draft))
 		config = config_for(draft)
 	if not loaded.ok: return {"ok": false, "error": {"message": "Catalog loading failed."}, "errors": loaded.errors}
 	var sequence: int = maxi(next_run_sequence, int(draft.get("run_sequence", 0))) + 1
@@ -135,7 +170,7 @@ static func launch(draft: Dictionary, previous: Dictionary = {}, options: Dictio
 			snapshots[key] = value.duplicate(true) if value is Dictionary or value is Array else value
 	var trace: Dictionary = {"config": config.duplicate(true), "validation": reviewed,
 		"policy": draft.get("policy", "Observe First"), "catalogs_snapshot": loaded.catalogs.duplicate(true), "draft_snapshot": snapshots}
-	trace.versions = {"simulator_sha256":_code_hash("res://core/MissionStepEngine.gd"), "validator_sha256":_code_hash("res://scripts/core/mission_validator.gd"), "evaluator_sha256":_code_hash("res://scripts/evaluation/mission_evaluator.gd"), "adapter_sha256":_code_hash("res://core/HPCContractAdapter.gd"), "runner_sha256":_code_hash("res://scripts/integration/mission_runtime.gd"), "catalog_sha256":JSON.stringify(loaded.catalogs,"",true,true).sha256_text()}
+	trace.versions = {"simulator_sha256":_code_hash("res://core/MissionStepEngine.gd"), "validator_sha256":_validator_hash(), "evaluator_sha256":_code_hash("res://scripts/evaluation/mission_evaluator.gd"), "adapter_sha256":_code_hash("res://core/HPCContractAdapter.gd"), "runner_sha256":_code_hash("res://scripts/integration/mission_runtime.gd"), "catalog_sha256":JSON.stringify(loaded.catalogs,"",true,true).sha256_text()}
 	trace.manual_actions = []
 	if options.has("comparison_context"): trace.comparison_context = options.comparison_context.duplicate(true)
 	if options.has("action_plan"): trace.requested_action_plan = options.action_plan.duplicate(true)
@@ -218,3 +253,11 @@ static func take_action(draft: Dictionary, action: String) -> Dictionary:
 
 static func _code_hash(path: String) -> Variant:
 	return FileAccess.get_sha256(path) if FileAccess.file_exists(path) else null
+
+# Bind exact dependency bytes in the existing producer field; historical records
+# keep their original version values and key preimages.
+static func _validator_hash() -> String:
+	var paths = ["mission_validator.gd", "mission_validator_v1.gd", "mission_validator_v2.gd", "mission_config_v2_agreed_rules.gd", "mission_presets_v2.gd", "mission_capabilities_v2.gd", "mission_v2_context.gd", "catalog_loader.gd", "validation_support.gd"]
+	var hashes: Array = []
+	for path in paths: hashes.append([path, _code_hash("res://scripts/core/" + path)])
+	return JSON.stringify(hashes).sha256_text()

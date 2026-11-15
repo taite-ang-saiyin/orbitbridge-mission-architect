@@ -88,7 +88,7 @@ static func launch_b(session: Dictionary, origin_execution_key: String) -> Dicti
 	if not packet.ok: return packet
 	var source: Dictionary = packet.execution.trace
 	var current: Dictionary = Runtime.config_for(session)
-	if not same_contract_identity(current, source.config) or current.mission != source.config.mission or current.design.orbit_id != source.config.design.orbit_id or session.get("mission_id") != packet.execution.mission_id or session.get("preset_id") != source.draft_snapshot.get("preset_id"):
+	if not same_contract_identity(current, source.config) or current.mission != source.config.mission or not same_launch_setup(current.design, source.config.design) or session.get("mission_id") != packet.execution.mission_id or session.get("preset_id") != source.draft_snapshot.get("preset_id"):
 		return failure("MISSION_CHANGED", "Changed mission requirements or orbit require a new comparison.")
 	if session.get("policy", "Observe First") != source.policy:
 		return failure("OPERATIONS_CHANGED", "Use the original action policy for a controlled B run.")
@@ -106,7 +106,7 @@ static func comparison_inputs(session: Dictionary, b_execution_key: String) -> D
 	if a.execution.execution_key == b_execution_key: return failure("SAME_EXECUTION", "Choose a different completed execution for B.")
 	var left: Dictionary = a.execution.trace
 	var right: Dictionary = b.execution.trace
-	if not same_contract_identity(left.config, right.config) or a.execution.mission_id != b.execution.mission_id or left.config.mission != right.config.mission or left.config.design.orbit_id != right.config.design.orbit_id:
+	if not same_contract_identity(left.config, right.config) or a.execution.mission_id != b.execution.mission_id or left.config.mission != right.config.mission or not same_launch_setup(left.config.design, right.config.design):
 		return failure("INCOMPATIBLE_MISSION", "Mission identity, requirements and orbit must match.")
 	if left.draft_snapshot.get("preset_id") != right.draft_snapshot.get("preset_id"):
 		return failure("INCOMPATIBLE_PRESET", "The preset identity differs.")
@@ -147,3 +147,8 @@ static func export_saved_a(session: Dictionary) -> Dictionary:
 	if not saved.ok: return saved
 	if saved.execution == null: return failure("A_NOT_SAVED", "Save Design A before exporting it.")
 	return Results.export_execution_record(session, saved.execution.execution_key)
+
+static func same_launch_setup(a: Dictionary, b: Dictionary) -> bool:
+	for field in ["orbit_id", "launcher_id", "launch_profile_id"]:
+		if a.get(field) != b.get(field): return false
+	return true

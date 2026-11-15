@@ -47,6 +47,10 @@ $orbitScripts = @(
     'mission_fixture_check.gd',
     'ke2_recorded_debrief_check.gd',
     'ke2_validated_debrief_check.gd',
+    'validation/test_mission_presets_v2.gd'
+    'validation/test_mission_validator_v2.gd'
+    'integration/test_se_owner_contract_preparation.gd'
+    'mission_expansion_integration.gd'
     'integration/test_ke3_merge.gd'
     'player_ui_check.gd'
     'debrief_summary_check.gd'

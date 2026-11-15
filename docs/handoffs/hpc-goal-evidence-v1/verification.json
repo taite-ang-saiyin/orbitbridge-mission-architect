@@ -1,0 +1,50 @@
+{
+    "bundle_revision":  "hpc-goal-evidence-v1.0.0",
+    "source_commit_sha":  "dce75db845f6c494b8c25c9028dd9c0648aabd91",
+    "runner_sha256":  "498a2dd31668ddb276031568402cf6db6c85f6b0efcd340bb2ef362c1b0977dc",
+    "manifest_sha256":  "f22f686eaf5269da1d6d0ea61c1c3a6ee5e9c89363b6f95b8d1935078658dfdd",
+    "checks":  [
+                   {
+                       "name":  "generate",
+                       "command":  "godot --headless --path . --script tests/run_hpc_goal_examples.gd",
+                       "exit_code":  0,
+                       "script_errors":  false,
+                       "log_path":  "logs/generate.log",
+                       "log_sha256":  "0e960a9bf697717579d29c8672f368c25d180b33357a5278bfe9a27d7bd60bb5"
+                   },
+                   {
+                       "name":  "verify-persisted",
+                       "command":  "godot --headless --path . --script tests/run_hpc_goal_examples.gd -- --verify-only",
+                       "exit_code":  0,
+                       "script_errors":  false,
+                       "log_path":  "logs/verify-persisted.log",
+                       "log_sha256":  "cb526e45ad030a188c6c4f58b3d3a0c90ca0bcb3bf8cb85918b864e391c8548f"
+                   },
+                   {
+                       "name":  "hpc-regression",
+                       "command":  "godot --headless --path . --script tests/test_hpc.gd",
+                       "exit_code":  0,
+                       "script_errors":  false,
+                       "log_path":  "logs/hpc-regression.log",
+                       "log_sha256":  "3692527050ec9cf871da4a48c27524ddf196b5f2d8ff626e63b359836809f4ad"
+                   },
+                   {
+                       "name":  "prediction-multitarget",
+                       "command":  "godot --headless --path . --script tests/prediction_multitarget_smoke.gd",
+                       "exit_code":  0,
+                       "script_errors":  false,
+                       "log_path":  "logs/prediction-multitarget.log",
+                       "log_sha256":  "097c9fef6339bfd8772bb1981f5cbeb3e74a5f769c4bd0a5a7aa0d9b8d20e5cf"
+                   },
+                   {
+                       "name":  "legacy-regression",
+                       "command":  "godot --headless --path . --script tests/test_simulator.gd",
+                       "exit_code":  0,
+                       "script_errors":  false,
+                       "log_path":  "logs/legacy-regression.log",
+                       "log_sha256":  "2266c5b625cf0c816510a70a8d0dfd21f2ff2cf73ea8253b9670d9b1671a53df"
+                   }
+               ],
+    "exit_code":  0,
+    "note":  "Certificate-store diagnostics are environment messages. Script failures are checked independently of process exit status."
+}

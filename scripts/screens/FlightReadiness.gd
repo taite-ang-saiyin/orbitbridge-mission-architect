@@ -58,6 +58,10 @@ func _ready() -> void:
 	readiness_label.add_theme_color_override("font_color", Color("23ed82") if result.can_proceed else Color("ff7777"))
 	warning_label.text = "All checks passed. Your spacecraft is ready to launch." if result.blockers.is_empty() else UI.user_message("\n".join(result.blockers.values()))
 	next_button.disabled = not result.can_proceed
+	if state.get("schema_version", 1) == 2:
+		next_button.disabled = true
+		readiness_label.text = "READINESS PREVIEW"
+		warning_label.text = "Design checks are available. Launch and scoring for this mission are not available yet."
 	if state.objective == "Survey Target Regions": warning_label.text += "\nSurvey can fly, but its score will be unavailable."
 	for connection in next_button.pressed.get_connections():
 		next_button.pressed.disconnect(connection.callable)

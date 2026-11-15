@@ -156,6 +156,16 @@ func build_presets(parent: Node) -> void:
 		button.add_theme_font_size_override("font_size", 12)
 		presets[entry[0]] = button
 
+	for entry in [["communication", "Communication"], ["weather_monitoring", "Weather Monitoring"]]:
+		var button = UI.button(box, entry[1] + " · Readiness preview only", func():
+			if state.get("active_run_state", {}).get("phase") == "operating": return
+			Catalog.reset(state)
+			var selected: Dictionary = Runtime.select_preset(state, entry[0])
+			if selected.ok: navigate.emit(1))
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		button.custom_minimum_size.y = 58
+		presets[entry[1]] = button
+
 func apply_preset(entry: Array) -> void:
 	if state.get("active_run_state", {}).get("phase") == "operating": return
 	Catalog.reset(state)

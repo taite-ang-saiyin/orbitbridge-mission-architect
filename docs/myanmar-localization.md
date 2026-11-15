@@ -25,3 +25,7 @@ The localization smoke test exercises settings selection, all four setup pages, 
 ```
 
 Expected: 28 checks passed, zero failed. Home's existing smoke test now expects Myanmar instead of Chinese. Native rendered Settings and all four setup pages were inspected during implementation. Browser export was not tested.
+
+## Communication and Weather previews
+
+The agreed KE1 expansion adds translated Communication and Weather Monitoring readiness-preview names, goal explanations, review counters and launch-unavailable status. Mission Control opens these previews using the versioned preset registry. Flight Readiness shows engineering checks while launch remains disabled pending native v2 simulation and scoring. `tests/mission_expansion_integration.gd` exercises both actual preset buttons and Myanmar preview messages.
