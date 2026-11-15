@@ -18,7 +18,6 @@ const METRICS = [
 	["returned_data_mb", "Returned data (MB)", "MB"],
 	["lowest_battery_wh", "Lowest battery (Wh)", "Wh"],
 	["lowest_battery_percent", "Lowest battery (%)", "percentage points"],
-	["peak_storage_mb", "Peak storage (MB)", "MB"],
 	["total_cost_credits", "Total cost (illustrative credits)", "illustrative credits"],
 	["total_mass_g", "Total mass (g)", "g"]]
 var inputs: Dictionary = {}

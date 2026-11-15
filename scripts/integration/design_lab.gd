@@ -57,6 +57,8 @@ static func replace_a(session: Dictionary, execution_key: String, expected_a: St
 	var packet: Dictionary = eligible(session, execution_key)
 	if not packet.ok: return packet
 	session.design_lab.saved_a = execution_key
+	session.design_lab.erase("selected_b")
+	session.design_lab.erase("selected_b_a")
 	return packet
 
 static func clear_a(session: Dictionary, expected_a: String) -> Dictionary:
@@ -64,7 +66,8 @@ static func clear_a(session: Dictionary, expected_a: String) -> Dictionary:
 	if session.has("design_lab_route"): return failure("DRAFT_ACTIVE", "Cancel the current design draft before clearing A.")
 	if str(session.get("design_lab", {}).get("saved_a", "")) != expected_a:
 		return failure("A_CHANGED", "The saved baseline changed. Review the currently saved A.")
-	if session.has("design_lab"): session.design_lab.erase("saved_a")
+	if session.has("design_lab"):
+		for field in ["saved_a", "selected_b", "selected_b_a"]: session.design_lab.erase(field)
 	return {"ok":true}
 
 static func modify_execution(session: Dictionary, execution_key: String) -> Dictionary:
@@ -137,6 +140,11 @@ static func compare(session: Dictionary, b_execution_key: String, provider: Call
 	var result: Variant = reply.get("comparison")
 	if not result is Dictionary or result.get("a_execution_key") != inputs.a.execution_key or result.get("b_execution_key") != inputs.b.execution_key:
 		return failure("EXECUTION_MISMATCH", "The comparison response belongs to another A/B pair.")
+	# Pair selection is session navigation state, separate from the viewed debrief.
+	# Keep only execution references; archived runs and their reports stay immutable.
+	if result.get("eligible") == true:
+		session.design_lab.selected_b = inputs.b.execution_key
+		session.design_lab.selected_b_a = inputs.a.execution_key
 	var output: Dictionary = reply.duplicate(true)
 	output.mode = inputs.mode
 	return output
