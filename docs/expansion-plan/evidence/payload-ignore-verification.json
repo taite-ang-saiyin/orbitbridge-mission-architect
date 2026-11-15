@@ -1,0 +1,195 @@
+{
+  "date": "2026-11-15",
+  "timezone": "Asia/Rangoon",
+  "branch": "features/KE2",
+  "head": "0cc856d7baf7f493d49aba44a219d3dc84cdc203",
+  "godot_version": "4.7.2.stable.mono.official.ed1daf0bf",
+  "import_exit_code": 0,
+  "import_log_sha256": "5dfdb1705f1542b129a0b44d2e6c44bde325d1a3e77053931583e149554f3a8d",
+  "global_class_paths": {
+    "HPCContractAdapter": "res://core/HPCContractAdapter.gd",
+    "MissionStepEngine": "res://core/MissionStepEngine.gd",
+    "MissionEvaluator": "res://scripts/evaluation/mission_evaluator.gd",
+    "MissionFeedback": "res://scripts/evaluation/mission_feedback.gd"
+  },
+  "runner_exit_code": 0,
+  "programs_passed": 43,
+  "programs_failed": 0,
+  "original_evaluator_pending": 5,
+  "verification_scope": "current_checkout_native_modules_and_headless_controls",
+  "bundle_sha256": "4350f253b61bbd1c84f4a544c80d48fe9e3d0f2fae7d47636fd89c1eb7f11445",
+  "checks": {
+    "validation/test_mission_validator.gd": {
+      "exit_code": 0,
+      "log_sha256": "6715be9d2947c24b03a2ac335c719bc668479c1a0879a32e0b5370939da801f0"
+    },
+    "validation/test_mission_readiness.gd": {
+      "exit_code": 0,
+      "log_sha256": "74eafead3c94ed0964696c702c4b1e45765a22cc8d955e57a9bc955a7088bfef"
+    },
+    "validation/test_mission_fixtures.gd": {
+      "exit_code": 0,
+      "log_sha256": "a46a19b9649ebd162cd34dc1c5bb5fdd693b830b89f820537e6fad63069f241f"
+    },
+    "test_hpc.gd": {
+      "exit_code": 0,
+      "log_sha256": "4e470e297d9b7fbca6d513efb1174670f4e4185ee108af41014fc3258538e8d0"
+    },
+    "test_simulator.gd": {
+      "exit_code": 0,
+      "log_sha256": "c2cbdd702654efd1d77073df507edcb16ace821a6ab6489bda38676df0787cdb"
+    },
+    "test_mission_evaluator.gd": {
+      "exit_code": 0,
+      "log_sha256": "f8eb0d5259d9cb91947eaaeb993bf49636633d5b4aa2c7fc51167a914b40f673"
+    },
+    "integration/test_mission_flow.gd": {
+      "exit_code": 0,
+      "log_sha256": "61b3523387c4d3135d8b72759a5a6904dc0ba585708ed4c9ced8f3f40d2bbec1"
+    },
+    "integration/test_screen_flow.gd": {
+      "exit_code": 0,
+      "log_sha256": "e70fae30f0f28f5c5304ccccd2638c8b2e73568c0c6794a8bc8fba845e25a9d5"
+    },
+    "acceptance/test_k14_acceptance.gd": {
+      "exit_code": 0,
+      "log_sha256": "a5fed82e5b9424ac510248fcd3adf91613c0029d15251346dba01a17b85e0779"
+    },
+    "mission_review_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "7869791fe254b1793ab9ffb136a911f3433027947fbdf79f860f1293d83d2b59"
+    },
+    "creator_earth_framing_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "ecf7d1f774c6a1db780ec74f48efd63050e0baf081aa80449567484cb30531a5"
+    },
+    "earth_station_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "7c0e9f1be58ae81d7c0c17955a91aa96e1e84e6315e756dd624cab86ab6d6690"
+    },
+    "compact_antenna_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "8e34d90863c67c3229cd211f65304e1155d90e2bcb2709c183d2fd6848591b2b"
+    },
+    "acrimsat_hull_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "9bfe6392379606afc6afded3f7737d0116eeaa0c61c69513c01a5fc089c644f5"
+    },
+    "home_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "079ce04cf964ad5f20e815389ff1feeb508f521f6fb032e56df7eb19773e36f9"
+    },
+    "responsive_layout_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "af728bcef3b66fc723d5f4dc1dbd4eb3bb06d813ca2964b38fcc51d725d7105e"
+    },
+    "3d/preview_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "6e8003e56b3077374a2e5abb202cd1c5f11b5ba4278f2e037997fbd934d1c170"
+    },
+    "integration_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "e78acd8d92b9948c4601006554d8ba72226cbfcff286c0eebb43307363b02dc4"
+    },
+    "controller_evaluation_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "6338dd33fa39256ff0e22f89140ce5b64b36440384f8130c6931e165d3d0f939"
+    },
+    "creator_builder_catalog_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "51c7c2949045fb29207b517457170971716dcb86d0c4f84c25ddb09fee2c31e6"
+    },
+    "expanded_missions_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "704751c87f70332d9b7c8804ce0fe8dac8a3fa8d3dcef34f782537cffaae69b2"
+    },
+    "mission_control_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "143b87ecbedde746c3409d8c1dca0214afce0751995c35c4a2807863f4069876"
+    },
+    "prediction_multitarget_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "3d82113e3a25bc61f7eb25730739967abd435ef6647015b139e64be072052e7c"
+    },
+    "design_workflow_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "65be2293ffb439cb358fb414a675e194f9b73edcf597fe80b7292d3e8423ad52"
+    },
+    "modular_reference_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "aa6894e936ed186f5c4c82e9abeed7eb19f27f6e5aba14e7137f1e54dc423660"
+    },
+    "operations_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "c82e2f3f26dffe19fba42d8ea855774630205c0236b77d7c30019d15e86ee05d"
+    },
+    "prototype_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "bdc162cfaf153ddbb7aa38716a32887dc122959edf78b4d614428c31205165ee"
+    },
+    "readiness_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "0d20573dea51107e1843bc07d9450998a77babad0c38974b491ff2c75ab06217"
+    },
+    "satellite_builder_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "ba235c3d141e1e5f8e77befbb979a70f34fe95a123b1ebc366049a1bd0a501f8"
+    },
+    "satellite_selection_smoke.gd": {
+      "exit_code": 0,
+      "log_sha256": "e33aa14785d87f985b30a1c53d64072efaef4ec0aa986c0247f79e9d277729c6"
+    },
+    "ke2_results_integration.gd": {
+      "exit_code": 0,
+      "log_sha256": "eaac618518a934bf99c105e5eaf8a4cc1bebb1b38d3691238ea8e57758c528a3"
+    },
+    "ke3_report_binding_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "4c416bf1a84cf53418c9026b3c6676b6fb37fc94113018f008f1c923538bff61"
+    },
+    "ke3_team_integration_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "63c1ddce6d2e2b6890f1064627c367266faec8e40e6051f875f25a16e930f688"
+    },
+    "ke3_power_launcher_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "7d9a7348261df603216a2974b5842af41c96a8e54f6e3e14f06b6b6442335b04"
+    },
+    "a03_operations_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "cac78ba58887acb1b42de5302758db734ebcec8fb04af74453757374bbf7c5e0"
+    },
+    "a05_debrief_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "d34fb37338416383d85d2c4dbe50d1b9bab4c151ba9504b54200fe362dc68286"
+    },
+    "a06_retry_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "d92118b50160f9f00604215234023f74621f6b5c972f5cc0d19df4510e972b1a"
+    },
+    "mission_fixture_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "159a556c9542fd347b5bdceb7e1fa2cf9f6a6969d7e9e9d6a60eded25cce7a2e"
+    },
+    "ke2_recorded_debrief_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "dec3b3909307de02bcee4f3842c4606ad004736a7d5f532c1d3c4025a73b6c22"
+    },
+    "ke2_validated_debrief_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "9ea3e8e708f11cf3c994d11169350a9fdc26d795f14fcf5f561fa34279e1572f"
+    },
+    "integration/test_ke3_merge.gd": {
+      "exit_code": 0,
+      "log_sha256": "19d6b8c77d26646dc40144bf271764a57de2c4fc86fb50da4c52d478e5211aff"
+    },
+    "player_ui_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "763d38a400e577bd716f844bcab120dab6123f5c0fe16d566b7c9a381710dabf"
+    },
+    "debrief_summary_check.gd": {
+      "exit_code": 0,
+      "log_sha256": "fb1ee386a19d9ee5d18fcc391d6b26457267a94def1d8b20a18b1672e2ae46d8"
+    }
+  }
+}

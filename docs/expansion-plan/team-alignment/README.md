@@ -14,6 +14,8 @@ Prepared on 15 November 2026, Asia/Rangoon. KE2 assembled and tested the supplie
 
 KE3 already includes the SE implementation. That tree is the base. KE1's core validation, registry, capabilities, tests and handoff documents are overlaid next. HPC contributes the native adapter, step engine and whole-run simulator. KE2 contributes its evaluator, evidence, feedback, records and comparison modules. Resolved cross-owner files and tests are supplied as patches and exact payload files.
 
+The `files/.gdignore` marker keeps the review payload outside the parent project's Godot resource scan. Keep it with the package so copied `class_name` declarations remain scoped to the assembled review project. `assemble.py` verifies and copies the listed payload files into that project's normal runtime paths.
+
 The Windows checkout has an existing `origin/KE3` reference that conflicts with `origin/ke3/v2-se-integration`. KE3 was fetched into `refs/remotes/team-alignment/ke3-v2-se-integration`. The existing reference was retained.
 
 ## Resolved interfaces

@@ -4,6 +4,20 @@ Last updated on 15 November 2026 in Asia/Rangoon.
 
 Use the [team scope](team-scope-v2.md) and [KE2 task checklists](ke2-work-plan.md) for checkbox status. This record holds evidence, current dependencies, and completion history.
 
+## Parent-project editor fix — 15 November
+
+The review payload introduced duplicate global classes because Godot scanned its copied `.gd` files. Added `team-alignment/files/.gdignore`, documented its purpose and included it in the shareable archive. Godot 4.7.2 reimport completed with exit 0 and registered `HPCContractAdapter`, `MissionStepEngine`, `MissionEvaluator` and `MissionFeedback` at their live runtime paths. All 43 current-checkout check programs passed with exit 0. The evaluator retains its five original pending declarations. Verification uses actual native modules and headless controls. Shared patch adoption and exported/browser acceptance remain with the existing team owners. [Evidence](evidence/payload-ignore-verification.json)
+
+Run these commands from the repository root in PowerShell to repeat the editor scan and current-checkout checks.
+
+```powershell
+$orbitGodot = 'D:\Godot\Godot_v4.7.2-stable_mono_win64\Godot_v4.7.2-stable_mono_win64\Godot_v4.7.2-stable_mono_win64_console.exe'
+& $orbitGodot --version
+& $orbitGodot --headless --editor --path . --log-file exports/check-logs/payload-ignore-import.log --import
+powershell -NoProfile -ExecutionPolicy Bypass -File .\tests\run_all_checks.ps1 -GodotExe $orbitGodot
+git diff --check
+```
+
 ## Current status
 
 | Work package | Status | Owner and next action |

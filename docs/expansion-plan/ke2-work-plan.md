@@ -13,6 +13,7 @@ The first planned result is a Survey report with both aggregate goals met and on
 - [x] Exercise all five authored mission cards through Creator, Builder, real readiness/native Operations, Debrief, explicit saved A, fresh B and visible comparison. 364 checks pass.
 - [x] Verify 12 real typed-v2 goal controls, including Survey 83/100, Communication/Weather 75/100, zero progress, unavailable map and abort/null score. 51 checks pass.
 - [x] Complete 62 distinct combined check programs and package source hashes, owner patches, assembly/check commands and evidence. [Full handoff](team-alignment/README.md)
+- [x] Exclude the packaged source copies from the parent Godot scan with `files/.gdignore`, refresh class registrations and rerun all 43 current-checkout programs. [Verification](evidence/payload-ignore-verification.json)
 - [ ] Adopt shared patches with primary owners and confirm scoring rollout/export/browser acceptance. Candidate weights retain the user's proposal decision.
 
 ## HPC evidence confirmation history
