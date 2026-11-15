@@ -1,0 +1,4 @@
+Tool: built-in image_gen
+Use case: stylized-concept.
+Asset type: one game UI thumbnail atlas.
+undefined

@@ -67,7 +67,7 @@ static func build(trace: Dictionary, store: Dictionary) -> Dictionary:
 		if mission.get("objective") == "survey":
 			var delivered: Variant = final.get("observations_delivered_by_target", {}).get(target_id, 0) if final.has("observations_delivered_by_target") else null
 			model.text += " / %s complete observations delivered" % text(delivered)
-	model.text += "\n\nHPC battery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
+	model.text += "\n\nBattery: %s Wh | Stored: %s MB" % [number(final,"energy_wh"),number(final,"stored_data_mb")]
 	# Launch credit is bound to the executed validation, independent of report source_ids.
 	var mass: Dictionary = trace.get("validation", {}).get("checks", {}).get("profile_mass", {})
 	model.readiness_credit = mass.duplicate(true)

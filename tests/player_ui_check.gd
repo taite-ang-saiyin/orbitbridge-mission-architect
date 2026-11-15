@@ -35,7 +35,7 @@ func visible_text(node: Node) -> String:
 
 func player_copy(node: Node, label: String) -> void:
 	var expression = RegEx.new()
-	expression.compile("\\b(?:HPC|KE1|KE2|KE3)\\b|source_ids|SUPPLIED SCOPES")
+	expression.compile("\\b(?:HPC|KE1|KE2|KE3|SE)\\b|source_ids|SUPPLIED SCOPES")
 	check(expression.search(visible_text(node)) == null, label + " has no team/development jargon")
 
 func key(code: Key) -> void:

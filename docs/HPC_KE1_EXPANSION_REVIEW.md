@@ -2,7 +2,24 @@
 
 Reviewed 15 November 2026 (Asia/Rangoon). Local source branches: `feature/hpc-ke3-goal-evidence-v1` at `345e5bd` and `ke1-expand` at `3ec299d`. The supplied `hpc/` and `ke1/` directory copies are older; they were preserved unchanged. No branch merge, commit, push or deployment was performed.
 
-## Integrated behavior
+## Follow-up: supplied updated folders
+
+The later supplied `ke1-expand/` and `hpc-ke3-goal-evidence-v1/` folders were reviewed alongside `ke1/` and `hpc/`. This section supersedes the earlier preview-only integration status below.
+
+- The two older copies retain the original single-target baseline. The expansion readiness sources and agreed preset data match the already imported production files. No replacement of those files was necessary.
+- The updated simulation copy adds native counters and a candidate evaluator, although its handoff README still describes the older proxy-only state. Its adapter uses `v2.0-agreed`, goal kinds equal to objective IDs and a generic `required_count`, with several aliases. These disagree with the readiness contract (`expansion-goals-v2-agreed-1`, `communication_contacts` / `weather_revisit`, and explicit named count fields). Its test also uses two Weather targets, contrary to the single-target agreement.
+- Integrated the native counter/action logic, replacing the permissive adapter path with validation against the complete agreed frozen catalog context. Shared physical resolution operates on the original v2 config without stripping the goal or changing the objective/schema. Scenario data must match reconstruction from that context. Unknown lineage, aliases, missing context and fractional schema versions fail.
+- Communication counts distinct accepted positive-data Transmit steps. Weather counts only the first accepted selected-target observation in each revolution. Goal progress/evidence is reconstructed from the full ordered same-run event log before subsequent actions; inconsistent or missing evidence is rejected. Original physics, windows, component values and v1 behavior remain unchanged.
+- Both new Mission Control cards now launch real **unscored** flights. Operations and Results display native goal counts. Myanmar setup labels indicate flight availability and missing scoring. No numeric score is invented.
+- The candidate evaluator was deliberately not imported: it trusts supplied counters, takes requirements from state rather than the authored goal, and emits a report shape different from the agreed expansion report. Verified production scoring remains outstanding. The production evaluator returns an explicit unavailable result for v2; captured/returned totals and native goal progress remain visible.
+- Shared UI text sanitization now covers all five prohibited team labels, including SE; the report battery label uses plain wording. New mission UI tests scan Operations and Results. The existing player-copy test now checks SE too.
+- Added `.gdignore` to the two newly supplied reference copies so the editor does not import duplicate global script classes/assets. Reference implementation files were left unchanged.
+
+Follow-up verification on Godot 4.7.2: native canonical-contract/count/prediction/abort/immutability/forged-evidence tests pass for both missions; both real preset → flight → Results paths and Myanmar flight notices pass; player UI 174/0; v2 readiness 373/0; presets/context 97/0; legacy native tests 48/0; readiness 671/0; translation 28/0; owner guards 38/0; execution records 19/0; both legacy objectives/orbits pass prediction parity; integrated player flow passes at two resolutions. The PowerShell runner includes the new native contract suite. Browser export and rendered visual QA were not performed.
+
+The official NASA links and scientific limits below were rechecked for this follow-up. The mass comparator is directly source-backed for the cited historical sample profile. Power/downlink/orbit concepts are educational adaptations. NASA does not define or approve these authored positive-transmission/revolution quotas, contact windows, fictional hardware or Weather success conditions. Weather is an observation revisit exercise, not a meteorological forecast model.
+
+## Earlier integration record
 
 - Imported the agreed five-preset registry, capability document, explicit v2 context loader, pure v2 readiness validator and unchanged v1 validator implementation. Public entry remains `MissionValidator.validate(config, catalogs)`.
 - Mission Control now offers Communication and Weather Monitoring readiness previews. Selection uses the agreed registry, not duplicated defaults. Creator, review and Builder retain full contract/preset revisions, typed goal and chosen engineering parts. Existing three playable presets keep their v1 path.

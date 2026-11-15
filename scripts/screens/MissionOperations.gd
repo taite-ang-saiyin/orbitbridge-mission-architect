@@ -553,6 +553,11 @@ func _refresh_action_help(snapshot: Dictionary, published: bool) -> void:
 	else:
 		action_help.text = "No photo or transmission is available. Save power to advance one step."
 
+	if snapshot.get("goal_progress") is Dictionary:
+		var goal: Dictionary = snapshot.goal_progress
+		var label: String = "Data-return steps" if goal.kind == "communication" else "Orbits with a target observation"
+		action_help.text += "\n%s: %s / %s" % [label, goal.actual_count, goal.required_count]
+
 func _frame_event_name(index: int) -> String:
 	for event in DATA.frames[index].get("events", []):
 		if event.get("type") == "action_blocked":

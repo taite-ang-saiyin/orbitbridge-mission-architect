@@ -43,6 +43,8 @@ static func evaluate_mission(
 	events: Array,
 	comparison_baseline = null
 ) -> Dictionary:
+	if config.get("schema_version") == 2:
+		return _error(INVALID_INPUT, "config.mission.objective", "Scoring is not available for this mission yet.", "Review the recorded flight measurements.", final_state.get("run_id"))
 	var run_id: Variant = final_state.get("run_id")
 	if not run_id is String or run_id.strip_edges().is_empty():
 		run_id = null

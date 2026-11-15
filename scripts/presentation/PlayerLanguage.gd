@@ -25,7 +25,7 @@ static func sentence(value: Variant) -> String:
 		["Retry with one change to transmission timing and review the event timeline.", "Try again and change when you send data to Earth. Check the flight log to see what changed."],
 		["HPC", "flight simulation"], ["KE1", "readiness"], ["KE2", "mission review"], ["KE3", "display"]
 	]: result = result.replace(pair[0], pair[1])
-	return result
+	return preload("res://ui/components/UI.gd").user_message(result)
 
 static func event_name(value: String) -> String:
 	return {"START":"Flight started", "OBSERVE":"Photo taken", "TX":"Data sent", "POWER_SAVE":"Saving power", "SKIP_POWER":"Low battery", "MISSION_FINISHED":"Flight finished", "PLAYING":"Running", "PAUSED":"Paused", "COMPLETED":"Finished", "ABORTED":"Stopped early"}.get(value, value.replace("_", " ").capitalize())
@@ -56,6 +56,11 @@ static func report(model: Dictionary, trace: Dictionary) -> Dictionary:
 	elif model.get("state") == "evaluation_error":
 		result.headline = "Flight complete · score unavailable"
 		result.summary = "Evaluation unavailable for this flight. Your recorded measurements are shown below."
+		if mission.get("objective") in ["communication", "weather_monitoring"]:
+			result.summary = "Your flight is complete. Scoring is not available for this mission yet; recorded measurements are shown below."
+			var progress: Dictionary = final.get("goal_progress", {})
+			var goal_label: String = "Data-return steps" if mission.objective == "communication" else "Orbits with a target observation"
+			result.summary += "\n%s: %s / %s" % [goal_label, amount(progress.get("actual_count")), amount(progress.get("required_count"))]
 		if mission.get("objective") == "survey": result.summary = "Your Survey flight is complete. Survey scoring is not available yet; you can still review the photos and data you collected."
 		result.next = "Try an imagery mission for a scored result, or modify this design and fly again."
 	elif model.get("state") == "stale_report":

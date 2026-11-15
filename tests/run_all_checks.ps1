@@ -51,6 +51,7 @@ $orbitScripts = @(
     'validation/test_mission_validator_v2.gd'
     'integration/test_se_owner_contract_preparation.gd'
     'mission_expansion_integration.gd'
+    'native_expansion_contract.gd'
     'integration/test_ke3_merge.gd'
     'player_ui_check.gd'
     'debrief_summary_check.gd'

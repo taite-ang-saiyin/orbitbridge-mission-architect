@@ -9,7 +9,7 @@ const Native = preload("res://core/MissionStepEngine.gd")
 const EXAMPLES = "res://docs/ke1-expansion/examples/k20-review"
 var passed: int=0
 var failed: int=0
-var records: Dictionary={"contract_revision":Rules.CONTRACT,"presets":{},"cases":{},"native_v2_launch_supported":false}
+var records: Dictionary={"contract_revision":Rules.CONTRACT,"presets":{},"cases":{},"native_v2_launch_supported":["communication","weather_monitoring"]}
 func _initialize() -> void: call_deferred("run")
 func check(value: bool,label: String) -> void:
 	if value: passed+=1
@@ -38,7 +38,7 @@ func run() -> void:
 		check(JSON.stringify([config,catalogs])==before,"Full goal/config/catalog inputs unchanged: "+entry.id)
 		check(not Validator.validate(config,loaded.catalogs).ready_to_launch,"V2 never infers missing agreed context: "+entry.id)
 		var launched: Dictionary=Native.init_validated_run(config,catalogs,"v2_blocked_"+entry.id,"v2_test")
-		check(not launched.ok and not launched.has("state"),"Current native adapter still blocks v2 launch: "+entry.id)
+		check(launched.ok if entry.id in ["communication", "weather_monitoring"] else (not launched.ok and not launched.has("state")), "Native support matches the implemented objective: "+entry.id)
 		records.presets[entry.id]={"validation":result,"native_result":launched}
 	var manifest: Dictionary=read_json(EXAMPLES.path_join("manifest.json"))
 	for item in manifest.cases:

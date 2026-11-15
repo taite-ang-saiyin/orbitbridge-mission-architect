@@ -28,4 +28,4 @@ Expected: 28 checks passed, zero failed. Home's existing smoke test now expects 
 
 ## Communication and Weather previews
 
-The agreed KE1 expansion adds translated Communication and Weather Monitoring readiness-preview names, goal explanations, review counters and launch-unavailable status. Mission Control opens these previews using the versioned preset registry. Flight Readiness shows engineering checks while launch remains disabled pending native v2 simulation and scoring. `tests/mission_expansion_integration.gd` exercises both actual preset buttons and Myanmar preview messages.
+The agreed KE1 expansion adds translated Communication and Weather Monitoring readiness-preview names, goal explanations, review counters and launch-unavailable status. Mission Control opens these previews using the versioned preset registry. Flight Readiness now permits real unscored flights for both missions; the setup copy explicitly says scoring is unavailable. Operations and Results show native goal counts in English under the existing language scope. `tests/mission_expansion_integration.gd` exercises both actual preset buttons and Myanmar preview messages.

@@ -17,7 +17,11 @@ func run() -> void:
 		assert(Review.confirm(draft, Review.snapshot(draft)))
 		draft.goal["required_positive_contact_steps" if id == "communication" else "required_distinct_orbits"] = 3
 		assert(not Review.is_confirmed(draft))
-		assert(not Runtime.launch(draft).ok and not draft.has("run_trace"))
+		draft.goal["required_positive_contact_steps" if id == "communication" else "required_distinct_orbits"] = 2
+		var launched: Dictionary = Runtime.launch(draft)
+		if not launched.ok:
+			print(launched); quit(1); return
+		assert(draft.run_trace.config == Runtime.config_for(draft))
 		assert(Copy.text(draft.objective, "my") != draft.objective)
 		var app = load("res://scenes/Main.tscn").instantiate()
 		root.add_child(app)
@@ -29,9 +33,27 @@ func run() -> void:
 		assert(app.state.preset_id == id and app.state.goal == Runtime.config_for(app.state).mission.goal)
 		app.show_screen(3)
 		for frame in 8: await process_frame
-		assert(app.current.next_button.disabled)
-		assert(app.current.warning_label.text == Copy.text("Design checks are available. Launch and scoring for this mission are not available yet.", "my"))
+		assert(not app.current.next_button.disabled)
+		assert(Copy.text("This mission can fly. Scoring is not available yet.", "my") in app.current.warning_label.text)
+		assert(Review.confirm(app.state, Review.snapshot(app.state)))
+		assert(Runtime.launch(app.state).ok)
+		app.show_screen(4)
+		for frame in 8: await process_frame
+		assert(app.current.screen_id == "MissionOperations")
+		check_copy(app.current)
+		app.state.active_run_state = app.state.run_trace.final_state.duplicate(true)
+		app.show_screen(5)
+		for frame in 8: await process_frame
+		assert(app.current.screen_id == "DebriefCompare")
+		check_copy(app.current)
 		app.queue_free()
 		for frame in 3: await process_frame
-		print("PASS ", id, ": authored config, hardware, readiness, stale review, native launch gate and translated display")
+		print("PASS ", id, ": authored config, hardware, readiness, stale review, native flight and translated display")
 	quit(0)
+
+func check_copy(node: Node) -> void:
+	if node is Label or node is Button:
+		var owners = RegEx.new()
+		owners.compile("(?i)\\b(?:KE[123]|HPC|SE)\\b")
+		assert(owners.search(node.text) == null)
+	for child in node.get_children(): check_copy(child)

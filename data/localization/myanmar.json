@@ -313,5 +313,10 @@
   "Correct the listed v2 fields.": "ဖော်ပြထားသော v2 အချက်အလက်များကို ပြင်ဆင်ပါ။",
   "Correct the explicit agreed v2 context and catalogs.": "သဘောတူထားသော v2 စာရင်းနှင့် အစိတ်အပိုင်းစာရင်းများကို ပြင်ဆင်ပါ။",
   "Count accepted transmissions that return data; empty or rejected attempts do not count.": "ဒေတာရောက်ရှိသော အတည်ပြုပို့ဆောင်မှုအဆင့်များကိုသာ ရေတွက်ပါ။ ဒေတာမရှိသော သို့မဟုတ် ငြင်းပယ်ခံရသော ကြိုးစားမှုများ မပါဝင်ပါ။",
-  "Observe the selected region on different orbits and return the required data.": "ရွေးထားသော ဒေသကို မတူညီသော ပတ်လမ်းပတ်များတွင် ရိုက်ကူးပြီး လိုအပ်သော ဒေတာကို ပို့ဆောင်ပါ။"
+  "Observe the selected region on different orbits and return the required data.": "ရွေးထားသော ဒေသကို မတူညီသော ပတ်လမ်းပတ်များတွင် ရိုက်ကူးပြီး လိုအပ်သော ဒေတာကို ပို့ဆောင်ပါ။",
+  "Flight available": "ပျံသန်းမှုကို စမ်းသပ်နိုင်သည်",
+  "Unscored": "အမှတ်မပေးရသေးပါ",
+  "This mission can fly. Scoring is not available yet.": "ဤမစ်ရှင်ကို ပျံသန်းစမ်းသပ်နိုင်ပါသည်။ အမှတ်ပေးခြင်း မရရှိနိုင်သေးပါ။",
+  "Equatorial · Downlink": "အီကွေတာဒေသ · ကမ္ဘာသို့ ဒေတာပို့ခြင်း",
+  "Equatorial · Revisit": "အီကွေတာဒေသ · ထပ်မံစောင့်ကြည့်ခြင်း"
 }
